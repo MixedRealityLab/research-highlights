@@ -69,7 +69,7 @@ $(function() {
 		if (response != '1') {
 			ReHi.showError('Goshdarnit!', 'Something has gone wrong! <a href="mailto:martin.porcheron@nottingham.ac.uk" class="alert-link">I need help!</a> (error: ' + response + ')');
 		} else {
-			ReHi.showSuccess('Whoop! Whoop!', 'Your submission was saved! For reference, you can see the latest version of <a href="https://www.porcheron.uk/cdt/rehi/read#' + $('#submit-user').attr('value') + '" target="_blank">your submission</a>.')
+			ReHi.showSuccess('Whoop! Whoop!', 'Your submission was saved! For reference, you can see the latest version of <a href="read#' + $('#submit-user').attr('value') + '" target="_blank">your submission</a>.')
 		}
 	});
 
