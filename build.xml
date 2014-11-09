@@ -8,10 +8,17 @@
 	<property name="lib.dir" location="lib" />
 	<property name="src.dir" location="src/common"/>
 	<property name="submission.dir" location="src/submission" />
+	
+	<path id="project.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
 
-	<property name="jsCompressor" location="${lib.dir}/closure-compiler.jar" />
+	<taskdef name="jscomp" classname="com.google.javascript.jscomp.ant.CompileTask" classpathref="project.classpath"/>
+	<taskdef name="cscomp" classname="in.parambir.ant.tasks.CompressTask" classpathref="project.classpath"/>	
 
-	<taskdef name="jscompress" classname="com.google.javascript.jscomp.ant.CompileTask" classpath="${jsCompressor}"/>
+	<taskdef resource="yuicompressor.tasks" classpathref="project.classpath"/>	
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
 		<classpath>
 			<pathelement location="${lib.dir}/ant-contrib.jar"/>
@@ -33,14 +40,6 @@
 		<copy todir="${dest.dir}" >  
         	<fileset dir="${src.dir}" includes="**"/>  
 		</copy>
-
-		<foreach target="compress" param="foreach.file">
-            <path>
-                <fileset dir="${dest.dir}" casesensitive="yes">
-                    <include name="**/*.js"/>
-                </fileset>
-            </path>
-        </foreach>
 	</target>
 
 	<target name="submission" depends="clean" description="Create submission website">
@@ -59,7 +58,15 @@
         	<fileset dir="${submission.dir}" includes="**"/>  
 		</copy>
 
-		<foreach target="compress" param="foreach.file">
+		<foreach target="compress-css" param="foreach.file">
+            <path>
+                <fileset dir="${dest.dir}" casesensitive="yes">
+                    <include name="**/*.css"/>
+                </fileset>
+            </path>
+        </foreach>
+
+		<foreach target="compress-js" param="foreach.file">
             <path>
                 <fileset dir="${dest.dir}" casesensitive="yes">
                     <include name="**/*.js"/>
@@ -68,27 +75,41 @@
         </foreach>
 	</target>
 
-	<target name="compress" description="Compress JavaScript files">
+	<target name="compress-js" description="Compress JavaScript files">
 		<basename property="file.js" file="${foreach.file}"/>
 
-		<script language="javascript"> <![CDATA[
+		<script language="javascript"><![CDATA[
 
-		// get values
 		fullPath = project.getProperty("foreach.file");
 		fileOnly = project.getProperty("file.js");
-
 		pathOnly = fullPath.substring(0, fullPath.indexOf(fileOnly));
-
-		// store the result in a new property
 		project.setProperty("directory",pathOnly);
 
-		]]> </script>
+		]]></script>
 
-		<jscompress compilationLevel="simple" warning="quiet"  debug="false" output="${foreach.file}">
+		<jscomp compilationLevel="simple" warning="quiet"  debug="false" output="${foreach.file}">
 			<sources dir="${directory}">
 		    	<file name="${file.js}" />
 			</sources>
-		</jscompress>
+		</jscomp>
+	</target>
+
+	<target name="compress-css" description="Compress CSS files">
+		<basename property="file.css" file="${foreach.file}"/>
+
+		<script language="javascript"><![CDATA[
+		fullPath = project.getProperty("foreach.file");
+		fileOnly = project.getProperty("file.css");
+		pathOnly = fullPath.substring(0, fullPath.indexOf(fileOnly));
+		project.setProperty("directory",pathOnly);
+		]]></script>
+
+		<cscomp todir="${directory}">
+			<fileset dir="${directory}">
+				<include name="${file.css}"/>
+			</fileset>
+			<mapper type="glob" from="*.css" to="*.css"/>
+		</cscomp>
 	</target>
 
 </project>
