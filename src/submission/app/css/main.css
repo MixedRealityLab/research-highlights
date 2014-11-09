@@ -1,0 +1,57 @@
+
+@media screen {
+    body {
+        padding-top: 50px;
+        padding-bottom: 20px;
+	}
+}
+
+body > .container {
+	padding-top: 2.5em;
+}
+
+.alert, .nav {
+	margin-bottom: 2.5em;
+}
+
+hr {
+	margin: 2.5em 0 2.5em 0;
+}
+
+.form-group, label {
+	padding-bottom: .5em;
+}
+
+textarea + p {
+	margin-top: 1em;
+}
+
+.bootstrap-tagsinput { width: 100%; }
+
+.preview-keywords a {
+	font-weight: bold;
+	padding-right: 1em;
+}
+
+.preview-input { text-align: justify; }
+
+.preview-input h1 { font-size: 1.4em;}
+.preview-input h2 { font-size: 1.2em;}
+.preview-input h3 { font-size: 1.1em;}
+.preview-input h4 { font-size: 1em;}
+.preview-input h5 { font-size: 1em;}
+.preview-input h6 { font-size: 1em;}
+
+.preview-input img {max-width: 100%}
+
+footer {
+	font-size: .8em;
+}
+
+div.navbar-header {
+	float: left;
+}
+
+.navbar-right {
+	float: right;
+}

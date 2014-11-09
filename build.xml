@@ -1,0 +1,94 @@
+<project name="ResearchHighlights" default="common" basedir=".">
+
+	<description>
+		Build file for the Research Highlights website
+	</description>
+
+	<property name="dest.dir" location="web" />
+	<property name="lib.dir" location="lib" />
+	<property name="src.dir" location="src/common"/>
+	<property name="submission.dir" location="src/submission" />
+
+	<property name="jsCompressor" location="${lib.dir}/closure-compiler.jar" />
+
+	<taskdef name="jscompress" classname="com.google.javascript.jscomp.ant.CompileTask" classpath="${jsCompressor}"/>
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<pathelement location="${lib.dir}/ant-contrib.jar"/>
+		</classpath>
+	</taskdef>
+
+ 	<target name="clean" description="Remove built and temporary files" >
+		<echo message="Removing previous build" />
+		<delete dir="${dest.dir}"/>
+	</target>
+
+	<target name="common" depends="clean" description="Create the website framework">
+		<tstamp/>
+
+		<echo message="Creating ${dest.dir}" />
+		<mkdir dir="${dest.dir}"/>
+
+		<echo message="Copying sources from ${src.dir} to ${dest.dir}" />
+		<copy todir="${dest.dir}" >  
+        	<fileset dir="${src.dir}" includes="**"/>  
+		</copy>
+
+		<foreach target="compress" param="foreach.file">
+            <path>
+                <fileset dir="${dest.dir}" casesensitive="yes">
+                    <include name="**/*.js"/>
+                </fileset>
+            </path>
+        </foreach>
+	</target>
+
+	<target name="submission" depends="clean" description="Create submission website">
+		<tstamp/>
+
+		<echo message="Creating ${dest.dir}" />
+		<mkdir dir="${dest.dir}"/>
+
+		<echo message="Copying sources from ${src.dir} to ${dest.dir}" />
+		<copy todir="${dest.dir}" >  
+        	<fileset dir="${src.dir}" includes="**"/>  
+		</copy>
+
+		<echo message="Copying sources from ${submission.dir} to ${dest.dir}" />
+		<copy todir="${dest.dir}" overwrite="true">  
+        	<fileset dir="${submission.dir}" includes="**"/>  
+		</copy>
+
+		<foreach target="compress" param="foreach.file">
+            <path>
+                <fileset dir="${dest.dir}" casesensitive="yes">
+                    <include name="**/*.js"/>
+                </fileset>
+            </path>
+        </foreach>
+	</target>
+
+	<target name="compress" description="Compress JavaScript files">
+		<basename property="file.js" file="${foreach.file}"/>
+
+		<script language="javascript"> <![CDATA[
+
+		// get values
+		fullPath = project.getProperty("foreach.file");
+		fileOnly = project.getProperty("file.js");
+
+		pathOnly = fullPath.substring(0, fullPath.indexOf(fileOnly));
+
+		// store the result in a new property
+		project.setProperty("directory",pathOnly);
+
+		]]> </script>
+
+		<jscompress compilationLevel="simple" warning="quiet"  debug="false" output="${foreach.file}">
+			<sources dir="${directory}">
+		    	<file name="${file.js}" />
+			</sources>
+		</jscompress>
+	</target>
+
+</project>
