@@ -8,9 +8,13 @@ class User {
 
 	const ADMIN_FILE = '/login-admins.txt';
 
+	const FUNDING_FILE = '/funding.txt';
+
 	private $user = array();
 
 	private $userCache = array();
+
+	private $fundingCache = array();
 
 	public function login ($requireAdmin = false) {
 		$input = Submission::input();
@@ -107,13 +111,17 @@ class User {
 		$oData = Submission::data();
 		$user = $this->get ($username);
 
-		if ($user['year'] == 1) {
-			$resp = 'This author is supported by the Horizon Centre for Doctoral Training at the University of Nottingham (RCUK Grant No. EP/L015463/1 ) and by the RCUK’s Horizon Digital Economy Research Institute (RCUK Grant No. EP/G065802/1)';	
-		} else {
-			$resp = 'This author is supported by the Horizon Centre for Doctoral Training at the University of Nottingham (RCUK Grant No. EP/G037574/1) and by the RCUK’s Horizon Digital Economy Research Institute (RCUK Grant No. EP/G065802/1)';
+		if (empty ($this->fundingCache)) {
+			$temp = array();
+			$file = new \SplFileObject (DIR_USR . FUNDING_FILE);
+			while (!$file->eof ()) {
+				$row = explode (',', $file->fgets());
+				$temp[$row[0]] = trim ($row[1]);
+			}
+			$this->fundingCache = $temp;
 		}
 
-		return $resp;
+		return $this->fundingCache[$user['cohort']];
 	}
 
 }
