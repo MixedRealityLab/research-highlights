@@ -7,6 +7,7 @@
 	<property name="dest.dir" location="web" />
 	<property name="lib.dir" location="lib" />
 	<property name="src.dir" location="src/common"/>
+	<property name="secret.dir" location="src/secret"/>
 	<property name="submission.dir" location="src/submission" />
 	
 	<path id="project.classpath">
@@ -51,6 +52,11 @@
 		<echo message="Copying sources from ${src.dir} to ${dest.dir}" />
 		<copy todir="${dest.dir}" >  
         	<fileset dir="${src.dir}" includes="**"/>  
+		</copy>
+
+		<echo message="Copying sources files from ${secret.dir} to ${dest.dir}" />
+		<copy todir="${dest.dir}" overwrite="true">  
+        	<fileset dir="${secret.dir}" includes="**"/>  
 		</copy>
 
 		<echo message="Copying sources from ${submission.dir} to ${dest.dir}" />

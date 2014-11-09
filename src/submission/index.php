@@ -1,7 +1,5 @@
 <?php
 
-error_reporting(E_ALL); ini_set('display_errors', '1');
-
 define ('DIR', dirname (__FILE__));
 
 define ('DIR_AJX', DIR . '/app/ajax');
@@ -20,6 +18,8 @@ define ('URI_DATA', URI_HOME . '/dat');
 set_include_path (get_include_path () . ':' . DIR_LIB);
 spl_autoload_extensions ('.class.php');
 spl_autoload_register ();
+
+require_once DIR . '/salt.php';
 
 $page = trim (str_replace (PATH . '/', '', $_SERVER['REQUEST_URI']));
 $page = empty ($page) ? 'index' : $page;

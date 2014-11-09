@@ -95,7 +95,7 @@ class User {
 	}
 
 	public function generatePassword ($username = null) {
-		return is_null ($username) ? $this->generatePassword ($this->user['username']) : sha1('h3s9b7smx-2$'. $username);
+		return is_null ($username) ? $this->generatePassword ($this->user['username']) : sha1(SALT . $username);
 	}
 
 	public function getWordCount ($username = null) {

@@ -19,6 +19,8 @@ set_include_path (get_include_path () . ':' . DIR_LIB);
 spl_autoload_extensions ('.class.php');
 spl_autoload_register ();
 
+require_once DIR . '/salt.php';
+
 $page = trim (str_replace (PATH . '/', '', $_SERVER['REQUEST_URI']));
 $page = empty ($page) ? 'index' : $page;
 
