@@ -26,7 +26,6 @@ class Data {
 		$override = array();
 		if (isset ($user['username'])) {
 
-
 			$dir = DIR_DAT . '/' . $user['cohort'] . '/' . $user['username'] . '/';
 			if (is_dir ($dir)) {
 				if ($dh = opendir ($dir)) {

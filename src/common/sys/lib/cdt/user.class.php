@@ -46,7 +46,9 @@ class User {
 
 		if (count ($ret) == 0) {
 			$ret = $this->getData (self::ADMIN_FILE, $username);
-			$ret['admin'] = 1;
+			if (count ($ret) > 0) {
+				$ret['admin'] = 1;
+			}
 		}
 
 		$this->userCache[$username] = $ret;
@@ -113,7 +115,7 @@ class User {
 
 		if (empty ($this->fundingCache)) {
 			$temp = array();
-			$file = new \SplFileObject (DIR_USR . FUNDING_FILE);
+			$file = new \SplFileObject (DIR_USR . self::FUNDING_FILE);
 			while (!$file->eof ()) {
 				$row = explode (',', $file->fgets());
 				$temp[$row[0]] = trim ($row[1]);

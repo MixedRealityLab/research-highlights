@@ -26,7 +26,7 @@ if (!is_numeric ($cohort)) {
 
 foreach ($users as $user) {
 	if ((!is_null ($cohort) && $user['cohort'] == $cohort) || is_null ($cohort)) {
-		$output[] = $user['username'];
+		$output[] = $user;
 	}
 }
 

@@ -39,7 +39,7 @@ $(function() {
 	$('.addUsers').click(function(e) {
 	e.preventDefault();
 	var $allInputs = $('form.stage-email').find('input, select, button, textarea');
-	var cohort = $(this).data('cohort');
+	var cohort = $(this).text();
 	ReHi.sendData({
 		dataType: 'json',
 		data: 'cohort=' + cohort,
@@ -53,7 +53,7 @@ $(function() {
 		},
 		success: function(response, textStatus, jqXHR) {
 		$.each(response, function(i, v) {
-			$('#usernames').append(v + "\n");
+			$('#usernames').append(v.username + "\n");
 			$('#usernames').trigger('autosize.resize'); 
 		});
 		}

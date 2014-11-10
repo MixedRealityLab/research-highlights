@@ -1,5 +1,7 @@
 <?php
 
+error_reporting (E_ALL); ini_set ('display_errors', '1');
+
 define ('DIR_AJX', DIR . '/app/ajax');
 define ('DIR_PAG', DIR . '/app/page');
 define ('DIR_TPL', DIR . '/app/tpl');
