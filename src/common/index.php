@@ -2,7 +2,7 @@
 
 define ('DIR', dirname (__FILE__));
 
-require DIR . 'config.php';
+require DIR . '/config.php';
 require DIR . '/salt.php';
 
 set_include_path (get_include_path () . ':' . DIR_LIB);

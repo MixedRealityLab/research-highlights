@@ -219,6 +219,7 @@ $oTemplate->set ('header', true);
 $oTemplate->set ('body', $oTemplate->endCapture ());
 
 $oTemplate->add ('css', 'sys/css/bootstrap-tagsinput.css');
+$oTemplate->add ('javascript', 'app/js/main.js');
 $oTemplate->add ('javascript', 'app/js/submit.js');
 
 print $oTemplate->load ('2015');

@@ -113,6 +113,7 @@ Martin Porcheron</textarea>
 $oTemplate->set ('header', true);
 $oTemplate->set ('body', $oTemplate->endCapture ());
 
+$oTemplate->add ('javascript', 'app/js/main.js');
 $oTemplate->add ('javascript', 'app/js/email.js');
 
 print $oTemplate->load ('2015');

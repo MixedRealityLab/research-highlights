@@ -39,6 +39,7 @@ $oTemplate->startCapture ();
 $oTemplate->set ('header', true);
 $oTemplate->set ('body', $oTemplate->endCapture ());
 
+$oTemplate->add ('javascript', 'app/js/main.js');
 $oTemplate->add ('javascript', 'app/js/index.js');
 
 print $oTemplate->load ('2015');
