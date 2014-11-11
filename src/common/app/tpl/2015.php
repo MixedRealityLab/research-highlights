@@ -40,13 +40,13 @@
 			<?php print $body; ?>
 		<?php endif; ?>
 
-		<div class="footer collapse">
-			<hr>
-
-			<footer>
-			<p>&copy; Martin Porcheron <?php print date ('Y'); ?>.</p>
-			</footer>
-		</div>
+		<div class="container">
+			<div class="footer collapse">
+				<hr>
+				<footer>
+					<p>&copy; Martin Porcheron <?php print date ('Y'); ?>.</p>
+				</footer>
+			</div>
 		</div>
 
 		<script src="sys/js/jquery-1.11.1.js"></script>
