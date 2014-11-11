@@ -27,7 +27,7 @@
 		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 			<div class="container">
 				<div class="navbar-left">
-					<a class="navbar-brand" href="<?php print URI_HOME; ?>">Research Highlights</a>
+					<a class="navbar-brand" href="<?php print URI_HOME; ?>">Horizon CDT &raquo; Research Highlights</a>
 				</div>
 				<?php if ($nav): ?>
 					<?php print $nav; ?>
