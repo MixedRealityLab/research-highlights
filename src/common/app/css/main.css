@@ -14,10 +14,6 @@ body > .container {
 	margin-bottom: 2.5em;
 }
 
-hr {
-	margin: 2.5em 0 2.5em 0;
-}
-
 .form-group, label {
 	padding-bottom: .5em;
 }
@@ -54,4 +50,9 @@ div.navbar-header {
 
 .navbar-right {
 	float: right;
+}
+
+.spacer {
+	margin: 20px 15px 20px 15px;
+	border-top: 1px solid #ccc;
 }
