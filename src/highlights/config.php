@@ -8,7 +8,7 @@ define ('DIR_LIB', DIR .  '/sys/lib');
 define ('DIR_USR', DIR . '/usr');
 
 define ('DOMAIN', 'https://www.porcheron.uk');
-define ('PATH', '/cdt/rehi');
+define ('PATH', '/cdt/rehi-view');
 
 define ('URI_HOME', DOMAIN . PATH);
 define ('URI_DATA', URI_HOME . '/dat');

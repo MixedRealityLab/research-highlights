@@ -8,6 +8,7 @@
 	<property name="lib.dir" location="lib" />
 	<property name="src.dir" location="src/common"/>
 	<property name="secret.dir" location="src/secret"/>
+	<property name="highlights.dir" location="src/highlights" />
 	<property name="submission.dir" location="src/submission" />
 	
 	<path id="project.classpath">
@@ -41,41 +42,40 @@
 		<copy todir="${dest.dir}" >  
         	<fileset dir="${src.dir}" includes="**"/>  
 		</copy>
-	</target>
 
-	<target name="submission" depends="clean" description="Create submission website">
-		<tstamp/>
-
-		<echo message="Creating ${dest.dir}" />
-		<mkdir dir="${dest.dir}"/>
-
-		<echo message="Copying sources from ${src.dir} to ${dest.dir}" />
-		<copy todir="${dest.dir}" >  
-        	<fileset dir="${src.dir}" includes="**"/>  
-		</copy>
-
-		<echo message="Copying sources files from ${secret.dir} to ${dest.dir}" />
+		<echo message="Copying sources from ${secret.dir} to ${dest.dir}" />
 		<copy todir="${dest.dir}" overwrite="true">  
         	<fileset dir="${secret.dir}" includes="**"/>  
 		</copy>
+	</target>
 
+	<target name="submission" depends="common" description="Create submission website">
 		<echo message="Copying sources from ${submission.dir} to ${dest.dir}" />
 		<copy todir="${dest.dir}" overwrite="true">  
         	<fileset dir="${submission.dir}" includes="**"/>  
 		</copy>
+	</target>
+
+	<target name="highlights" depends="common" description="Create highlights website">
+		<echo message="Copying sources from ${highlights.dir} to ${dest.dir}" />
+		<copy todir="${dest.dir}" overwrite="true">  
+        	<fileset dir="${highlights.dir}" includes="**"/>  
+		</copy>
+	</target>
+
+	<target name="compress" description="Compress JavaScript and CSS files">
+		<foreach target="compress-js" param="foreach.file">
+            <path>
+                <fileset dir="${dest.dir}" casesensitive="yes">
+                    <include name="**/*.js"/>
+                </fileset>
+            </path>
+        </foreach>
 
 		<foreach target="compress-css" param="foreach.file">
             <path>
                 <fileset dir="${dest.dir}" casesensitive="yes">
                     <include name="**/*.css"/>
-                </fileset>
-            </path>
-        </foreach>
-
-		<foreach target="compress-js" param="foreach.file">
-            <path>
-                <fileset dir="${dest.dir}" casesensitive="yes">
-                    <include name="**/*.js"/>
                 </fileset>
             </path>
         </foreach>

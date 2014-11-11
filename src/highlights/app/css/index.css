@@ -1,0 +1,10 @@
+@media (min-width: 991px) {
+	.right-line {
+		border-right: 1px solid #ccc;
+	}
+	.left-line {
+		border-left: 1px solid #ccc;
+		margin-left: -1px;
+		padding-left: 16px;
+	}
+}
