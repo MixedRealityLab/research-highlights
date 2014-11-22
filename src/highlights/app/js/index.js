@@ -6,7 +6,7 @@ function read() {
 	ReHi.sendData({
 	  dataType: 'json',
 	  data: d,
-	  url: 'do/read',
+	  url: ReHi.urlPrefix + 'do/read',
 	  type: 'post',
 	  success: function (response, textStatus, jqXHR) {
 					for(var i = 0; i < response.length; i++) {

@@ -1,4 +1,6 @@
 var ReHi = {
+	urlPrefix			: 'index.php/',
+	
 	fadePageIn			: function() {
 							$('.collapse').each(function(i) {
 								$(this).delay(200 * i).fadeIn();

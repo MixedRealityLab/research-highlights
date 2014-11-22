@@ -11,6 +11,7 @@ class Template {
 	public function __construct() {
 		\ob_start ();
 	}
+	
 	public function add ($key, $value) {
 		if (isset ($this->data[$key]) && is_array ($this->data[$key])) {
 			$this->data[$key][] = $value;

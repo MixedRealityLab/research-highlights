@@ -1,8 +1,10 @@
 <?php
 
-$oData = \CDT\Submission::data();
-$oInput = \CDT\Submission::input();
-$oUser = \CDT\Submission::user();
+$rh = \CDT\RH::i();
+
+$oData = $rh->cdt_data;
+$oInput = $rh->cdt_input;
+$oUser = $rh->cdt_user;
 
 if(!is_null ($oInput->get('user'))) {
 	$users = array ($oUser->get ($oInput->get ('user')));

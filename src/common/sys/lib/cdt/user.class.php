@@ -17,15 +17,15 @@ class User {
 	private $fundingCache = array();
 
 	public function login ($requireAdmin = false) {
-		$input = Submission::input();
+		$oInput = RH::i()->cdt_input;
 
-		$valid = !is_null ($input->get ('username')) && !is_null ($input->get ('password')) && $input->get ('password') == $this->generatePassword ($input->get ('username'));
+		$valid = !is_null ($oInput->get ('username')) && !is_null ($oInput->get ('password')) && $oInput->get ('password') == $this->generatePassword ($oInput->get ('username'));
 		
 		if (!$valid) {
 			return false;
 		}
 		
-		$temp = $this->get ($input->get ('username'));
+		$temp = $this->get ($oInput->get ('username'));
 		if ($requireAdmin && !isset ($temp['admin'])) {
 			return false;
 		}
@@ -38,7 +38,7 @@ class User {
 	public function get ($username = null) {
 		if (is_null ($username)) {
 			return $this->user;
-		} else if (!empty ($this->userCache) && isset ($this->userCache[$username])) {
+		} else if (isset ($this->userCache[$username])) {
 			return $this->userCache[$username];
 		}
 		
@@ -110,7 +110,7 @@ class User {
 	}
 
 	public function getFunding ($username = null) {
-		$oData = Submission::data();
+		$oData = RH::i()->cdt_data;
 		$user = $this->get ($username);
 
 		if (empty ($this->fundingCache)) {

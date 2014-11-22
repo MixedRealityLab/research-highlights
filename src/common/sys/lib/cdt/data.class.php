@@ -21,7 +21,8 @@ class Data {
 	}
 
 	public function get ($username = null, $includeDefaults = true) {
-		$user = Submission::user()->get ($username);
+		$oUser = RH::i()->cdt_user;
+		$user = $oUser->get ($username);
 
 		$override = array();
 		if (isset ($user['username'])) {
@@ -66,7 +67,8 @@ class Data {
 	}
 
 	public function scanOutput ($input, $username = null) {
-		$user = Submission::user()->get ($username);
+		$oUser = RH::i()->cdt_user;
+		$user = $oUser->get ($username);
 		$names = explode (' ', trim ($user['name']));
 
 		$find 		= array('<word-count>',
@@ -79,10 +81,10 @@ class Data {
 			              	'<img-dir>');
 
 		$replace 	= array(
-		                  	Submission::user()->getWordCount ($user['username']),
+		                  	$oUser->getWordCount ($user['username']),
 		                    $user['email'],
 		                    $user['username'],
-		                    Submission::user()->generatePassword ($user['username']),
+		                    $oUser->generatePassword ($user['username']),
 		                    $user['cohort'],
 		                    $names[0],
 		                    $user['name'],

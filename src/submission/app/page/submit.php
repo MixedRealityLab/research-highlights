@@ -1,6 +1,6 @@
 <?php
 
-$oTemplate = \CDT\Submission::template();
+$oTemplate = \CDT\RH::i()->cdt_template;
 $oTemplate->startCapture ();
 
 ?>
@@ -48,7 +48,7 @@ $oTemplate->startCapture ();
             </div>
             <div class="col-sm-6 col-md-6 col-lg-8">
                 <h2>Submission Form</h2>
-                <p>Firstly, we need to identify who you are. We emailed you the details that you need to login to the system (the email was from martin&#64;porcheron.uk). If you have lost this email, either speak to Emma Juggins or <a href="mailto:martin.porcheron@nottingham.ac.uk">contact me</a>.</p>
+                <p>Firstly, we need to identify who you are. We emailed you the details that you need to login to the system (the email was from martin&#64;porcheron.uk). If you have lost this email, either send an email to <a href="mailto:cdt-rh@porcheron.uk">Martin Porcheron or Kyle Arch</a> and we'll send out a password reminder.</p>
                 <p><strong>Hint:</strong> Your username is your university username (e.g. <em>psxmp9</em>) and your password is a long sequence of letters and numbers.</p>
             </div>
           </form>
@@ -138,6 +138,8 @@ $oTemplate->startCapture ();
                   
                   <p><strong>Images</strong>: You can include images in your submission and when you submit your document, a copy of these images will be automatically made. You should consider hosting your images on your University website address (you may also use a free online service such as <a href="http://imgur.com/" target="_blank">Imgur</a>). Use uncompressed or high-quality images where possible. Please note: <strong>you must</strong> own the copyright to the images, or have rights to redistribute or publish the image publicly.</p>
                   <hr>
+                  <p>You should only include content in your submission that is publishable at the time of submission.</p>
+                  <hr>
                 </div>
 
                 <div class="col-sm-12 col-md-6 col-lg-6">
@@ -170,7 +172,7 @@ $oTemplate->startCapture ();
               <!-- BEGIN ABOUT TAB -->
               <div role="tabpanel" class="tab-pane fade" id="about">
                 <div class="col-sm-12 col-md-12 col-lg-12">
-                  <p>These details have been taken from the University system. If your University email address is different to the one below, please <a href="mailto:martin.porcheron@nottingham.ac.uk">send me an email</a>. Details included here will be printed alongside your submission - do not include your website or twitter account if you do not wish for these to be published.</p>
+                  <p>These details have been taken from the University system. If your University email address is different to the one below, please <a href="mailto:cdt-rh@porcheron.uk">send me an email</a>. Details included here will be printed alongside your submission - do not include your website or twitter account if you do not wish for these to be published.</p>
                   <hr>
                 </div>
   

@@ -1,0 +1,35 @@
+<?php
+
+$rh = \CDT\RH::i();
+
+$oData = $rh->cdt_data;
+$oInput = $rh->cdt_input;
+$oUser = $rh->cdt_user;
+
+$users = $oUser->getAll ();
+
+function cmp_users ($a, $b) {
+	if ($a['cohort'] < $b['cohort']) {
+		return -1;
+	} else if ($a['cohort'] > $b['cohort']) {
+		return 1;
+	} else {
+		return strcmp ($a['name'], $b['name']);
+	}
+}
+
+usort ($users, 'cmp_users');
+
+$output = array ();
+$cohort = $oInput->get ('cohort');
+if (!is_numeric ($cohort)) {
+	$cohort = null;
+}
+
+foreach ($users as $user) {
+	if ((!is_null ($cohort) && $user['cohort'] == $cohort) || is_null ($cohort)) {
+		$output[] = $user;
+	}
+}
+
+die (json_encode ($output));

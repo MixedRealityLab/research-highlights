@@ -9,8 +9,13 @@ define ('DIR_DAT', dirname (DIR) . '/dat');
 define ('DIR_LIB', DIR .  '/sys/lib');
 define ('DIR_USR', DIR . '/usr');
 
-define ('DOMAIN', 'https://www.porcheron.uk');
-define ('PATH', '/cdt/rh');
+define ('DOMAIN', 'http://cdt.horizon.ac.uk');
+define ('PATH', '/rh');
 
 define ('URI_HOME', DOMAIN . PATH);
 define ('URI_DATA', dirname (URI_HOME) . '/dat');
+
+define ('PAG_HOME', 'index');
+define ('SYS_HTAC', false);
+
+date_default_timezone_set ('Europe/London');

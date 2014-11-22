@@ -13,11 +13,11 @@ $(function() {
 
 	ReHi.showAlert('Welcome!', 'Please enter your credentials to continue.', 'info'); 
 
-	ReHi.regSubForm($('form.stage-login'), 'do/login', function (response, textStatus, jqXHR) {
+	ReHi.regSubForm($('form.stage-login'), ReHi.urlPrefix + 'do/login', function (response, textStatus, jqXHR) {
 		if (response == '-3') {
-			ReHi.showError('Humph!', 'Your account has been disabled. <a href="mailto:martin.porcheron@nottingham.ac.uk" class="alert-link">Email me</a> for help.');
+			ReHi.showError('Humph!', 'Your account has been disabled. <a href="mailto:cdt-rh@porcheron.uk" class="alert-link">Email support</a> for help.');
 		} else if (response == '-1') {
-			ReHi.showError('Oh, snap!', 'Looks like you\'ve entered an invalid username/password combination. <a href="mailto:martin.porcheron@nottingham.ac.uk" class="alert-link">Email me</a> for help.'); 
+			ReHi.showError('Oh, snap!', 'Looks like you\'ve entered an invalid username/password combination. <a href="mailto:cdt-rh@porcheron.uk" class="alert-link">Email support</a> for help.'); 
 		} else if (response.success == '1') {
 			ReHi.showSuccess('Welcome!', 'Your login was successful. You can log back in any time to modify your submission before the deadline.');
 	
@@ -48,7 +48,7 @@ $(function() {
 		}
 	}, 'json');
 
-	ReHi.regAutoForm($('form.stage-editor'), 'do/preview', function (response, textStatus, jqXHR) {
+	ReHi.regAutoForm($('form.stage-editor'), ReHi.urlPrefix + 'do/preview', function (response, textStatus, jqXHR) {
 		var tVal = $('#title').val();
 		$('.preview-title').html(tVal.length == 0 ? 'Preview' : tVal);
 	 
@@ -65,11 +65,11 @@ $(function() {
 		$('.preview-input').html(response);
 	});
 
-	ReHi.regSubForm($('form.stage-editor'), 'do/submit', function (response, textStatus, jqXHR) {
+	ReHi.regSubForm($('form.stage-editor'), ReHi.urlPrefix + 'do/submit', function (response, textStatus, jqXHR) {
 		if (response != '1') {
-			ReHi.showError('Goshdarnit!', 'Something has gone wrong! <a href="mailto:martin.porcheron@nottingham.ac.uk" class="alert-link">I need help!</a> (error: ' + response + ')');
+			ReHi.showError('Goshdarnit!', 'Something has gone wrong! <a href="mailto:cdt-rh@porcheron.uk" class="alert-link">I need help!</a> (error: ' + response + ')');
 		} else {
-			ReHi.showSuccess('Whoop! Whoop!', 'Your submission was saved! For reference, you can see the latest version of <a href="read#' + $('#submit-user').attr('value') + '" target="_blank">your submission</a>.')
+			ReHi.showSuccess('Whoop! Whoop!', 'Your submission was saved! For reference, you can see the latest version of <a href="' + ReHi.urlPrefix  + 'read#' + $('#submit-user').attr('value') + '" target="_blank">your submission</a> online (although it may not look like this in the final website).')
 		}
 	});
 

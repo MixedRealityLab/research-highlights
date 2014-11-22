@@ -1,6 +1,6 @@
 <?php
 
-$oTemplate = \CDT\Submission::template();
+$oTemplate = \CDT\RH::i()->cdt_template;
 $oTemplate->startCapture ();
 
 ?>
@@ -9,9 +9,6 @@ $oTemplate->startCapture ();
 			<h1>Research Highlights 2015</h1>
 			<p>This website documents the research that is currently being undertaken by current PhD students in the Horizon Centre for Doctoral Training for cohorts that started between 2011 and 2014.</p>
 		</div>
-	</div>
-	<div class="container">
-		<hr>
 	</div>
 	<div class="container">
 		<div class="row">

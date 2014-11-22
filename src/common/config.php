@@ -12,3 +12,8 @@ define ('PATH', '/highlights');
 
 define ('URI_HOME', DOMAIN . PATH);
 define ('URI_DATA', URI_HOME . '/dat');
+
+define ('PAG_HOME', 'index');
+define ('SYS_HTAC', false);
+
+date_default_timezone_set ('Europe/London');

@@ -1,10 +1,11 @@
 <?php
 
-$oUser = \CDT\Submission::user();
+$rh = \CDT\RH::i();
+$oUser = $rh->cdt_user;
 
 if ($oUser->login ()) {
-	$oInput = \CDT\Submission::input();
-	$oData = \CDT\Submission::data();
+	$oInput = $rh->cdt_input;
+	$oData = $rh->cdt_data;
 
 	die (json_encode (array_merge ($oData->get (), $oUser->get (), array('success' => 1, 'wordCount' => $oUser->getWordCount(), 'fundingStatement' => $oUser->getFunding() ))));
 }

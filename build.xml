@@ -4,7 +4,7 @@
 		Build file for the Research Highlights website
 	</description>
 
-	<property name="dest.dir" location="web" />
+	<property name="dist.dir" location="dist" />
 	<property name="lib.dir" location="lib" />
 	<property name="src.dir" location="src/common"/>
 	<property name="secret.dir" location="src/secret"/>
@@ -29,36 +29,36 @@
 
  	<target name="clean" description="Remove built and temporary files" >
 		<echo message="Removing previous build" />
-		<delete dir="${dest.dir}"/>
+		<delete dir="${dist.dir}"/>
 	</target>
 
 	<target name="common" depends="clean" description="Create the website framework">
 		<tstamp/>
 
-		<echo message="Creating ${dest.dir}" />
-		<mkdir dir="${dest.dir}"/>
+		<echo message="Creating ${dist.dir}" />
+		<mkdir dir="${dist.dir}"/>
 
-		<echo message="Copying sources from ${src.dir} to ${dest.dir}" />
-		<copy todir="${dest.dir}" >  
+		<echo message="Copying sources from ${src.dir} to ${dist.dir}" />
+		<copy todir="${dist.dir}" >  
         	<fileset dir="${src.dir}" includes="**"/>  
 		</copy>
 
-		<echo message="Copying sources from ${secret.dir} to ${dest.dir}" />
-		<copy todir="${dest.dir}" overwrite="true">  
+		<echo message="Copying sources from ${secret.dir} to ${dist.dir}" />
+		<copy todir="${dist.dir}" overwrite="true">  
         	<fileset dir="${secret.dir}" includes="**"/>  
 		</copy>
 	</target>
 
 	<target name="submission" depends="common" description="Create submission website">
-		<echo message="Copying sources from ${submission.dir} to ${dest.dir}" />
-		<copy todir="${dest.dir}" overwrite="true">  
+		<echo message="Copying sources from ${submission.dir} to ${dist.dir}" />
+		<copy todir="${dist.dir}" overwrite="true">  
         	<fileset dir="${submission.dir}" includes="**"/>  
 		</copy>
 	</target>
 
 	<target name="highlights" depends="common" description="Create highlights website">
-		<echo message="Copying sources from ${highlights.dir} to ${dest.dir}" />
-		<copy todir="${dest.dir}" overwrite="true">  
+		<echo message="Copying sources from ${highlights.dir} to ${dist.dir}" />
+		<copy todir="${dist.dir}" overwrite="true">  
         	<fileset dir="${highlights.dir}" includes="**"/>  
 		</copy>
 	</target>
@@ -66,7 +66,7 @@
 	<target name="compress" description="Compress JavaScript and CSS files">
 		<foreach target="compress-js" param="foreach.file">
             <path>
-                <fileset dir="${dest.dir}" casesensitive="yes">
+                <fileset dir="${dist.dir}" casesensitive="yes">
                     <include name="**/*.js"/>
                 </fileset>
             </path>
@@ -74,7 +74,7 @@
 
 		<foreach target="compress-css" param="foreach.file">
             <path>
-                <fileset dir="${dest.dir}" casesensitive="yes">
+                <fileset dir="${dist.dir}" casesensitive="yes">
                     <include name="**/*.css"/>
                 </fileset>
             </path>

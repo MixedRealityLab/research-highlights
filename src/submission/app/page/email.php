@@ -1,6 +1,6 @@
 <?php
 
-$oTemplate = \CDT\Submission::template();
+$oTemplate = \CDT\RH::i()->cdt_template;
 $oTemplate->startCapture ();
 
 ?>

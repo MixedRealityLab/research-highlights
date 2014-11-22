@@ -1,13 +1,15 @@
 <?php
 
-$oUser = \CDT\Submission::user();
+$rh = \CDT\RH::i();
+
+$oUser = $rh->cdt_user;
 
 if (!$oUser->login ()) {
 	die ('-1');
 }
 
-$oInput = \CDT\Submission::input();
-$oData = \CDT\Submission::data();
+$oInput = $rh->cdt_input;
+$oData = $rh->cdt_data;
 
 $textMd = trim ($oInput->get ('text'));
 $textHtml = !empty ($textMd) ? $oData->markdownToHtml ($textMd) : '<em>No text.</em>';
