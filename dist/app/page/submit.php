@@ -117,10 +117,10 @@ $oTemplate->startCapture ();
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6">
                       <div class="form-group">
-                        <label for="industryName">External Funder Name</label>
+                        <label for="industryName">External Partner Name</label>
                         <input type="text" class="form-control input input-large" name="industryName" autocomplete="off" id="industryName" placeholder="Industry Partner Ltd.">
                         <br>
-                        <label for="industryUrl">External Funder Website</label>
+                        <label for="industryUrl">External Partner Website</label>
                         <input type="url" class="form-control input input-large" name="industryUrl" autocomplete="off" id="industryUrl" placeholder="http://">
                       </div>
                     </div>

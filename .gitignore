@@ -1,4 +1,4 @@
 data/
-web/
+dist/
 src/secret/*
 usr/*
