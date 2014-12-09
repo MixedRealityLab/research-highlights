@@ -37,13 +37,14 @@ foreach ($users as $user) {
 		$textMd = $temp['text'];
 		$textHtml = !empty ($textMd) ? $oData->markdownToHtml ($textMd) : '<em>No text submitted.</em>';
 
-		$refMd = trim ($oInput->get ('references'));
-		$refHtml = !empty ($textMd) ? !empty ($refMd) ?  '<h1>References</h1>' . $oData->markdownToHtml ($refMd) : '' : '';
+		$refMd = trim ($temp['references']);
+		$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $oData->markdownToHtml ($refMd) : '';
+		
+		$pubMd = trim ($temp['publications']);
+		$pubHtml = !empty ($pubMd) ? '<h1>Publications in the Last Year</h1>' . $oData->markdownToHtml ($pubMd) : '';
 
+		$temp['html'] = $textHtml . $refHtml . $pubHtml;
 		$temp['fundingStatement'] = $oUser->getFunding ($user['username']);
-
-		$temp['html'] = $textHtml . $refHtml;
-		$temp['references'] = nl2br ($temp['references']);
 
 		$output[] = array_merge ($temp, $userData);
 	}

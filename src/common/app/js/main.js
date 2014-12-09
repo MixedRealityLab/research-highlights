@@ -47,7 +47,7 @@ var ReHi = {
 									return;
 								}
 
-								if(v.match(/#+$/) || v.match(/\*+$/) || v.match(/>$/) || v.match(/==+/) || v.match(/\++/) || v.match(/-+$/) || v.match(/[0-9]+[.]$/) || v.match(/\[[0-9]+\]/)) {
+								if(v.match(/#+$/) || v.match(/\*+$/) || v.match(/>$/) || v.match(/==+/) || v.match(/\++/) || v.match(/-+$/) || v.match(/[0-9]+[.]$/) || v.match(/\[[0-9, ]+\]/) || v.match(/[0-9, ]+\]/) || v.match(/\[[0-9, ]+/)) {
 									return;
 								}
 

@@ -39,11 +39,11 @@ function read() {
 
 							var $fundingStatement = $('<small></small>').addClass('body');
 							
-							if(data.references != '') {
-								var $referencesTitle = $('<h1></h1>').text('References');
-								var $referencesText = $('<div></div>').html(data.references);
-								$body.append([$referencesTitle, $referencesText]);
-							}
+							// if(data.references != '') {
+							// 	var $referencesTitle = $('<h1></h1>').text('References');
+							// 	var $referencesText = $('<div></div>').html(data.references);
+							// 	$body.append([$referencesTitle, $referencesText]);
+							// }
 
 							if(data.industryName != '') {
 								var industry = ' and ' + data.industryName + ' (' + (data.industryUrl == '' ? '(no website)' : data.industryUrl.replace(/(http|https):\/\//, '')) + ').';

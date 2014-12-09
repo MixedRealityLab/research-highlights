@@ -13,7 +13,8 @@ class Data {
 				                 'text'				=> "# This is about your work\nYour text *can* be easily **formatted** using the [markdown](http://daringfireball.net/projects/markdown/syntax) syntax.\n\n## You can have multiple titles...\n* ...and unordered lists...\n* ...to display many things.\n\nThere are many different ways you can style your text [1].\n\n![Horizon CDT](https://www.porcheron.uk/wp-content/uploads/2014/03/84232-Horizon-CDT-Logos-1ups2-e1395063482640.jpg?897317)\n\n> Please try to adhere to the formatting guidelines [2].",
 				                 'references'		=> "1. Smith, J.P. Studying certainty. Science and Culture 9 (1989) 442.\n2. Jones, M.R. Cooking the data? Science News 8 (1990) 878.",
 				                 'website'			=> 'http://www.nottingham.ac.uk/~<username>/',
-				                 'twitter'			=> ''
+				                 'twitter'			=> '',
+				                 'publications'		=> "1. [My Blog Post on Example](http://www.example.com)\n2. Full citation of a journal article"
 				                 );
 
 	public function getDefaultData () {
@@ -78,6 +79,7 @@ class Data {
 		                    '<cohort>',
 		                    '<first-name>',
 		                    '<name>',
+		                    '<deadline>',
 			              	'<img-dir>');
 
 		$replace 	= array(
@@ -88,6 +90,7 @@ class Data {
 		                    $user['cohort'],
 		                    $names[0],
 		                    $user['name'],
+		                    $oUser->getDeadline ($user['username']),
 		                 	URI_DATA . '/' . $user['cohort'] . '/' . $user['username'] . '/' . $user['latestVersion'] .'/'
 		                 	);
 

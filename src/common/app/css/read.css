@@ -157,6 +157,10 @@ blockquote {
 	border: 0;
 }
 
+article img {
+	max-width: 100%;
+}
+
 blockquote p:before {
 	content: '“';
 	color: #666;
@@ -228,7 +232,7 @@ blockquote p {
 		font-variant: normal;
 	}
 
-	aside, section h1 {
+	aside, section h1, section h2, section h3, section h4, section h5, section h6 {
 		text-align: left;
 	}
 

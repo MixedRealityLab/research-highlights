@@ -26,24 +26,32 @@ $(function() {
 
 			$('#submit-user').attr('value', $('#username').val());
 			$('#submit-pass').attr('value', $('#password').val());
+		
 			$('#cohort').attr('value', response.cohort);
 			$('#name').attr('value', response.name);
 			$('#email').attr('value', response.email);
+		
 			$('#tweet').val(response.tweet);
 			$('#tweet').triggerHandler('keyup');
+		
 			$('#twitter').val(response.twitter);
-			$('#title').val(response.title);
 			$('#website').attr('value', response.website);
-		 // if(response.keywords != undefined) {
-				$.each(response.keywords.split(','), function(k,v) {$('#keywords').tagsinput('add', v)});
-			//}
+			$.each(response.keywords.split(','), function(k,v) {$('#keywords').tagsinput('add', v)});
+
 			$('#industryName').attr('value', response.industryName);
 			$('#industryUrl').attr('value', response.industryUrl);
+
+			$('#title').val(response.title);
 			$('#text').val(response.text);
-			$('#references').val(response.references);
-			$('.preview-supported').data('fundingStatement', response.fundingStatement);
 			$('#text').triggerHandler('keyup');
+
+			$('#references').val(response.references);
 			$('#references').triggerHandler('keyup');
+
+			$('.preview-supported').data('fundingStatement', response.fundingStatement);
+
+			$('#publications').val(response.publications);
+			$('#publications').triggerHandler('keyup');
 			$('.stage-login').fadeOut({complete : function() {$('.stage-editor').fadeIn(); $('.stage-editor input').triggerHandler('change'); $('.stage-editor textarea').each(function() {$(this).trigger('autosize.resize')});  }});
 		}
 	}, 'json');
@@ -90,7 +98,7 @@ $(function() {
 	});
 
 	$('#tweet').keyup(function(e) {
-		ReHi.charCount($(this), $('.tweet-rem'), 140);
+		ReHi.charCount($(this), $('.tweet-rem'), 125);
 	});
 
 	$('#text').keyup(function(e) {
@@ -123,6 +131,8 @@ $(function() {
 			ReHi.showError('Oh dear!', 'You need to enter <strong>' + (5 - $('#keywords').tagsinput('items').length) + '</strong> more keywords');
 		} else if ($('#tweet').val().length < 25) {
 			ReHi.showError('Oh dear!', 'You should enter a better 140-character summary of your PhD');
+		} else if ($('#tweet').val().length > 125) {
+			ReHi.showError('Oh dear!', 'Your tweet-like summary is too long!');
 		} else {
 			ReHi.showAlert('Just a moment!', 'Saving your submission. Please don\'t leave or refresh this page until a success message appears (resubmit if need be).', 'info');
 			setTimeout(function() {$('form.stage-editor').triggerHandler('submit')}, 500);

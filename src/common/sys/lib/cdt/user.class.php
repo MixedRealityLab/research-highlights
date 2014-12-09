@@ -10,11 +10,15 @@ class User {
 
 	const FUNDING_FILE = '/funding.txt';
 
+	const DEADLINES_FILE = '/deadlines.txt';
+
 	private $user = array();
 
 	private $userCache = array();
 
 	private $fundingCache = array();
+
+	private $deadlineCache = array();
 
 	public function login ($requireAdmin = false) {
 		$oInput = RH::i()->cdt_input;
@@ -72,6 +76,7 @@ class User {
 				$temp['cohort'] = trim ($row[1]);
 				$temp['email'] = trim ($row[4]);
 				$temp['latestVersion'] = $this->getLatestVersion ($row[1], $row[2]);
+				$temp['fundingStatementId'] = trim ($row[5]);
 
 				$ret[$row[2]] = $temp;
 			}
@@ -117,13 +122,32 @@ class User {
 			$temp = array();
 			$file = new \SplFileObject (DIR_USR . self::FUNDING_FILE);
 			while (!$file->eof ()) {
-				$row = explode (',', $file->fgets());
-				$temp[$row[0]] = trim ($row[1]);
+				$row = $file->fgets();
+				$pos = \strpos ($row, ',');
+				$temp[\substr ($row, 0, $pos)] = trim (\substr ($row, $pos + 1));
 			}
 			$this->fundingCache = $temp;
 		}
 
-		return $this->fundingCache[$user['cohort']];
+		$stmnt = $this->fundingCache[$user['fundingStatementId']];
+		return is_null ($stmnt) ? '' : $stmnt;
+	}
+
+	public function getDeadline ($username = null) {
+		$oData = RH::i()->cdt_data;
+		$user = $this->get ($username);
+
+		if (empty ($this->deadlineCache)) {
+			$temp = array();
+			$file = new \SplFileObject (DIR_USR . self::DEADLINES_FILE);
+			while (!$file->eof ()) {
+				$row = explode (',', $file->fgets());
+				$temp[$row[0]] = trim ($row[1]);
+			}
+			$this->deadlineCache = $temp;
+		}
+
+		return $this->deadlineCache[$user['cohort']];
 	}
 
 }

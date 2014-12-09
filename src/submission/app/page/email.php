@@ -57,7 +57,7 @@ $oTemplate->startCapture ();
           <!-- BEGIN EMAIL STAGE -->
           <form class="stage stage-email collapse">
             <div class="col-sm-12 col-md-12 col-lg-12">
-              <p>You can use any of the following codes, these are substituted per user at email time: <code>&lt;word-count&gt;</code>, <code>&lt;address&gt;</code>, <code>&lt;username&gt;</code>, <code>&lt;password&gt;</code>, <code>&lt;cohort&gt;</code>,  <code>&lt;first-name&gt;</code>,  <code>&lt;name&gt;</code>.</p>
+              <p>You can use any of the following codes, these are substituted per user at email time: <code>&lt;word-count&gt;</code>, <code>&lt;address&gt;</code>, <code>&lt;username&gt;</code>, <code>&lt;password&gt;</code>, <code>&lt;cohort&gt;</code>,  <code>&lt;first-name&gt;</code>,  <code>&lt;name&gt;</code> and <code>&lt;deadline&gt;</code>.</p>
               <hr>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12">
@@ -79,7 +79,7 @@ $oTemplate->startCapture ();
 
 For the Horizon CDT Research Highlights 2015, you need to produce a <word-count>-word maximum summary of your PhD. This summary will be published online, along with all other current CDT students in an online catalogue. It is hoped that highlights from this catalogue will be included in a published leaflet advertising the centre's work.
 
-<strong>IMPORTANT: This process requires you to make your submission by the 31st January 2015!</strong>
+<strong>IMPORTANT: This process requires you to make your submission by the <deadline>!</strong>
 
  As with previous years, submission takes place via an online system. We have improved this system based on last years feedback, with a focus on making it easier and quicker for you to make a submission.
 

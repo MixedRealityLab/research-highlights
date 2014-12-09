@@ -88,19 +88,19 @@ $oTemplate->startCapture ();
                     <div class="col-sm-12 col-md-6 col-lg-6">
                       <div class="form-group">
                         <label for="tweet">PhD in a Tweet</label>
-                        <p class="small">Summarise your PhD in 140 characters or less (<strong class="tweet-rem">140</strong> characters remaining).</p>
+                        <p class="small">Summarise your PhD in 140 characters or less (<strong class="tweet-rem">125</strong> characters remaining, <em>15</em> characters are used to link to your submission).</p>
                         <textarea name="tweet" id="tweet" rows="3" class="form-control input input-large" placeholder="Conducting an ethnomethodologically informed ethnography on uniquitious Human-Moose interaction within a structured environment."></textarea>
                       </div>
                     </div>
                   </div>
-                </div>
+                </div>  
                 
-                <div class="container">
+                <div class="hidden-xs hidden-sm container">
                   <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-6">
                       <hr>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="col-md-6 col-lg-6">
                       <hr>
                    </div>
                  </div>
@@ -179,32 +179,56 @@ $oTemplate->startCapture ();
                 <input type="hidden" name="username" id="submit-user">
                 <input type="hidden" name="password" id="submit-pass">
   
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                  <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" readonly="true" class="form-control input input-large" name="name" id="name">
-                  </div>
-                  <hr>
-                  <div class="form-group">
-                    <label for="cohort">Cohort (starting year)</label>
-                    <input type="text" readonly="true" class="form-control input input-large" name="cohort" id="cohort">
-                  </div>
-                  <hr>
-                  <div class="form-group">
-                    <label for="email">University Email Address</label>
-                    <input type="email" readonly="true" class="form-control input input-large" name="email" id="email">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                      <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" readonly="true" class="form-control input input-large" name="name" id="name">
+                      </div>
+                      <div class="hidden-xs hidden-sm">
+                        <hr>
+                      </div>
+                      <div class="form-group">
+                        <label for="cohort">Cohort (starting year)</label>
+                        <input type="text" readonly="true" class="form-control input input-large" name="cohort" id="cohort">
+                      </div>
+                      <div class="hidden-xs hidden-sm">
+                        <hr>
+                      </div>
+                      <div class="form-group">
+                        <label for="email">University Email Address</label>
+                        <input type="email" readonly="true" class="form-control input input-large" name="email" id="email">
+                      </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                      <div class="form-group">
+                        <label for="website">Website Address</label>
+                        <input type="url" class="form-control input input-large" name="website" id="website" autocomplete="off" value="http://">
+                      </div>
+                      <div class="hidden-xs hidden-sm">
+                        <hr>
+                      </div>
+                      <div class="form-group">
+                        <label for="twitter">Twitter Username</label>
+                        <input type="text" class="form-control" name="twitter" id="twitter" autocomplete="off" placeholder="@SuperHumanMooseReseacher">
+                      </div>
+                    </div>
                   </div>
                 </div>
-
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                  <div class="form-group">
-                    <label for="website">Website Address</label>
-                    <input type="url" class="form-control input input-large" name="website" id="website" autocomplete="off" value="http://">
-                  </div>
-                  <hr>
-                  <div class="form-group">
-                    <label for="twitter">Twitter Username</label>
-                    <input type="text" class="form-control" name="twitter" id="twitter" autocomplete="off" placeholder="@SuperHumanMooseReseacher">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                      <div class="hidden-xs hidden-sm">
+                        <hr>
+                      </div>
+                      <div class="form-group">
+                        <label for="text">Publications in the last year</label>
+                        <p>Include links to blog posts, newspaper articles and full citations for conferences papers/journal articles that have been published in the last twelve months for which you have been an author. Format this list as a <a href="http://daringfireball.net/projects/markdown/syntax#list">Mardown numbered list</a> with correct <a href="http://daringfireball.net/projects/markdown/syntax#link">Markdown web links</a>.</p>
+                        <textarea name="publications" id="publications" rows="25" class="form-control input input-large"></textarea>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
