@@ -12,11 +12,10 @@ $oTemplate->startCapture ();
       </div>
     </div>
 
-    <div class="container">
-      <div class="visible-xs visible-sm">
-        <div class="alert alert-danger">Your screen is small and this will make editing your input difficult. It is recommended you use a desktop/laptop for the submission system.</div>
-      </div>
-
+    <div class="visible-xs visible-sm">
+      <div class="alert alert-danger"><div class="container"><div class="row">Your screen is small and this will make editing your input difficult. It is recommended you use a desktop/laptop for the submission system.</div></div></div>
+    </div>
+    <div class="container main">
       <div class="row">
         <div class="col-md-8 collapse">
           <p>This year, all students in the Centre for Doctoral Training must produce an abstract of their PhD, plus a 140-character &lsquo;tweet&rsquo; summarising their PhD. At the CDT Annual Retreat, we will launch an online catalogue of all submissions. Horizon will also publish each and every &lsquo;PhD in a Tweet&rsquo; in a small leaflet, with a link to your online submission. Furthermore, a select few submissions will be published in a &lsquo;Selected Research Highlights&rsquo; leaflet, including pictures and short descriptions.</p>
@@ -29,7 +28,7 @@ $oTemplate->startCapture ();
             <div class="panel-heading">Need Some Help?</div>
             <div class="panel-body">
               <p>If you find an issue with the submission system, please send a quick email, including what browser/operating system you are using and what problem you have.</p>
-              <p><a class="btn btn-default" href="mailto:cdt-rh@porcheron.uk" role="button">Send Email &raquo;</a></p>
+              <p><a class="btn btn-default" href="mailto:cdt-rh@lists.porcheron.uk" role="button">Send Email &raquo;</a></p>
             </div>
           </div>
         </div>

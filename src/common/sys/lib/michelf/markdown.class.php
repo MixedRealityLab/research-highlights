@@ -594,12 +594,12 @@ class Markdown implements MarkdownInterface {
 		$link_id = strtolower($link_id);
 		$link_id = preg_replace('{[ ]?\n}', ' ', $link_id);
 
-		if (isset($this->urls[$link_id])) {
+		if (isSet($this->urls[$link_id])) {
 			$url = $this->urls[$link_id];
 			$url = $this->encodeURLAttribute($url);
 			
 			$result = "<a href=\"$url\"";
-			if ( isset( $this->titles[$link_id] ) ) {
+			if ( isSet( $this->titles[$link_id] ) ) {
 				$title = $this->titles[$link_id];
 				$title = $this->encodeAttribute($title);
 				$result .=  " title=\"$title\"";
@@ -629,7 +629,7 @@ class Markdown implements MarkdownInterface {
 		$url = $this->encodeURLAttribute($url);
 
 		$result = "<a href=\"$url\"";
-		if (isset($title)) {
+		if (isSet($title)) {
 			$title = $this->encodeAttribute($title);
 			$result .=  " title=\"$title\"";
 		}
@@ -706,10 +706,10 @@ class Markdown implements MarkdownInterface {
 		}
 
 		$alt_text = $this->encodeAttribute($alt_text);
-		if (isset($this->urls[$link_id])) {
+		if (isSet($this->urls[$link_id])) {
 			$url = $this->encodeURLAttribute($this->urls[$link_id]);
 			$result = "<img src=\"$url\" alt=\"$alt_text\"";
-			if (isset($this->titles[$link_id])) {
+			if (isSet($this->titles[$link_id])) {
 				$title = $this->titles[$link_id];
 				$title = $this->encodeAttribute($title);
 				$result .=  " title=\"$title\"";
@@ -733,7 +733,7 @@ class Markdown implements MarkdownInterface {
 		$alt_text = $this->encodeAttribute($alt_text);
 		$url = $this->encodeURLAttribute($url);
 		$result = "<img src=\"$url\" alt=\"$alt_text\"";
-		if (isset($title)) {
+		if (isSet($title)) {
 			$title = $this->encodeAttribute($title);
 			$result .=  " title=\"$title\""; # $title already quoted
 		}
@@ -1012,7 +1012,7 @@ class Markdown implements MarkdownInterface {
 			foreach ($this->strong_relist as $strong => $strong_re) {
 				# Construct list of allowed token expressions.
 				$token_relist = array();
-				if (isset($this->em_strong_relist["$em$strong"])) {
+				if (isSet($this->em_strong_relist["$em$strong"])) {
 					$token_relist[] = $this->em_strong_relist["$em$strong"];
 				}
 				$token_relist[] = $em_re;
@@ -1445,7 +1445,7 @@ class Markdown implements MarkdownInterface {
 			}
 			
 			# Check if we reach the end.
-			if (isset($parts[1])) {
+			if (isSet($parts[1])) {
 				$output .= $this->handleSpanToken($parts[1], $parts[2]);
 				$str = $parts[2];
 			}
@@ -2321,17 +2321,17 @@ abstract class _MarkdownExtra_TmpImpl extends \Michelf\Markdown {
 		$link_id = strtolower($link_id);
 		$link_id = preg_replace('{[ ]?\n}', ' ', $link_id);
 
-		if (isset($this->urls[$link_id])) {
+		if (isSet($this->urls[$link_id])) {
 			$url = $this->urls[$link_id];
 			$url = $this->encodeURLAttribute($url);
 			
 			$result = "<a href=\"$url\"";
-			if ( isset( $this->titles[$link_id] ) ) {
+			if ( isSet( $this->titles[$link_id] ) ) {
 				$title = $this->titles[$link_id];
 				$title = $this->encodeAttribute($title);
 				$result .=  " title=\"$title\"";
 			}
-			if (isset($this->ref_attr[$link_id]))
+			if (isSet($this->ref_attr[$link_id]))
 				$result .= $this->ref_attr[$link_id];
 		
 			$link_text = $this->runSpanGamut($link_text);
@@ -2359,7 +2359,7 @@ abstract class _MarkdownExtra_TmpImpl extends \Michelf\Markdown {
 		$url = $this->encodeURLAttribute($url);
 
 		$result = "<a href=\"$url\"";
-		if (isset($title)) {
+		if (isSet($title)) {
 			$title = $this->encodeAttribute($title);
 			$result .=  " title=\"$title\"";
 		}
@@ -2438,15 +2438,15 @@ abstract class _MarkdownExtra_TmpImpl extends \Michelf\Markdown {
 		}
 
 		$alt_text = $this->encodeAttribute($alt_text);
-		if (isset($this->urls[$link_id])) {
+		if (isSet($this->urls[$link_id])) {
 			$url = $this->encodeURLAttribute($this->urls[$link_id]);
 			$result = "<img src=\"$url\" alt=\"$alt_text\"";
-			if (isset($this->titles[$link_id])) {
+			if (isSet($this->titles[$link_id])) {
 				$title = $this->titles[$link_id];
 				$title = $this->encodeAttribute($title);
 				$result .=  " title=\"$title\"";
 			}
-			if (isset($this->ref_attr[$link_id]))
+			if (isSet($this->ref_attr[$link_id]))
 				$result .= $this->ref_attr[$link_id];
 			$result .= $this->empty_element_suffix;
 			$result = $this->hashPart($result);
@@ -2468,7 +2468,7 @@ abstract class _MarkdownExtra_TmpImpl extends \Michelf\Markdown {
 		$alt_text = $this->encodeAttribute($alt_text);
 		$url = $this->encodeURLAttribute($url);
 		$result = "<img src=\"$url\" alt=\"$alt_text\"";
-		if (isset($title)) {
+		if (isSet($title)) {
 			$title = $this->encodeAttribute($title);
 			$result .=  " title=\"$title\""; # $title already quoted
 		}
@@ -3044,9 +3044,9 @@ abstract class _MarkdownExtra_TmpImpl extends \Michelf\Markdown {
 		
 		# Create footnote marker only if it has a corresponding footnote *and*
 		# the footnote hasn't been used by another marker.
-		if (isset($this->footnotes[$node_id])) {
+		if (isSet($this->footnotes[$node_id])) {
 			$num =& $this->footnotes_numbers[$node_id];
-			if (!isset($num)) {
+			if (!isSet($num)) {
 				# Transfer footnote content to the ordered list and give it its
 				# number
 				$this->footnotes_ordered[$node_id] = $this->footnotes[$node_id];
@@ -3128,7 +3128,7 @@ abstract class _MarkdownExtra_TmpImpl extends \Michelf\Markdown {
 	}
 	protected function _doAbbreviations_callback($matches) {
 		$abbr = $matches[0];
-		if (isset($this->abbr_desciptions[$abbr])) {
+		if (isSet($this->abbr_desciptions[$abbr])) {
 			$desc = $this->abbr_desciptions[$abbr];
 			if (empty($desc)) {
 				return $this->hashPart("<abbr>$abbr</abbr>");

@@ -24,16 +24,16 @@
 		<![endif]-->
 		
 		<?php if ($header): ?>
-		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-			<div class="container">
-				<div class="navbar-left">
-					<a class="navbar-brand" href="<?php print URI_HOME; ?>">Horizon CDT &raquo; Research Highlights</a>
-				</div>
-				<?php if ($nav): ?>
-					<?php print $nav; ?>
-				<?php endif; ?>
-			</div>
-		</div>
+		<nav class="navbar navbar-fixed-top navbar-inverse">
+		  <div class="container">
+		    <div class="navbar-header">
+				<a class="navbar-brand" href="<?php print URI_HOME; ?>">Horizon CDT &raquo; Research Highlights</a>
+		    </div>
+		    <?php if ($nav): ?>
+				<?php print $nav; ?>
+			<?php endif; ?>
+		  </div>
+		</nav>
 		<?php endif; ?>
 
 		<?php if ($body): ?>

@@ -72,7 +72,7 @@ var ReHi = {
 						},
 
 	showAlert2			: function (title, mesg, className) {
-							$('.main').before($('<div class="alert alert-' + className + ' alert-dismissable collapse" role="alert-dismissable"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> <h4>' + title + '</h4> ' + mesg + '</div>'));
+							$('.container.main').before($('<div class="alert alert-' + className + ' alert-dismissable collapse" role="alert-dismissable"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><div class="container"><div class="row"><h4>' + title + '</h4>' + mesg + '</div></div></div>'));
 							$('.alert-dismissable').fadeIn();
 						},
 

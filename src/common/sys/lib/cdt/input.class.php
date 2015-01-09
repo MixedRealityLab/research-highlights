@@ -17,9 +17,9 @@ class Input {
 	}
 
 	public function get ($key, $type = 0) {
-		if ($type > -1 && isset ($this->get[$key])) {
+		if ($type > -1 && isSet ($this->get[$key])) {
 			return $this->get[$key];
-		} else if ($type < 1 && isset ($this->post[$key])) {
+		} else if ($type < 1 && isSet ($this->post[$key])) {
 			return $this->post[$key];
 		}
 

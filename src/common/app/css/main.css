@@ -6,12 +6,21 @@
 	}
 }
 
-body > .container {
-	padding-top: 2.5em;
+.jumbotron {
+	margin-bottom: 0;
 }
 
-.alert, .nav {
-	margin-bottom: 2.5em;
+.main.container {
+	margin-top: 1em;
+	margin-bottom: 45px;
+}
+
+.alert {
+	border-radius: 0;
+}
+
+h2 {
+	margin-top: 0;
 }
 
 .form-group, label {
@@ -50,9 +59,34 @@ div.navbar-header {
 
 .navbar-right {
 	float: right;
+	margin-right: 15px;
+}
+
+.navbar-fixed-bottom .navbar {
+	margin-bottom: 0px;
+}
+
+.footer.row {
+	padding-bottom: 55px;
+}
+
+.stage-editor {
+	display: none;
 }
 
 .spacer {
 	margin: 20px 15px 20px 15px;
 	border-top: 1px solid #ccc;
+}
+
+.tab-pane {
+	margin-top: 1.5em;
+}
+
+.alert {
+	margin-bottom: 0px;
+}
+
+.alert > .container > .row {
+	margin-left: 0;
 }

@@ -15,9 +15,9 @@ $(function() {
 
 	ReHi.regSubForm($('form.stage-login'), ReHi.urlPrefix + 'do/login', function (response, textStatus, jqXHR) {
 		if (response == '-3') {
-			ReHi.showError('Humph!', 'Your account has been disabled. <a href="mailto:cdt-rh@porcheron.uk" class="alert-link">I need help!</a>');
+			ReHi.showError('Humph!', 'Your account has been disabled. <a href="mailto:cdt-rh@lists.porcheron.uk" class="alert-link">I need help!</a>');
 		} else if (response == '-1') {
-			ReHi.showError('Woops!', 'Looks like you\'ve entered an invalid username/password combination. <a href="mailto:cdt-rh@porcheron.uk" class="alert-link">I need help!</a>'); 
+			ReHi.showError('Woops!', 'Looks like you\'ve entered an invalid username/password combination. <a href="mailto:cdt-rh@lists.porcheron.uk" class="alert-link">I need help!</a>'); 
 		} else if (response.success == '1') {
 			ReHi.showSuccess('Welcome!', 'Your login was successful.');
 

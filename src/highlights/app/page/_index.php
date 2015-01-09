@@ -29,7 +29,7 @@ $oTemplate->startCapture ();
             <div class="panel-heading">Need Some Help?</div>
             <div class="panel-body">
               <p>If you find an issue with the submission system, please send a quick email to Martin Porcheron, including what browser/operating system you are using and what problem you have.</p>
-              <p><a class="btn btn-default" href="mailto:cdt-rh@porcheron.uk" role="button">Send Email &raquo;</a></p>
+              <p><a class="btn btn-default" href="mailto:cdt-rh@lists.porcheron.uk" role="button">Send Email &raquo;</a></p>
             </div>
           </div>
         </div>

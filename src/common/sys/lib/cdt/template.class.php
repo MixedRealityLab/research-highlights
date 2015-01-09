@@ -13,9 +13,9 @@ class Template {
 	}
 	
 	public function add ($key, $value) {
-		if (isset ($this->data[$key]) && is_array ($this->data[$key])) {
+		if (isSet ($this->data[$key]) && is_array ($this->data[$key])) {
 			$this->data[$key][] = $value;
-		} else if (isset ($this->data[$key])) {
+		} else if (isSet ($this->data[$key])) {
 			$this->data[$key] = array ($this->data[$key], $value);
 		} else {
 			$this->data[$key] = array ($value);
@@ -23,7 +23,7 @@ class Template {
 	}
 
 	public function set ($key, $value = 0) {
-		if ($value || !isset ($this->data[$key])) {
+		if ($value || !isSet ($this->data[$key])) {
 			$this->data[$key] = $value;
 		}
 	}

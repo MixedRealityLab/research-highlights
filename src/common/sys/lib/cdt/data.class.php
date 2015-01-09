@@ -26,7 +26,7 @@ class Data {
 		$user = $oUser->get ($username);
 
 		$override = array();
-		if (isset ($user['username'])) {
+		if (isSet ($user['username'])) {
 
 			$dir = DIR_DAT . '/' . $user['cohort'] . '/' . $user['username'] . '/';
 			if (is_dir ($dir)) {
@@ -58,7 +58,7 @@ class Data {
 		if ($includeDefaults) {
 			$ret = array();
 			foreach ($this->defaultData as $key => $value) {
-				$ret[$key] = $this->scanOutput (!\is_null ($override) && isset ($override[$key]) ? $override[$key] : $this->defaultData[$key], $username);
+				$ret[$key] = $this->scanOutput (!\is_null ($override) && isSet ($override[$key]) ? $override[$key] : $this->defaultData[$key], $username);
 			}
 		} else {
 			$ret = $override;
@@ -70,7 +70,7 @@ class Data {
 	public function scanOutput ($input, $username = null) {
 		$oUser = RH::i()->cdt_user;
 		$user = $oUser->get ($username);
-		$names = explode (' ', trim ($user['name']));
+		$names = \explode (' ', trim ($user['name']));
 
 		$find 		= array('<word-count>',
 		                    '<address>',

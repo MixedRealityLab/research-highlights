@@ -1,7 +1,41 @@
 var wordCount = 1500;
 var year = 1;
 
+var loginPrefill = function (response, textStatus, jqXHR) {
+	$('.wordlimit').text(response.wordCount);
+	$('.name').text(response.name);
+
+	$('#cohort').attr('value', response.cohort);
+	$('#name').attr('value', response.name);
+	$('#email').attr('value', response.email);
+
+	$('#tweet').val(response.tweet);
+	$('#tweet').triggerHandler('keyup');
+
+	$('#twitter').val(response.twitter);
+	$('#website').attr('value', response.website);
+	$('#keywords').tagsinput('removeAll'); 
+	$.each(response.keywords.split(','), function(k,v) {$('#keywords').tagsinput('add', v)});
+
+	$('#industryName').attr('value', response.industryName);
+	$('#industryUrl').attr('value', response.industryUrl);
+
+	$('#title').val(response.title);
+	$('#text').val(response.text);
+	$('#text').triggerHandler('keyup');
+
+	$('#references').val(response.references);
+	$('#references').triggerHandler('keyup');
+
+	$('.preview-supported').data('fundingStatement', response.fundingStatement);
+
+	$('#publications').val(response.publications);
+	$('#publications').triggerHandler('keyup');
+	$('.stage-login').fadeOut({complete : function() {$('.stage-editor').fadeIn(); $('.stage-editor input').triggerHandler('change'); $('.stage-editor textarea').each(function() {$(this).trigger('autosize.resize')}); }});
+};
+
 $(function() {
+
 	var sub = 0;
 	$('.collapse').each(function(i) {
 		if(!$(this).hasClass('stage-editor')) {
@@ -11,48 +45,26 @@ $(function() {
 		}
 	});
 
+	$('.navbar-toggle').addClass('stage-editor');
+
 	ReHi.showAlert('Welcome!', 'Please enter your credentials to continue.', 'info'); 
 
-	ReHi.regSubForm($('form.stage-login'), ReHi.urlPrefix + 'do/login', function (response, textStatus, jqXHR) {
+	ReHi.regSubForm($('form.stage-login'), ReHi.urlPrefix + 'do/login', function(response, textStatus, jqXHR) {
 		if (response == '-3') {
-			ReHi.showError('Humph!', 'Your account has been disabled. <a href="mailto:cdt-rh@porcheron.uk" class="alert-link">Email support</a> for help.');
+			ReHi.showError('Humph!', 'Your account has been disabled. <a href="mailto:cdt-rh@lists.porcheron.uk" class="alert-link">Email support</a> for help.');
 		} else if (response == '-1') {
-			ReHi.showError('Oh, snap!', 'Looks like you\'ve entered an invalid username/password combination. <a href="mailto:cdt-rh@porcheron.uk" class="alert-link">Email support</a> for help.'); 
+			ReHi.showError('Oh, snap!', 'Looks like you\'ve entered an invalid username/password combination. <a href="mailto:cdt-rh@lists.porcheron.uk" class="alert-link">Email support</a> for help.'); 
 		} else if (response.success == '1') {
 			ReHi.showSuccess('Welcome!', 'Your login was successful. You can log back in any time to modify your submission before the deadline.');
-	
-			$('.wordlimit').text(response.wordCount);
-			$('.name').text(response.name);
-
-			$('#submit-user').attr('value', $('#username').val());
-			$('#submit-pass').attr('value', $('#password').val());
-		
-			$('#cohort').attr('value', response.cohort);
-			$('#name').attr('value', response.name);
-			$('#email').attr('value', response.email);
-		
-			$('#tweet').val(response.tweet);
-			$('#tweet').triggerHandler('keyup');
-		
-			$('#twitter').val(response.twitter);
-			$('#website').attr('value', response.website);
-			$.each(response.keywords.split(','), function(k,v) {$('#keywords').tagsinput('add', v)});
-
-			$('#industryName').attr('value', response.industryName);
-			$('#industryUrl').attr('value', response.industryUrl);
-
-			$('#title').val(response.title);
-			$('#text').val(response.text);
-			$('#text').triggerHandler('keyup');
-
-			$('#references').val(response.references);
-			$('#references').triggerHandler('keyup');
-
-			$('.preview-supported').data('fundingStatement', response.fundingStatement);
-
-			$('#publications').val(response.publications);
-			$('#publications').triggerHandler('keyup');
-			$('.stage-login').fadeOut({complete : function() {$('.stage-editor').fadeIn(); $('.stage-editor input').triggerHandler('change'); $('.stage-editor textarea').each(function() {$(this).trigger('autosize.resize')});  }});
+			$('#saveAs').attr('value', $('#username').val());
+			$('#admin-user').attr('value', $('#username').val());
+			$('#admin-pass').attr('value', $('#password').val());
+			$('#editor-user').attr('value', $('#username').val());
+			$('#editor-pass').attr('value', $('#password').val());
+			loginPrefill(response, textStatus, jqXHR); 
+			if(response.admin != undefined) {
+				$.getScript("app/js/" + response.admin + ".js");
+			}
 		}
 	}, 'json');
 
@@ -75,9 +87,9 @@ $(function() {
 
 	ReHi.regSubForm($('form.stage-editor'), ReHi.urlPrefix + 'do/submit', function (response, textStatus, jqXHR) {
 		if (response != '1') {
-			ReHi.showError('Goshdarnit!', 'Something has gone wrong! <a href="mailto:cdt-rh@porcheron.uk" class="alert-link">I need help!</a> (error: ' + response + ')');
+			ReHi.showError('Goshdarnit!', 'Something has gone wrong! <a href="mailto:cdt-rh@lists.porcheron.uk" class="alert-link">I need help!</a> (error: ' + response + ')');
 		} else {
-			ReHi.showSuccess('Whoop! Whoop!', 'Your submission was saved! For reference, you can see the latest version of <a href="' + ReHi.urlPrefix  + 'read#' + $('#submit-user').attr('value') + '" target="_blank">your submission</a> online (although it may not look like this in the final website).')
+			ReHi.showSuccess('Good News!', 'Your submission was saved, ' + $('#name').val() + '! For reference, you can see the latest version of <a href="' + ReHi.urlPrefix  + 'read#' + $('#saveAs').attr('value') + '" target="_blank">your submission</a> online (although it may not look like this in the final website).')
 		}
 	});
 

@@ -10,9 +10,17 @@ if (!$oUser->login ()) {
 $oData = $rh->cdt_data;
 $oInput = $rh->cdt_input;
 
-$user = $oUser->get ();
+if (is_null ($oInput->get('saveAs'))) {
+	die('-3');
+}
+
+if($oInput->get('username') !== $oInput->get ('saveAs') && !$oUser->login (true)) {
+	die('-5');
+}
+
+$user = $oUser->get ($oInput->get ('saveAs'));
 $cohortDir = DIR_DAT . '/' . $oInput->get ('cohort');
-$dir = DIR_DAT . '/' . $oInput->get ('cohort') . '/' . $oInput->get ('username')  . '/' . date ('U') .'/';
+$dir = DIR_DAT . '/' . $oInput->get ('cohort') . '/' . $oInput->get ('saveAs')  . '/' . date ('U') .'/';
 
 try {
 	if (is_null ($oInput->get ('cohort')) || is_null ($oInput->get ('title')) || is_null ($oInput->get ('keywords')) || is_null ($oInput->get ('text'))) {
@@ -66,7 +74,7 @@ try {
 	$save['twitter'] = strlen ($save['twitter']) > 0 && $save['twitter'][0] != '@' ? '@' . $save['twitter'] : $save['twitter'];
 
 	foreach ($oData->getDefaultData () as $key => $value) {
-		if (!isset ($save[$key]) || is_null ($save[$key])) {
+		if (!isSet ($save[$key]) || is_null ($save[$key])) {
 			$save[$key] = '';
 		}
 

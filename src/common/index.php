@@ -23,6 +23,6 @@ if (strpos ($page, 'do/') === 0) {
 
 if (strpos ($file, '..') === false && is_file ($file)) {
 	require $file;
-} else {
-	print ('Location: ' . URI_HOME . '/');
+} else if ('http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] != URI_HOME) {
+	header ('Location: ' . URI_HOME . '/');
 }

@@ -18,4 +18,14 @@ define ('URI_DATA', dirname (URI_HOME) . '/dat');
 define ('PAG_HOME', 'index');
 define ('SYS_HTAC', false);
 
+define ('MAIL_HOST', 'ssl://smtp.nottingham.ac.uk');
+define ('MAIL_PORT', 465);
+define ('MAIL_AUTH', false);
+define ('MAIL_USER', '');
+define ('MAIL_PASS', '');
+
 date_default_timezone_set ('Europe/London');
+
+// Custom Horizon settings
+define ('JSF_ADMIN', 'admin');
+define ('DEF_DAT', 'default.txt');
