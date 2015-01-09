@@ -3,3 +3,6 @@ dist/*
 src/secret/*
 usr/*
 RHUpload.scpt
+*.scpt
+
+RHUpload.scpt

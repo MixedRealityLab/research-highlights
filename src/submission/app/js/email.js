@@ -39,10 +39,20 @@ $(function() {
 	$('.addUsers').click(function(e) {
 		e.preventDefault();
 		var $allInputs = $('form.stage-email').find('input, select, button, textarea');
-		var cohort = $(this).text();
+
+		var data = '';
+		var input = $(this).text();
+		if(input == 'submitted') {
+			data = 'submitted=1';
+		} else if(input == 'not submitted') {
+			data = 'submitted=0';
+		} else {
+			data = 'cohort=' + input;
+		}
+
 		ReHi.sendData({
 			dataType: 'json',
-			data: 'cohort=' + cohort,
+			data: data,
 			url: ReHi.urlPrefix + 'do/users',
 			type: 'post',
 			beforeSend: function() {

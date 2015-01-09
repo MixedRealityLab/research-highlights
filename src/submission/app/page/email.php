@@ -88,7 +88,7 @@ Martin Porcheron</textarea>
 									<hr>
 									<div class="form-group">
 										<label for="title">Users to email</label>
-										<p>Add <a href="#" class="addUsers">2014</a>, <a href="#" class="addUsers">2013</a>, <a href="#" class="addUsers">2012</a>, and <a href="#" class="addUsers">2011</a> cohorts.</p>
+										<p>Add <a href="#" class="addUsers">2014</a>, <a href="#" class="addUsers">2013</a>, <a href="#" class="addUsers">2012</a>, and <a href="#" class="addUsers">2011</a> cohorts. Add users who have <a href="#" class="addUsers">submitted</a>, or <a href="#" class="addUsers">not submitted</a>.</p>
 										<textarea name="usernames" id="usernames" rows="15" class="form-control input input-large" placeholder="Enter each university username, seperated by a new line"></textarea>
 									</div>
 								</div>
