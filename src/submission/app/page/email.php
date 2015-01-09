@@ -1,12 +1,9 @@
 <?php
 
-$oTemplate = \CDT\RH::i()->cdt_template;
-$oTemplate->startCapture ();
+$rh = \CDT\RH::i();
 
-?>
-<?php
+$oTemplate = $rh->cdt_template;
 
-$oTemplate->set ('nav', $oTemplate->endCapture ());
 $oTemplate->startCapture ();   
 
 ?>
@@ -70,7 +67,7 @@ $oTemplate->startCapture ();
 										<label for="title">Message</label>
 										<textarea name="message" id="message" rows="15" class="form-control input input-large" placeholder="Message to email users">Dear <first-name>,
 
-For the Horizon CDT Research Highlights 2015, you need to produce a <word-count>-word maximum summary of your PhD. This summary will be published online, along with all other current CDT students in an online catalogue. It is hoped that highlights from this catalogue will be included in a published leaflet advertising the centre's work.
+For the Horizon CDT Research Highlights 2015 you need to produce a <word-count>-word maximum summary of your PhD. This summary will be published online, along with all other current CDT students in an online catalogue. It is hoped that highlights from this catalogue will be included in a published leaflet advertising the centre's work.
 
 <strong>IMPORTANT: This process requires you to make your submission by the <deadline>!</strong>
 
@@ -82,8 +79,7 @@ The submission system can be found at <a href="<?php print URI_HOME; ?>" target=
 
 You can make as many submissions as you like up to the deadline, only the newest submission will be used. Previous years work can be accessed via the system homepage.
 
-Many thanks and good luck,
-Martin Porcheron</textarea>
+Many thanks and good luck!</textarea>
 									</div>
 									<hr>
 									<div class="form-group">
