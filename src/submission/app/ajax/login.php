@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Research Highlights engine
+ * 
+ * Copyright (c) 2014 Martin Porcheron <martin@porcheron.uk>
+ * See LICENCE for legal information.
+ */
+
 $rh = \CDT\RH::i();
 $oUser = $rh->cdt_user;
 

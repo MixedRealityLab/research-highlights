@@ -1,4 +1,12 @@
-function read() {
+
+/**
+ * Research Highlights engine
+ * 
+ * Copyright (c) 2014 Martin Porcheron <martin@porcheron.uk>
+ * See LICENCE for legal information.
+ */
+
+ function read() {
 	$('.container').empty();
 	$('.loading').fadeIn();
 	var d = (window.location.hash != '' ? 'user=' + window.location.hash.substr(1) : '');

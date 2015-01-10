@@ -1,27 +1,34 @@
 <?php
 
-define ('DIR_AJX', DIR . '/app/ajax');
-define ('DIR_PAG', DIR . '/app/page');
-define ('DIR_TPL', DIR . '/app/tpl');
-define ('DIR_DAT', DIR . '/dat');
-define ('DIR_LIB', DIR .  '/sys/lib');
-define ('DIR_USR', DIR . '/usr');
+/**
+ * Research Highlights engine
+ * 
+ * Copyright (c) 2014 Martin Porcheron <martin@porcheron.uk>
+ * See LICENCE for legal information.
+ */
 
-define ('DOMAIN', 'http://www.example.ac.uk');
-define ('PATH', '/highlights');
+\define ('DIR_AJX', DIR . '/app/ajax');
+\define ('DIR_PAG', DIR . '/app/page');
+\define ('DIR_TPL', DIR . '/app/tpl');
+\define ('DIR_DAT', DIR . '/dat');
+\define ('DIR_LIB', DIR .  '/sys/lib');
+\define ('DIR_USR', DIR . '/usr');
 
-define ('URI_HOME', DOMAIN . PATH);
-define ('URI_DATA', URI_HOME . '/dat');
+\define ('DOMAIN', 'http://www.example.ac.uk');
+\define ('PATH', '/highlights');
 
-define ('PAG_HOME', 'index');
-define ('SYS_HTAC', false);
+\define ('URI_HOME', DOMAIN . PATH);
+\define ('URI_DATA', URI_HOME . '/dat');
 
-define ('DEF_DAT', 'default.txt');
+\define ('PAG_HOME', 'index');
+\define ('SYS_HTAC', false);
 
-define ('MAIL_HOST', 'ssl://smtp.nottingham.ac.uk');
-define ('MAIL_PORT', 465);
-define ('MAIL_AUTH', false);
-define ('MAIL_USER', '');
-define ('MAIL_PASS', '');
+\define ('DEF_DAT', 'default.txt');
 
-date_default_timezone_set ('Europe/London');
+\define ('MAIL_HOST', 'ssl://mail.example.ac.uk');
+\define ('MAIL_PORT', 465);
+\define ('MAIL_AUTH', false);
+\define ('MAIL_USER', '');
+\define ('MAIL_PASS', '');
+
+\date_default_timezone_set ('Europe/London');

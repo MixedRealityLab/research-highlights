@@ -1,4 +1,12 @@
-body {
+
+/**
+ * Research Highlights engine
+ * 
+ * Copyright (c) 2014 Martin Porcheron <martin@porcheron.uk>
+ * See LICENCE for legal information.
+ */
+
+ body {
 	background-color: #ddd;
 	font-family:  "Minion Pro", Gentium, "Gentium Basic", "Hoefler Text", Constantia, "Palatino Linotype", Georgia, serif;
 	line-height: 175%;

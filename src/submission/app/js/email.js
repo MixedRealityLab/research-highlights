@@ -1,4 +1,12 @@
-var wordCount = 1500;
+
+/**
+ * Research Highlights engine
+ * 
+ * Copyright (c) 2014 Martin Porcheron <martin@porcheron.uk>
+ * See LICENCE for legal information.
+ */
+
+ var wordCount = 1500;
 var year = 1;
 
 $(function() {

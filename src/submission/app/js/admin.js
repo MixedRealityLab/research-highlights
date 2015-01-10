@@ -1,4 +1,12 @@
-$(function() {
+
+/**
+ * Research Highlights engine
+ * 
+ * Copyright (c) 2014 Martin Porcheron <martin@porcheron.uk>
+ * See LICENCE for legal information.
+ */
+
+ $(function() {
 	ReHi.regSubForm($('#profile-form'), ReHi.urlPrefix + 'do/login', function(response, textStatus, jqXHR) {
 		if (response == '-1') {
 			ReHi.showError('Unknown Error', 'You don\'t seem to be logged in.');
