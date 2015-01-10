@@ -6,6 +6,7 @@ class Input {
 
 	const GET = 1;
 	const POST = -1;
+	
 	private $get = array();
 	private $post = array();
 
@@ -33,7 +34,7 @@ class Input {
 			return $this->post;
 		}
 
-		return array_merge ($this->post, $this->get);
+		return \array_merge ($this->post, $this->get);
 	}
 	
 }

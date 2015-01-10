@@ -10,7 +10,7 @@ define ('DIR_LIB', DIR .  '/sys/lib');
 define ('DIR_USR', DIR . '/usr');
 
 define ('DOMAIN', 'http://cdt.horizon.ac.uk');
-define ('PATH', '/rh-beta');
+define ('PATH', '/rh-submit');
 
 define ('URI_HOME', DOMAIN . PATH);
 define ('URI_DATA', dirname (URI_HOME) . '/dat');

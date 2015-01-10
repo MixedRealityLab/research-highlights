@@ -29,23 +29,23 @@ class Data {
 		if (isSet ($user['username'])) {
 
 			$dir = DIR_DAT . '/' . $user['cohort'] . '/' . $user['username'] . '/';
-			if (is_dir ($dir)) {
-				if ($dh = opendir ($dir)) {
+			if (\is_dir ($dir)) {
+				if ($dh = \opendir ($dir)) {
 					$versions = array();
-			        while (($file = readdir ($dh)) !== false) {
+			        while (($file = \readdir ($dh)) !== false) {
 			        	if ($file != '.' && $file != '..') {
 			        		$versions[] = $file;
 			        	}
 			        }
-			        closedir ($dh);
+			        \closedir ($dh);
 
-			        if (count ($versions) > 0) {
-					    rsort ($versions, SORT_NUMERIC);
+			        if (\count ($versions) > 0) {
+					    \rsort ($versions, SORT_NUMERIC);
 					    $user['latestVersion'] = $versions[0];
 						$dir = $dir . $versions[0] . '/';			    
 
 						foreach ($this->defaultData as $key => $value) {
-							$userValue = @file_get_contents ($dir . $key . '.txt');
+							$userValue = @\file_get_contents ($dir . $key . '.txt');
 							if ($userValue !== false) {
 								$override[$key] = $userValue;
 							}
@@ -94,7 +94,7 @@ class Data {
 		                 	URI_DATA . '/' . $user['cohort'] . '/' . $user['username'] . '/' . $user['latestVersion'] .'/'
 		                 	);
 
-		return str_replace ($find, $replace, $input);
+		return \str_replace ($find, $replace, $input);
 	}
 
 	public function markdownToHtml ($markdown) {
