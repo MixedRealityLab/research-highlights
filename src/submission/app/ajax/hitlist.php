@@ -7,7 +7,7 @@ $oUser = $rh->cdt_user;
 
 $users = $oUser->getAll (null, function ($user) use ($oData) {
 	$userData = $oData->get ($user['username'], false);
-	return !isSet ($userData['text']) && $user['countSubmission'] == '1';
+	return !isSet ($userData['text']) && $user['countSubmission'];
 });
 
-die (\json_encode ($users));
+exit (\json_encode ($users));

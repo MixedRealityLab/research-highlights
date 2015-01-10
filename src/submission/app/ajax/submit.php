@@ -4,18 +4,18 @@ $rh = \CDT\RH::i();
 
 $oUser = $rh->cdt_user;
 if (!$oUser->login ()) {
-	die ('-1');
+	exit ('-1');
 }
 
 $oData = $rh->cdt_data;
 $oInput = $rh->cdt_input;
 
 if (is_null ($oInput->get('saveAs'))) {
-	die('-3');
+	exit('-3');
 }
 
 if($oInput->get('username') !== $oInput->get ('saveAs') && !$oUser->login (true)) {
-	die('-5');
+	exit('-5');
 }
 
 $user = $oUser->get ($oInput->get ('saveAs'));
@@ -83,7 +83,7 @@ try {
 		}
 	}
 
-	die ('1');
+	exit ('1');
 } catch (\Exception $e) {
 	if (is_dir ($dir)) {
 		if ($dh = opendir ($dir)) {
@@ -100,5 +100,5 @@ try {
 	    }
 	}
 
-	die ($e->getMessage());
+	exit ($e->getMessage());
 }

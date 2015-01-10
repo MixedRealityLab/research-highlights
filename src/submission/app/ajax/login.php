@@ -14,14 +14,14 @@ if ($oUser->login ()) {
 			$override = \strtolower ($override);
 			$temp = $oUser->get ($override);
 			if (empty ($temp)) {
-				die('-4');
+				exit('-4');
 			}
 
 			$oUser->overrideLogin ($override);
 		} 
 	}
 
-	die (\json_encode (\array_merge ($oData->get (), $oUser->get (), array ('success' => 1, 'wordCount' => $oUser->getWordCount (), 'fundingStatement' => $oUser->getFunding ()))));
+	exit (\json_encode (\array_merge ($oData->get (), $oUser->get (), array ('success' => 1, 'wordCount' => $oUser->getWordCount (), 'fundingStatement' => $oUser->getFunding ()))));
 }
 
-die ('-1');
+exit ('-1');

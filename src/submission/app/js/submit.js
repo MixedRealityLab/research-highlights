@@ -1,8 +1,23 @@
 var wordCount = 1500;
 var year = 1;
 
+function autoResize() {
+	$('.stage-editor textarea').each(function() {$(this).trigger('autosize.resize')});
+}
+
 var loginPrefill = function (response, textStatus, jqXHR) {
+	$('#tweet').unbind('keyup.count');
+	$('#text').unbind('keyup.count');
+
 	$('.wordlimit').text(response.wordCount);
+
+	$('#tweet').bind('keyup.count', function(e) {
+		ReHi.charCount($(this), $('.tweet-rem'), 125);
+	});
+	$('#text').bind('keyup.count', function(e) {
+		ReHi.wordCount($(this), $('.text-rem'), response.wordCount);
+	});
+	
 	$('.name').text(response.name);
 
 	$('#cohort').attr('value', response.cohort);
@@ -31,10 +46,14 @@ var loginPrefill = function (response, textStatus, jqXHR) {
 
 	$('#publications').val(response.publications);
 	$('#publications').triggerHandler('keyup');
-	$('.stage-login').fadeOut({complete : function() {$('.stage-editor').fadeIn(); $('.stage-editor input').triggerHandler('change'); $('.stage-editor textarea').each(function() {$(this).trigger('autosize.resize')}); }});
+	$('.stage-login').fadeOut({complete : function() {$('.stage-editor').fadeIn(); $('.stage-editor input').triggerHandler('change'); autoResize(); }});
 };
 
 $(function() {
+
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+	 	autoResize();
+	});
 
 	var sub = 0;
 	$('.collapse').each(function(i) {
@@ -107,14 +126,6 @@ $(function() {
 			}
 		});
 		e.cancel = ret;
-	});
-
-	$('#tweet').keyup(function(e) {
-		ReHi.charCount($(this), $('.tweet-rem'), 125);
-	});
-
-	$('#text').keyup(function(e) {
-		ReHi.wordCount($(this), $('.text-rem'), wordCount);
 	});
 
 	$('a').click(function(e) {

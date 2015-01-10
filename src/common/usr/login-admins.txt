@@ -1,1 +1,2 @@
-1,2014,abc,Alpha Beta,abc@university.com
+year:int,cohort:str,username:str,name:str,email:str,fundingStatementId:str,enabled:bool,countSubmission:bool
+1,2014,abc,Alpha Beta,abc@university.com,CDT13,1,0

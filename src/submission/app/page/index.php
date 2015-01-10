@@ -1,6 +1,8 @@
 <?php
 
-$oTemplate = \CDT\RH::i()->cdt_template;
+$rh = \CDT\RH::i();
+$oTemplate = $rh->cdt_template;
+
 $oTemplate->startCapture ();
 
 ?>

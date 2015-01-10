@@ -1,13 +1,12 @@
 <?php
 
 $rh = \CDT\RH::i();
-
 $oData = $rh->cdt_data;
 $oInput = $rh->cdt_input;
 $oUser = $rh->cdt_user;
 
 $cohort = $oInput->get ('cohort');
-if (!is_numeric ($cohort)) {
+if (!\is_numeric ($cohort)) {
 	$cohort = null;
 }
 
@@ -22,7 +21,7 @@ if ($submitted === '1') {
 
 $users = $oUser->getAll (null, function ($user) use ($oData, $cohort, $submitted) {
 	$userData = $oData->get ($user['username'], false);
-	return $user['enabled'] == '1' && (is_null ($cohort) ? true : $user['cohort'] == $cohort) && (is_null ($submitted) ? true : isSet ($userData['text']) === $submitted && $user['countSubmission'] == '1');
+	return $user['enabled'] == '1' && (\is_null ($cohort) ? true : $user['cohort'] == $cohort) && (\is_null ($submitted) ? true : isSet ($userData['text']) === $submitted && $user['countSubmission']);
 });
 
-die (\json_encode ($users));
+exit (\json_encode ($users));

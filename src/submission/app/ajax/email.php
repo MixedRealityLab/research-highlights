@@ -8,11 +8,11 @@ $oInput = $rh->cdt_input;
 $oEmail = $rh->cdt_email;
 
 if (!$oUser->login (true)) {
-	die ('-1');
+	exit ('-1');
 }
 
 if (is_null ($oInput->get ('usernames')) || is_null ($oInput->get ('subject')) || is_null ($oInput->get ('message'))) {
-	die ('-2');
+	exit ('-2');
 }
 
 $user = $oUser->get ();
@@ -24,4 +24,4 @@ $message = \nl2br ($oInput->get ('message'));
 
 $oEmail->sendAll ($usernames, $subject, \strip_tags ($message), $message);
 
-die ('1');
+exit ('1');

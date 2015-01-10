@@ -35,7 +35,7 @@ class User {
 			return false;
 		}
 
-		if ($temp['enabled'] == '0') {
+		if (!$temp['enabled']) {
 			return false;
 		}
 
@@ -80,9 +80,9 @@ class User {
 		if (\is_null ($sort)) {
 			$sort = function ($a, $b) {
 				if ($a['cohort'] === $b['cohort']) {
-					return strcmp ($a['name'], $b['name']);
+					return \strcmp ($a['name'], $b['name']);
 				} else {
-					return strcmp ($b['cohort'], $a['cohort']);
+					return \strcmp ($b['cohort'], $a['cohort']);
 				}
 			};
 		}
@@ -95,43 +95,23 @@ class User {
 
 		$users = \array_merge ($this->getData (self::USER_FILE), $this->getData (self::ADMIN_FILE));
 		$users = \array_filter ($users, $filter);
-		usort ($users, $sort);
+		\usort ($users, $sort);
 
 		return $users;
 	}
 
 	private function getData ($file, $username = null) {
-		$ret = array(); $temp = array();
-		$file = new \SplFileObject (DIR_USR . $file);
-		$title = true;
-		$map = array();
-		while (!$file->eof ()) {
-			$row = $file->fgets();
+		$oFileReader = RH::i()->cdt_file_reader;
 
-			if ($title) {
-				$title = false;
-				$row = \explode (',', $row);
-				foreach ($row as $i=>$col) {
-					$map[$i] = \trim ($col);
-				}
-				continue;
-			}
+		$readRowFn = function ($cols) use ($username) {
+			return \is_null ($username) || $cols[2] === $username;
+		};
+		$calcValuesFn = function (&$data, $cols) {
+			$data['latestVersion'] = $this->getLatestVersion ($cols[1], $cols[2]);
+		};
 
-			if ($row[0] == '#') {
-				continue;
-			}
-
-			$row = \explode (',', $row);
-			if (\count ($row) > 1 && (\is_null ($username) || $row[2] === $username)) {
-				foreach ($row as $i=>$col) {
-					$temp[$map[$i]] = \trim ($col);
-				}
-				$temp['latestVersion'] = $this->getLatestVersion ($row[1], $row[2]);
-				$ret[$temp['username']] = $temp;
-			}
-		}
-
-		return \is_null ($username) || empty ($ret) ? $ret : \array_pop ($ret);
+		$data = $oFileReader->read (DIR_USR . $file, 'username', $readRowFn, $calcValuesFn);
+		return \is_null ($username) || empty ($data) ? $data : array_pop ($data);
 	}
 
 	private function getLatestVersion ($cohort, $username) {
@@ -160,49 +140,28 @@ class User {
 
 	public function getWordCount ($username = null) {
 		$user = $this->get ($username);
-		return !is_null ($user['year']) ? $user['year'] == 1 || $user['year'] == 4 ? 500 : 1500 : 0;
+		return !\is_null ($user['year']) ? $user['year'] == 1 || $user['year'] == 4 ? 500 : 1500 : 0;
 	}
 
 	public function getFunding ($username = null) {
-		$oData = RH::i()->cdt_data;
 		$user = $this->get ($username);
 
 		if (empty ($this->fundingCache)) {
-			$temp = array();
-			$file = new \SplFileObject (DIR_USR . self::FUNDING_FILE);
-			while (!$file->eof ()) {
-				$row = $file->fgets();
-				if ($row[0] == '#') {
-					continue;
-				}
-				$pos = \strpos ($row, ',');
-				$temp[\substr ($row, 0, $pos)] = \trim (\substr ($row, $pos + 1));
-			}
-			$this->fundingCache = $temp;
+			$oFileReader = RH::i()->cdt_file_reader;
+			$this->fundingCache = $oFileReader->read (DIR_USR . self::FUNDING_FILE, 'fundingStatementId');
 		}
 
-		$stmnt = $this->fundingCache[$user['fundingStatementId']];
-		return \is_null ($stmnt) ? '' : $stmnt;
+		return $this->fundingCache[$user['fundingStatementId']]['fundingStatement'];
 	}
 
 	public function getDeadline ($username = null) {
-		$oData = RH::i()->cdt_data;
 		$user = $this->get ($username);
 
 		if (empty ($this->deadlineCache)) {
-			$temp = array();
-			$file = new \SplFileObject (DIR_USR . self::DEADLINES_FILE);
-			while (!$file->eof ()) {
-				$row = $file->fgets();
-				if ($row[0] == '#') {
-					continue;
-				}
-				$row = \explode (',', $row);
-				$temp[$row[0]] = trim ($row[1]);
-			}
-			$this->deadlineCache = $temp;
+			$oFileReader = RH::i()->cdt_file_reader;
+			$this->deadlineCache = $oFileReader->read (DIR_USR . self::DEADLINES_FILE, 'cohort');
 		}
 
-		return $this->deadlineCache[$user['cohort']];
+		return $this->deadlineCache[$user['cohort']]['deadline'];
 	}
 }

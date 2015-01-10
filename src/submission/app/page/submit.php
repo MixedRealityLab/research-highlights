@@ -1,18 +1,14 @@
 <?php
 
-$oTemplate = \CDT\RH::i()->cdt_template;
-$oTemplate->startCapture ();
+$rh = \CDT\RH::i();
+$oUser = $rh->cdt_user;
+$oTemplate = $rh->cdt_template;
 
-?>
-<?php
-
-$oTemplate->set ('nav', $oTemplate->endCapture ());
 $oTemplate->startCapture ();   
 
-$oUser = \CDT\RH::i()->cdt_user;
 ?>
 		<div class="visible-xs visible-sm">
-		<div class="alert alert-danger"><div class="container"><div class="row">Your screen is small and this will make editing your input difficult. It is recommended you use a desktop/laptop for the submission system.</div></div></div>
+			<div class="alert alert-danger"><div class="container"><div class="row">Your screen is small and this will make editing your input difficult. It is recommended you use a desktop/laptop for the submission system.</div></div></div>
 		</div>
 		<div class="container main">
 		<div class="row main">
@@ -54,9 +50,9 @@ $oUser = \CDT\RH::i()->cdt_user;
 			<!-- BEGIN TABS -->
 			<div class="col-sm-12 col-md-12 col-lg-12">
 				<ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active"><a href="#summary" role="tab" data-toggle="tab">Summary</a></li>
-				<li role="presentation"><a href="#content" role="tab" data-toggle="tab">Abstract</a></li>
-				<li role="presentation"><a href="#about" role="tab" data-toggle="tab">Personal</a></li>
+					<li role="presentation" class="active"><a href="#summary" role="tab" data-toggle="tab">Summary</a></li>
+					<li role="presentation"><a href="#content" role="tab" data-toggle="tab">Abstract</a></li>
+					<li role="presentation"><a href="#about" role="tab" data-toggle="tab">Personal</a></li>
 				</ul>
 			</div>
 			<!-- END TABS -->

@@ -6,15 +6,15 @@ $oUser = $rh->cdt_user;
 $oInput = $rh->cdt_input;
 
 if (!$oUser->login ()) {
-	die ('-1');
+	exit ('-1');
 }
 
 if (is_null ($oInput->get('saveAs'))) {
-	die ('-3');
+	exit ('-3');
 }
 
 if($oInput->get('username') !== $oInput->get ('saveAs') && !$oUser->login (true)) {
-	die ('-5');
+	exit ('-5');
 }
 
 $oData = $rh->cdt_data;

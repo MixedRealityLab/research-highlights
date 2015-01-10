@@ -32,4 +32,4 @@ foreach ($users as $user) {
 	}
 }
 
-die (json_encode ($output));
+exit (json_encode ($output));

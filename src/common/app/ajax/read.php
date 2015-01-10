@@ -10,7 +10,7 @@ if(!is_null ($oInput->get('user'))) {
 	$users = array ($oUser->get ($oInput->get ('user')));
 } else {
 	$users = $oUser->getAll (null, function ($user) {
-		return $user['countSubmission'] == '1';
+		return $user['countSubmission'];
 	});
 }
 
@@ -39,4 +39,4 @@ foreach ($users as $user) {
 	}
 }
 
-die (\json_encode ($output));
+exit (\json_encode ($output));
