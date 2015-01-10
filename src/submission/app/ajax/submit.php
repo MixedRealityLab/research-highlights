@@ -7,34 +7,49 @@
  * See LICENCE for legal information.
  */
 
-$rh = \CDT\RH::i();
+// Save a user's submission
+//  1 : Success!
+// -1 : Not logged in
+// -3 : No details on who to save submission as
+// -5 : Attempting to masquerade when not admin
 
+$rh = \CDT\RH::i();
 $oUser = $rh->cdt_user;
 if (!$oUser->login ()) {
-	exit ('-1');
+	print '-1';
+	exit;
 }
 
 $oData = $rh->cdt_data;
 $oInput = $rh->cdt_input;
 
-if (is_null ($oInput->get('saveAs'))) {
-	exit('-3');
+if (\is_null ($oInput->get('saveAs'))) {
+	print '-3';
+	exit;
 }
 
-if($oInput->get('username') !== $oInput->get ('saveAs') && !$oUser->login (true)) {
-	exit('-5');
+if ($oInput->get('username') !== $oInput->get ('saveAs')
+	&& !$oUser->login (true)) {
+	print '-5';
+	exit;
 }
 
+// Go ahead and save the submission!
 $user = $oUser->get ($oInput->get ('saveAs'));
 $cohortDir = DIR_DAT . '/' . $oInput->get ('cohort');
-$dir = DIR_DAT . '/' . $oInput->get ('cohort') . '/' . $oInput->get ('saveAs')  . '/' . date ('U') .'/';
+$dir = DIR_DAT . '/' . $oInput->get ('cohort') . '/';
+$dir .= $oInput->get ('saveAs')  . '/' . date ('U') .'/';
 
 try {
-	if (is_null ($oInput->get ('cohort')) || is_null ($oInput->get ('title')) || is_null ($oInput->get ('keywords')) || is_null ($oInput->get ('text'))) {
+	if (\is_null ($oInput->get ('cohort'))
+		|| \is_null ($oInput->get ('title'))
+		|| \is_null ($oInput->get ('keywords'))
+		|| \is_null ($oInput->get ('text'))) {
 		throw new \CDT\InvalidInputException ('Missing inputs');
 	}
 
-	if ($oInput->get ('cohort') !== $user['cohort'] || !is_numeric ($oInput->get ('cohort')) || !is_dir ($cohortDir)) {
+	if ($oInput->get ('cohort') !== $user['cohort']
+	    || !is_numeric ($oInput->get ('cohort')) || !is_dir ($cohortDir)) {
 		throw new \CDT\InvalidInputException ('Invalid cohort!');
 	}
 
@@ -52,11 +67,11 @@ try {
 	$html = $oData->markdownToHtml ($save['text']);
 
 	$images = array();
-	preg_match_all('/(<img).*(src\s*=\s*("|\')([a-zA-Z0-9\.;:\/\?&=\-_|\r|\n]{1,})\3)/isxmU', $html, $images, PREG_PATTERN_ORDER);
+	\preg_match_all ('/(<img).*(src\s*=\s*("|\')([a-zA-Z0-9\.;:\/\?&=\-_|\r|\n]{1,})\3)/isxmU', $html, $images, PREG_PATTERN_ORDER);
 
 	$id = 0;
 	foreach ($images[4] as $url) {
-		$img = @file_get_contents ($url);
+		$img = @\file_get_contents ($url);
 		if ($img === false) {
 			throw new \CDT\SystemException ('Could not fetch the image at ' . $url);
 		}
@@ -69,7 +84,7 @@ try {
 
 		$filename = 'img-' . $id++ . '.' . $ext;
 
-		if (!@file_put_contents ($dir . $filename, $img)) {
+		if (!@\file_put_contents ($dir . $filename, $img)) {
 			throw new \CDT\SystemException ('Could not save the image at ' . $url . ' to the system');
 		}
 
@@ -77,35 +92,38 @@ try {
 	}
 
 
-	$save['website'] = !is_null ($save['website']) && $save['website'] != 'http://' ? trim ($save['website']) : '';
-	$save['twitter'] = strlen ($save['twitter']) > 0 && $save['twitter'][0] != '@' ? '@' . $save['twitter'] : $save['twitter'];
+	$save['website'] = !\is_null ($save['website']) && $save['website'] != 'http://' ? \trim ($save['website']) : '';
+	$save['twitter'] = \strlen ($save['twitter']) > 0 && $save['twitter'][0] != '@' ? '@' . $save['twitter'] : $save['twitter'];
 
 	foreach ($oData->getDefaultData () as $key => $value) {
-		if (!isSet ($save[$key]) || is_null ($save[$key])) {
+		if (!isSet ($save[$key]) || \is_null ($save[$key])) {
 			$save[$key] = '';
 		}
 
-		if (@file_put_contents ($dir . $key .'.txt', $save[$key]) === false) {
+		if (@\file_put_contents ($dir . $key .'.txt', $save[$key]) === false) {
 			throw new \CDT\SystemException ('Could not save ' . $key . ' to the system');
 		}
 	}
 
-	exit ('1');
+	print '1';
+	exit;
 } catch (\Exception $e) {
-	if (is_dir ($dir)) {
-		if ($dh = opendir ($dir)) {
+	// Roll back saved changes
+	if (\is_dir ($dir)) {
+		if ($dh = \opendir ($dir)) {
 			$versions = array ();
-	        while (($file = readdir ($dh)) !== false) {
-	        	if ($file != '.' && $file != '..' && is_dir ($dir . $file)) {
-	        		@rmdir ($dir . $file);
-	        	} else {
-	        		@unlink ($dir . $file);
-	        	}
-	        }
-	        closedir ($dh);
-	        @rmdir ($dir);
-	    }
+			while (($file = \readdir ($dh)) !== false) {
+				if ($file != '.' && $file != '..' && is_dir ($dir . $file)) {
+					@\rmdir ($dir . $file);
+				} else {
+					@\unlink ($dir . $file);
+				}
+			}
+			\closedir ($dh);
+			@\rmdir ($dir);
+		}
 	}
 
-	exit ($e->getMessage());
+	print $e->getMessage();
+	exit;
 }

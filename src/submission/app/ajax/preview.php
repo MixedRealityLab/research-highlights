@@ -7,21 +7,29 @@
  * See LICENCE for legal information.
  */
 
-$rh = \CDT\RH::i();
+// Generate a submission preview from MD to HTML
+// -1 : Not logged in
+// -3 : No details on who to save submission as
+// -5 : Attempting to masquerade when not admin
 
+$rh = \CDT\RH::i();
 $oUser = $rh->cdt_user;
 $oInput = $rh->cdt_input;
 
 if (!$oUser->login ()) {
-	exit ('-1');
+	print '-1';
+	exit;
 }
 
 if (is_null ($oInput->get('saveAs'))) {
-	exit ('-3');
+	print '-3';
+	exit;
 }
 
-if($oInput->get('username') !== $oInput->get ('saveAs') && !$oUser->login (true)) {
-	exit ('-5');
+if ($oInput->get('username') !== $oInput->get ('saveAs')
+	&& !$oUser->login (true)) {
+	print '-5';
+	exit;
 }
 
 $oData = $rh->cdt_data;
@@ -33,3 +41,4 @@ $refMd = \trim ($oInput->get ('references'));
 $refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $oData->markdownToHtml ($refMd) : '';
 
 print $textHtml . $refHtml;
+exit;

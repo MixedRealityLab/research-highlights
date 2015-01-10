@@ -7,6 +7,11 @@
  * See LICENCE for legal information.
  */
 
+// Send an email to users
+//  1 : Success
+// -1 : Not logged in as admin
+// -2 : Incomplete form
+
 $rh = \CDT\RH::i();
 
 $oData = $rh->cdt_data;
@@ -15,11 +20,15 @@ $oInput = $rh->cdt_input;
 $oEmail = $rh->cdt_email;
 
 if (!$oUser->login (true)) {
-	exit ('-1');
+	print '-1';
+	exit;
 }
 
-if (is_null ($oInput->get ('usernames')) || is_null ($oInput->get ('subject')) || is_null ($oInput->get ('message'))) {
-	exit ('-2');
+if (is_null ($oInput->get ('usernames'))
+	|| is_null ($oInput->get ('subject'))
+	|| is_null ($oInput->get ('message'))) {
+	print '-2';
+	exit;
 }
 
 $user = $oUser->get ();
@@ -31,4 +40,5 @@ $message = \nl2br ($oInput->get ('message'));
 
 $oEmail->sendAll ($usernames, $subject, \strip_tags ($message), $message);
 
-exit ('1');
+print '1';
+exit;

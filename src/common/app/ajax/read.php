@@ -7,12 +7,14 @@
  * See LICENCE for legal information.
  */
 
-$rh = \CDT\RH::i();
+// Fetch all submissions, or a single submission for reading
 
+$rh = \CDT\RH::i();
 $oData = $rh->cdt_data;
 $oInput = $rh->cdt_input;
 $oUser = $rh->cdt_user;
 
+// Get the users for which we want to return their submission
 if(!is_null ($oInput->get('user'))) {
 	$users = array ($oUser->get ($oInput->get ('user')));
 } else {
@@ -21,6 +23,7 @@ if(!is_null ($oInput->get('user'))) {
 	});
 }
 
+// Format the submission for output
 $output = array();
 foreach ($users as $user) {
 	$temp = $oData->get ($user['username'], false);
@@ -42,8 +45,9 @@ foreach ($users as $user) {
 		$temp['html'] = $textHtml . $refHtml . $pubHtml;
 		$temp['fundingStatement'] = $oUser->getFunding ($user['username']);
 
-		$output[] = array_merge ($temp, $userData);
+		$output[] = \array_merge ($temp, $userData);
 	}
 }
 
-exit (\json_encode ($output));
+print \json_encode ($output);
+exit;

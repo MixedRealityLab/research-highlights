@@ -7,8 +7,10 @@
  * See LICENCE for legal information.
  */
 
-$rh = \CDT\RH::i();
 
+// Fetch a list of users who have not submitted
+
+$rh = \CDT\RH::i();
 $oData = $rh->cdt_data;
 $oUser = $rh->cdt_user;
 
@@ -17,4 +19,4 @@ $users = $oUser->getAll (null, function ($user) use ($oData) {
 	return !isSet ($userData['text']) && $user['countSubmission'];
 });
 
-exit (\json_encode ($users));
+print \json_encode ($users);
