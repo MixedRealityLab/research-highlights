@@ -29,10 +29,10 @@ class Reader {
 					$colHeader = $fileHeader->get ($i);
 					if ($colHeader->type === \CDT\File\ColumnType::LONG_STRING) {
 						if (!isSet ($temp[$colHeader->name])) {
-							$temp[$colHeader->name] = '';
+							$temp[$colHeader->name] = $fileHeader->toType ($i, $col);
+						} else {
+							$temp[$colHeader->name] .= ', ' . $fileHeader->toType ($i, $col);
 						}
-
-						$temp[$colHeader->name] .= $fileHeader->toType ($i, $col);
 					} else {
 						$temp[$colHeader->name] = $fileHeader->toType ($i, $col);
 					}
