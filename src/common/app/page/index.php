@@ -11,11 +11,11 @@ $oTemplate = \CDT\RH::i()->cdt_template;
 $oTemplate->startCapture ();
 
 ?>
-    <div class="jumbotron primary collapse">
-      <div class="container">
-        <h1>Hello, World!</h1>
-      </div>
-    </div>
+	<div class="jumbotron primary collapse">
+	  <div class="container">
+		<h1>Hello, World!</h1>
+	  </div>
+	</div>
 <?php
 
 $oTemplate->set ('header', true);

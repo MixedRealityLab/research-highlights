@@ -8,9 +8,9 @@
  */
 
 ?><!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if lt IE 7]>	  <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>		 <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>		 <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 	<head>
 		<meta charset="utf-8">
@@ -35,10 +35,10 @@
 		<?php if ($header): ?>
 		<nav class="navbar navbar-fixed-top navbar-inverse">
 		  <div class="container">
-		    <div class="navbar-header">
+			<div class="navbar-header">
 				<a class="navbar-brand" href="<?php print URI_HOME; ?>">Horizon CDT &raquo; Research Highlights</a>
-		    </div>
-		    <?php if ($nav): ?>
+			</div>
+			<?php if ($nav): ?>
 				<?php print $nav; ?>
 			<?php endif; ?>
 		  </div>

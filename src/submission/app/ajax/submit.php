@@ -49,7 +49,7 @@ try {
 	}
 
 	if ($oInput->get ('cohort') !== $user['cohort']
-	    || !is_numeric ($oInput->get ('cohort')) || !is_dir ($cohortDir)) {
+		|| !is_numeric ($oInput->get ('cohort')) || !is_dir ($cohortDir)) {
 		throw new \CDT\InvalidInputException ('Invalid cohort!');
 	}
 

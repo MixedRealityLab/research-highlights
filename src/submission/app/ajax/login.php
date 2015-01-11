@@ -36,9 +36,9 @@ if ($oUser->login ()) {
 
 	// gather the data to populate the submission form
 	$data = array (
-	               'success' => 1,
-	               'wordCount' => $oUser->getWordCount (),
-	               'fundingStatement' => $oUser->getFunding ());
+				   'success' => 1,
+				   'wordCount' => $oUser->getWordCount (),
+				   'fundingStatement' => $oUser->getFunding ());
 
 	print \json_encode (\array_merge ($oData->get (), $oUser->get (), $data));
 	exit;

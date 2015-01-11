@@ -29,9 +29,9 @@ final class RH {
 	}
 
 	public static function i() {
-        if (\is_null (static::$instance)) {
-            static::$instance = new static;
-        }
+		if (\is_null (static::$instance)) {
+			static::$instance = new static;
+		}
 		return self::$instance;
 	}
 
