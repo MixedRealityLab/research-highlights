@@ -7,6 +7,8 @@
  * See LICENCE for legal information.
  */
 
+\define ('VERSION', 'CDT-RH/3.0');
+
 \define ('DIR_AJX', DIR . '/app/ajax');
 \define ('DIR_PAG', DIR . '/app/page');
 \define ('DIR_TPL', DIR . '/app/tpl');

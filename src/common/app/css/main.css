@@ -58,6 +58,7 @@ textarea + p {
 
 footer {
 	font-size: .8em;
+	padding-bottom: 50px;
 }
 
 div.navbar-header {
@@ -96,4 +97,6 @@ div.navbar-header {
 
 .alert > .container > .row {
 	margin-left: 0;
+	padding-left: 15px;
+	padding-right: 15px;
 }

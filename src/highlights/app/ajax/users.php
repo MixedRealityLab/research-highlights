@@ -9,11 +9,11 @@
 
 $rh = \CDT\RH::i();
 
-$oData = $rh->cdt_data;
-$oUser = $rh->cdt_user;
-$oInput = $rh->cdt_input;
+$oSubmissionModel = $rh->cdt_submission_model;
+$oUserModel = $rh->cdt_user_model;
+$oInputModel = $rh->cdt_input_model;
 
-$users = $oUser->getAll ();
+$oUsers = $oUserModel->getAll ();
 
 function cmp_users ($a, $b) {
 	if ($a['cohort'] < $b['cohort']) {
@@ -25,17 +25,17 @@ function cmp_users ($a, $b) {
 	}
 }
 
-usort ($users, 'cmp_users');
+usort ($oUsers, 'cmp_users');
 
 $output = array ();
-$cohort = $oInput->get ('cohort');
+$cohort = $oInputModel->get ('cohort');
 if (!is_numeric ($cohort)) {
 	$cohort = null;
 }
 
-foreach ($users as $user) {
-	if ((!is_null ($cohort) && $user['cohort'] == $cohort) || is_null ($cohort)) {
-		$output[] = $user;
+foreach ($oUsers as $oUser) {
+	if ((!is_null ($cohort) && $user->cohort == $cohort) || is_null ($cohort)) {
+		$output[] = $oUser;
 	}
 }
 

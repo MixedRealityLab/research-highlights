@@ -8,10 +8,9 @@
  */
 
 $rh = \CDT\RH::i();
-$oUser = $rh->cdt_user;
-$oTemplate = $rh->cdt_template;
+$oPageTemplate = $rh->cdt_page_template;
 
-$oTemplate->startCapture ();   
+$oPageTemplate->startCapture ();   
 
 ?>
 		<div class="visible-xs visible-sm">
@@ -45,7 +44,7 @@ $oTemplate->startCapture ();
 			</div>
 			<div class="col-sm-6 col-md-6 col-lg-8">
 				<h2>Submission Form</h2>
-				<p>Firstly, we need to identify who you are. We emailed you the details that you need to login to the system (the email was from martin&#64;porcheron.uk). If you have lost this email, either send an email to <a href="mailto:cdt-rh@lists.porcheron.uk">Martin Porcheron or Kyle Arch</a> and we'll send out a password reminder.</p>
+				<p>Firstly, we need to identify who you are. We emailed you the details that you need to login to the system. If you have lost this email, either send an email to <a href="mailto:cdt-rh@lists.porcheron.uk">Martin Porcheron or Kyle Arch</a> and we'll send out a password reminder.</p>
 				<p><strong>Hint:</strong> Your username is your university username (e.g. <em>psxmp9</em>) and your password is a long sequence of letters and numbers.</p>
 			</div>
 			</form>
@@ -246,11 +245,11 @@ $oTemplate->startCapture ();
 		</div>
 <?php
 
-$oTemplate->set ('header', true);
-$oTemplate->set ('body', $oTemplate->endCapture ());
+$oPageTemplate->set ('header', true);
+$oPageTemplate->set ('body', $oPageTemplate->endCapture ());
 
-$oTemplate->add ('css', 'sys/css/bootstrap-tagsinput.css');
-$oTemplate->add ('javascript', 'app/js/main.js');
-$oTemplate->add ('javascript', 'app/js/submit.js');
+$oPageTemplate->add ('css', 'sys/css/bootstrap-tagsinput.css');
+$oPageTemplate->add ('javascript', 'app/js/main.js');
+$oPageTemplate->add ('javascript', 'app/js/submit.js');
 
-print $oTemplate->load ('2015');
+print $oPageTemplate->load ('2015');

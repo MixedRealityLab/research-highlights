@@ -14,57 +14,57 @@
 // -5 : Attempting to masquerade when not admin
 
 $rh = \CDT\RH::i();
-$oUser = $rh->cdt_user;
-if (!$oUser->login ()) {
+$oUserModel = $rh->cdt_user_model;
+if (!$oUserModel->login ()) {
 	print '-1';
 	exit;
 }
 
-$oData = $rh->cdt_data;
-$oInput = $rh->cdt_input;
+$oSubmissionModel = $rh->cdt_submission_model;
+$oInputModel = $rh->cdt_input_model;
 
-if (\is_null ($oInput->get('saveAs'))) {
+if (\is_null ($oInputModel->get('saveAs'))) {
 	print '-3';
 	exit;
 }
 
-if ($oInput->get('username') !== $oInput->get ('saveAs')
-	&& !$oUser->login (true)) {
+if ($oInputModel->get ('username') !== $oInputModel->get ('saveAs')
+	&& !$oUserModel->login (true)) {
 	print '-5';
 	exit;
 }
 
 // Go ahead and save the submission!
-$user = $oUser->get ($oInput->get ('saveAs'));
-$cohortDir = DIR_DAT . '/' . $oInput->get ('cohort');
-$dir = DIR_DAT . '/' . $oInput->get ('cohort') . '/';
-$dir .= $oInput->get ('saveAs')  . '/' . date ('U') .'/';
+$oUser = $oUserModel->get ($oInputModel->get ('saveAs'));
+$cohortDir = DIR_DAT . '/' . $oInputModel->get ('cohort');
+$dir = DIR_DAT . '/' . $oInputModel->get ('cohort') . '/';
+$dir .= $oInputModel->get ('saveAs')  . '/' . date ('U') .'/';
 
 try {
-	if (\is_null ($oInput->get ('cohort'))
-		|| \is_null ($oInput->get ('title'))
-		|| \is_null ($oInput->get ('keywords'))
-		|| \is_null ($oInput->get ('text'))) {
-		throw new \CDT\InvalidInputException ('Missing inputs');
+	if (\is_null ($oInputModel->get ('cohort'))
+		|| \is_null ($oInputModel->get ('title'))
+		|| \is_null ($oInputModel->get ('keywords'))
+		|| \is_null ($oInputModel->get ('text'))) {
+		throw new \CDT\Error\InvalidInput ('Missing inputs');
 	}
 
-	if ($oInput->get ('cohort') !== $user['cohort']
-		|| !is_numeric ($oInput->get ('cohort')) || !is_dir ($cohortDir)) {
-		throw new \CDT\InvalidInputException ('Invalid cohort!');
+	if ($oInputModel->get ('cohort') !== $oUser->cohort
+		|| !is_numeric ($oInputModel->get ('cohort')) || !is_dir ($cohortDir)) {
+		throw new \CDT\Error\InvalidInput ('Invalid cohort!');
 	}
 
-	$save = $oInput->getAll (\CDT\Input::POST);
+	$save = $oInputModel->getAll (\CDT\Input\Model::POST);
 	
 	// place to store the data
 	if (strpos ($dir, '..') !== false) {
-		throw new \CDT\SystemException ('Could not identify directory to save input to');
+		throw new \CDT\Error\System ('Could not identify directory to save input to');
 	}
 
 	if (@mkdir ($dir, 0777, true) === false) {
-		throw new \CDT\SystemException ('Could not create directory to save input to');
+		throw new \CDT\Error\System ('Could not create directory to save input to');
 	}
 
-	$html = $oData->markdownToHtml ($save['text']);
+	$html = $oSubmissionModel->markdownToHtml ($save->text);
 
 	$images = array();
 	\preg_match_all ('/(<img).*(src\s*=\s*("|\')([a-zA-Z0-9\.;:\/\?&=\-_|\r|\n]{1,})\3)/isxmU', $html, $images, PREG_PATTERN_ORDER);
@@ -73,7 +73,7 @@ try {
 	foreach ($images[4] as $url) {
 		$img = @\file_get_contents ($url);
 		if ($img === false) {
-			throw new \CDT\SystemException ('Could not fetch the image at ' . $url);
+			throw new \CDT\Error\System ('Could not fetch the image at ' . $url);
 		}
 
 		$path_parts = \pathinfo ($url);
@@ -85,23 +85,24 @@ try {
 		$filename = 'img-' . $id++ . '.' . $ext;
 
 		if (!@\file_put_contents ($dir . $filename, $img)) {
-			throw new \CDT\SystemException ('Could not save the image at ' . $url . ' to the system');
+			throw new \CDT\Error\System ('Could not save the image at ' . $url . ' to the system');
 		}
 
-		$save['text'] = \str_replace ($url, '<img-dir>' . $filename, $save['text']);
+		$save->text = \str_replace ($url, '<imgDir>' . $filename, $save->text);
 	}
 
 
-	$save['website'] = !\is_null ($save['website']) && $save['website'] != 'http://' ? \trim ($save['website']) : '';
-	$save['twitter'] = \strlen ($save['twitter']) > 0 && $save['twitter'][0] != '@' ? '@' . $save['twitter'] : $save['twitter'];
+	$save->website = !\is_null ($save->website) && $save->website != 'http://' ? \trim ($save->website) : '';
+	$save->twitter = \strlen ($save->twitter) > 0 && $save->twitter[0] != '@' ? '@' . $save->twitter : $save->twitter;
 
-	foreach ($oData->getDefaultData () as $key => $value) {
-		if (!isSet ($save[$key]) || \is_null ($save[$key])) {
-			$save[$key] = '';
+	// fix this
+	foreach ($oSubmissionModel->getDefaultData ()->toArray () as $key => $value) {
+		if (!isSet ($save->$key)) {
+			$save->$key = '';
 		}
 
-		if (@\file_put_contents ($dir . $key .'.txt', $save[$key]) === false) {
-			throw new \CDT\SystemException ('Could not save ' . $key . ' to the system');
+		if (@\file_put_contents ($dir . $key .'.txt', $save->$key) === false) {
+			throw new \CDT\Error\System ('Could not save ' . $key . ' to the system');
 		}
 	}
 
@@ -113,7 +114,7 @@ try {
 		if ($dh = \opendir ($dir)) {
 			$versions = array ();
 			while (($file = \readdir ($dh)) !== false) {
-				if ($file != '.' && $file != '..' && is_dir ($dir . $file)) {
+				if ($file != '.' && $file != '..' && \is_dir ($dir . $file)) {
 					@\rmdir ($dir . $file);
 				} else {
 					@\unlink ($dir . $file);

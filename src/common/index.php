@@ -12,7 +12,7 @@
 require DIR . '/config.php';
 require DIR . '/salt.php';
 
-\set_include_path (\get_include_path () . ':' . DIR_LIB);
+\set_include_path (\get_include_path () . ':' . DIR_LIB . ':' . DIR_LIB .'/PEAR');
 \spl_autoload_extensions ('.class.php');
 \spl_autoload_register ();
 

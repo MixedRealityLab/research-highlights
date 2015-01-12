@@ -10,42 +10,42 @@
 // Fetch all submissions, or a single submission for reading
 
 $rh = \CDT\RH::i();
-$oData = $rh->cdt_data;
-$oInput = $rh->cdt_input;
-$oUser = $rh->cdt_user;
+$oSubmissionModel = $rh->cdt_submission_model;
+$oInputModel = $rh->cdt_input_model;
+$oUserModel = $rh->cdt_user_model;
 
 // Get the users for which we want to return their submission
-if(!is_null ($oInput->get('user'))) {
-	$users = array ($oUser->get ($oInput->get ('user')));
+if(!is_null ($oInputModel->get('user'))) {
+	$oUsers = array ($oUserModel->get ($oInputModel->get ('user')));
 } else {
-	$users = $oUser->getAll (null, function ($user) {
-		return $user['countSubmission'];
+	$oUsers = $oUserModel->getAll (null, function ($user) {
+		return $user->countSubmission;
 	});
 }
 
 // Format the submission for output
 $output = array();
-foreach ($users as $user) {
-	$temp = $oData->get ($user['username'], false);
+foreach ($oUsers as $oUser) {
+	$temp = $oSubmissionModel->get ($oUser->username, false);
 
-	if (isSet ($temp['text'])) {
-		$userData =  $oUser->get ($user['username']);
+	if (isSet ($temp->text)) {
+		$userData =  $oUserModel->get ($oUser->username);
 		
-		$temp['text'] = $oData->scanOutput ($temp['text'], $user['username']);
+		$temp->text = $oUserModel->makeSubsts ($temp->text, $oUser->username);
 	
-		$textMd = $temp['text'];
-		$textHtml = !empty ($textMd) ? $oData->markdownToHtml ($textMd) : '<em>No text submitted.</em>';
+		$textMd = $temp->text;
+		$textHtml = !empty ($textMd) ? $oSubmissionModel->markdownToHtml ($textMd) : '<em>No text submitted.</em>';
 
-		$refMd = \trim ($temp['references']);
-		$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $oData->markdownToHtml ($refMd) : '';
+		$refMd = \trim ($temp->references);
+		$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $oSubmissionModel->markdownToHtml ($refMd) : '';
 		
-		$pubMd = \trim ($temp['publications']);
-		$pubHtml = !empty ($pubMd) ? '<h1>Publications in the Last Year</h1>' . $oData->markdownToHtml ($pubMd) : '';
+		$pubMd = \trim ($temp->publications);
+		$pubHtml = !empty ($pubMd) ? '<h1>Publications in the Last Year</h1>' . $oSubmissionModel->markdownToHtml ($pubMd) : '';
 
-		$temp['html'] = $textHtml . $refHtml . $pubHtml;
-		$temp['fundingStatement'] = $oUser->getFunding ($user['username']);
+		$temp->html = $textHtml . $refHtml . $pubHtml;
+		$temp->fundingStatement = $oUserModel->getFunding ($oUser->username);
 
-		$output[] = \array_merge ($temp, $userData);
+		$output[] = \array_merge ($temp->toArray (), $userData->toArray ());
 	}
 }
 

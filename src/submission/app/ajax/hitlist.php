@@ -7,16 +7,14 @@
  * See LICENCE for legal information.
  */
 
-
 // Fetch a list of users who have not submitted
-
 $rh = \CDT\RH::i();
-$oData = $rh->cdt_data;
-$oUser = $rh->cdt_user;
+$oSubmissionModel = $rh->cdt_submission_model;
+$oUserModel = $rh->cdt_user_model;
 
-$users = $oUser->getAll (null, function ($user) use ($oData) {
-	$userData = $oData->get ($user['username'], false);
-	return !isSet ($userData['text']) && $user['countSubmission'];
+$oUsers = $oUserModel->getAll (null, function ($oUser) use ($oSubmissionModel) {
+	$submission = $oSubmissionModel->get ($oUser->username, false);
+	return !isSet ($submission->text) && $oUser->countSubmission;
 });
 
-print \json_encode ($users);
+print \CDT\User\Data::toJson ($oUsers);

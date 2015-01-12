@@ -7,7 +7,7 @@
  * See LICENCE for legal information.
  */
 
-\error_reporting (E_ALL); \ini_set ('display_errors', '1');
+\define ('VERSION', 'CDT-RH/3.0');
 
 \define ('DIR_AJX', DIR . '/app/ajax');
 \define ('DIR_PAG', DIR . '/app/page');
@@ -32,7 +32,3 @@
 \define ('MAIL_PASS', '');
 
 \date_default_timezone_set ('Europe/London');
-
-// Custom Horizon settings
-\define ('JSF_ADMIN', 'admin');
-\define ('DEF_DAT', 'default.txt');

@@ -1,8 +1,7 @@
 data/
 dist/*
 src/secret/*
+src/highlights/config.php
+src/submission/config.php
 usr/*
-RHUpload.scpt
 *.scpt
-
-RHUpload.scpt

@@ -13,32 +13,31 @@
 // -5 : Attempting to masquerade when not admin
 
 $rh = \CDT\RH::i();
-$oUser = $rh->cdt_user;
-$oInput = $rh->cdt_input;
+$oUserModel = $rh->cdt_user_model;
+$oInputModel = $rh->cdt_input_model;
 
-if (!$oUser->login ()) {
+if (!$oUserModel->login ()) {
 	print '-1';
 	exit;
 }
 
-if (is_null ($oInput->get('saveAs'))) {
+if (is_null ($oInputModel->get('saveAs'))) {
 	print '-3';
 	exit;
 }
 
-if ($oInput->get('username') !== $oInput->get ('saveAs')
-	&& !$oUser->login (true)) {
+if ($oInputModel->get('username') !== $oInputModel->get ('saveAs')
+	&& !$oUserModel->login (true)) {
 	print '-5';
 	exit;
 }
 
-$oData = $rh->cdt_data;
+$oSubmissionModel = $rh->cdt_submission_model;
 
-$textMd = \trim ($oInput->get ('text'));
-$textHtml = !empty ($textMd) ? $oData->markdownToHtml ($textMd) : '<em>No text.</em>';
+$textMd = \trim ($oInputModel->get ('text'));
+$textHtml = !empty ($textMd) ? $oSubmissionModel->markdownToHtml ($textMd) : '<em>No text.</em>';
 
-$refMd = \trim ($oInput->get ('references'));
-$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $oData->markdownToHtml ($refMd) : '';
+$refMd = \trim ($oInputModel->get ('references'));
+$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $oSubmissionModel->markdownToHtml ($refMd) : '';
 
 print $textHtml . $refHtml;
-exit;

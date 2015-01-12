@@ -8,9 +8,9 @@
  */
 
 $rh = \CDT\RH::i();
-$oTemplate = $rh->cdt_template;
+$oPageTemplate = $rh->cdt_page_template;
 
-$oTemplate->startCapture ();
+$oPageTemplate->startCapture ();
 
 ?>
 	<div class="jumbotron primary collapse">
@@ -44,10 +44,10 @@ $oTemplate->startCapture ();
 	  </div>
 <?php
 
-$oTemplate->set ('header', true);
-$oTemplate->set ('body', $oTemplate->endCapture ());
+$oPageTemplate->set ('header', true);
+$oPageTemplate->set ('body', $oPageTemplate->endCapture ());
 
-$oTemplate->add ('javascript', 'app/js/main.js');
-$oTemplate->add ('javascript', 'app/js/index.js');
+$oPageTemplate->add ('javascript', 'app/js/main.js');
+$oPageTemplate->add ('javascript', 'app/js/index.js');
 
-print $oTemplate->load ('2015');
+print $oPageTemplate->load ('2015');

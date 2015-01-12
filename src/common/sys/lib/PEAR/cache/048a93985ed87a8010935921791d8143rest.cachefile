@@ -1,0 +1,13 @@
+a:14:{s:7:"attribs";a:4:{s:5:"xmlns";s:36:"http://pear.php.net/dtd/rest.release";s:9:"xmlns:xsi";s:41:"http://www.w3.org/2001/XMLSchema-instance";s:11:"xmlns:xlink";s:28:"http://www.w3.org/1999/xlink";s:18:"xsi:schemaLocation";s:81:"http://pear.php.net/dtd/rest.release     http://pear.php.net/dtd/rest.release.xsd";}s:1:"p";a:2:{s:7:"attribs";a:1:{s:10:"xlink:href";s:17:"/rest/p/mail_mime";}s:8:"_content";s:9:"Mail_Mime";}s:1:"c";s:12:"pear.php.net";s:1:"v";s:5:"1.8.9";s:2:"st";s:6:"stable";s:1:"l";s:9:"BSD Style";s:1:"m";s:4:"alec";s:1:"s";s:51:"Mail_Mime provides classes to create MIME messages.";s:1:"d";s:395:"Mail_Mime provides classes to deal with the creation and manipulation of MIME messages.
+It allows people to create e-mail messages consisting of:
+* Text Parts
+* HTML Parts
+* Inline HTML Images
+* Attachments
+* Attached messages
+
+It supports big messages, base64 and quoted-printable encodings and
+non-ASCII characters in filenames, subjects, recipients, etc. encoded
+using RFC2047 and/or RFC2231.";s:2:"da";s:19:"2014-05-14 10:50:49";s:1:"n";s:219:"* Fixed Bug #20273: Incorrect handling of HTAB in encodeHeader() [alec]
+* Fixed Bug #20226: Mail_mimePart::encodeHeader does not encode ISO-2022-JP string [alec]
+* Fixed Bug #20222: Broken Compatybility with PHP4 [alec]";s:1:"f";s:5:"33796";s:1:"g";s:39:"http://pear.php.net/get/Mail_Mime-1.8.9";s:1:"x";a:1:{s:7:"attribs";a:1:{s:10:"xlink:href";s:17:"package.1.8.9.xml";}}}

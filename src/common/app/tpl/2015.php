@@ -51,7 +51,7 @@
 
 		<div class="container collapse">
 			<footer class="row">
-				<p>&copy; Martin Porcheron <?php print date ('Y'); ?>.</p>
+				<p>&copy; Martin Porcheron <?php print date ('Y'); ?>. This website is <a href="https://github.com/mporcheron/ResearchHighlights" title="Research Highlights project on GitHub">open source</a>.</p>
 			</footer>
 		</div>
 

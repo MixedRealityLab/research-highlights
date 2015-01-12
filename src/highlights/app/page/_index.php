@@ -7,8 +7,8 @@
  * See LICENCE for legal information.
  */
 
-$oTemplate = \CDT\RH::i()->cdt_template;
-$oTemplate->startCapture ();
+$oPageTemplate = \CDT\RH::i()->cdt_page_template;
+$oPageTemplate->startCapture ();
 
 ?>
 	<div class="jumbotron primary collapse">
@@ -43,9 +43,9 @@ $oTemplate->startCapture ();
 	  </div>
 <?php
 
-$oTemplate->set ('header', true);
-$oTemplate->set ('body', $oTemplate->endCapture ());
+$oPageTemplate->set ('header', true);
+$oPageTemplate->set ('body', $oPageTemplate->endCapture ());
 
-$oTemplate->add ('javascript', 'app/js/index.js');
+$oPageTemplate->add ('javascript', 'app/js/index.js');
 
-print $oTemplate->load ('2015');
+print $oPageTemplate->load ('2015');
