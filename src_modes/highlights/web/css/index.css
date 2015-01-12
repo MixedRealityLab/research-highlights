@@ -6,38 +6,49 @@
  * See LICENCE for legal information.
  */
 
-/* Based on http://www.bootply.com/80586 */
 
-footer {
-  padding-left: 15px;
-  padding-right: 15px;
+body {
+	padding-top: 99px;
 }
 
-/*
- * Off Canvas
- * --------------------------------------------------
- */
+footer {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.view-by {
+	font-size: 0.8em;
+	margin-bottom: 1.2em;
+}
+
+.view-by .selected {
+	color: #000;
+	font-weight: bold;
+}
+
+
+/* Based on http://www.bootply.com/80586 */
 @media screen and (max-width: 768px) {
-  .row-offcanvas {
-    position: relative;
-    -webkit-transition: all 0.25s ease-out;
-    -moz-transition: all 0.25s ease-out;
-    transition: all 0.25s ease-out;
-  }
+	.row-offcanvas {
+	position: relative;
+	-webkit-transition: all 0.25s ease-out;
+	-moz-transition: all 0.25s ease-out;
+	transition: all 0.25s ease-out;
+	}
 
-  .row-offcanvas-left
-  .sidebar-offcanvas {
-    left: -50%;
-  }
+	.row-offcanvas-left
+	.sidebar-offcanvas {
+	left: -50%;
+	}
 
-  .row-offcanvas-left.active {
-    left: 50%;
-  }
+	.row-offcanvas-left.active {
+	left: 50%;
+	}
 
-  .sidebar-offcanvas {
-    position: absolute;
-    top: 0;
-    width: 50%;
-    margin-left: 12px;
-  }
+	.sidebar-offcanvas {
+	position: absolute;
+	top: 0;
+	width: 50%;
+	margin-left: 12px;
+	}
 }

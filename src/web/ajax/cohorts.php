@@ -1,3 +1,4 @@
+<?php
 
 /**
  * Research Highlights engine
@@ -6,7 +7,8 @@
  * See LICENCE for legal information.
  */
 
- $(function() {
-	$('.container').empty();
-	$('.loading').fadeIn();
-});
+// Fetch a list of cohorts
+$rh = \CDT\RH::i();
+$oUserModel = $rh->cdt_user_model;
+
+print \json_encode ($oUserModel->getCohorts ());

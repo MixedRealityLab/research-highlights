@@ -127,7 +127,7 @@ class Model extends \CDT\Singleton {
 	}
 
 	/**
-	 * Retrieve the details of al users.
+	 * Retrieve the details of all users.
 	 * 
 	 * @param function|null $sort How to sort the user list; if `null`, reverse 
 	 * 	sort by cohort, then sort by name
@@ -157,6 +157,42 @@ class Model extends \CDT\Singleton {
 		\usort ($users, $sort);
 
 		return $users;
+	}
+
+	/**
+	 * Retrieve the cohorts.
+	 * 
+	 * @param function|null $sort How to sort the cohort list; if `null`,
+	 * 	reverse sort by cohort
+	 * @param function|null @filter How to filter the cohort list; if `null`, all
+	 * 	cohort are included
+	 * @return string[] Array of details of the cohorts
+	 */
+	public function getCohorts ($sort = null, $filter = null) {
+		if (\is_null ($sort)) {
+			$sort = function ($a, $b) {
+				return \strcmp ($b, $a);
+			};
+		}
+
+		if (\is_null ($filter)) {
+			$filter = function ($cohort) {
+				return true;
+			};
+		}
+
+		$users = \array_merge ($this->getData (self::USER_FILE), $this->getData (self::ADMIN_FILE));
+		$cohorts = array();
+		foreach ($users as $user) {
+			if (!\in_array ($user->cohort, $cohorts)) {
+				$cohorts[] = $user->cohort;
+			}
+		}
+
+		$cohorts = \array_filter ($cohorts, $filter);
+		\usort ($cohorts, $sort);
+
+		return $cohorts;
 	}
 
 	/**
