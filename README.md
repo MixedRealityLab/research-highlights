@@ -6,13 +6,11 @@ This is the repository for the Horizon CDT Research Highlights website source co
 * User databases are all file-based in the _src/usr/_ directory
 * Passwords are not stored and are username and salt dependant
 
-* * The default salt (in _salt.php_) should be changed
-* * Passwords are the SHA1 of salt followed by the username
+* * The default salt (in _salt.php_) should be changed, passwords are the SHA1 of salt followed by the username
 * * To calculate your password, use something like [DuckDuckGo](https://duckduckgo.com/?q=sha1+SALT_HEREmyusername1&ia=answer)
 
 * A directory, _src\_private_, is not included here as it includes the live user database
 * Various derivatives of the base website are found in _src\_modes/\*_
-* salt.
 
 ## Build Instructions
 Build using the `ant` command:
