@@ -13,16 +13,16 @@ $oPageTemplate = $rh->cdt_page_template;
 $oPageTemplate->startCapture ();
 
 ?>
+		<div class="visible-xs visible-sm">
+			<div class="alert alert-danger"><div class="container"><div class="row">Your screen is small and this will make editing your input difficult. It is recommended you use a desktop/laptop for the submission system.</div></div></div>
+		</div>
+
 		<div class="jumbotron primary collapse">
 			<div class="container">
 				<h1>Hello Horizonauts!</h1>
 				<p>Every year, we publish research highlights from each and every student who is currently undertaking research through the CDT. We've made it easier than ever before for you to make your contribution.</p>
 				<p><a id="submit" class="btn btn-primary btn-lg" role="button">Let's get started &raquo;</a></p>
 			</div>
-		</div>
-
-		<div class="visible-xs visible-sm">
-			<div class="alert alert-danger"><div class="container"><div class="row">Your screen is small and this will make editing your input difficult. It is recommended you use a desktop/laptop for the submission system.</div></div></div>
 		</div>
 		
 		<div class="container main">

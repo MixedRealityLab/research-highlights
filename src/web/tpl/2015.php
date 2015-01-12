@@ -8,10 +8,10 @@
  */
 
 ?><!DOCTYPE html>
-<!--[if lt IE 7]>	  <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>		 <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>		 <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -34,15 +34,16 @@
 		
 		<?php if ($header): ?>
 		<nav class="navbar navbar-fixed-top navbar-inverse">
-		  <div class="container">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="<?php print URI_HOME; ?>">Horizon CDT &raquo; Research Highlights</a>
+			<div class="container">
+				<div class="navbar-header pull-right">
+					<a class="navbar-brand" href="<?php print URI_HOME; ?>"><img src="<?php print URI_WEB; ?>/img/logo.png" alt="Horizon Centre for Doctoral Training" class="logo"></a>
+				</div>
+				<?php if ($nav): ?>
+					<?php print $nav; ?>
+				<?php endif; ?>
 			</div>
-			<?php if ($nav): ?>
-				<?php print $nav; ?>
-			<?php endif; ?>
-		  </div>
 		</nav>
+		<img src="<?php print URI_WEB; ?>/img/motif.png" alt="Horizon motif" class="motif">
 		<?php endif; ?>
 
 		<?php if ($body): ?>

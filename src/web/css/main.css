@@ -6,15 +6,33 @@
  * See LICENCE for legal information.
  */
 
-@media screen {
-	body {
-		padding-top: 50px;
-		padding-bottom: 20px;
-	}
+.navbar-inverse {
+	background: #2660a9;
+	background: -moz-linear-gradient(top,  #2660a9 80%, #0c2577 80%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(80%,#2660a9), color-stop(80%,#0c2577));
+	background: -webkit-linear-gradient(top,  #2660a9 80%,#0c2577 80%);
+	background: -o-linear-gradient(top,  #2660a9 80%,#0c2577 80%);
+	background: -ms-linear-gradient(top,  #2660a9 80%,#0c2577 80%);
+	background: linear-gradient(to bottom,  #2660a9 80%,#0c2577 80%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2660a9', endColorstr='#0c2577',GradientType=0 );
 }
 
-.jumbotron {
-	margin-bottom: 0;
+.navbar-brand {
+	padding: 8px 15px 0 0;
+	margin: 0 0 2px 0;
+}
+
+.logo {
+	height: 45px;
+}
+
+.motif {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 85px;
+	z-index: 1500;
 }
 
 .main.container {
@@ -99,4 +117,15 @@ div.navbar-header {
 	margin-left: 0;
 	padding-left: 15px;
 	padding-right: 15px;
+}
+
+
+@media screen {
+	body {
+		padding-top: 56px;
+		padding-bottom: 20px;
+	}
+	.motif {
+		display: block;
+	}
 }
