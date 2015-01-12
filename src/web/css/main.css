@@ -8,22 +8,24 @@
 
 .navbar-inverse {
 	background: #2660a9;
-	background: -moz-linear-gradient(top,  #2660a9 80%, #0c2577 80%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(80%,#2660a9), color-stop(80%,#0c2577));
-	background: -webkit-linear-gradient(top,  #2660a9 80%,#0c2577 80%);
-	background: -o-linear-gradient(top,  #2660a9 80%,#0c2577 80%);
-	background: -ms-linear-gradient(top,  #2660a9 80%,#0c2577 80%);
-	background: linear-gradient(to bottom,  #2660a9 80%,#0c2577 80%);
+	background: -moz-linear-gradient(top,  #2660a9 67%, #0c2577 67%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(67%,#2660a9), color-stop(67%,#0c2577));
+	background: -webkit-linear-gradient(top,  #2660a9 67%,#0c2577 67%);
+	background: -o-linear-gradient(top,  #2660a9 67%,#0c2577 67%);
+	background: -ms-linear-gradient(top,  #2660a9 67%,#0c2577 67%);
+	background: linear-gradient(to bottom,  #2660a9 67%,#0c2577 67%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2660a9', endColorstr='#0c2577',GradientType=0 );
 }
 
 .navbar-brand {
-	padding: 8px 15px 0 0;
-	margin: 0 0 2px 0;
+	padding: 0 15px 0 0;
+	margin: 0 0 1px 0;
 }
 
 .logo {
-	height: 45px;
+	height: 65px;
+	margin-bottom: 9px;
+	margin-top: 15px
 }
 
 .motif {
@@ -31,13 +33,17 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: 85px;
+	height: 115px;
 	z-index: 1500;
 }
 
 .main.container {
 	margin-top: 1em;
 	margin-bottom: 45px;
+}
+
+.jumbotron + .alert {
+	
 }
 
 .alert {
@@ -122,7 +128,7 @@ div.navbar-header {
 
 @media screen {
 	body {
-		padding-top: 56px;
+		padding-top: 92px;
 		padding-bottom: 20px;
 	}
 	.motif {
