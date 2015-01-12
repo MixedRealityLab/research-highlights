@@ -1,16 +1,29 @@
-<project name="ResearchHighlights" default="common" basedir=".">
+<project name="ResearchHighlights" default="build" basedir=".">
 
 	<description>
 		Build file for the Research Highlights website
 	</description>
 
+	<!-- DIRECTORIES -->
 	<property name="dist.dir" location="dist" />
 	<property name="lib.dir" location="lib" />
-	<property name="src.dir" location="src/common"/>
-	<property name="secret.dir" location="src/secret"/>
-	<property name="highlights.dir" location="src/highlights" />
-	<property name="submission.dir" location="src/submission" />
-	
+	<property name="src.dir" location="src"/>
+	<property name="src_modes.dir" location="src_modes"/>
+	<property name="src_private.dir" location="src_private"/>
+
+	<!-- PARAMETERS REQUIRED FOR BUILD -->
+	<condition property="params.mode.set" else="false">
+		<isset property="mode"/>
+	</condition>
+
+	<condition property="params.addr.set" else="false">
+		<and>
+			<isset property="path"/>
+			<isset property="domain"/>
+		</and>
+	</condition>
+
+	<!-- ANT TASK DEFINITIONS -->
 	<path id="project.classpath">
 		<fileset dir="${lib.dir}">
 			<include name="*.jar"/>
@@ -27,12 +40,19 @@
 		</classpath>
 	</taskdef>
 
+	<!-- ANT TARGETS -->
+ 	<target name="check" description="Check build parameters have been passed" >
+		<fail unless="params.mode.set">
+			Must provide the output mode: -Dmode=...
+		</fail>
+	</target>
+
  	<target name="clean" description="Remove built and temporary files" >
 		<echo message="Removing previous build" />
 		<delete dir="${dist.dir}"/>
 	</target>
 
-	<target name="common" depends="clean" description="Create the website framework">
+	<target name="build" depends="check,clean" description="Create the website">
 		<tstamp/>
 
 		<echo message="Creating ${dist.dir}" />
@@ -43,24 +63,82 @@
         	<fileset dir="${src.dir}" includes="**"/>  
 		</copy>
 
-		<echo message="Copying sources from ${secret.dir} to ${dist.dir}" />
+		<echo message="Copying sources from ${src_modes.dir}/${mode} to ${dist.dir}" />
 		<copy todir="${dist.dir}" overwrite="true">  
-        	<fileset dir="${secret.dir}" includes="**"/>  
+        	<fileset dir="${src_modes.dir}/${mode}" includes="**"/>  
 		</copy>
-	</target>
 
-	<target name="submission" depends="common" description="Create submission website">
-		<echo message="Copying sources from ${submission.dir} to ${dist.dir}" />
+		<echo message="Copying sources from ${src_private.dir} to ${dist.dir}" />
 		<copy todir="${dist.dir}" overwrite="true">  
-        	<fileset dir="${submission.dir}" includes="**"/>  
+        	<fileset dir="${src_private.dir}" includes="**"/>  
 		</copy>
-	</target>
 
-	<target name="highlights" depends="common" description="Create highlights website">
-		<echo message="Copying sources from ${highlights.dir} to ${dist.dir}" />
-		<copy todir="${dist.dir}" overwrite="true">  
-        	<fileset dir="${highlights.dir}" includes="**"/>  
-		</copy>
+		<if>
+			<and>
+				<isset property="path"/>
+				<isset property="domain"/>
+			</and>
+			<then>
+				<echo message="Setting the DOMAIN and PATH in configuration file" />
+				<replace file="${dist.dir}/config.php" token="@@@DOMAIN@@@" value="${domain}"/>
+				<replace file="${dist.dir}/config.php" token="@@@PATH@@@" value="${path}"/>
+			</then>
+		</if>
+
+		<echo message="Replacing DOMAIN, PATH and URI_ROOT in all ftiles, based on configuration" />
+		<loadfile property="config.file" srcfile="${dist.dir}/config.php"/>
+		<if>
+			<not>
+				<and>
+					<isset property="path"/>
+					<isset property="domain"/>
+				</and>
+			</not>
+			<then>
+				<propertyregex property="domain"
+					override="true"
+					input="${config.file}"
+					regexp="\\define \('DOMAIN', '([@a-zA-Z\:./_-]*)'\)"
+					select="\1" />
+				<propertyregex property="path"
+					override="true"
+					input="${config.file}"
+					regexp="\\define \('PATH', '([@a-zA-Z\:./_-]*)'\)"
+					select="\1" />
+			</then>
+		</if>
+
+		<propertyregex property="sysHtaccess"
+			override="true"
+			input="${config.file}"
+			regexp="\\define \('SYS_HTAC', ([a-zA-Z]*)\)"
+			select="\1" />
+		<if>
+			<equals arg1="${sysHtaccess}" arg2="true" />
+			<then>
+				<property name="uriRoot" value="${domain}${path}"/>
+			</then>
+			<else>
+				<property name="uriRoot" value="${domain}${path}/index.php"/>
+			</else>
+		</if>
+
+		<replace dir="${dist.dir}" value="${domain}">
+			<include name="**/*"/>
+			<replacetoken>@@@DOMAIN@@@</replacetoken>
+		</replace>
+		<replace dir="${dist.dir}" value="${path}">
+			<include name="**/*"/>
+			<replacetoken>@@@PATH@@@</replacetoken>
+		</replace>
+		<replace dir="${dist.dir}" value="${domain}${path}">
+			<include name="**/*"/>
+			<replacetoken>@@@HOME@@@</replacetoken>
+		</replace>
+		<replace dir="${dist.dir}" value="${uriRoot}">
+			<include name="**/*"/>
+			<replacetoken>@@@URI_ROOT@@@</replacetoken>
+		</replace>
 	</target>
 
 	<target name="compress" description="Compress JavaScript and CSS files">

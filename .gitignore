@@ -1,7 +1,4 @@
-data/
+dat/*
 dist/*
-src/secret/*
-src/highlights/config.php
-src/submission/config.php
-usr/*
+src_private/*
 *.scpt
