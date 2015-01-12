@@ -86,7 +86,7 @@ class Model extends \CDT\Singleton {
 						foreach ($this->getDefaultData()->toArray() as $key => $value) {
 							$userValue = @\file_get_contents ($dir . $key . '.txt');
 							if ($userValue !== false) {
-								$override[$key] = $userValue;
+								$override[$key] = $oUserModel->makeSubsts ($userValue, $oUser->username);
 							}
 						}
 					}
@@ -98,7 +98,7 @@ class Model extends \CDT\Singleton {
 			$ret = array();
 			// TODO: replace
 			foreach ($this->getDefaultData()->toArray () as $k => $v) {
-				$ret[$k] = $oUserModel->makeSubsts (!\is_null ($override) && isSet ($override[$k]) ? $override[$k] : $v, $username);
+				$ret[$k] = $oUserModel->makeSubsts (!\is_null ($override) && isSet ($override[$k]) ? $override[$k] : $v, $oUser->username);
 			}
 		} else {
 			$ret = $override;

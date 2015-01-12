@@ -289,20 +289,20 @@ class Model extends \CDT\Singleton {
 		$oFileReader = $this->rh->cdt_file_reader;
 			$header = $oFileReader->readHeader (DIR_USR . self::USER_FILE);
 			foreach ($header->toArray() as $col) {
-				$fandr[$col->name] = '';
+				$fandr['<' . $col->name .'>'] = '';
 			}
 		} else {
 			$oUser = $this->get ($username);
 			foreach ($oUser->toArray () as $k => $v) {
-				$fandr[$k] = $v;
+				$fandr['<' . $k .'>'] = $v;
 			}
 		}
 
-		$fandr['password'] = \is_null ($username) ? '' : $this->generatePassword ($username);
-		$fandr['wordCount'] = \is_null ($username) ? '' : $this->getWordCount ($username);
-		$fandr['deadline'] = \is_null ($username) ? '' : $this->getDeadline ($username);
-		$fandr['fundingStatement'] = \is_null ($username) ? '' : $this->getFunding ($username);
-		$fandr['imgDir'] = \is_null ($username) ? ''
+		$fandr['<password>'] = \is_null ($username) ? '' : $this->generatePassword ($username);
+		$fandr['<wordCount>'] = \is_null ($username) ? '' : $this->getWordCount ($username);
+		$fandr['<deadline>'] = \is_null ($username) ? '' : $this->getDeadline ($username);
+		$fandr['<fundingStatement>'] = \is_null ($username) ? '' : $this->getFunding ($username);
+		$fandr['<imgDir>'] = \is_null ($username) ? ''
 			: URI_DATA . '/' . $oUser->cohort . '/' . $oUser->username . '/' . $oUser->latestVersion .'/';
 
 		return $fandr;
