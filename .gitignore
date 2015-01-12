@@ -1,4 +1,5 @@
 dat/*
 dist/*
+lib/yuicompressor-*
 src_private/*
 *.scpt

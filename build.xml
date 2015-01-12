@@ -6,10 +6,17 @@
 
 	<!-- DIRECTORIES -->
 	<property name="dist.dir" location="dist" />
+	<property name="dist.web.css.dir" location="dist/web/css" />
+	<property name="dist.sys.css.dir" location="dist/sys/css" />
+	<property name="dist.web.js.dir" location="dist/web/js" />
+	<property name="dist.sys.js.dir" location="dist/sys/js" />
 	<property name="lib.dir" location="lib" />
 	<property name="src.dir" location="src"/>
 	<property name="src_modes.dir" location="src_modes"/>
 	<property name="src_private.dir" location="src_private"/>
+
+	<!-- YUI COMPRESSOR JAR -->
+	<property name="yui-compressor.jar" location="${lib.dir}/yuicompressor-2.4.8.jar"/>
 
 	<!-- PARAMETERS REQUIRED FOR BUILD -->
 	<condition property="params.mode.set" else="false">
@@ -24,16 +31,6 @@
 	</condition>
 
 	<!-- ANT TASK DEFINITIONS -->
-	<path id="project.classpath">
-		<fileset dir="${lib.dir}">
-			<include name="*.jar"/>
-		</fileset>
-	</path>
-
-	<taskdef name="jscomp" classname="com.google.javascript.jscomp.ant.CompileTask" classpathref="project.classpath"/>
-	<taskdef name="cscomp" classname="in.parambir.ant.tasks.CompressTask" classpathref="project.classpath"/>	
-
-	<taskdef resource="yuicompressor.tasks" classpathref="project.classpath"/>	
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
 		<classpath>
 			<pathelement location="${lib.dir}/ant-contrib.jar"/>
@@ -42,9 +39,8 @@
 
 	<!-- ANT TARGETS -->
  	<target name="check" description="Check build parameters have been passed" >
-		<fail unless="params.mode.set">
-			Must provide the output mode: -Dmode=...
-		</fail>
+		<fail unless="params.mode.set" message="Must provide the output mode: -Dmode=..."/>
+		<echo message="Supplied output mode!" />
 	</target>
 
  	<target name="clean" description="Remove built and temporary files" >
@@ -85,7 +81,7 @@
 			</then>
 		</if>
 
-		<echo message="Replacing DOMAIN, PATH and URI_ROOT in all ftiles, based on configuration" />
+		<echo message="Replacing DOMAIN, PATH and URI_ROOT in all files, based on configuration" />
 		<loadfile property="config.file" srcfile="${dist.dir}/config.php"/>
 		<if>
 			<not>
@@ -142,58 +138,64 @@
 	</target>
 
 	<target name="compress" description="Compress JavaScript and CSS files">
-		<foreach target="compress-js" param="foreach.file">
-            <path>
-                <fileset dir="${dist.dir}" casesensitive="yes">
-                    <include name="**/*.js"/>
-                </fileset>
-            </path>
-        </foreach>
+		<echo message="Begining compression processes..." />
+		<antcall target="compress-js">
+			<param name="dir" value="${dist.sys.js.dir}"/>
+		</antcall>
+		<antcall target="compress-js">
+			<param name="dir" value="${dist.web.js.dir}"/>
+		</antcall>
 
-		<foreach target="compress-css" param="foreach.file">
-            <path>
-                <fileset dir="${dist.dir}" casesensitive="yes">
-                    <include name="**/*.css"/>
-                </fileset>
-            </path>
-        </foreach>
+		<antcall target="compress-css">
+			<param name="dir" value="${dist.sys.css.dir}"/>
+		</antcall>
+		<antcall target="compress-css">
+			<param name="dir" value="${dist.web.css.dir}"/>
+		</antcall>
+
+		<echo message="Compression complete!" />
 	</target>
 
 	<target name="compress-js" description="Compress JavaScript files">
-		<basename property="file.js" file="${foreach.file}"/>
+		<fail message="Must provide the JS directory with dir parameter">
+			<condition>
+				<not>
+					<isset property="dir"/>
+				</not>
+			</condition>
+		</fail>
 
-		<script language="javascript"><![CDATA[
-
-		fullPath = project.getProperty("foreach.file");
-		fileOnly = project.getProperty("file.js");
-		pathOnly = fullPath.substring(0, fullPath.indexOf(fileOnly));
-		project.setProperty("directory",pathOnly);
-
-		]]></script>
-
-		<jscomp compilationLevel="simple" warning="quiet"  debug="false" output="${foreach.file}">
-			<sources dir="${directory}">
-		    	<file name="${file.js}" />
-			</sources>
-		</jscomp>
+		<echo message="Compressing JS files in ${dir}" />
+		<apply executable="java"  dest="${dir}" parallel="false" verbose="true" ignoremissing="true">
+			<fileset dir="${dir}" includes="**/*.js" excludes="**/*.min.js"/>
+			<arg line="-jar"/>
+			<arg path="${yui-compressor.jar}"/> 
+			<arg line="-o"/>
+			<mapper type="glob" from="*.js" to="*.min.js"/>
+			<targetfile/>
+			<srcfile/>
+		</apply>
 	</target>
 
 	<target name="compress-css" description="Compress CSS files">
-		<basename property="file.css" file="${foreach.file}"/>
+		<fail message="Must provide the CSS directory with dir parameter">
+			<condition>
+				<not>
+					<isset property="dir"/>
+				</not>
+			</condition>
+		</fail>
 
-		<script language="javascript"><![CDATA[
-		fullPath = project.getProperty("foreach.file");
-		fileOnly = project.getProperty("file.css");
-		pathOnly = fullPath.substring(0, fullPath.indexOf(fileOnly));
-		project.setProperty("directory",pathOnly);
-		]]></script>
-
-		<cscomp todir="${directory}">
-			<fileset dir="${directory}">
-				<include name="${file.css}"/>
-			</fileset>
-			<mapper type="glob" from="*.css" to="*.css"/>
-		</cscomp>
+		<echo message="Compressing CSS files in ${dir}" />
+		<apply executable="java"  dest="${dir}" parallel="false" verbose="true" ignoremissing="true">
+			<fileset dir="${dir}" includes="**/*.css" excludes="**/*.min.css"/>
+			<arg line="-jar"/>
+			<arg path="${yui-compressor.jar}"/> 
+			<arg line="-o"/>
+			<mapper type="glob" from="*.css" to="*.min.css"/>
+			<targetfile/>
+			<srcfile/>
+		</apply>
 	</target>
 
 </project>

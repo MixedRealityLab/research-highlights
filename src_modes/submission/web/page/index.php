@@ -47,7 +47,7 @@ $oPageTemplate->startCapture ();
 $oPageTemplate->set ('header', true);
 $oPageTemplate->set ('body', $oPageTemplate->endCapture ());
 
-$oPageTemplate->add ('javascript', URI_WEB . '/js/main.js');
-$oPageTemplate->add ('javascript', URI_WEB . '/js/index.js');
+$oPageTemplate->add ('javascript', URI_WEB . '/js/main.min.js');
+$oPageTemplate->add ('javascript', URI_WEB . '/js/index.min.js');
 
 print $oPageTemplate->load ('2015');

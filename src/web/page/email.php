@@ -117,7 +117,7 @@ Many thanks and good luck!</textarea>
 $oPageTemplate->set ('header', true);
 $oPageTemplate->set ('body', $oPageTemplate->endCapture ());
 
-$oPageTemplate->add ('javascript', URI_WEB . '/js/main.js');
-$oPageTemplate->add ('javascript', URI_WEB . '/js/email.js');
+$oPageTemplate->add ('javascript', URI_WEB . '/js/main.min.js');
+$oPageTemplate->add ('javascript', URI_WEB . '/js/email.min.js');
 
 print $oPageTemplate->load ('2015');

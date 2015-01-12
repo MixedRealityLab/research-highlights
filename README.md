@@ -19,6 +19,7 @@ Build using the `ant` command:
 * The submission website can be built using `ant submission`
 * You can override the _DOMAIN_ and _PATH_ php configuration variables with the ant flags `-Ddomain=...` and `-Dpath=...`
 * _TIP_: Non-PHP files can use `@@@DOMAIN@@@`, `@@@PATH@@@` and `@@@URI_ROOT@@@` for the respective values, these are substituted at build-time
+* There is also a `compress` target for Ant, the included code references files build using YUI Compressor
 
 ## Legal
 This code is copyright Martin Porcheron, and licensed under the MIT licence.

@@ -248,8 +248,8 @@ $oPageTemplate->startCapture ();
 $oPageTemplate->set ('header', true);
 $oPageTemplate->set ('body', $oPageTemplate->endCapture ());
 
-$oPageTemplate->add ('css', URI_SYS . '/css/bootstrap-tagsinput.css');
-$oPageTemplate->add ('javascript', URI_WEB . '/js/main.js');
-$oPageTemplate->add ('javascript', URI_WEB . '/js/submit.js');
+$oPageTemplate->add ('css', URI_SYS . '/css/bootstrap-tagsinput.min.css');
+$oPageTemplate->add ('javascript', URI_WEB . '/js/main.min.js');
+$oPageTemplate->add ('javascript', URI_WEB . '/js/submit.min.js');
 
 print $oPageTemplate->load ('2015');
