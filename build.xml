@@ -5,12 +5,12 @@
 	</description>
 
 	<!-- DIRECTORIES -->
-	<property name="dist.dir" location="dist" />
-	<property name="dist.web.css.dir" location="dist/web/css" />
-	<property name="dist.sys.css.dir" location="dist/sys/css" />
-	<property name="dist.web.js.dir" location="dist/web/js" />
-	<property name="dist.sys.js.dir" location="dist/sys/js" />
-	<property name="lib.dir" location="lib" />
+	<property name="dist.dir" location="dist"/>
+	<property name="dist.web.css.dir" location="dist/web/css"/>
+	<property name="dist.sys.css.dir" location="dist/sys/css"/>
+	<property name="dist.web.js.dir" location="dist/web/js"/>
+	<property name="dist.sys.js.dir" location="dist/sys/js"/>
+	<property name="lib.dir" location="lib"/>
 	<property name="src.dir" location="src"/>
 	<property name="src_modes.dir" location="src_modes"/>
 	<property name="src_private.dir" location="src_private"/>
@@ -38,35 +38,35 @@
 	</taskdef>
 
 	<!-- ANT TARGETS -->
- 	<target name="check" description="Check build parameters have been passed" >
+	<target name="check" description="Check build parameters have been passed" >
 		<fail unless="params.mode.set" message="Must provide the output mode: -Dmode=..."/>
-		<echo message="Supplied output mode!" />
+		<echo message="Supplied output mode!"/>
 	</target>
 
- 	<target name="clean" description="Remove built and temporary files" >
-		<echo message="Removing previous build" />
+	<target name="clean" description="Remove built and temporary files" >
+		<echo message="Removing previous build"/>
 		<delete dir="${dist.dir}"/>
 	</target>
 
 	<target name="build" depends="check,clean" description="Create the website">
 		<tstamp/>
 
-		<echo message="Creating ${dist.dir}" />
+		<echo message="Creating ${dist.dir}"/>
 		<mkdir dir="${dist.dir}"/>
 
-		<echo message="Copying sources from ${src.dir} to ${dist.dir}" />
+		<echo message="Copying sources from ${src.dir} to ${dist.dir}"/>
 		<copy todir="${dist.dir}" >  
-        	<fileset dir="${src.dir}" includes="**"/>  
+			<fileset dir="${src.dir}" includes="**"/>  
 		</copy>
 
-		<echo message="Copying sources from ${src_modes.dir}/${mode} to ${dist.dir}" />
+		<echo message="Copying sources from ${src_modes.dir}/${mode} to ${dist.dir}"/>
 		<copy todir="${dist.dir}" overwrite="true">  
-        	<fileset dir="${src_modes.dir}/${mode}" includes="**"/>  
+			<fileset dir="${src_modes.dir}/${mode}" includes="**"/>  
 		</copy>
 
-		<echo message="Copying sources from ${src_private.dir} to ${dist.dir}" />
+		<echo message="Copying sources from ${src_private.dir} to ${dist.dir}"/>
 		<copy todir="${dist.dir}" overwrite="true">  
-        	<fileset dir="${src_private.dir}" includes="**"/>  
+			<fileset dir="${src_private.dir}" includes="**"/>  
 		</copy>
 
 		<if>
@@ -75,13 +75,13 @@
 				<isset property="domain"/>
 			</and>
 			<then>
-				<echo message="Setting the DOMAIN and PATH in configuration file" />
+				<echo message="Setting the DOMAIN and PATH in configuration file"/>
 				<replace file="${dist.dir}/config.php" token="@@@DOMAIN@@@" value="${domain}"/>
 				<replace file="${dist.dir}/config.php" token="@@@PATH@@@" value="${path}"/>
 			</then>
 		</if>
 
-		<echo message="Replacing DOMAIN, PATH and URI_ROOT in all files, based on configuration" />
+		<echo message="Replacing DOMAIN, PATH and URI_ROOT in all files, based on configuration"/>
 		<loadfile property="config.file" srcfile="${dist.dir}/config.php"/>
 		<if>
 			<not>
@@ -91,26 +91,26 @@
 				</and>
 			</not>
 			<then>
-				<propertyregex property="domain"
-					override="true"
-					input="${config.file}"
-					regexp="\\define \('DOMAIN', '([@a-zA-Z\:./_-]*)'\)"
-					select="\1" />
-				<propertyregex property="path"
-					override="true"
-					input="${config.file}"
-					regexp="\\define \('PATH', '([@a-zA-Z\:./_-]*)'\)"
-					select="\1" />
+				<antcall target="set-const">
+					<param name="const" value="DOMAIN"/>
+					<param name="val" value="${domain}"/>
+					<param name="config" value="true"/>
+				</antcall>
+				<antcall target="set-const">
+					<param name="const" value="PATH"/>
+					<param name="val" value="${path}"/>
+					<param name="config" value="true"/>
+				</antcall>
 			</then>
 		</if>
 
-		<propertyregex property="sysHtaccess"
-			override="true"
-			input="${config.file}"
-			regexp="\\define \('SYS_HTAC', ([a-zA-Z]*)\)"
-			select="\1" />
+		<antcall target="set-const">
+			<param name="const" value="SYS_HTAC"/>
+			<param name="val" value="${sysHtaccess}"/>
+			<param name="config" value="true"/>
+		</antcall>
 		<if>
-			<equals arg1="${sysHtaccess}" arg2="true" />
+			<equals arg1="${sysHtaccess}" arg2="true"/>
 			<then>
 				<property name="uriRoot" value="${domain}${path}"/>
 			</then>
@@ -119,26 +119,30 @@
 			</else>
 		</if>
 
-		<replace dir="${dist.dir}" value="${domain}">
-			<include name="**/*"/>
-			<replacetoken>@@@DOMAIN@@@</replacetoken>
-		</replace>
-		<replace dir="${dist.dir}" value="${path}">
-			<include name="**/*"/>
-			<replacetoken>@@@PATH@@@</replacetoken>
-		</replace>
-		<replace dir="${dist.dir}" value="${domain}${path}">
-			<include name="**/*"/>
-			<replacetoken>@@@HOME@@@</replacetoken>
-		</replace>
-		<replace dir="${dist.dir}" value="${uriRoot}">
-			<include name="**/*"/>
-			<replacetoken>@@@URI_ROOT@@@</replacetoken>
-		</replace>
+		<antcall target="set-const">
+			<param name="const" value="DOMAIN"/>
+			<param name="val" value="${domain}"/>
+			<param name="files" value="**/*"/>
+		</antcall>
+		<antcall target="set-const">
+			<param name="const" value="PATH"/>
+			<param name="val" value="${path}"/>
+			<param name="files" value="**/*"/>
+		</antcall>
+		<antcall target="set-const">
+			<param name="const" value="HOME"/>
+			<param name="val" value="${domain}${path}"/>
+			<param name="files" value="**/*"/>
+		</antcall>
+		<antcall target="set-const">
+			<param name="const" value="URI_ROOT"/>
+			<param name="val" value="${uriRoot}"/>
+			<param name="files" value="**/*"/>
+		</antcall>
 	</target>
 
+	<!-- COMPRESSION TASKS -->
 	<target name="compress" description="Compress JavaScript and CSS files">
-		<echo message="Begining compression processes..." />
 		<antcall target="compress-js">
 			<param name="dir" value="${dist.sys.js.dir}"/>
 		</antcall>
@@ -146,6 +150,14 @@
 			<param name="dir" value="${dist.web.js.dir}"/>
 		</antcall>
 
+		<antcall target="set-const">
+			<param name="const" value="EXT_JS"/>
+			<param name="val" value=".min.js"/>
+			<param name="config" value="true"/>
+			<param name="files" value="**/*"/>
+		</antcall>
+
+		<property name="css.ext" location=".min.css"/>
 		<antcall target="compress-css">
 			<param name="dir" value="${dist.sys.css.dir}"/>
 		</antcall>
@@ -153,7 +165,12 @@
 			<param name="dir" value="${dist.web.css.dir}"/>
 		</antcall>
 
-		<echo message="Compression complete!" />
+		<antcall target="set-const">
+			<param name="const" value="EXT_CSS"/>
+			<param name="val" value=".min.css"/>
+			<param name="config" value="true"/>
+			<param name="files" value="**/*"/>
+		</antcall>
 	</target>
 
 	<target name="compress-js" description="Compress JavaScript files">
@@ -165,7 +182,7 @@
 			</condition>
 		</fail>
 
-		<echo message="Compressing JS files in ${dir}" />
+		<echo message="Compressing JS files in ${dir}"/>
 		<apply executable="java"  dest="${dir}" parallel="false" verbose="true" ignoremissing="true">
 			<fileset dir="${dir}" includes="**/*.js" excludes="**/*.min.js"/>
 			<arg line="-jar"/>
@@ -186,7 +203,7 @@
 			</condition>
 		</fail>
 
-		<echo message="Compressing CSS files in ${dir}" />
+		<echo message="Compressing CSS files in ${dir}"/>
 		<apply executable="java"  dest="${dir}" parallel="false" verbose="true" ignoremissing="true">
 			<fileset dir="${dir}" includes="**/*.css" excludes="**/*.min.css"/>
 			<arg line="-jar"/>
@@ -196,6 +213,46 @@
 			<targetfile/>
 			<srcfile/>
 		</apply>
+	</target>
+
+	<!-- UTILITY TARGETS -->
+	<target name="set-const" description="Set a configuration constant">
+		<fail message="Must provide the constant, current value and new value">
+			<condition>
+				<not>
+					<or>
+						<isset property="const"/>
+						<isset property="val"/>
+					</or>
+				</not>
+			</condition>
+		</fail>
+
+		<echo message="Set ${const} to ${val}"/>
+
+		<if>
+			<and>
+				<isset property="config"/>
+				<istrue value="${config}"/>
+			</and>
+			<then>
+				<echo message="Apply change in ${dist.dir}/config.php"/>
+				<replaceregexp file="${dist.dir}/config.php" flags="gs">
+					<regexp pattern="\\define \('${const}', '([@a-zA-Z\:./_-]*)'"/>
+					<substitution expression="\\define \('${const}', '${val}'"/>
+				</replaceregexp>
+			</then>
+		</if>
+
+		<if>
+			<isset property="files"/>
+			<then>
+				<echo message="Replace @@@${const}@@@ in ${files}"/>
+				<replace dir="${dist.dir}" token="@@@${const}@@@" value="${val}">
+					<include name="${files}"/>
+				</replace>
+			</then>
+		</if>
 	</target>
 
 </project>

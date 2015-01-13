@@ -10,11 +10,11 @@
 $rh = \CDT\RH::i();
 $oPageTemplate = $rh->cdt_page_template;
 
-$oPageTemplate->add ('css', URI_WEB . '/css/submitted.min.css');
+$oPageTemplate->add ('css', URI_WEB . '/css/submitted' . EXT_CSS);
 
-$oPageTemplate->add ('javascript', URI_SYS . '/js/jquery.ba-hashchange.min.js');
-$oPageTemplate->add ('javascript', URI_WEB . '/js/main.min.js');
-$oPageTemplate->add ('javascript', URI_WEB . '/js/submitted.min.js');
+$oPageTemplate->add ('javascript', URI_SYS . '/js/jquery.ba-hashchange' . EXT_JS);
+$oPageTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
+$oPageTemplate->add ('javascript', URI_WEB . '/js/submitted' . EXT_JS);
 
 $oPageTemplate->set ('body', '<div class="loading">Loading, please wait...</div><div class="container submitted"></div>');
 

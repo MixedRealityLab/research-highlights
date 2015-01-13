@@ -18,14 +18,14 @@
 		<title>Research Highlights | Horizon CDT</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
 		<base href="<?php print URI_HOME; ?>/">
-		<link rel="stylesheet" href="<?php print URI_SYS; ?>/css/bootstrap.min.css">
-		<link rel="stylesheet" href="<?php print URI_WEB; ?>/css/main.min.css">
+		<link rel="stylesheet" href="<?php print URI_SYS; ?>/css/bootstrap<?php print EXT_CSS; ?>">
+		<link rel="stylesheet" href="<?php print URI_WEB; ?>/css/main<?php print EXT_CSS; ?>">
 		<?php if ($css): ?>
 			<?php foreach ($css as $file): ?>
 			<link rel="stylesheet" href="<?php print $file; ?>">
 			<?php endforeach; ?>
 		<?php endif; ?>
-		<script src="<?php print URI_SYS; ?>/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+		<script src="<?php print URI_SYS; ?>/js/modernizr-2.6.2-respond-1.1.0<?php print EXT_JS; ?>"></script>
 	</head>
 	<body>
 		<!--[if lt IE 7]>
@@ -56,12 +56,12 @@
 			</footer>
 		</div>
 
-		<script src="<?php print URI_SYS; ?>/js/jquery-1.11.1.min.js"></script>
-		<script src="<?php print URI_SYS; ?>/js/bootstrap.min.js"></script>
-		<script src="<?php print URI_SYS; ?>/js/bootstrap-tagsinput.min.js"></script>
-		<script src="<?php print URI_SYS; ?>/js/jquery-ui.min.js"></script>
-		<script src="<?php print URI_SYS; ?>/js/jquery.scrollTo.min.js"></script>
-		<script src="<?php print URI_SYS; ?>/js/jquery.autosize.min.js"></script>
+		<script src="<?php print URI_SYS; ?>/js/jquery-1.11.1<?php print EXT_JS; ?>"></script>
+		<script src="<?php print URI_SYS; ?>/js/bootstrap<?php print EXT_JS; ?>"></script>
+		<script src="<?php print URI_SYS; ?>/js/bootstrap-tagsinput<?php print EXT_JS; ?>"></script>
+		<script src="<?php print URI_SYS; ?>/js/jquery-ui<?php print EXT_JS; ?>"></script>
+		<script src="<?php print URI_SYS; ?>/js/jquery.scrollTo<?php print EXT_JS; ?>"></script>
+		<script src="<?php print URI_SYS; ?>/js/jquery.autosize<?php print EXT_JS; ?>"></script>
 
 		<?php if ($javascript): ?>
 		<?php foreach ($javascript as $file): ?>

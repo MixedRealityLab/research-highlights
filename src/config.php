@@ -27,6 +27,9 @@
 \define ('PAG_HOME', 'index');
 \define ('SYS_HTAC', false);
 
+\define ('EXT_CSS', '.css');
+\define ('EXT_JS', '.js');
+
 \define ('URI_HOME', DOMAIN . PATH);
 \define ('URI_ROOT', URI_HOME . SYS_HTAC ? '' : '/index.php');
 \define ('URI_WEB', URI_HOME . '/web');

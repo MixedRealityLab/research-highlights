@@ -90,7 +90,7 @@ $(function() {
 			$('#editor-pass').attr('value', $('#password').val());
 			loginPrefill(response, textStatus, jqXHR); 
 			if(response.admin != undefined) {
-				$.getScript("web/js/admin.js");
+				$.getScript("web/js/admin@@@EXT_JS@@@");
 			}
 		}
 	}, 'json');
