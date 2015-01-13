@@ -32,7 +32,7 @@ if (is_null ($oInputModel->get ('usernames'))
 
 $oUser = $oUserModel->get ();
 
-$from = '"'. $oUser->name .'" <'. $oUser->email .'>';
+$from = '"'. $oUser->firstName . ' ' . $oUser->surname .'" <'. $oUser->email .'>';
 $replyTo = 'cdt-rh@lists.porcheron.uk';
 $oUtilsEmail->setHeaders ($from, $replyTo);
 

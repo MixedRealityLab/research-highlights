@@ -28,7 +28,7 @@
 							var $aside = $('<aside></aside>');
 
 							// author details
-							$aside.append($('<span></span>').text(data.name + ' (' + data.cohort + ' cohort)'));	
+							$aside.append($('<span></span>').text(data.firstName + ' ' + data.surname + ' (' + data.cohort + ' cohort)'));	
 							$aside.append($('<span></span>').text(data.username));						
 							$aside.append($('<span></span>').text(data.email));
 

@@ -27,14 +27,14 @@
 									$('.hitlist').append($table.fadeIn()); 
 								}
 								
-								var $thead = $('<thead></thead>').append([$('<th></th>').addClass('center').text('Year'), $('<th></th>').addClass('center').text('Cohort'), $('<th></th>').text('Full Name'), $('<th></th>').text('Username'),  $('<th></th>').text('Email Address')]);
+								var $thead = $('<thead></thead>').append([$('<th></th>').addClass('center').text('Year'), $('<th></th>').addClass('center').text('Cohort'), $('<th></th>').text('Name'), $('<th></th>').text('Username'),  $('<th></th>').text('Email Address')]);
 								$table = $('<table></table>').addClass('row-fluid').append($thead);
 								prevCohort = data.cohort;
 							}
 
 							var $year = $('<td></td>').addClass('center').text(data.year);
 							var $cohort = $('<td></td>').addClass('center').text(data.cohort);
-							var $name = $('<td></td>').text(data.name);
+							var $name = $('<td></td>').text(data.firstName + ' ' + data.surname);
 							var $username = $('<td></td>').text(data.username);
 							var $email = $('<td></td>').text(data.email);
 

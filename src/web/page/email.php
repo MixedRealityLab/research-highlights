@@ -67,12 +67,12 @@ $oPageTemplate->startCapture ();
 								<div class="panel-body">
 									<div class="form-group">
 										<label for="title">Subject</label>
-										<input type="text" class="form-control input input-large" autocomplete="off" name="subject" id="subject" placeholder="Subject for the email" value="[IMPORTANT] Horizon CDT Research Highlights: Login Details for <name>">
+										<input type="text" class="form-control input input-large" autocomplete="off" name="subject" id="subject" placeholder="Subject for the email" value="[IMPORTANT] Horizon CDT Research Highlights: Login Details for <firstName> <surname>">
 									</div>
 									<hr>
 									<div class="form-group">
 										<label for="title">Message</label>
-										<textarea name="message" id="message" rows="15" class="form-control input input-large" placeholder="Message to email users">Dear <name>,
+										<textarea name="message" id="message" rows="15" class="form-control input input-large" placeholder="Message to email users">Dear <firstName>,
 
 For the Horizon CDT Research Highlights 2015 you need to produce a <wordCount>-word maximum summary of your PhD. This summary will be published online, along with all other current CDT students in an online catalogue. It is hoped that highlights from this catalogue will be included in a published leaflet advertising the centre's work.
 

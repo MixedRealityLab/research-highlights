@@ -26,10 +26,10 @@ var loginPrefill = function (response, textStatus, jqXHR) {
 		ReHi.wordCount($(this), $('.text-rem'), response.wordCount);
 	});
 	
-	$('.name').text(response.name);
+	$('.name').text(response.firstName + ' ' + response.surname);
 
 	$('#cohort').attr('value', response.cohort);
-	$('#name').attr('value', response.name);
+	$('#name').attr('value', response.firstName + ' ' + response.surname);
 	$('#email').attr('value', response.email);
 
 	$('#tweet').val(response.tweet);

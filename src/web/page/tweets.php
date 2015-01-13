@@ -19,6 +19,6 @@ foreach ($oUsers as $oUser) {
 	$temp = $oSubmissionModel->get ($oUser->username, false);
 
 	if (isSet ($temp->text)) {
-		print $oUser->name . ',' . $oUser->email . ',' . $temp->tweet . "\n";
+		print $oUser->firstName . ',' . $oUser->surname . ',' . $oUser->email . ',' . $temp->tweet . "\n";
 	}
 }

@@ -1,2 +1,1 @@
-year:int,cohort:str,username:str,name:str,email:str,fundingStatementId:str,enabled:bool,countSubmission:bool
-2,2013,ceg,Charlie Gamma,def@university.com,CDT13,1,1
+year:int,cohort:str,username:str,firstName:str,surname:str,email:str,fundingStatementId:str,enabled:bool,countSubmission:bool2,2013,ceg,Charlie,Gamma,def@university.com,CDT13,1,1

@@ -17,8 +17,10 @@ footer {
 }
 
 .view-by {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 1em;
 	font-size: 0.8em;
-	margin-bottom: 1.2em;
+	margin-bottom: .6em;
 }
 
 .view-by .selected {
@@ -26,29 +28,70 @@ footer {
 	font-weight: bold;
 }
 
+.nav > li > a {
+	padding: 10px 15px 10px 0;
+}
+
+.nav > li > a:hover {
+	background-color: transparent;
+}
+
+.nav > li > a > .caret  {
+	float: right;
+	margin-top: 7px;
+}
+
+.nav > li > a[data-toggle="collapse"]  {
+	color: #000;
+}
+
+.nav > li > a > .caret, .nav > li > a:hover > .caret {
+	border-left: 4px solid transparent;
+	border-top: 4px solid #333;
+	border-right: 4px solid transparent;
+	border-bottom: 0;
+}
+
+.nav > li > a.collapsed > .caret {
+	border-left:0;
+	border-top: 4px solid transparent;
+	border-right: 4px solid #333;
+	border-bottom: 4px solid transparent;
+}
+
+.nav > li > .nav > li > a {
+	padding: 10px 15px 10px 15px;
+}
+
+.nav > li > .nav {
+	margin-top: -5px;
+}
 
 /* Based on http://www.bootply.com/80586 */
 @media screen and (max-width: 768px) {
-	.row-offcanvas {
-	position: relative;
-	-webkit-transition: all 0.25s ease-out;
-	-moz-transition: all 0.25s ease-out;
-	transition: all 0.25s ease-out;
+	div.container.main {
+		overflow: hidden;
 	}
 
-	.row-offcanvas-left
-	.sidebar-offcanvas {
-	left: -50%;
+	.row-offcanvas {
+		position: relative;
+		-webkit-transition: all 0.25s ease-out;
+		-moz-transition: all 0.25s ease-out;
+		transition: all 0.25s ease-out;
+	}
+
+	.row-offcanvas-left	.sidebar-offcanvas {
+		left: -50%;
 	}
 
 	.row-offcanvas-left.active {
-	left: 50%;
+		left: 50%;
 	}
 
 	.sidebar-offcanvas {
-	position: absolute;
-	top: 0;
-	width: 50%;
-	margin-left: 12px;
+		position: absolute;
+		top: 0;
+		width: 50%;
+		margin-left: 12px;
 	}
 }

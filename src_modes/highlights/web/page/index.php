@@ -24,7 +24,7 @@ $oPageTemplate->startCapture ();
 					<p class="view-by">
 						List submissions by
 						<br>
-						<a href="#" class="selected">Cohort</a> &bull; <a href="#">Name</a> &bull; <a href="#">Keyword</a> 
+						<a href="#" class="list-mode" data-listmode="cohort">Cohort</a> &bull; <a href="#" class="list-mode" data-listmode="name">Name</a> &bull; <a href="#" class="list-mode selected" data-listmode="keyword">Keyword</a> 
 					</p>
 
 					<ul class="nav" id="view-list">
@@ -44,7 +44,7 @@ $oPageTemplate->startCapture ();
 
 			<div class="col-xs-12 col-sm-9">
 				<p class="pull-right visible-xs">
-					<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Show Navigation</button>
+					<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">View Submissions</button>
 				</p>
 
 				<div class="jumbotron primary collapse">
@@ -55,8 +55,8 @@ $oPageTemplate->startCapture ();
 					</div>
 				</div>
 			</div>
-
 		</div>
+	</div>
 <?php
 
 $oPageTemplate->set ('header', true);

@@ -139,7 +139,11 @@ class Model extends \CDT\Singleton {
 		if (\is_null ($sort)) {
 			$sort = function ($a, $b) {
 				if ($a->cohort === $b->cohort) {
-					return \strcmp ($a->name, $b->name);
+					if ($a->surname === $b->surname) {
+						return \strcmp ($a->firstName, $b->firstName);
+					} else {
+						return \strcmp ($a->surname, $b->surname);
+					}
 				} else {
 					return \strcmp ($b->cohort, $a->cohort);
 				}

@@ -15,7 +15,7 @@
 		} else {
 			$('#saveAs').attr('value', $('#profile').val());
 			loginPrefill(response, textStatus, jqXHR);
-			ReHi.showSuccess('Loaded submission from ' + response.name, 'Please make any changes necessary and click the Submit button.');
+			ReHi.showSuccess('Loaded submission from ' + response.firstName + ' ' + response.surname, 'Please make any changes necessary and click the Submit button.');
 		}
 	}, 'json');
 
