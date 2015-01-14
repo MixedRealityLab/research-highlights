@@ -6,6 +6,51 @@
  * See LICENCE for legal information.
  */
 
+#viewList .accordion-group {
+    margin-bottom: 0px;
+    border:0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}    
+
+#viewList .accordion-heading {
+    height: 34px;
+    border-top: 1px solid #717171; /* inner stroke */
+    border-bottom: 1px solid #5A5A5A; /* inner stroke */
+    background-color: #353535; /* layer fill content */
+    background-image: -moz-linear-gradient(90deg, #595b59 0%, #616161 100%); /* gradient overlay */
+    background-image: -o-linear-gradient(90deg, #595b59 0%, #616161 100%); /* gradient overlay */
+    background-image: -webkit-linear-gradient(90deg, #595b59 0%, #616161 100%); /* gradient overlay */
+    background-image: linear-gradient(90deg, #595b59 0%, #616161 100%); /* gradient overlay */
+    list-style-type:none;
+}  
+
+#viewList .accordion-heading  a{  
+    color: #cbcbcb; /* text color */
+    text-shadow: 0 1px 0 #3b3b3b; /* drop shadow */
+    text-decoration:none;
+    font-weight:bold;  
+}
+
+#viewList .accordion-heading  a:hover{  
+    color:#ccc     
+}
+
+#viewList .accordion-heading .active {
+    width: 182px;
+    height: 34px;
+    border: 1px solid #5b5b5b; /* inner stroke */
+    background-color: #353535; /* layer fill content */
+    background-image: -moz-linear-gradient(90deg, #4b4b4b 0%, #555 100%); /* gradient overlay */
+    background-image: -o-linear-gradient(90deg, #4b4b4b 0%, #555 100%); /* gradient overlay */
+    background-image: -webkit-linear-gradient(90deg, #4b4b4b 0%, #555 100%); /* gradient overlay */
+    background-image: linear-gradient(90deg, #4b4b4b 0%, #555 100%); /* gradient overlay */
+}
+
+.side-footer {
+	margin-top: 2em;
+}
 
 body {
 	padding-top: 99px;
@@ -66,6 +111,82 @@ footer {
 .nav > li > .nav {
 	margin-top: -5px;
 }
+
+.well > h1 {
+	margin: 0 0 .5em 0;
+	font-size: 1.8em;
+}
+
+.well > span:first-child:before {
+	content: 'By ';
+	font-style: italic;
+}
+.well > span {
+	display:inline-block;
+	padding-right: 2em;
+	margin-bottom: .8em;
+}
+.well > span > .glyphicon {
+	padding-right: .5em;
+}
+.body h1 {
+	font-size: 1.5em;
+}
+.body h2 {
+	font-size: 1.35em;
+}
+.body h3 {
+	font-size: 1.2em;
+}
+.body h4 {
+	font-size: 1.05em;
+}
+.body p {
+	text-align: justify;
+}
+
+.subgroup {
+	margin: -16px;
+}
+.subgroup .viewItem:first-child {
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+}
+.subgroup .viewItem.selected {
+	background: #f8f8f8;
+}
+.span {
+	float: left;
+}
+span.keywords {
+	display: block;
+	clear: left;
+	margin-bottom: 0 !important;
+}
+.label-default {
+	background-color: #333;
+}
+
+
+.well.headerOnly * {
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.well.headerOnly:hover {
+	background: #e3e3e3;
+	cursor: pointer;
+}
+
+article img {
+	display: block;
+	max-width: 90%;
+	margin: 0 auto 0 auto;
+}
+
 
 /* Based on http://www.bootply.com/80586 */
 @media screen and (max-width: 768px) {

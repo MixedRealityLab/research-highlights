@@ -20,18 +20,17 @@ $oPageTemplate->startCapture ();
 					<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
 				</p>
 
-				<div class="well sidebar-nav">
+				<div class="sidebar-nav">
 					<p class="view-by">
 						List submissions by
 						<br>
-						<a href="#" class="list-mode" data-listmode="cohort">Cohort</a> &bull; <a href="#" class="list-mode" data-listmode="name">Name</a> &bull; <a href="#" class="list-mode selected" data-listmode="keyword">Keyword</a> 
+						<a href="#" class="listMode" data-listmode="cohort">Title</a> &bull; <a href="#" class="listMode" data-listmode="name">Name</a> &bull; <a href="#" class="listMode selected" data-listmode="keyword">Keyword</a> 
 					</p>
 
-					<ul class="nav" id="view-list">
-					</ul>
+					<div class="panel-group nav" id="viewList" role="tablist" aria-multiselectable="true"></div>
 				</div>
 
-				<div class="collapse">
+				<div class="collapse side-footer">
 					<div class="panel panel-info">
 						<div class="panel-heading">About the Centre</div>
 						<div class="panel-body">
@@ -43,7 +42,7 @@ $oPageTemplate->startCapture ();
 			</div>
 
 			<div class="col-xs-12 col-sm-9">
-				<p class="pull-right visible-xs">
+				<p class="pull-right visible-xs collapse">
 					<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">View Submissions</button>
 				</p>
 
@@ -53,6 +52,9 @@ $oPageTemplate->startCapture ();
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pretium enim pellentesque, pretium tellus sed, bibendum purus. Donec gravida tellus dui, nec placerat quam luctus non. Mauris a arcu at sapien imperdiet fermentum sit amet at dui. Vestibulum eu facilisis tortor. In lectus eros, mollis nec fringilla ut, pharetra non metus. Sed sed purus velit. Mauris malesuada ante ut felis pretium, sit amet volutpat felis iaculis.</p>
 						<p>To discover the work being undertaken by PhD students in the centre, use the menu to the left.</p>
 					</div>
+				</div>
+
+				<div class="read">
 				</div>
 			</div>
 		</div>
