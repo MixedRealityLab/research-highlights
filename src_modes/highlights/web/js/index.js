@@ -160,7 +160,7 @@ function showSubmissions(response) {
 			if(!headersOnly) {
 				header.push($('<span class="name"></span>').text(data.firstName + ' ' + data.surname + ' (' + data.cohort + ' cohort)'));
 				if (data.twitter != '')
-					header.push($('<span class="twitter"><span class="glyphicon glyphicon-user"></span>' + data.twitter + '</span>'));
+					header.push($('<span class="twitter"><span class="glyphicon glyphicon-user"></span><a href="https://twitter.com/' + data.twitter.substring(1) + '">' + data.twitter + '</a></span>'));
 				if (data.website != '') {
 					var visible = data.website.replace(/(http|https):\/\//, '');
 					if(visible.slice(-1) == '/') {
