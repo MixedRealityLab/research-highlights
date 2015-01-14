@@ -7,9 +7,13 @@
  * See LICENCE for legal information.
  */
 
-// Fetch a list of cohorts
+namespace CDT\Submission;
 
-$rh = \CDT\RH::i();
-$oUserModel = $rh->cdt_user_model;
+/**
+ * List of keywords.
+ * 
+ * @author Martin Porcheron <martin@porcheron.uk>
+ */
+class Keywords extends \CDT\BaseData {
 
-print \json_encode ($oUserModel->getCohorts ());
+}

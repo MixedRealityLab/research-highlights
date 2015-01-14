@@ -24,7 +24,7 @@ $oPageTemplate->startCapture ();
 					<p class="view-by">
 						List submissions by
 						<br>
-						<a href="#" class="listMode" data-listmode="cohort">Title</a> &bull; <a href="#" class="listMode" data-listmode="name">Name</a> &bull; <a href="#" class="listMode selected" data-listmode="keyword">Keyword</a> 
+						<a href="#" class="listMode" data-listmode="cohort">Title</a> &bull; <a href="#" class="listMode" data-listmode="name">Name</a> &bull; <a href="#" class="listMode" data-listmode="keyword">Keyword</a> 
 					</p>
 
 					<div class="panel-group nav" id="viewList" role="tablist" aria-multiselectable="true"></div>
@@ -46,11 +46,13 @@ $oPageTemplate->startCapture ();
 					<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">View Submissions</button>
 				</p>
 
-				<div class="jumbotron primary collapse">
+				<div class="jumbotron primary ">
 					<div class="container">
 						<h2>Research Highlights 2015</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pretium enim pellentesque, pretium tellus sed, bibendum purus. Donec gravida tellus dui, nec placerat quam luctus non. Mauris a arcu at sapien imperdiet fermentum sit amet at dui. Vestibulum eu facilisis tortor. In lectus eros, mollis nec fringilla ut, pharetra non metus. Sed sed purus velit. Mauris malesuada ante ut felis pretium, sit amet volutpat felis iaculis.</p>
-						<p>To discover the work being undertaken by PhD students in the centre, use the menu to the left.</p>
+						<img class="pull-right home-img img-circle" alt="Prof. Steve Benford, Centre Director" src="<?php print URI_WEB; ?>/img/sdb.jpg">
+						<p>Welcome to the 2015 edition of the Horizon CDT Research Highlights. Ever year, all students within the centre join together to highlight their research.</p>
+						<p>Use the menu to the left of this website to learn more.</p>
+						<p><small>Prof. Steve Benford,<br>Centre Director</small></p>
 					</div>
 				</div>
 
@@ -66,6 +68,7 @@ $oPageTemplate->set ('body', $oPageTemplate->endCapture ());
 
 $oPageTemplate->add ('css', URI_WEB . '/css/index' . EXT_CSS);
 
+$oPageTemplate->add ('javascript', URI_SYS . '/js/jquery.ba-hashchange' . EXT_JS);
 $oPageTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
 $oPageTemplate->add ('javascript', URI_WEB . '/js/index' . EXT_JS);
 

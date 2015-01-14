@@ -231,7 +231,7 @@ class Model extends \CDT\Singleton {
 	 * 	for
 	 * @return string Word count of the user
 	 */
-	private function getLatestVersion ($cohort, $username) {
+	public function getLatestVersion ($cohort, $username) {
 		$dir = DIR_DAT . '/'. $cohort . '/' . $username . '/';
 		if (\is_dir ($dir)) {
 			if ($dh = \opendir ($dir)) {

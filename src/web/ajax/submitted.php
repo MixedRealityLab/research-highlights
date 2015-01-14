@@ -8,6 +8,7 @@
  */
 
 // Fetch a list of users who have submitted
+
 $rh = \CDT\RH::i();
 $oSubmissionModel = $rh->cdt_submission_model;
 $oUserModel = $rh->cdt_user_model;

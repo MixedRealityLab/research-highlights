@@ -8,6 +8,7 @@
  */
 
 // Fetch a list of users (either all, a cohort, or (not) submitted)
+
 $rh = \CDT\RH::i();
 $oInputModel = $rh->cdt_input_model;
 $oUserModel = $rh->cdt_user_model;

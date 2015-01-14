@@ -91,6 +91,7 @@ try {
 		$save->text = \str_replace ($url, '<imgDir>' . $filename, $save->text);
 	}
 
+	$save->keywords = \strtolower ($save->keywords);
 
 	$save->website = !\is_null ($save->website) && $save->website != 'http://' ? \trim ($save->website) : '';
 	$save->twitter = \strlen ($save->twitter) > 0 && $save->twitter[0] != '@' ? '@' . $save->twitter : $save->twitter;

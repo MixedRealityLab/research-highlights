@@ -22,6 +22,25 @@ if(!is_null ($oInputModel->get('user'))) {
 	$oUsers = $oUserModel->getAll (null, function ($user) use ($cohort) {
 		return $user->countSubmission && $user->cohort === $cohort;
 	});
+} else if(!is_null ($oInputModel->get('keywords'))) {
+	
+	// is there a saved copy of all keywords?
+	$keywords = @\explode (',', $oInputModel->get('keywords'));
+	foreach($keywords as $keyword) {
+		$keywords[] = \str_replace ('_', ' ', $keyword);
+	}
+
+	$allKeywords = $oSubmissionModel->getKeywords ()->toArray();
+	$oUsers = array();
+
+	foreach ($keywords as $keyword) {
+		if(!empty ($keyword) && isSet ($allKeywords[$keyword])) {
+			foreach ($allKeywords[$keyword]['users'] as $k => $user) {
+				$oUsers[$user] = $oUserModel->get ($user);
+			}
+		}
+	}
+	$oUsers = \array_values ($oUsers);
 } else {
 	$oUsers = $oUserModel->getAll (null, function ($user) {
 		return $user->countSubmission;

@@ -108,6 +108,67 @@ class Model extends \CDT\Singleton {
 	}
 
 	/**
+	 * Retrieve a list of keywords
+	 * 
+	 * @param string $username User's keywords, or all keywords if `null`
+	 * @param mixed[] $ret Results of the keyword scan
+	 * @param int $total Total number of keywords found
+	 * @return \CDT\Submission\Keywords
+	 */
+	public function getKeywords ($username = null, &$ret = array(), &$total = 0) {
+		$oUserModel = $this->rh->cdt_user_model;
+
+		// get keywords
+		if (is_null ($username)) {
+			$oUsers = $oUserModel->getAll (null, function ($user) {
+				return $user->countSubmission;
+			});
+
+			foreach ($oUsers as $oUser) {
+				$this->getKeywords ($oUser->username, $ret, $total);
+			}
+		} else {
+			$oUser = $oUserModel->get ($username);
+
+			// get keywords
+			$latestVersion = $oUserModel->getLatestVersion ($oUser->cohort, $oUser->username);
+			$dir = DIR_DAT . '/' . $oUser->cohort . '/' . $oUser->username . '/' . $latestVersion . '/';
+			$file = @\file_get_contents ($dir .  'keywords.txt');
+			$keywords = \explode (',', $file);			
+
+			// count keywords
+			foreach ($keywords as $keyword) {
+				$keyword = \trim ($keyword);
+
+				if ($keyword == '') {
+					continue;
+				}
+
+				if (!isSet ($ret[$keyword])) {
+					$ret[$keyword]['name'] = $keyword;
+					$ret[$keyword]['users'] = array();
+					$ret[$keyword]['num'] = 1;
+
+					$colour = \array_shift (\unpack ('L*', $keyword) );
+					$ret[$keyword]['colour'] = dechex ($colour % 16777216);
+				} else {
+					$ret[$keyword]['num']++;
+				}
+
+				$ret[$keyword]['users'][] = $oUser->username;
+				$total++;
+			}
+		}
+
+		// normalise
+		foreach ($ret as $key=>$row) {
+			$ret[$key]['weight'] = $row['num'] / $total;
+		}
+
+		return new \CDT\Submission\Keywords ($ret);
+	}
+
+	/**
 	 * Convert Markdown syntax to HTML
 	 * 
 	 * @param string $markdown Markdown-formatted text

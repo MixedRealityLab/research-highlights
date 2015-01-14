@@ -22,7 +22,7 @@ abstract class BaseData {
 	/**
 	 * Construct the data object, with the initial data values.
 	 */
-	public function __construct ($data) {
+	public function __construct ($data = array()) {
 		$this->data = $data;
 	}
 
