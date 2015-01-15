@@ -80,7 +80,7 @@ For the Horizon CDT Research Highlights 2015 you need to produce a <wordCount>-w
 
  As with previous years, submission takes place via an online system. We have improved this system based on last years feedback, with a focus on making it easier and quicker for you to make a submission.
 
-The submission system can be found at <a href="<?php print URI_HOME; ?>" target="_blank"><?php print URI_HOME; ?></a> and you need to use the following details to login:
+The submission system can be found at <a href="<?php print URI_ROOT; ?>/submit" target="_blank"><?php print URI_ROOT; ?></a> and you need to use the following details to login:
 <strong>Username:</strong> <username>
 <strong>Password:</strong> <password>
 
