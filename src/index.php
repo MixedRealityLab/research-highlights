@@ -14,7 +14,7 @@ require 'config.php';
 require 'salt.php';
 
 \set_include_path (\get_include_path () . PATH_SEPARATOR . DIR_SLB . PATH_SEPARATOR . DIR_SLB .'/PEAR');
-\spl_autoload_extensions ('.class.php');
+\spl_autoload_extensions ('.class.php,.php');
 \spl_autoload_register ();
 
 $page = \trim (\str_replace (PATH . '/', '', $_SERVER['REQUEST_URI']));
