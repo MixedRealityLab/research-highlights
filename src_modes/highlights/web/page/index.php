@@ -48,9 +48,9 @@ $oPageTemplate->startCapture ();
 
 				<div class="jumbotron primary ">
 					<div class="container">
-						<h2>Research Highlights 2015</h2>
+						<h2>Research Highlights <?php print SITE_YEAR; ?></h2>
 						<img class="pull-right home-img img-circle" alt="Prof. Steve Benford, Centre Director" src="<?php print URI_WEB; ?>/img/sdb.jpg">
-						<p>Welcome to the 2015 edition of the Horizon CDT Research Highlights. Ever year, all students within the centre join together to highlight their research.</p>
+						<p>Welcome to the <?php print SITE_YEAR; ?> edition of the Horizon CDT Research Highlights. Ever year, all students within the centre join together to highlight their research.</p>
 						<p>Use the menu to the left of this website to learn more.</p>
 						<p><small>Prof. Steve Benford,<br>Centre Director</small></p>
 					</div>
