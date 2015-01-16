@@ -15,7 +15,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title>Research Highlights | Horizon CDT</title>
+		<title><?php print SITE_NAME .' '. SITE_YEAR; ?></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
 		<base href="<?php print URI_HOME; ?>/">
 		<link rel="stylesheet" href="<?php print URI_SYS; ?>/css/bootstrap<?php print EXT_CSS; ?>">
@@ -68,7 +68,7 @@
 
 		<div class="container collapse">
 			<footer class="row">
-				<p>&copy; Martin Porcheron <?php print date ('Y'); ?>. This website is <a href="https://github.com/mporcheron/ResearchHighlights" title="Research Highlights project on GitHub">open source</a>.</p>
+				<p>Research Highlights website &copy; Martin Porcheron <?php print SITE_YEAR; ?>. This website is <a href="https://github.com/mporcheron/ResearchHighlights" title="Research Highlights project on GitHub">open source</a>.</p>
 			</footer>
 		</div>
 

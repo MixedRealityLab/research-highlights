@@ -74,7 +74,7 @@ $oPageTemplate->startCapture ();
 										<label for="title">Message</label>
 										<textarea name="message" id="message" rows="15" class="form-control input input-large" placeholder="Message to email users">Dear <firstName>,
 
-For the Horizon CDT Research Highlights 2015 you need to produce a <wordCount>-word maximum summary of your PhD. This summary will be published online, along with all other current CDT students in an online catalogue. It is hoped that highlights from this catalogue will be included in a published leaflet advertising the centre's work.
+For the <?php print SITE_NAME . ' ' . SITE_YEAR; ?> you need to produce a <wordCount>-word maximum summary of your PhD. This summary will be published online, along with all other current CDT students in an online catalogue. It is hoped that highlights from this catalogue will be included in a published leaflet advertising the centre's work.
 
 <strong>IMPORTANT: This process requires you to make your submission by the <deadline>!</strong>
 
@@ -91,6 +91,7 @@ Many thanks and good luck!</textarea>
 									<hr>
 									<div class="form-group">
 										<label for="title">Users to email</label>
+										<!-- TODO: change to cohorts checking ajax -->
 										<p>Add <a href="#" class="addUsers">2014</a>, <a href="#" class="addUsers">2013</a>, <a href="#" class="addUsers">2012</a>, and <a href="#" class="addUsers">2011</a> cohorts. Add users who have <a href="#" class="addUsers">submitted</a>, or <a href="#" class="addUsers">not submitted</a>.</p>
 										<textarea name="usernames" id="usernames" rows="15" class="form-control input input-large" placeholder="Enter each university username, seperated by a new line"></textarea>
 									</div>

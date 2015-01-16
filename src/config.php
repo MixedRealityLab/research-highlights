@@ -7,6 +7,7 @@
  * See LICENCE for legal information.
  */
 
+\define ('SITE_NAME', 'Horizon CDT Research Highlights');
 \define ('SITE_YEAR', '2015');
 
 \define ('DIR_WAJ', DIR . '/web/ajax');
