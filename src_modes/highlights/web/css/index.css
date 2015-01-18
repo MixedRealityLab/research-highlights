@@ -237,3 +237,18 @@ article img {
 		margin-left: 12px;
 	}
 }
+
+@media print {
+	body {
+		padding-top: 0;
+	}
+
+	.printArea {
+		width: 100% !important;
+	}
+
+	#sidebar {
+		display: none;
+	}
+
+}

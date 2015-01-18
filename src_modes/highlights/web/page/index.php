@@ -41,12 +41,12 @@ $oPageTemplate->startCapture ();
 				</div>
 			</div>
 
-			<div class="col-xs-12 col-sm-9">
+			<div class="col-xs-12 col-sm-9 printArea">
 				<p class="pull-right visible-xs collapse">
 					<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">View Submissions</button>
 				</p>
 
-				<div class="jumbotron primary ">
+				<div class="jumbotron primary">
 					<div class="container">
 						<h2>Research Highlights <?php print SITE_YEAR; ?></h2>
 						<img class="pull-right home-img img-circle" alt="Prof. Steve Benford, Centre Director" src="<?php print URI_WEB; ?>/img/sdb.jpg">
