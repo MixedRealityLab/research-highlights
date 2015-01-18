@@ -289,4 +289,7 @@ $(function() {
 	ReHi.fadePageIn();
 
 	firstResponder(window.location.hash);
+	$(window).hashchange( function(){
+		firstResponder(window.location.hash);
+	});
 });
