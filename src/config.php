@@ -13,6 +13,7 @@
 \define ('DIR_WAJ', DIR . '/web/ajax');
 \define ('DIR_WCS', DIR . '/web/css');
 \define ('DIR_WJS', DIR . '/web/js');
+\define ('DIR_WIM', DIR . '/web/img');
 \define ('DIR_WPG', DIR . '/web/page');
 \define ('DIR_WTP', DIR . '/web/tpl');
 
