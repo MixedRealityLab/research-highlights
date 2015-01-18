@@ -13,9 +13,41 @@ require DIR . '/_version.php';
 require 'config.php';
 require 'salt.php';
 
+$classPaths = array();
 \set_include_path (\get_include_path () . PATH_SEPARATOR . DIR_SLB . PATH_SEPARATOR . DIR_SLB .'/PEAR');
-\spl_autoload_extensions ('.class.php,.php');
-\spl_autoload_register ();
+\spl_autoload_register (function ($class) use (&$classPaths) {
+	$parts = \explode ('\\', \strtolower ($class));
+	$parts[] = \array_pop ($parts) .'.php';
+	$classPath = DIR_SLB;
+
+    foreach ($parts as $part) {
+    	if (isSet ($classPaths[$part])) {
+    		$classPath = $classPaths[$part];
+    		continue;
+    	}
+
+		$result = false;
+		$files = \glob ($classPath . DIRECTORY_SEPARATOR . '*', GLOB_NOSORT);
+		foreach ($files as $file) {
+			if (\strtolower ($file) === \strtolower ($classPath) . DIRECTORY_SEPARATOR . $part) {
+				$classPath = $file;
+				$classPaths[$part] = $file;
+				$result = true;
+				break;
+			}
+		}
+
+		if (!$result) {
+			return;
+		}
+	}
+
+	if (\is_file ($classPath)) {
+		require $classPath;
+	} else {
+		throw new \Exception ('No file for '. $class .' exists');
+	}
+});
 
 $page = \trim (\str_replace (PATH . '/', '', $_SERVER['REQUEST_URI']));
 if (!SYS_HTAC) {

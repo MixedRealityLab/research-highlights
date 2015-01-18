@@ -37,13 +37,11 @@ final class RH {
 	 * exist.
 	 * 
 	 * Classes should be stored in the _lib_ directory, and accessed based on 
-	 * their path. All classes should have the file extension _.class.php_
+	 * their path. All classes should have the file extension _.php_
 	 * 
 	 * For example, the class `ExampleClass`, in the namespace `ExampleNS`
-	 * should be stored in _lib/examplens/exampleclass.class.php_ and accessed 
+	 * should be stored in _lib/ExampleNS/ExampleClass.php_ and accessed 
 	 * using `RH::i()->examplens_exampleclass`
-	 * 
-	 * Note that paths *must be lowercase*, and so must variable names.
 	 * 
 	 * @param string $className Class to retrieve instance of.
 	 * @return Object Instance of the desired class.
