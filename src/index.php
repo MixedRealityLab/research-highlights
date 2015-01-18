@@ -21,8 +21,8 @@ $classPaths = array();
 	$classPath = DIR_SLB;
 
     foreach ($parts as $part) {
-    	if (isSet ($classPaths[$part])) {
-    		$classPath = $classPaths[$part];
+    	if (isSet ($classPaths[$classPath . DIRECTORY_SEPARATOR . $part])) {
+    		$classPath = $classPaths[$classPath . DIRECTORY_SEPARATOR  . $part];
     		continue;
     	}
 
@@ -30,8 +30,8 @@ $classPaths = array();
 		$files = \glob ($classPath . DIRECTORY_SEPARATOR . '*', GLOB_NOSORT);
 		foreach ($files as $file) {
 			if (\strtolower ($file) === \strtolower ($classPath) . DIRECTORY_SEPARATOR . $part) {
+				$classPaths[\strtolower ($classPath) . DIRECTORY_SEPARATOR  . $part] = $file;
 				$classPath = $file;
-				$classPaths[$part] = $file;
 				$result = true;
 				break;
 			}
@@ -43,7 +43,7 @@ $classPaths = array();
 	}
 
 	if (\is_file ($classPath)) {
-		require $classPath;
+		require_once $classPath;
 	} else {
 		throw new \Exception ('No file for '. $class .' exists');
 	}
