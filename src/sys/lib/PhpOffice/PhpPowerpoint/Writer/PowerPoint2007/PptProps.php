@@ -28,7 +28,7 @@ class PptProps extends AbstractPart
      * @return     string         XML Output
      * @throws     \Exception
      */
-    public function writePresProps()
+    public function writePresProps($pPHPPowerPoint)
     {
         // Create XML writer
         $objWriter = $this->getXMLWriter();
@@ -41,6 +41,67 @@ class PptProps extends AbstractPart
         $objWriter->writeAttribute('xmlns:a', 'http://schemas.openxmlformats.org/drawingml/2006/main');
         $objWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
         $objWriter->writeAttribute('xmlns:p', 'http://schemas.openxmlformats.org/presentationml/2006/main');
+
+        if ($pPHPPowerPoint->getProperties()->isLooped()) {
+            // p:showPr
+            $objWriter->startElement('p:showPr');
+            $objWriter->writeAttribute('loop', '1');
+            $objWriter->writeAttribute('showNarration', '1');
+
+            // p:present
+            $objWriter->startElement('p:present');
+            $objWriter->endElement();
+
+            // p:sldAll
+            $objWriter->startElement('p:sldAll');
+            $objWriter->endElement();
+
+            // p:penClr
+            $objWriter->startElement('p:penClr');
+
+            // a:srgbClr
+            $objWriter->startElement('a:srgbClr');
+            $objWriter->writeAttribute('loop', 'FF0000');
+            $objWriter->endElement();
+
+            $objWriter->endElement();
+
+            // p:extLst
+            $objWriter->startElement('p:extLst');
+
+            // p:ext
+            $objWriter->startElement('p:ext');
+            $objWriter->writeAttribute('uri', '{EC167BDD-8182-4AB7-AECC-EB403E3ABB37}');
+
+            // p14:laserClr
+            $objWriter->startElement('p14:laserClr');
+            $objWriter->writeAttribute('xmlns:p14', 'http://schemas.microsoft.com/office/powerpoint/2010/main');
+
+            // a:srgbClr
+            $objWriter->startElement('a:srgbClr');
+            $objWriter->writeAttribute('val', 'FF0000');
+            $objWriter->endElement();
+
+            $objWriter->endElement();
+
+            $objWriter->endElement();
+
+            // p:ext
+            $objWriter->startElement('p:ext');
+            $objWriter->writeAttribute('uri', '{2FDB2607-1784-4EEB-B798-7EB5836EED8A}');
+
+            // p14:laserClr
+            $objWriter->startElement('p14:showMediaCtrls');
+            $objWriter->writeAttribute('xmlns:p14', 'http://schemas.microsoft.com/office/powerpoint/2010/main');
+            $objWriter->writeAttribute('val', '1');
+            $objWriter->endElement();
+
+            $objWriter->endElement();
+
+            $objWriter->endElement();
+
+            $objWriter->endElement();
+        }
 
         // p:extLst
         $objWriter->startElement('p:extLst');

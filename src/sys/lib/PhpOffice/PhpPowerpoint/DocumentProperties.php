@@ -93,6 +93,13 @@ class DocumentProperties
     private $company;
 
     /**
+     * Loop indefinitely (until Esc) pressed
+     * 
+     * @var boolean
+     */
+    private $loop = false;
+
+    /**
      * Create a new \PhpOffice\PhpPowerpoint\DocumentProperties
      */
     public function __construct()
@@ -108,6 +115,7 @@ class DocumentProperties
         $this->keywords       = '';
         $this->category       = '';
         $this->company        = 'Microsoft Corporation';
+        $this->loop           = false;
     }
 
     /**
@@ -342,6 +350,29 @@ class DocumentProperties
     public function setCompany($pValue = '')
     {
         $this->company = $pValue;
+
+        return $this;
+    }
+
+    /**
+     * Should the presentation loop
+     *
+     * @return boolean
+     */
+    public function isLooped()
+    {
+        return $this->loop;
+    }
+
+    /**
+     * Should the presentation loop
+     *
+     * @param boolean $loop True to loop forever
+     * @return \PhpOffice\PhpPowerpoint\DocumentProperties
+     */
+    public function setLooped($loop)
+    {
+        $this->loop = $loop;
 
         return $this;
     }
