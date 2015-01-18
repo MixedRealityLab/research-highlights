@@ -157,6 +157,41 @@ class Slide extends AbstractPart
 
         $objWriter->endElement();
 
+        $adv = $pSlide->getAdvancement();
+        if ($adv > 0) {
+            // mc:AlternateContent
+            $objWriter->startElement('mc:AlternateContent');
+            $objWriter->writeAttribute('xmlns:mc', 'http://schemas.openxmlformats.org/markup-compatibility/2006');
+
+            // mc:Choice
+            $objWriter->startElement('mc:Choice');
+            $objWriter->writeAttribute('xmlns:p14', 'http://schemas.microsoft.com/office/powerpoint/2010/main');
+            $objWriter->writeAttribute('Requires', 'p14');
+
+            // p:transition
+            $objWriter->startElement('p:transition');
+            $objWriter->writeAttribute('spd', 'slow');
+            $objWriter->writeAttribute('p14:dur', '2000');
+            $objWriter->writeAttribute('advTm', \strval ($adv));
+            $objWriter->endElement();
+
+            $objWriter->endElement();
+
+            // mc:Fallback
+            $objWriter->startElement('mc:Fallback');
+            
+            // p:transition
+            $objWriter->startElement('p:transition');
+            $objWriter->writeAttribute('spd', 'slow');
+            $objWriter->writeAttribute('xmlns:p14', 'http://schemas.microsoft.com/office/powerpoint/2010/main');
+            $objWriter->writeAttribute('advTm', \strval ($adv));
+            $objWriter->endElement();
+
+            $objWriter->endElement();
+
+            $objWriter->endElement();
+        }
+
         $objWriter->endElement();
 
         // Return

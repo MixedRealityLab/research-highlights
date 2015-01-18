@@ -65,6 +65,13 @@ class Slide implements ComparableInterface
     private $slideMasterId = 1;
 
     /**
+     * Slide advancement
+     *
+     * @var integer
+     */
+    private $slideAdvancement = 0;
+
+    /**
      * Hash index
      *
      * @var string
@@ -287,6 +294,28 @@ class Slide implements ComparableInterface
     public function setHashIndex($value)
     {
         $this->hashIndex = $value;
+    }
+
+    /**
+     * Set how the slide should advance to the next slide.
+     * 
+     * @return integer Time to advance after, or 0 for on click.
+     */
+    public function getAdvancement()
+    {
+        return $this->slideAdvancement;
+    }
+
+    /**
+     * Set how the slide should advance to the next slide.
+     * 
+     * By default, progression is on-click, although this can be overridden.
+     * 
+     * @param integer $time Time to advance after, or 0 for on click.
+     */
+    public function setAdvancement($time)
+    {
+        $this->slideAdvancement = $time;
     }
 
     /**
