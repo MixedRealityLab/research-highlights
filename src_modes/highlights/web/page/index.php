@@ -20,7 +20,12 @@ $oPageTemplate->startCapture ();
 					<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
 				</p>
 
+				<form class="sidebar-form search-form" role="search">
+					<input type="search" class="form-control" id="q" placeholder="Search">
+				</form>
+
 				<div class="sidebar-nav">
+
 					<p class="view-by">
 						List submissions by
 						<br>

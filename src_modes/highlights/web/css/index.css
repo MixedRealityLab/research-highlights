@@ -72,6 +72,10 @@ footer {
 	margin-bottom: .6em;
 }
 
+.sidebar-form {
+	margin-bottom: 10px;
+}
+
 .view-by .selected {
 	color: #000;
 	font-weight: bold;

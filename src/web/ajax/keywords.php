@@ -7,7 +7,7 @@
  * See LICENCE for legal information.
  */
 
-// Fetch a list of cohorts
+// Fetch a list of eywords
 
 $rh = \CDT\RH::i();
 $oInputModel = $rh->cdt_input_model;
@@ -22,7 +22,7 @@ if(!is_null ($oInputModel->get('user'))) {
 } else {
 	// is there a saved copy of all keywords?
 	$file = DIR_DAT . '/keywords.txt';
-	if (\is_file (DIR_DAT . '/keywords.txt') && \filemtime ($file) + KEY_CACHE > \date ('U')) {
+	if (\is_file ($file) && \filemtime ($file) + KEY_CACHE > \date ('U')) {
 		print @\file_get_contents ($file);
 	} else {
 		$keywordsList = $oSubmissionModel->getKeywords ()->toArray();

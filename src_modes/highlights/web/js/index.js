@@ -232,7 +232,7 @@ function firstResponder(hash) {
 
 			loadPage ('read', hash, 'cohort=' + hash.replace ('#cohort=', ''));
 		});
-	
+		$('#q').val('');
 	} else if (hash.indexOf ('#read') == 0) {
 		curType = 'read';
 		$('.jumbotron').remove();
@@ -246,6 +246,7 @@ function firstResponder(hash) {
 
 			loadPage ('read', hash, 'user=' + hash.replace ('#read=', ''));
 		});
+		$('#q').val('');
 	} else if (hash.indexOf ('#keywords') >= 0) {
 		curType = 'keyword';
 		$('.jumbotron').remove();
@@ -263,6 +264,13 @@ function firstResponder(hash) {
 
 			loadPage ('read', hash, 'keywords=' + hash.replace ('#keywords=', ''));
 		});
+		$('#q').val('');
+	} else if (hash.indexOf ('#q') >= 0) {
+		curType = 'search';
+		$('.jumbotron').remove();
+
+		$('#q').val(hash.replace ('#q=', ''));
+		loadPage ('search', hash, 'q=' + hash.replace ('#q=', ''));
 	} else {
 		changeListView('name');
 	}
@@ -284,6 +292,11 @@ $(function() {
 				$(v).removeClass('selected');
 			}
 		})
+	});
+
+	$('.search-form').submit(function(e) {
+		e.preventDefault();
+		window.location.hash = '#q=' + $('#q').val();
 	});
 
 	ReHi.fadePageIn();
