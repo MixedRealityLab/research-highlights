@@ -29,13 +29,13 @@
 \define ('PATH', '@@@PATH@@@');
 
 \define ('PAG_HOME', 'index');
-\define ('SYS_HTAC', false);
+\define ('SYS_HTAC', true);
 
 \define ('EXT_CSS', '.css');
 \define ('EXT_JS', '.js');
 
-\define ('URI_HOME', DOMAIN . PATH);
-\define ('URI_ROOT', URI_HOME . SYS_HTAC ? '' : '/index.php');
+\define ('URI_HOME', '@@@DOMAIN@@@@@@PATH@@@');
+\define ('URI_ROOT', '@@@URI_ROOT@@@');
 \define ('URI_WEB', URI_HOME . '/web');
 \define ('URI_SYS', URI_HOME . '/sys');
 \define ('URI_DATA', \dirname (URI_HOME) . '/submissions-' . SITE_YEAR);
