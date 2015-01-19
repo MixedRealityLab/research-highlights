@@ -1,4 +1,4 @@
-<project name="ResearchHighlights" default="build" basedir=".">
+<project name="ResearchHighlights" default="quick" basedir=".">
 
 	<description>
 		Build file for the Research Highlights website
@@ -104,11 +104,21 @@
 			</then>
 		</if>
 
+		<if>
+			<not>
+				<isset property="sysHtaccess"/>
+			</not>
+			<then>
+				<propertyregex property="sysHtaccess" input="${config.file}" regexp="\\define \('SYS_HTAC', ([@a-zA-Z\:./_-]*)" select="\1" />
+			</then>
+		</if>
+
 		<antcall target="set-const">
 			<param name="const" value="SYS_HTAC"/>
 			<param name="val" value="${sysHtaccess}"/>
 			<param name="config" value="true"/>
 		</antcall>
+
 		<if>
 			<equals arg1="${sysHtaccess}" arg2="true"/>
 			<then>
@@ -141,8 +151,24 @@
 		</antcall>
 	</target>
 
+	<target name="quick" depends="check,clean,build" description="Create the website">
+		<antcall target="set-const">
+			<param name="const" value="EXT_JS"/>
+			<param name="val" value=".js"/>
+			<param name="config" value="true"/>
+			<param name="files" value="**/*"/>
+		</antcall>
+
+		<antcall target="set-const">
+			<param name="const" value="EXT_CSS"/>
+			<param name="val" value=".css"/>
+			<param name="config" value="true"/>
+			<param name="files" value="**/*"/>
+		</antcall>
+	</target>
+
 	<!-- COMPRESSION TASKS -->
-	<target name="compress" description="Compress JavaScript and CSS files">
+	<target name="full" depends="check,clean,build" description="Compress JavaScript and CSS files">
 		<antcall target="compress-js">
 			<param name="dir" value="${dist.sys.js.dir}"/>
 		</antcall>
