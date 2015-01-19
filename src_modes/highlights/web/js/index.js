@@ -109,7 +109,7 @@ function changeListView (list, onCompleteFn) {
 		  		 				addCohort = '';
 		  		 			}
 		  		 			if(prevCohort == '' || user.cohort != prevCohort) {
-								addCohort += '<div class="panel panel-default"><div class="panel-heading" role="tab" id="cohort-' + user.cohort + '"><h4 class="panel-title">';
+								addCohort += '<div class="panel panel-default"><div class="panel-heading pageGroup" role="tab" id="cohort-' + user.cohort + '"><h4 class="panel-title">';
 								addCohort += '<a data-toggle="collapse" data-parent="#viewList" href="#cohort-' + user.cohort + '-links" aria-expanded="true" aria-controls="cohort-' + user.cohort + '-links">' +  user.cohort + ' Cohort';
 								addCohort += '</a></h4></div><div id="cohort-' + user.cohort + '-links" class="panel-collapse collapse" role="tabpanel" aria-labelledby="cohort-' + user.cohort + '"><div class="panel-body"><ul class="list-group subgroup">';
 		  		 				prevCohort = user.cohort;
