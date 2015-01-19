@@ -6,6 +6,12 @@
  * See LICENCE for legal information.
  */
 
+h1.pagetitle {
+ 	color: #0c2577;
+ 	font-size: 1.6em !important;
+	margin: 0 0 20px 0;
+ }
+
 #viewList .accordion-group {
     margin-bottom: 0px;
     border:0px;

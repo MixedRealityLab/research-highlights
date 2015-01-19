@@ -16,7 +16,7 @@ function replaceAll(find, replace, str) {
 }
 
 // load a page
-function loadPage (handler, hash, data, showErrorFn) {
+function loadPage (handler, hash, data, showErrorFn, title) {
 	ReHi.sendData({
 		dataType: 'json',
 		data: data,
@@ -26,7 +26,7 @@ function loadPage (handler, hash, data, showErrorFn) {
 					if (response.length == 0) {
 						showErrorFn(response);
 					} else {
-						showSubmissions(response);
+						showSubmissions(response, title);
 					}
 				}
 	});
@@ -148,18 +148,23 @@ function showError(text) {
 	$('.headerOnly').unbind('click.headerOnly');
 
 	var $submission = $('<section></section>');
-	$submission.append([$('<h2>Whoops, looks like there was a problem!</h2>'),$('<p></p>').addClass('error').html(text)]);
+	$submission.append([$('<h1 class="pagetitle">Whoops, looks like there was a problem!</h1>'),$('<p></p>').addClass('error').html(text)]);
 	$('.read').append($submission);
 
 	$('.row-offcanvas').toggleClass('active');
 }
 
 // show loaded submissions
-function showSubmissions(response) {
+function showSubmissions(response, title) {
 	$('.read').empty();
 	$('.headerOnly').unbind('click.headerOnly');
 
-	var headersOnly = response.length > 1;
+	var headersOnly = response.length > 1 || response[0].html == undefined;
+
+	if (title != undefined) {
+		$('.read').append($('<h1 class="pagetitle"></h1>').html(title));
+	}
+
 	for(var i = 0; i < response.length; i++) {
 		var data = response[i];
 		if(data.length != 0) {
@@ -244,9 +249,10 @@ function firstResponder(hash) {
 			$('.loadPage.selected').removeClass('selected');
 			$('a[href="' + hash + '"]').parents('.loadPage').addClass('selected');
 
-			loadPage ('read', hash, 'cohort=' + hash.replace ('#cohort=', ''), function() {
+			var cohort = hash.replace ('#cohort=', '');
+			loadPage ('read', hash, 'cohort=' + cohort, function() {
 				showError('Sorry, no articles were found for that cohort.');
-			});
+			}, 'Submissions from the ' + cohort + ' Cohort');
 		});
 		$('#q').val('');
 	} else if (hash.indexOf ('#read') == 0) {
@@ -282,7 +288,7 @@ function firstResponder(hash) {
 
 			loadPage ('read', hash, 'keywords=' + hash.replace ('#keywords=', ''), function() {
 				showError('Sorry, no submission were found for the keywords supplied.');
-			});
+			}, 'Submissions matching the highlighted keywords');
 		});
 		$('#q').val('');
 	} else if (hash.indexOf ('#q') >= 0) {
@@ -293,7 +299,7 @@ function firstResponder(hash) {
 		$('#q').val(q);
 		loadPage ('search', hash, 'q=' + q, function() {
 			showError('Sorry, no results were found for <em>' + q + '</em>, please try refining your search terms');
-		});
+		}, 'Search results for <em>' + q + '</em>');
 	} else {
 		changeListView('name');
 	}
