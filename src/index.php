@@ -50,9 +50,13 @@ $classPaths = array();
 });
 
 $page = \trim (\str_replace (PATH . '/', '', $_SERVER['REQUEST_URI']));
-if (!SYS_HTAC) {
+if (SYS_HTAC && \strpos ($_SERVER['REQUEST_URI'], 'index.php/') !== false) {
+	header ('Location: ' . \str_replace ('index.php/', '', $_SERVER['REQUEST_URI']));
+	exit;
+} else if (SYS_HTAC) {
 	$page = \trim (\str_replace ('index.php/', '', $page));
 }
+
 $page = empty ($page) ? PAG_HOME : $page;
 
 if (\strpos ($page, 'do/') === 0) {
