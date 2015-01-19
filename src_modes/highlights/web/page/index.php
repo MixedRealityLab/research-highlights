@@ -55,8 +55,8 @@ $oPageTemplate->startCapture ();
 					<div class="container">
 						<h2>Research Highlights <?php print SITE_YEAR; ?></h2>
 						<img class="pull-right home-img img-circle" alt="Prof. Steve Benford, Centre Director" src="<?php print URI_WEB; ?>/img/sdb.jpg">
-						<p>Welcome to the <?php print SITE_YEAR; ?> edition of the Horizon CDT Research Highlights. Ever year, all students within the centre join together to highlight their research.</p>
-						<p>Use the menu to the left of this website to learn more.</p>
+						<p>Welcome to the <?php print SITE_YEAR; ?> edition of the Horizon CDT Research Highlights. Every year, all students within the centre join together to highlight their research to other academics, our industry partners, and the wider public.</p>
+						<p>Use the menu to the left of this website to read highlights from this year's edition.</p>
 						<p><small>Prof. Steve Benford,<br>Centre Director</small></p>
 					</div>
 				</div>
