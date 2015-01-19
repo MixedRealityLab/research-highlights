@@ -16,14 +16,18 @@ function replaceAll(find, replace, str) {
 }
 
 // load a page
-function loadPage (handler, hash, data) {
+function loadPage (handler, hash, data, showErrorFn) {
 	ReHi.sendData({
 		dataType: 'json',
 		data: data,
 		url: '@@@URI_ROOT@@@/do/' + handler,
 		type: 'post',
 		success: function (response, textStatus, jqXHR) {
-					showSubmissions(response);
+					if (response.length == 0) {
+						showErrorFn(response);
+					} else {
+						showSubmissions(response);
+					}
 				}
 	});
 }
@@ -138,6 +142,18 @@ function changeListView (list, onCompleteFn) {
 	}
 }
 
+// show error message
+function showError(text) {
+	$('.read').empty();
+	$('.headerOnly').unbind('click.headerOnly');
+
+	var $submission = $('<section></section>');
+	$submission.append([$('<h2>Whoops, looks like there was a problem!</h2>'),$('<p></p>').addClass('error').html(text)]);
+	$('.read').append($submission);
+
+	$('.row-offcanvas').toggleClass('active');
+}
+
 // show loaded submissions
 function showSubmissions(response) {
 	$('.read').empty();
@@ -147,8 +163,6 @@ function showSubmissions(response) {
 	for(var i = 0; i < response.length; i++) {
 		var data = response[i];
 		if(data.length != 0) {
-			var $content = $('<div></div>').addClass('row-fluid');
-
 			// header
 			var $submission = $('<section></section>');
 
@@ -230,7 +244,9 @@ function firstResponder(hash) {
 			$('.loadPage.selected').removeClass('selected');
 			$('a[href="' + hash + '"]').parents('.loadPage').addClass('selected');
 
-			loadPage ('read', hash, 'cohort=' + hash.replace ('#cohort=', ''));
+			loadPage ('read', hash, 'cohort=' + hash.replace ('#cohort=', ''), function() {
+				showError('Sorry, no articles were found for that cohort.');
+			});
 		});
 		$('#q').val('');
 	} else if (hash.indexOf ('#read') == 0) {
@@ -244,7 +260,9 @@ function firstResponder(hash) {
 			$item.parents('.loadPage').addClass('selected');
 			$item.parents('.panel-collapse').collapse();
 
-			loadPage ('read', hash, 'user=' + hash.replace ('#read=', ''));
+			loadPage ('read', hash, 'user=' + hash.replace ('#read=', ''), function() {
+				showError('Sorry, no submission was found for that username.');
+			});
 		});
 		$('#q').val('');
 	} else if (hash.indexOf ('#keywords') >= 0) {
@@ -262,15 +280,20 @@ function firstResponder(hash) {
 				}
 			});
 
-			loadPage ('read', hash, 'keywords=' + hash.replace ('#keywords=', ''));
+			loadPage ('read', hash, 'keywords=' + hash.replace ('#keywords=', ''), function() {
+				showError('Sorry, no submission were found for the keywords supplied.');
+			});
 		});
 		$('#q').val('');
 	} else if (hash.indexOf ('#q') >= 0) {
 		curType = 'search';
 		$('.jumbotron').remove();
 
-		$('#q').val(hash.replace ('#q=', ''));
-		loadPage ('search', hash, 'q=' + hash.replace ('#q=', ''));
+		var q= hash.replace ('#q=', '');
+		$('#q').val(q);
+		loadPage ('search', hash, 'q=' + q, function() {
+			showError('Sorry, no results were found for <em>' + q + '</em>, please try refining your search terms');
+		});
 	} else {
 		changeListView('name');
 	}
