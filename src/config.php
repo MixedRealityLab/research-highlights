@@ -46,6 +46,6 @@
 \define ('MAIL_USER', '');
 \define ('MAIL_PASS', '');
 
-\define ('KEY_CACHE', -1);
+\define ('KEY_CACHE', 900);
 
 \date_default_timezone_set ('Europe/London');

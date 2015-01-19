@@ -22,7 +22,7 @@ if (\is_null ($oInputModel->get ('q'))) {
 
 // is there a cached db?
 $file = DIR_DAT . '/search-keywords.txt';
-if (true || !\is_file ($file) || \filemtime ($file) + KEY_CACHE > \date ('U')) {
+if (!\is_file ($file) || \filemtime ($file) + KEY_CACHE > \date ('U')) {
 	// Weights
 	$weights = array();
 	$weights['author']				= 40;
