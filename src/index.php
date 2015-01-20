@@ -61,6 +61,9 @@ $page = empty ($page) ? PAG_HOME : $page;
 
 if (\strpos ($page, 'do/') === 0) {
 	$file = DIR_WAJ . '/' . \substr ($page, 3) . '.php';
+} else if (\strpos ($page, 'go/') === 0) {
+	$end = \strpos ($page, '/') + 2; $end = $end === false ? strlen ($page) : $end;
+	$file = DIR_WGO . '/' . \substr ($page, 3, $end) . '.php';
 } else {
 	$file = DIR_WPG . '/' . $page . '.php';
 }

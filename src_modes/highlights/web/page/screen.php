@@ -107,7 +107,7 @@ foreach ($oUsers as $oUser) {
 			->setSize (14)
 			->setColor (new Color ('FF333333'));
 
-	$link = 'find out more at ' . URI_HOME;
+	$link = 'find out more at ' . URI_HOME . '/go/read/' . $oUser->username;
 	$shape = $slide->createRichTextShape()
 		->setHeight(50)
 		->setWidth(881)
