@@ -30,12 +30,12 @@ $oPageTemplate->startCapture ();
 							<div class="panel-body">
 								<div class="input-group">
 									<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-									<input type="text" class="form-control" name="username" id="username" placeholder="psxabc">
+									<input type="text" class="form-control" name="username" id="username" placeholder="psxabc" spellcheck="false">
 								</div>
 								<br>
 									<div class="input-group">
 									<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-									<input type="password" class="form-control" name="password" id="password" placeholder="">
+									<input type="password" class="form-control" name="password" id="password" placeholder="" spellcheck="false">
 								</div>
 								<br>
 								<div class="btn-group">
@@ -81,14 +81,14 @@ $oPageTemplate->startCapture ();
 									<div class="form-group">
 										<label for="title">PhD Title</label>
 										<p class="small">Your title should succinctly define your PhD research.</p>
-										<textarea name="title" id="title" rows="3" class="form-control input input-large" placeholder="An Integrated Approach to Unqiuotous Human-Mouse Enviornmental Interaction"></textarea>
+										<textarea name="title" id="title" rows="3" class="form-control input input-large" placeholder="An Integrated Approach to Unqiuotous Human-Mouse Enviornmental Interaction" spellcheck="true" lang="gb"></textarea>
 									</div>
 								</div>
 								<div class="col-sm-12 col-md-6 col-lg-6">
 									<div class="form-group">
 										<label for="tweet">PhD in a Tweet</label>
 										<p class="small">Summarise your PhD in 140 characters or less (<strong class="tweet-rem">125</strong> characters remaining, <em>15</em> characters are used to link to your submission).</p>
-										<textarea name="tweet" id="tweet" rows="3" class="form-control input input-large" placeholder="Conducting an ethnomethodologically informed ethnography on uniquitious Human-Moose interaction within a structured environment."></textarea>
+										<textarea name="tweet" id="tweet" rows="3" class="form-control input input-large" placeholder="Conducting an ethnomethodologically informed ethnography on uniquitious Human-Moose interaction within a structured environment." spellcheck="true" lang="gb"></textarea>
 									</div>
 								</div>
 							</div>
@@ -111,16 +111,16 @@ $oPageTemplate->startCapture ();
 									<div class="form-group">
 										<label for="keywords">Research Keywords</label>
 										<p class="small">Please provide at least <strong>five</strong> keywords that define your work. You should separate each keyword with a comma.</p>
-										<input type="text" class="form-control input input-large" data-role="tagsinput" autocomplete="off" name="keywords" id="keywords" placeholder="">
+										<input type="text" class="form-control input input-large" data-role="tagsinput" autocomplete="off" name="keywords" id="keywords" placeholder="" spellcheck="true" lang="gb">
 									</div>
 								</div>
 								<div class="col-sm-12 col-md-6 col-lg-6">
 									<div class="form-group">
 										<label for="industryName">External Partner Name</label>
-										<input type="text" class="form-control input input-large" name="industryName" autocomplete="off" id="industryName" placeholder="Industry Partner Ltd.">
+										<input type="text" class="form-control input input-large" name="industryName" autocomplete="off" id="industryName" placeholder="Industry Partner Ltd." spellcheck="false">
 										<br>
 										<label for="industryUrl">External Partner Website</label>
-										<input type="url" class="form-control input input-large" name="industryUrl" autocomplete="off" id="industryUrl" placeholder="http://">
+										<input type="url" class="form-control input input-large" name="industryUrl" autocomplete="off" id="industryUrl" placeholder="http://" spellcheck="false"> 
 									</div>
 								</div>
 							</div>
@@ -144,12 +144,12 @@ $oPageTemplate->startCapture ();
 						<div class="col-sm-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="text">Abstract</label>
-								<textarea name="text" id="text" rows="25" class="form-control input input-large"></textarea>
+								<textarea name="text" id="text" rows="25" class="form-control input input-large" spellcheck="true" lang="gb"></textarea>
 								<p class="small">You have <strong class="text-rem">0</strong> words remaining.</p>
 							</div>
 							<div class="form-group">
 								<label for="references">References</label>
-								<textarea name="references" id="references" rows="25" class="form-control input input-large" placeholder="1. Smith, J.P. Studying certainty. Science and Culture 9 (1989) 442."></textarea>
+								<textarea name="references" id="references" rows="25" class="form-control input input-large" placeholder="1. Smith, J.P. Studying certainty. Science and Culture 9 (1989) 442." spellcheck="false"></textarea>
 							</div>
 						</div>
 					
@@ -205,14 +205,14 @@ $oPageTemplate->startCapture ();
 								<div class="col-sm-12 col-md-6 col-lg-6">
 									<div class="form-group">
 										<label for="website">Website Address</label>
-										<input type="url" class="form-control input input-large" name="website" id="website" autocomplete="off" value="http://">
+										<input type="url" class="form-control input input-large" name="website" id="website" autocomplete="off" value="http://" spellcheck="false">
 									</div>
 									<div class="hidden-xs hidden-sm">
 										<hr>
 									</div>
 									<div class="form-group">
 										<label for="twitter">Twitter Username</label>
-										<input type="text" class="form-control" name="twitter" id="twitter" autocomplete="off" placeholder="@SuperHumanMooseReseacher">
+										<input type="text" class="form-control" name="twitter" id="twitter" autocomplete="off" placeholder="@SuperHumanMooseReseacher" spellcheck="false">
 									</div>
 									<div class="hidden-xs hidden-sm">
 										<hr>	
