@@ -14,55 +14,24 @@ namespace CDT;
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-abstract class BaseData {
-
-	/** @var string[] Data store */
-	private $data = array();
+abstract class BaseData extends \RecursiveArrayObject {
 
 	/**
-	 * Construct the data object, with the initial data values.
+	 * Construct the data object, with initial data values, if any.
+	 * 
+	 * @param mixed[] $data Data to construct initial object with
+	 * @return New BaseData
 	 */
 	public function __construct ($data = array()) {
-		$this->data = $data;
+		return parent::__construct ($data);
 	}
 
-	/**
-	 * @return bool `true` if an item exists
-	 */
-	public function __isset ($key) {
-		return \array_key_exists ($key, $this->data);
-	}
-
-	/**
-	 * Retrieve the value of a item.
-	 * 
-	 * @param string $key Name of the item to retrieve
-	 * @return string|null Value of the item
-	 */
-	public function __get ($key) {
-		if (!\array_key_exists ($key, $this->data)) {
-			return null;
-		}
-
-		return $this->data[$key];
-	}
-
-	/**
-	 * Set the value of an item.
-	 * 
-	 * @param string $key Name of the item of data to set
-	 * @param mixed $value Value of the item.
-	 * @return void
-	 */
-	public function __set ($key, $value) {
-		$this->data[$key] = $value;
-	}
 
 	/**
 	 * @return mixed[] Data stored in an array.
 	 */
 	public function toArray() {
-		return $this->data;
+		return $this->getArrayCopy ();
 	}
 
 	/**
