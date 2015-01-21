@@ -14,6 +14,6 @@ namespace CDT\User;
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class User extends \CDT\BaseData {
+class User extends \CDT\AbstractModel {
 
 }

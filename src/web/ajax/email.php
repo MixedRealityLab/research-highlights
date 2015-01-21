@@ -15,7 +15,7 @@
 $rh = \CDT\RH::i();
 $oSubmissionController = $rh->cdt_submission_controller;
 $oUserController = $rh->cdt_user_controller;
-$oInputModel = $rh->cdt_input_model;
+$oPageInput = $rh->cdt_page_input;
 $oUtilsEmail = $rh->cdt_utils_email;
 
 if (!$oUserController->login (true)) {
@@ -23,9 +23,9 @@ if (!$oUserController->login (true)) {
 	exit;
 }
 
-if (is_null ($oInputModel->get ('usernames'))
-	|| is_null ($oInputModel->get ('subject'))
-	|| is_null ($oInputModel->get ('message'))) {
+if (!isSet ($oPageInput->usernames)
+	&& !isSet ($oPageInput->subject)
+	&& !isSet ($oPageInput->message)) {
 	print '-2';
 	exit;
 }
@@ -36,9 +36,9 @@ $from = '"'. $oUser->firstName . ' ' . $oUser->surname .'" <'. $oUser->email .'>
 $replyTo = 'cdt-rh@lists.porcheron.uk';
 $oUtilsEmail->setHeaders ($from, $replyTo);
 
-$usernames = \explode ("\n", $oInputModel->get ('usernames'));
-$subject = $oInputModel->get ('subject');
-$message = \nl2br ($oInputModel->get ('message'));
+$usernames = \explode ("\n", $oPageInput->usernames);
+$subject = $oPageInput->subject;
+$message = \nl2br ($oPageInput->message);
 $oUtilsEmail->sendAll ($usernames, $subject, \strip_tags ($message), $message);
 
 print '1';

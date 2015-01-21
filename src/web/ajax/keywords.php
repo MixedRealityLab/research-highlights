@@ -10,13 +10,13 @@
 // Fetch a list of eywords
 
 $rh = \CDT\RH::i();
-$oInputModel = $rh->cdt_input_model;
+$oPageInput = $rh->cdt_page_input;
 $oUserController = $rh->cdt_user_controller;
 $oSubmissionController = $rh->cdt_submission_controller;
 
 // for just one user?
-if (!\is_null ($oInputModel->get('user'))) {
-	$user = $oInputModel->get ('user');
+if (isSet ($oPageInput->user)) {
+	$user = $oPageInput->user;
 	print \CDT\Submission\Keywords::mergeJson ($oSubmissionController->getKeywords ($user)->toArray());
 	exit;
 }

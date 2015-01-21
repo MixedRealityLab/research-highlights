@@ -17,7 +17,7 @@ use PhpOffice\PhpPowerpoint\Style\Color;
 
 $rh = \CDT\RH::i();
 $oSubmissionController = $rh->cdt_submission_controller;
-$oInputModel = $rh->cdt_input_model;
+$oPageInput = $rh->cdt_page_input;
 $oUserController = $rh->cdt_user_controller;
 
 $oPowerpoint = new PhpPowerpoint ();
@@ -36,10 +36,10 @@ $oPowerpoint->setLayout ($oLayout);
 $oPowerpoint->removeSlideByIndex (0);
 
 // Which tweets should be displayed?
-if(!is_null ($oInputModel->get('user'))) {
-	$oUsers = array ($oUserController->get ($oInputModel->get ('user')));
-} else if(!is_null ($oInputModel->get('cohort'))) {
-	$cohort = $oInputModel->get('cohort');
+if (isSet ($oPageInput->user)) {
+	$oUsers = array ($oUserController->get ($oPageInput->user));
+} else if (isSet ($oPageInput->cohort)) {
+	$cohort = $oPageInput->cohort;
 	$oUsers = $oUserController->getAll (null, function ($user) use ($cohort) {
 		return $user->countSubmission && $user->cohort === $cohort;
 	});

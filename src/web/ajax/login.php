@@ -15,23 +15,21 @@ $rh = \CDT\RH::i();
 $oUserController = $rh->cdt_user_controller;
 
 if ($oUserController->login ()) {
-	$oInputModel = $rh->cdt_input_model;
+	$oPageInput = $rh->cdt_page_input;
 	$oSubmissionController = $rh->cdt_submission_controller;
 
 	// if admin, are we masquerading
-	if ($oUserController->login (true)) {
-		$override = $oInputModel->get ('profile');
+	if ($oUserController->login (true) && isSet ($oPageInput->profile)) {
+		$override = $oPageInput->profile;
 
-		if (!is_null ($override)) {
-			$override = \strtolower ($override);
-			$temp = $oUserController->get ($override);
-			if (empty ($temp)) {
-				print '-4';
-				exit;
-			}
+		$override = \strtolower ($override);
+		$temp = $oUserController->get ($override);
+		if (empty ($temp)) {
+			print '-4';
+			exit;
+		}
 
-			$oUserController->overrideLogin ($override);
-		} 
+		$oUserController->overrideLogin ($override);
 	}
 
 	// gather the data to populate the submission form

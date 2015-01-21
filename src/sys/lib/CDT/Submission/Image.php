@@ -7,13 +7,13 @@
  * See LICENCE for legal information.
  */
 
-namespace CDT\Input;
+namespace CDT\Submission;
 
 /**
- * POST class for input into the system.
+ * A n image within a submission;
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Post extends \CDT\Input\Data {
+class Image extends \CDT\AbstractModel {
 
 }

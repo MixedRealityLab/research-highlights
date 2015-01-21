@@ -14,19 +14,19 @@
 
 $rh = \CDT\RH::i();
 $oUserController = $rh->cdt_user_controller;
-$oInputModel = $rh->cdt_input_model;
+$oPageInput = $rh->cdt_page_input;
 
 if (!$oUserController->login ()) {
 	print '-1';
 	exit;
 }
 
-if (is_null ($oInputModel->get('saveAs'))) {
+if (!isSet ($oPageInput->saveAs)) {
 	print '-3';
 	exit;
 }
 
-if ($oInputModel->get('username') !== $oInputModel->get ('saveAs')
+if ($oPageInput->username !== $oPageInput->saveAs
 	&& !$oUserController->login (true)) {
 	print '-5';
 	exit;
@@ -34,10 +34,10 @@ if ($oInputModel->get('username') !== $oInputModel->get ('saveAs')
 
 $oSubmissionController = $rh->cdt_submission_controller;
 
-$textMd = \trim ($oInputModel->get ('text'));
+$textMd = \trim ($oPageInput->text);
 $textHtml = !empty ($textMd) ? $oSubmissionController->markdownToHtml ($textMd) : '<em>No text.</em>';
 
-$refMd = \trim ($oInputModel->get ('references'));
+$refMd = \trim ($oPageInput->references);
 $refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $oSubmissionController->markdownToHtml ($refMd) : '';
 
 print $textHtml . $refHtml;

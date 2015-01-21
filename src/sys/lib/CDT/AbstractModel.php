@@ -14,23 +14,22 @@ namespace CDT;
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-abstract class BaseData extends \RecursiveArrayObject {
+abstract class AbstractModel extends \RecursiveArrayObject {
 
 	/**
 	 * Construct the data object, with initial data values, if any.
 	 * 
 	 * @param mixed[] $data Data to construct initial object with
-	 * @return New BaseData
+	 * @return New AbstractModel
 	 */
 	public function __construct ($data = array()) {
 		return parent::__construct ($data);
 	}
 
-
 	/**
-	 * Convert an array of `BaseData` objects to a 2D array.
+	 * Convert an array of `AbstractModel` objects to a 2D array.
 	 * 
-	 * @param BaseData[] Objects to convert to arrays
+	 * @param AbstractModel[] Objects to convert to arrays
 	 * @return mixed[][] 2D array of data
 	 */
 	public static function toArrays ($data) {
@@ -42,9 +41,9 @@ abstract class BaseData extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Convert an array of `BaseData` objects to a JSON string.
+	 * Convert an array of `AbstractModel` objects to a JSON string.
 	 * 
-	 * @param BaseData[] Objects to convert to arrays
+	 * @param AbstractModel[] Objects to convert to arrays
 	 * @return string JSON string
 	 */
 	// public static function toJson ($data) {
@@ -52,15 +51,15 @@ abstract class BaseData extends \RecursiveArrayObject {
 	// }
 
 	/**
-	 * Convert multiple `BaseData` objects to a merged arrays.
+	 * Convert multiple `AbstractModel` objects to a merged arrays.
 	 * 
-	 * @return BaseData[] Combined arrays
+	 * @return AbstractModel[] Combined arrays
 	 */
 	public static function mergeArrays () {
 		$args = \func_get_args ();
 		$arrArgs = array();
 		foreach ($args as $arg) {
-			if ($arg instanceof \CDT\BaseData) {
+			if ($arg instanceof \CDT\AbstractModel) {
 				$arrArgs = \array_merge ($arrArgs, $arg->toArray());
 			} else if (\is_array ($arg)) {
 				$arrArgs = \array_merge ($arrArgs, $arg);
@@ -71,7 +70,7 @@ abstract class BaseData extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Convert multiple `BaseData` objects to a merged JSON string.
+	 * Convert multiple `AbstractModel` objects to a merged JSON string.
 	 * 
 	 * @return string JSON string
 	 */
@@ -79,7 +78,7 @@ abstract class BaseData extends \RecursiveArrayObject {
 		$args = \func_get_args ();
 		$arrArgs = array();
 		foreach ($args as $arg) {
-			if ($arg instanceof \CDT\BaseData) {
+			if ($arg instanceof \CDT\AbstractModel) {
 				$arrArgs = \array_merge ($arrArgs, $arg->toArray());
 			} else if (\is_array ($arg)) {
 				$arrArgs = \array_merge ($arrArgs, $arg);
@@ -90,10 +89,10 @@ abstract class BaseData extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Convert a 2D array to an array of `BaseData` objects.
+	 * Convert a 2D array to an array of `AbstractModel` objects.
 	 * 
-	 * @param mixed[][] Arrays to convert to array of BaseDatas
-	 * @return BaseData[] Array of data
+	 * @param mixed[][] Arrays to convert to array of AbstractModels
+	 * @return AbstractModel[] Array of data
 	 */
 	public static function fromArrays ($data) {
 		$res = array();
@@ -105,11 +104,11 @@ abstract class BaseData extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Merge a second BaseData object, overwriting any existing values;
+	 * Merge a second AbstractModel object, overwriting any existing values;
 	 * 
-	 * @param Traversable|mixed[] Another BaseData object or array to merge into 
+	 * @param Traversable|mixed[] Another AbstractModel object or array to merge into 
 	 * 	this one
-	 * @return This BaseData object.
+	 * @return This AbstractModel object.
 	 */
 	public function merge ($data) {
 		foreach ($data as $k => $v) {
@@ -124,7 +123,7 @@ abstract class BaseData extends \RecursiveArrayObject {
 	 * 
 	 * @param function $filterFn Filter function that takes one parameter (the 
 	 * 	data property) and returns a boolean value.
-	 * @return modified BaseData
+	 * @return modified AbstractModel
 	 */
 	public function filter ($filterFn) {
 		$unset = array(); $i = $this->count() - 1;

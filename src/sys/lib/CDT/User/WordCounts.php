@@ -14,6 +14,6 @@ namespace CDT\User;
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class WordCounts extends \CDT\BaseData {
+class WordCounts extends \CDT\AbstractModel {
 
 }

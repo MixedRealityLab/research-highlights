@@ -14,6 +14,6 @@ namespace CDT\User;
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Deadlines extends \CDT\BaseData {
+class Deadlines extends \CDT\AbstractModel {
 
 }

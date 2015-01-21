@@ -10,17 +10,18 @@
 // Fetch a list of users (either all, a cohort, or (not) submitted)
 
 $rh = \CDT\RH::i();
-$oInputModel = $rh->cdt_input_model;
+$oPageInput = $rh->cdt_page_input;
 $oUserController = $rh->cdt_user_controller;
 
 // Fetch a specific cohort?
-$cohort = $oInputModel->get ('cohort');
-if (!\is_numeric ($cohort)) {
+if (!isSet ($oPageInput->cohort) || !\is_numeric ($oPageInput->cohort)) {
 	$cohort = null;
+} else {
+	$cohort = $oPageInput->cohort;
 }
 
 // Fetch those who have submitted, or not?
-$submitted = $oInputModel->get ('submitted');
+$submitted = $oPageInput->submitted;
 if ($submitted === '1') {
 	$submitted = true;
 } else if ($submitted === '0') {

@@ -7,23 +7,23 @@
  * See LICENCE for legal information.
  */
 
-namespace CDT\User;
+namespace CDT\Submission;
 
 /**
- * A list of users.
+ * A list of images.
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Users extends \CDT\AbstractModel {
+class Images extends \CDT\AbstractModel {
 
 	/**
-	 * Create a new user within this list.
+	 * Create a new image within this list.
 	 * 
-	 * @param mixed $value Value of the user data.
-	 * @return \CDT\User\User New User object.
+	 * @param mixed $value Value of the image data.
+	 * @return Image New Image object.
 	 */
 	protected function newChild ($value) {
-		return new User ($value);
+		return new Image ($value);
 	}
 
 }

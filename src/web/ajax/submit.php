@@ -21,50 +21,37 @@ if (!$oUserController->login ()) {
 }
 
 $oSubmissionController = $rh->cdt_submission_controller;
-$oInputModel = $rh->cdt_input_model;
+$oPageInput = $rh->cdt_page_input;
 
-if (\is_null ($oInputModel->get('saveAs'))) {
+if (\is_null ($oPageInput->saveAs)) {
 	print '-3';
 	exit;
 }
 
-if ($oInputModel->get ('username') !== $oInputModel->get ('saveAs')
+if ($oPageInput->username !== $oPageInput->saveAs
 	&& !$oUserController->login (true)) {
 	print '-5';
 	exit;
 }
 
 // Go ahead and save the submission!
-$oUser = $oUserController->get ($oInputModel->get ('saveAs'));
-$cohortDir = DIR_DAT . '/' . $oInputModel->get ('cohort');
-$dir = DIR_DAT . '/' . $oInputModel->get ('cohort') . '/';
-$dir .= $oInputModel->get ('saveAs')  . '/' . date ('U') .'/';
 
 try {
-	if (\is_null ($oInputModel->get ('cohort'))
-		|| \is_null ($oInputModel->get ('title'))
-		|| \is_null ($oInputModel->get ('keywords'))
-		|| \is_null ($oInputModel->get ('text'))) {
+	if (!isSet ($oPageInput->cohort) && !isSet ($oPageInput->title)
+		&& !isSet ($oPageInput->keywords) && !isSet ($oPageInput->text)) {
 		throw new \CDT\Error\InvalidInput ('Missing inputs');
 	}
 
-	if ($oInputModel->get ('cohort') !== $oUser->cohort
-		|| !is_numeric ($oInputModel->get ('cohort')) || !is_dir ($cohortDir)) {
+	$oUser = $oUserController->get ($oPageInput->saveAs);
+	$cohortDir = DIR_DAT . '/' . $oPageInput->cohort;
+	if ($oPageInput->cohort !== $oUser->cohort
+		|| !is_numeric ($oPageInput->cohort) || !is_dir ($cohortDir)) {
 		throw new \CDT\Error\InvalidInput ('Invalid cohort!');
 	}
 
-	$save = $oInputModel->getAll (\CDT\Input\Model::POST);
-	
-	// place to store the data
-	if (strpos ($dir, '..') !== false) {
-		throw new \CDT\Error\System ('Could not identify directory to save input to');
-	}
+	$oSubmission = new \CDT\Submission\Submission ($oPageInput);
 
-	if (@mkdir ($dir, 0777, true) === false) {
-		throw new \CDT\Error\System ('Could not create directory to save input to');
-	}
-
-	$html = $oSubmissionController->markdownToHtml ($save->text);
+	$html = $oSubmissionController->markdownToHtml ($oSubmission->text);
 
 	$images = array();
 	\preg_match_all ('/(<img).*(src\s*=\s*("|\')([a-zA-Z0-9\.;:\/\?&=\-_|\r|\n]{1,})\3)/isxmU', $html, $images, PREG_PATTERN_ORDER);
@@ -84,48 +71,20 @@ try {
 
 		$filename = 'img-' . $id++ . '.' . $ext;
 
-		if (!@\file_put_contents ($dir . $filename, $img)) {
-			throw new \CDT\Error\System ('Could not save the image at ' . $url . ' to the system');
-		}
-
-		$save->text = \str_replace ($url, '<imgDir>' . $filename, $save->text);
+		$oSubmission->addImage ($filename, $img);
+		$oSubmission->text = \str_replace ($url, '<imgDir>' . $filename, $oSubmission->text);
 	}
 
-	$save->keywords = \strtolower ($save->keywords);
+	$oSubmission->keywords = \strtolower ($oSubmission->keywords);
 
-	$save->website = !\is_null ($save->website) && $save->website != 'http://' ? \trim ($save->website) : '';
-	$save->twitter = \strlen ($save->twitter) > 0 && $save->twitter[0] != '@' ? '@' . $save->twitter : $save->twitter;
+	$oSubmission->website = !\is_null ($oSubmission->website) && $oSubmission->website != 'http://' ? \trim ($oSubmission->website) : '';
+	$oSubmission->twitter = \strlen ($oSubmission->twitter) > 0 && $oSubmission->twitter[0] != '@' ? '@' . $oSubmission->twitter : $oSubmission->twitter;
 
-	// fix this
-	foreach ($oSubmissionController->getDefaultData ()->toArray () as $key => $value) {
-		if (!isSet ($save->$key)) {
-			$save->$key = '';
-		}
-
-		if (@\file_put_contents ($dir . $key .'.txt', $save->$key) === false) {
-			throw new \CDT\Error\System ('Could not save ' . $key . ' to the system');
-		}
-	}
+	$oSubmission->save ();
 
 	print '1';
 	exit;
 } catch (\Exception $e) {
-	// Roll back saved changes
-	if (\is_dir ($dir)) {
-		if ($dh = \opendir ($dir)) {
-			$versions = array ();
-			while (($file = \readdir ($dh)) !== false) {
-				if ($file != '.' && $file != '..' && \is_dir ($dir . $file)) {
-					@\rmdir ($dir . $file);
-				} else {
-					@\unlink ($dir . $file);
-				}
-			}
-			\closedir ($dh);
-			@\rmdir ($dir);
-		}
-	}
-
 	print $e->getMessage();
 	exit;
 }

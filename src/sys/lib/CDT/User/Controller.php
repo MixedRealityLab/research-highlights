@@ -59,26 +59,29 @@ class Controller extends \CDT\Singleton {
 	 * @return bool `true` if the login was successful
 	 */
 	public function login ($requireAdmin = false) {
-		$oInputModel = $this->rh->cdt_input_model;
+		$oPageInput = $this->rh->cdt_page_input;
 
-		$username = \strtolower ($oInputModel->get ('username'));
-		$valid = !\is_null ($username) && !\is_null ($oInputModel->get ('password')) && $oInputModel->get ('password') == $this->generatePassword ($username);
+		try {
+			$username = \strtolower ($oPageInput->username);
+			$oPageInput->password == $this->generatePassword ($username);
+
+			$temp = $this->get ($username);
+			if ($requireAdmin && !isSet ($temp->admin)) {
+				return false;
+			}
+
+			if (!$temp->enabled) {
+				return false;
+			}
+
+			$this->user = $temp;
+
+		} catch (\InvalidArgumentException $e) {
+			return false;
+		}
+
+
 		
-		if (!$valid) {
-			return false;
-		}
-		
-		$temp = $this->get ($username);
-		if ($requireAdmin && !isSet ($temp->admin)) {
-			return false;
-		}
-
-		if (!$temp->enabled) {
-			return false;
-		}
-
-		$this->user = $temp;
-
 		return \count ($temp) > 0;
 	}
 
@@ -91,7 +94,7 @@ class Controller extends \CDT\Singleton {
 	 * @return bool `true` if successful
 	 */
 	public function overrideLogin ($username) {
-		$oInputModel = $this->rh->cdt_input_model;
+		$oPageInput = $this->rh->cdt_page_input;
 
 		$newUser = $this->get (\strtolower ($username));
 		if (isSet ($this->user->admin) && !empty ($newUser)) {

@@ -10,12 +10,12 @@
 // Perform a search
 
 $rh = \CDT\RH::i();
-$oInputModel = $rh->cdt_input_model;
+$oPageInput = $rh->cdt_page_input;
 $oUserController = $rh->cdt_user_controller;
 $oSubmissionController = $rh->cdt_submission_controller;
 
 // if no query, no results...
-if (\is_null ($oInputModel->get ('q'))) {
+if (!isSet ($oPageInput->q)) {
 	print '[]';
 	exit;
 }
@@ -135,7 +135,7 @@ $db = \unserialize (\file_get_contents ($file));
 $dbK = \array_keys ($db);
 
 // search database
-$query = $oInputModel->get ('q');
+$query = $oPageInput->q;
 $qWords = \preg_split ('/ /', $query, -1, PREG_SPLIT_NO_EMPTY);
 $results = array();
 foreach ($qWords as $qWord) {
@@ -152,7 +152,7 @@ foreach ($qWords as $qWord) {
 
 // // load results                      
 // $results = array();
-// $query = $oInputModel->get ('q');
+// $query = $oPageInput->q;
 // $qWords = \explode (' ', $query);
 // foreach ($qWords as $qWord) {
 // 	$qWordL = \trim (\strtolower ($qWord));

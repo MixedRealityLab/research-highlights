@@ -14,6 +14,6 @@ namespace CDT\Submission;
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Keywords extends \CDT\BaseData {
+class Keywords extends \CDT\AbstractModel {
 
 }

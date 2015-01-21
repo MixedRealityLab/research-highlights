@@ -14,6 +14,6 @@ namespace CDT\User;
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class FundingStatements extends \CDT\BaseData {
+class FundingStatements extends \CDT\AbstractModel {
 
 }

@@ -14,6 +14,6 @@ namespace CDT\User;
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Cohorts extends \CDT\BaseData {
+class Cohorts extends \CDT\AbstractModel {
 
 }

@@ -11,21 +11,20 @@
 
 $rh = \CDT\RH::i();
 $oSubmissionController = $rh->cdt_submission_controller;
-$oInputModel = $rh->cdt_input_model;
+$oPageInput = $rh->cdt_page_input;
 $oUserController = $rh->cdt_user_controller;
 
 // Get the users for which we want to return their submission
-if(!is_null ($oInputModel->get('user'))) {
-	$oUsers = array ($oUserController->get ($oInputModel->get ('user')));
-} else if(!is_null ($oInputModel->get('cohort'))) {
-	$cohort = $oInputModel->get('cohort');
+if (isSet ($oPageInput->user)) {
+	$oUsers = array ($oUserController->get ($oPageInput->user));
+} else if (isSet ($oPageInput->cohort)) {
+	$cohort = $oPageInput->cohort;
 	$oUsers = $oUserController->getAll (null, function ($user) use ($cohort) {
 		return $user->countSubmission && $user->cohort === $cohort;
 	});
-} else if(!is_null ($oInputModel->get('keywords'))) {
-	
+} else if (isSet ($oPageInput->keywords)) {
 	// is there a saved copy of all keywords?
-	$keywords = @\explode (',', $oInputModel->get('keywords'));
+	$keywords = @\explode (',', $oPageInput->keywords);
 	foreach($keywords as $keyword) {
 		$keywords[] = \str_replace ('_', ' ', $keyword);
 	}
