@@ -44,6 +44,7 @@ class Slide extends AbstractPart
      * Write slide to XML format
      *
      * @param  \PhpOffice\PhpPowerpoint\Slide $pSlide
+     * @param  boolean $lastSlide
      * @return string              XML Output
      * @throws \Exception
      */

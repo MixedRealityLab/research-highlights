@@ -16,17 +16,20 @@ namespace CDT\Submission;
  */
 class Model extends \CDT\Singleton {
 
+	/** @var string Data file name suffix */
+	const DAT_FILE_SUF = '.txt';
+
 	/** @var string Default file name prefix */
 	const DEF_FILE_PRE = 'default-';
 
 	/** @var string Default file name suffix */
 	const DEF_FILE_SUF = '.txt';
 
-	/** @var \CDT\Submission\Data Submission template */
+	/** @var Submission Submission template */
 	private $defaultData;
 
 	/**
-	 * @return string[] Default submission template
+	 * @return Submission Default submission template
 	 */
 	public function getDefaultData () {
 		if (\is_null ($this->defaultData)) {
@@ -45,7 +48,7 @@ class Model extends \CDT\Singleton {
 			};
 
 			$data = $oFileReader->multiRead (DIR_USR, $readFileFn, $fileNameFn);
-			$this->defaultData = new \CDT\Submission\Data ($data);
+			$this->defaultData = new Submission ($data);
 		}
 
 		return $this->defaultData;
@@ -58,53 +61,44 @@ class Model extends \CDT\Singleton {
 	 * 	current logged in user's submission is retrieved
 	 * @param bool $includeDefaults Use the submission template if the user has
 	 * 	not submitted
-	 * @return \CDT\Submission\Data
+	 * @return Submission
+	 * @throws \CDT\Error\NoUser if there is no user to retrieve submission for
 	 */
 	public function get ($username = null, $includeDefaults = true) {
+		$oFileReader = $this->rh->cdt_file_reader;
 		$oUserModel = $this->rh->cdt_user_model;
 		$oUser = $oUserModel->get ($username);
 
-		$override = array();
-		if (isSet ($oUser->username)) {
-			$dir = DIR_DAT . '/' . $oUser->cohort . '/' . $oUser->username . '/';
-			if (\is_dir ($dir)) {
-				if ($dh = \opendir ($dir)) {
-					$versions = array();
-					while (($file = \readdir ($dh)) !== false) {
-						if ($file != '.' && $file != '..') {
-							$versions[] = $file;
-						}
-					}
-					\closedir ($dh);
-
-					if (\count ($versions) > 0) {
-						\rsort ($versions, SORT_NUMERIC);
-						$oUser->latestVersion = $versions[0];
-						$dir = $dir . $versions[0] . '/';				
-
-						// TODO: replace
-						foreach ($this->getDefaultData()->toArray() as $key => $value) {
-							$userValue = @\file_get_contents ($dir . $key . '.txt');
-							if ($userValue !== false) {
-								$override[$key] = $oUserModel->makeSubsts ($userValue, $oUser->username);
-							}
-						}
-					}
-				}
-			}
+		if (!isSet ($oUser->username)) {
+			throw new \CDT\Error\NoUser();
 		}
 
 		if ($includeDefaults) {
-			$ret = array();
-			// TODO: replace
-			foreach ($this->getDefaultData()->toArray () as $k => $v) {
-				$ret[$k] = $oUserModel->makeSubsts (!\is_null ($override) && isSet ($override[$k]) ? $override[$k] : $v, $oUser->username);
-			}
+			$oSubmission = $this->getDefaultData();
 		} else {
-			$ret = $override;
+			$oSubmission = new Submission ();
 		}
 
-		return new \CDT\Submission\Data ($ret);
+		$sufLen = \strlen (self::DEF_FILE_SUF);
+		$readFileFn = function ($fileName) use ($sufLen) {
+			return \substr ($fileName, 0 - $sufLen) === self::DEF_FILE_SUF;
+		};
+
+		$fileNameFn = function ($fileName) use ($sufLen) {
+			$end = \strlen ($fileName) - $sufLen;
+			return substr ($fileName, 0, $end);
+		};
+
+		try {
+			$dir = $oUser->latestSubmission;
+			$data = $oFileReader->multiRead ($dir, $readFileFn, $fileNameFn);
+			$oSubmission->merge ($data)->makeSubsts ($oUserModel, $oUser);
+		} catch (\InvalidArgumentException $e) {
+			// the user hasn't submitted
+		}
+
+
+		return $oSubmission;
 	}
 
 	/**
@@ -113,7 +107,7 @@ class Model extends \CDT\Singleton {
 	 * @param string $username User's keywords, or all keywords if `null`
 	 * @param mixed[] $ret Results of the keyword scan
 	 * @param int $total Total number of keywords found
-	 * @return \CDT\Submission\Keywords
+	 * @return Keywords
 	 */
 	public function getKeywords ($username = null, &$ret = array(), &$total = 0) {
 		$oUserModel = $this->rh->cdt_user_model;
@@ -165,7 +159,7 @@ class Model extends \CDT\Singleton {
 			$ret[$key]['weight'] = $row['num'] / $total;
 		}
 
-		return new \CDT\Submission\Keywords ($ret);
+		return new Keywords ($ret);
 	}
 
 	/**

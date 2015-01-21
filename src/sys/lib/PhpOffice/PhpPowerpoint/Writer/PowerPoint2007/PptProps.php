@@ -61,7 +61,7 @@ class PptProps extends AbstractPart
 
             // a:srgbClr
             $objWriter->startElement('a:srgbClr');
-            $objWriter->writeAttribute('loop', 'FF0000');
+            $objWriter->writeAttribute('val', 'FF0000');
             $objWriter->endElement();
 
             $objWriter->endElement();

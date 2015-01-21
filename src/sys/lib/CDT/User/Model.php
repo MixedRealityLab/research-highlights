@@ -31,19 +31,19 @@ class Model extends \CDT\Singleton {
 	/** @var string File name for submission deadlines */
 	const DEADLINES_FILE = '/deadlines.txt';
 
-	/** @var \CDT\User\User Currently logged in user */
+	/** @var User Currently logged in user */
 	private $user = null;
 
-	/** @var \CDT\User\Users Cache of user details */
+	/** @var Users Cache of user details */
 	private $userCache;
 
-	/** @var string[] Cache of funding statements */
+	/** @var FundingStatements Cache of funding statements */
 	private $fundingCache;
 
-	/** @var string[] Cache of deadline statements */
+	/** @var Deadlines Cache of deadline statements */
 	private $deadlineCache;
 
-	/** @var int[] Cache of word counts */
+	/** @var WordCounts Cache of word counts */
 	private $wordCountCache;
 
 	/** Construct the User model */
@@ -110,7 +110,7 @@ class Model extends \CDT\Singleton {
 	 * 
 	 * @param string|null $username Username to retrieve full details for, or 
 	 * 	if `null`, retrieve the currently logged in user
-	 * @return \CDT\User\User Details of the user
+	 * @return User Details of the user
 	 */
 	public function get ($username = null) {
 		if (\is_null ($username)) {
@@ -142,7 +142,7 @@ class Model extends \CDT\Singleton {
 	 * 	sort by cohort, then sort by name
 	 * @param function|null $filterFn How to filter the user list; if `null`, all
 	 * 	users are included
-	 * @return \CDT\User\Users Data on all requested users.
+	 * @return Users Data on all requested users.
 	 */
 	public function getAll ($sortFn = null, $filterFn = null) {
 		if (\is_null ($sortFn)) {
@@ -216,7 +216,7 @@ class Model extends \CDT\Singleton {
 	 * @param string $file File to get the user's data from.
 	 * @param string $username Username of the user to retrieve, or `null` to 
 	 * 	get all users in the file.
-	 * @return \CDT\User\Users|\CDT\User\User Details of the user(s).
+	 * @return Users|User Details of the user(s).
 	 */
 	private function getData ($file, $username = null) {
 		$oFileReader = $this->rh->cdt_file_reader;
@@ -225,41 +225,23 @@ class Model extends \CDT\Singleton {
 			return \is_null ($username) || $cols[2] === $username;
 		};
 		$calcValuesFn = function (&$data, $cols) {
-			$data['latestVersion'] = $this->getLatestVersion ($cols[0], $cols[2]);
+			// get the latest version
+			$dir = DIR_DAT . '/'. $cols[1] . '/' . $cols[2];
+			$data['dir'] = $dir;
+			$versions = \glob ($dir . '/*', GLOB_ONLYDIR);
+
+			if (empty ($versions)) {
+				$data['latestVersion'] = -1;
+			} else {
+				$data['latestVersion'] = \str_replace ($dir . '/', '', \end ($versions));
+				$data['latestSubmission'] = $dir . '/' . $data['latestVersion'];
+			}
 		};
 
 		$data = $oFileReader->read (DIR_USR . $file, 'username', $readRowFn, $calcValuesFn);
 		return \is_null ($username) || empty ($data)
-			? new \CDT\User\Users ($data)
-			: new \CDT\User\User (\array_pop ($data));
-	}
-
-	/**
-	 * Get the ID of the latest submission of a user
-	 * 
-	 * @param string $cohort Cohort of the user
-	 * @param string $username Username of the user to retrieve the word count 
-	 * 	for
-	 * @return string Word count of the user
-	 */
-	public function getLatestVersion ($cohort, $username) {
-		$dir = DIR_DAT . '/'. $cohort . '/' . $username . '/';
-		if (\is_dir ($dir)) {
-			if ($dh = \opendir ($dir)) {
-				$versions = array();
-				while (($file = \readdir ($dh)) !== false) {
-					if ($file != '.' && $file != '..') {
-						$versions[] = $file;
-					}
-				}
-				\closedir ($dh);
-
-				if (\count ($versions) > 0) {
-					rsort ($versions, SORT_NUMERIC);
-					return $versions[0];
-				}
-			}
-		}
+			? new Users ($data)
+			: new User (\array_pop ($data));
 	}
 
 	/**

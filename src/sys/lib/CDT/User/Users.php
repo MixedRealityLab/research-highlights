@@ -23,7 +23,7 @@ class Users extends \CDT\BaseData {
 	 * @return \CDT\User\User New User object.
 	 */
 	protected function newChild ($value) {
-		return new \CDT\User\User ($value);
+		return new User ($value);
 	}
 
 }
