@@ -49,12 +49,16 @@ if(!is_null ($oInputModel->get('user'))) {
 	});
 }
 
-\shuffle ($oUsers);
+$usernames = (\array_keys ($oUsers->getArrayCopy ()));
+\shuffle ($usernames);
+
 
 // Create slides
-foreach ($oUsers as $oUser) {
-	$data = $oSubmissionModel->get ($oUser->username, false);
-	if (\is_null ($data->tweet)) {
+foreach ($usernames as $username) {
+	$oUser = $oUsers->$username;
+	$oSubmission = $oSubmissionModel->get ($username, false);
+
+	if (!isSet ($oSubmission->tweet)) {
 		continue;
 	}
 
@@ -80,7 +84,7 @@ foreach ($oUsers as $oUser) {
 	$shape->getActiveParagraph()->getAlignment()
 			->setHorizontal (Alignment::HORIZONTAL_LEFT)
 			->setVertical (Alignment::VERTICAL_BOTTOM);
-	$tweet = $shape->createTextRun ($data->tweet);
+	$tweet = $shape->createTextRun ($oSubmission->tweet);
 	$tweet->getFont()->setBold (false)
 			->setName('Helvetica Neue')
 			->setSize (30)
