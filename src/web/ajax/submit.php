@@ -14,13 +14,13 @@
 // -5 : Attempting to masquerade when not admin
 
 $rh = \CDT\RH::i();
-$oUserModel = $rh->cdt_user_model;
-if (!$oUserModel->login ()) {
+$oUserController = $rh->cdt_user_controller;
+if (!$oUserController->login ()) {
 	print '-1';
 	exit;
 }
 
-$oSubmissionModel = $rh->cdt_submission_model;
+$oSubmissionController = $rh->cdt_submission_controller;
 $oInputModel = $rh->cdt_input_model;
 
 if (\is_null ($oInputModel->get('saveAs'))) {
@@ -29,13 +29,13 @@ if (\is_null ($oInputModel->get('saveAs'))) {
 }
 
 if ($oInputModel->get ('username') !== $oInputModel->get ('saveAs')
-	&& !$oUserModel->login (true)) {
+	&& !$oUserController->login (true)) {
 	print '-5';
 	exit;
 }
 
 // Go ahead and save the submission!
-$oUser = $oUserModel->get ($oInputModel->get ('saveAs'));
+$oUser = $oUserController->get ($oInputModel->get ('saveAs'));
 $cohortDir = DIR_DAT . '/' . $oInputModel->get ('cohort');
 $dir = DIR_DAT . '/' . $oInputModel->get ('cohort') . '/';
 $dir .= $oInputModel->get ('saveAs')  . '/' . date ('U') .'/';
@@ -64,7 +64,7 @@ try {
 		throw new \CDT\Error\System ('Could not create directory to save input to');
 	}
 
-	$html = $oSubmissionModel->markdownToHtml ($save->text);
+	$html = $oSubmissionController->markdownToHtml ($save->text);
 
 	$images = array();
 	\preg_match_all ('/(<img).*(src\s*=\s*("|\')([a-zA-Z0-9\.;:\/\?&=\-_|\r|\n]{1,})\3)/isxmU', $html, $images, PREG_PATTERN_ORDER);
@@ -97,7 +97,7 @@ try {
 	$save->twitter = \strlen ($save->twitter) > 0 && $save->twitter[0] != '@' ? '@' . $save->twitter : $save->twitter;
 
 	// fix this
-	foreach ($oSubmissionModel->getDefaultData ()->toArray () as $key => $value) {
+	foreach ($oSubmissionController->getDefaultData ()->toArray () as $key => $value) {
 		if (!isSet ($save->$key)) {
 			$save->$key = '';
 		}

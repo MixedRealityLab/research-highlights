@@ -13,12 +13,12 @@
 // -2 : Incomplete form
 
 $rh = \CDT\RH::i();
-$oSubmissionModel = $rh->cdt_submission_model;
-$oUserModel = $rh->cdt_user_model;
+$oSubmissionController = $rh->cdt_submission_controller;
+$oUserController = $rh->cdt_user_controller;
 $oInputModel = $rh->cdt_input_model;
 $oUtilsEmail = $rh->cdt_utils_email;
 
-if (!$oUserModel->login (true)) {
+if (!$oUserController->login (true)) {
 	print '-1';
 	exit;
 }
@@ -30,7 +30,7 @@ if (is_null ($oInputModel->get ('usernames'))
 	exit;
 }
 
-$oUser = $oUserModel->get ();
+$oUser = $oUserController->get ();
 
 $from = '"'. $oUser->firstName . ' ' . $oUser->surname .'" <'. $oUser->email .'>';
 $replyTo = 'cdt-rh@lists.porcheron.uk';

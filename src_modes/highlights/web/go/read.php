@@ -10,11 +10,11 @@
 // Redirects for the submissions
 
 $rh = \CDT\RH::i();
-$oUserModel = $rh->cdt_user_model;
+$oUserController = $rh->cdt_user_controller;
 
 $redirectTo = \substr ($page, 8);
 
-if (!(empty ($redirectTo) && ($ouser = $oUserModel->get ($redirectTo)) !== false)) {
+if (!(empty ($redirectTo) && ($ouser = $oUserController->get ($redirectTo)) !== false)) {
 	header ('Location: ' . URI_ROOT .'/#read=' . $redirectTo);
 	exit;
 }

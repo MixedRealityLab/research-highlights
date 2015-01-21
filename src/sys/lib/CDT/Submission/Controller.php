@@ -10,11 +10,11 @@
 namespace CDT\Submission;
 
 /**
- * Model for submissions made by users.
+ * Controller for submissions made by users.
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Model extends \CDT\Singleton {
+class Controller extends \CDT\Singleton {
 
 	/** @var string Data file name suffix */
 	const DAT_FILE_SUF = '.txt';
@@ -66,8 +66,8 @@ class Model extends \CDT\Singleton {
 	 */
 	public function get ($username = null, $includeDefaults = true) {
 		$oFileReader = $this->rh->cdt_file_reader;
-		$oUserModel = $this->rh->cdt_user_model;
-		$oUser = $oUserModel->get ($username);
+		$oUserController = $this->rh->cdt_user_controller;
+		$oUser = $oUserController->get ($username);
 
 		if (!isSet ($oUser->username)) {
 			throw new \CDT\Error\NoUser();
@@ -92,7 +92,7 @@ class Model extends \CDT\Singleton {
 		try {
 			$dir = $oUser->latestSubmission;
 			$data = $oFileReader->multiRead ($dir, $readFileFn, $fileNameFn);
-			$oSubmission->merge ($data)->makeSubsts ($oUserModel, $oUser);
+			$oSubmission->merge ($data)->makeSubsts ($oUserController, $oUser);
 		} catch (\InvalidArgumentException $e) {
 			// the user hasn't submitted
 		}
@@ -107,27 +107,31 @@ class Model extends \CDT\Singleton {
 	 * @param string $username User's keywords, or all keywords if `null`
 	 * @param mixed[] $ret Results of the keyword scan
 	 * @param int $total Total number of keywords found
-	 * @return Keywords
+	 * @return Keywords|null
 	 */
 	public function getKeywords ($username = null, &$ret = array(), &$total = 0) {
-		$oUserModel = $this->rh->cdt_user_model;
+		$oUserController = $this->rh->cdt_user_controller;
 
 		// get keywords
 		if (is_null ($username)) {
-			$oUsers = $oUserModel->getAll (null, function ($user) {
+			$oUsers = $oUserController->getAll (null, function ($user) {
 				return $user->countSubmission;
 			});
 
 			foreach ($oUsers as $oUser) {
-				$this->getKeywords ($oUser->username, $ret, $total);
+				if (isSet ($oUser->latestSubmission)) {
+					$this->getKeywords ($oUser->username, $ret, $total);
+				}
 			}
 		} else {
-			$oUser = $oUserModel->get ($username);
+			$oUser = $oUserController->get ($username);
 
-			// get keywords
-			$latestVersion = $oUserModel->getLatestVersion ($oUser->cohort, $oUser->username);
-			$dir = DIR_DAT . '/' . $oUser->cohort . '/' . $oUser->username . '/' . $latestVersion . '/';
-			$file = @\file_get_contents ($dir .  'keywords.txt');
+			if (!isSet ($oUser->latestSubmission)) {
+				return null;
+			}
+
+			$fileName =  $oUser->latestSubmission .'/keywords.txt';
+			$file = @\file_get_contents ($fileName);
 			$keywords = \explode (',', $file);			
 
 			// count keywords

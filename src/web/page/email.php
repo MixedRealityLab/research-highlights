@@ -9,7 +9,7 @@
 
 $rh = \CDT\RH::i();
 $oPageTemplate = $rh->cdt_page_template;
-$oUserModel = $rh->cdt_user_model;
+$oUserController = $rh->cdt_user_controller;
 
 $oPageTemplate->startCapture ();   
 
@@ -54,7 +54,7 @@ $oPageTemplate->startCapture ();
 					<!-- BEGIN EMAIL STAGE -->
 					<form class="stage stage-email collapse">
 						<div class="col-sm-12 col-md-12 col-lg-12">
-							<p>You can use any of the following codes, these are substituted per user at email time: <?php $keys = ''; foreach ($oUserModel->substsKeys () as $key): $keys .= (empty ($keys) ? '' : ', ') . '<code>'. \htmlentities ($key) .'</code>'; endforeach; print $keys; ?>.</p>
+							<p>You can use any of the following codes, these are substituted per user at email time: <?php $keys = ''; foreach ($oUserController->substsKeys () as $key): $keys .= (empty ($keys) ? '' : ', ') . '<code>'. \htmlentities ($key) .'</code>'; endforeach; print $keys; ?>.</p>
 							<hr>
 						</div>
 						<div class="col-sm-12 col-md-12 col-lg-12">

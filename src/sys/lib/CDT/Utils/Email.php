@@ -76,18 +76,18 @@ class Email extends \CDT\Singleton {
 	 * @return bool `true` if the message was successfully sent
 	 */
 	public function send ($username, $subject, $messageText, $messageHtml) {
-		$oUserModel = \CDT\RH::i()->cdt_user_model;
+		$oUserController = \CDT\RH::i()->cdt_user_controller;
 
-		$oUser = $oUserModel->get ($username);
+		$oUser = $oUserController->get ($username);
 
 		if (empty ($username) || \is_null ($oUser)) {
 			return false;
 		}
 
 		$mAddress = $oUser->email;
-		$mSubject = $oUserModel->makeSubsts ($subject, $username);
-		$mMessageText = $oUserModel->makeSubsts ($messageText, $username);
-		$mMessageHtml = $oUserModel->makeSubsts ($messageHtml, $username);
+		$mSubject = $oUserController->makeSubsts ($subject, $username);
+		$mMessageText = $oUserController->makeSubsts ($messageText, $username);
+		$mMessageHtml = $oUserController->makeSubsts ($messageHtml, $username);
 
 		$mHeaders = $this->headers;
 		$mHeaders['To'] = $mAddress;

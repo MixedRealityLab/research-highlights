@@ -10,11 +10,11 @@
 namespace CDT\User;
 
 /**
- * Model for submissions made by users.
+ * Controller for submissions made by users.
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Model extends \CDT\Singleton {
+class Controller extends \CDT\Singleton {
 
 	/** @var string File name for standard users who can log in */
 	const USER_FILE = '/login-users.txt';

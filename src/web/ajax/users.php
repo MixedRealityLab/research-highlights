@@ -11,7 +11,7 @@
 
 $rh = \CDT\RH::i();
 $oInputModel = $rh->cdt_input_model;
-$oUserModel = $rh->cdt_user_model;
+$oUserController = $rh->cdt_user_controller;
 
 // Fetch a specific cohort?
 $cohort = $oInputModel->get ('cohort');
@@ -30,9 +30,9 @@ if ($submitted === '1') {
 }
 
 // Filter the user list
-$oUsers = $oUserModel->getAll (null, function ($oUser) use ($rh, $cohort, $submitted) {
-	$oSubmissionModel = $rh->cdt_submission_model;
-	$submission = $oSubmissionModel->get ($oUser->username, false);
+$oUsers = $oUserController->getAll (null, function ($oUser) use ($rh, $cohort, $submitted) {
+	$oSubmissionController = $rh->cdt_submission_controller;
+	$submission = $oSubmissionController->get ($oUser->username, false);
 
 	$isCohort = is_null ($cohort) ? true : $oUser->cohort === $cohort;
 	$isSubmitted = \is_null ($submitted)

@@ -12,34 +12,34 @@
 // -4 : Cannot masquerade as given user (doesn't exist)
 
 $rh = \CDT\RH::i();
-$oUserModel = $rh->cdt_user_model;
+$oUserController = $rh->cdt_user_controller;
 
-if ($oUserModel->login ()) {
+if ($oUserController->login ()) {
 	$oInputModel = $rh->cdt_input_model;
-	$oSubmissionModel = $rh->cdt_submission_model;
+	$oSubmissionController = $rh->cdt_submission_controller;
 
 	// if admin, are we masquerading
-	if ($oUserModel->login (true)) {
+	if ($oUserController->login (true)) {
 		$override = $oInputModel->get ('profile');
 
 		if (!is_null ($override)) {
 			$override = \strtolower ($override);
-			$temp = $oUserModel->get ($override);
+			$temp = $oUserController->get ($override);
 			if (empty ($temp)) {
 				print '-4';
 				exit;
 			}
 
-			$oUserModel->overrideLogin ($override);
+			$oUserController->overrideLogin ($override);
 		} 
 	}
 
 	// gather the data to populate the submission form
-	print $oUserModel->get ()
-		->merge ($oSubmissionModel->get ())
+	print $oUserController->get ()
+		->merge ($oSubmissionController->get ())
 		->merge (array ('success' => 1,
-				   'wordCount' => $oUserModel->getWordCount (),
-				   'fundingStatement' => $oUserModel->getFunding ()))
+				   'wordCount' => $oUserController->getWordCount (),
+				   'fundingStatement' => $oUserController->getFunding ()))
 		->toJson ();
 	exit;
 }

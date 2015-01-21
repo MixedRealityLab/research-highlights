@@ -10,11 +10,11 @@
 // Fetch a list of users who have submitted
 
 $rh = \CDT\RH::i();
-$oSubmissionModel = $rh->cdt_submission_model;
-$oUserModel = $rh->cdt_user_model;
+$oSubmissionController = $rh->cdt_submission_controller;
+$oUserController = $rh->cdt_user_controller;
 
-print $oUserModel->getAll (null, function ($oUser) use ($oSubmissionModel) {
-	$submission = $oSubmissionModel->get ($oUser->username, false);
+print $oUserController->getAll (null, function ($oUser) use ($oSubmissionController) {
+	$submission = $oSubmissionController->get ($oUser->username, false);
 	return isSet ($submission->text) && $oUser->countSubmission;
 })->toArrayJson();
 

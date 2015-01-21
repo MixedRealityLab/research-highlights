@@ -9,14 +9,14 @@
 
 // Fetch all tweets
 $rh = \CDT\RH::i();
-$oSubmissionModel = $rh->cdt_submission_model;
-$oUserModel = $rh->cdt_user_model;
+$oSubmissionController = $rh->cdt_submission_controller;
+$oUserController = $rh->cdt_user_controller;
 
 \header ('Content-Type: text/csv');
 
-$oUsers = $oUserModel->getAll ();
+$oUsers = $oUserController->getAll ();
 foreach ($oUsers as $oUser) {
-	$temp = $oSubmissionModel->get ($oUser->username, false);
+	$temp = $oSubmissionController->get ($oUser->username, false);
 
 	if (isSet ($temp->text)) {
 		print $oUser->firstName . ',' . $oUser->surname . ',' . $oUser->email . ',' . $temp->tweet . "\n";

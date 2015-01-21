@@ -11,8 +11,8 @@
 
 $rh = \CDT\RH::i();
 $oInputModel = $rh->cdt_input_model;
-$oUserModel = $rh->cdt_user_model;
-$oSubmissionModel = $rh->cdt_submission_model;
+$oUserController = $rh->cdt_user_controller;
+$oSubmissionController = $rh->cdt_submission_controller;
 
 // if no query, no results...
 if (\is_null ($oInputModel->get ('q'))) {
@@ -92,13 +92,13 @@ if (!\is_file ($file) || \filemtime ($file) + KEY_CACHE > \date ('U')) {
 	}
 
 	// load all submission data
-	$oUsers = $oUserModel->getAll (null, function ($user) {
+	$oUsers = $oUserController->getAll (null, function ($user) {
 		return $user->countSubmission;
 	});
 
 	// catalogue the keywords
 	foreach ($oUsers as $oUser) {
-		$data = $oSubmissionModel->get ($oUser->username, false);
+		$data = $oSubmissionController->get ($oUser->username, false);
 
 		if (!isSet ($data->text)) {
 			continue;
@@ -114,8 +114,8 @@ if (!\is_file ($file) || \filemtime ($file) + KEY_CACHE > \date ('U')) {
 			addKeywords ($words, $weights['keyword'], $useFactors['keyword'], $oUser->username);
 		}
 
-		$text = $oUserModel->makeSubsts ($data->text, $oUser->username);
-		$text = $oSubmissionModel->markdownToHtml ($text);
+		$text = $oUserController->makeSubsts ($data->text, $oUser->username);
+		$text = $oSubmissionController->markdownToHtml ($text);
 
 		$tags = array('h1', 'h2', 'h3', 'h4', 'strong', 'em', 'blockquote');
 		foreach ($tags as $tag) {
@@ -184,8 +184,8 @@ foreach ($results as $result) {
 // Collect the relevant submissions and return
 $output = array();
 foreach ($combinedResults as $username => $weight) {
-	$oUser = $oUserModel->get ($username);
-	$temp = $oSubmissionModel->get ($username, false);
+	$oUser = $oUserController->get ($username);
+	$temp = $oSubmissionController->get ($username, false);
 
 	if (isSet ($temp->text)) {
 		$output[] = \array_merge ($temp->toArray (), $oUser->toArray (), array('weight' => $weight));

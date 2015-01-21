@@ -10,7 +10,7 @@
 // Fetch a list of cohorts
 
 $rh = \CDT\RH::i();
-$oUserModel = $rh->cdt_user_model;
+$oUserController = $rh->cdt_user_controller;
 
-print $oUserModel->getCohorts ()->toArrayJson();
+print $oUserController->getCohorts ()->toArrayJson();
 
