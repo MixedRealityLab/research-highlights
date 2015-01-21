@@ -10,10 +10,10 @@
 namespace CDT\User;
 
 /**
- * A user within the system.
+ * List of funding statements.
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Data extends \CDT\BaseData {
+class FundingStatements extends \CDT\BaseData {
 
 }

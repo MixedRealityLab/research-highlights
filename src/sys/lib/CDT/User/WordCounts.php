@@ -7,10 +7,13 @@
  * See LICENCE for legal information.
  */
 
-// Fetch a list of cohorts
+namespace CDT\User;
 
-$rh = \CDT\RH::i();
-$oUserModel = $rh->cdt_user_model;
+/**
+ * List of word counts.
+ * 
+ * @author Martin Porcheron <martin@porcheron.uk>
+ */
+class WordCounts extends \CDT\BaseData {
 
-print $oUserModel->getCohorts ()->toArrayJson();
-
+}

@@ -35,13 +35,12 @@ if ($oUserModel->login ()) {
 	}
 
 	// gather the data to populate the submission form
-	$user = $oUserModel->get ();
-	$submission = $oSubmissionModel->get ();
-	$data = array ('success' => 1,
+	print $oUserModel->get ()
+		->merge ($oSubmissionModel->get ())
+		->merge (array ('success' => 1,
 				   'wordCount' => $oUserModel->getWordCount (),
-				   'fundingStatement' => $oUserModel->getFunding ());
-
-	print \CDT\User\Data::mergeJson ($user, $submission, $data);
+				   'fundingStatement' => $oUserModel->getFunding ()))
+		->toJson ();
 	exit;
 }
 

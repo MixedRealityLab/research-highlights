@@ -13,9 +13,8 @@ $rh = \CDT\RH::i();
 $oSubmissionModel = $rh->cdt_submission_model;
 $oUserModel = $rh->cdt_user_model;
 
-$oUsers = $oUserModel->getAll (null, function ($oUser) use ($oSubmissionModel) {
+print $oUserModel->getAll (null, function ($oUser) use ($oSubmissionModel) {
 	$submission = $oSubmissionModel->get ($oUser->username, false);
 	return isSet ($submission->text) && $oUser->countSubmission;
-});
+})->toArrayJson();
 
-print \CDT\User\Data::toJson ($oUsers);

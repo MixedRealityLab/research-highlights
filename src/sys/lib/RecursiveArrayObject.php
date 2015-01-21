@@ -22,7 +22,7 @@ class RecursiveArrayObject extends \ArrayObject {
 	 * @param string $iterator_class Class to use as iterator
 	 * @return New RecursiveArrayObject
 	 */
-	public function __construct ($data = null, $flags = self::ARRAY_AS_PROPS, $iterator_class = "ArrayIterator"){
+	public function __construct ($data = null, $flags = self::ARRAY_AS_PROPS, $iterator_class = 'ArrayIterator') {
 		foreach ($data as $k => $v) {
 			$this->__set ($k, $v);
 		}
@@ -39,12 +39,11 @@ class RecursiveArrayObject extends \ArrayObject {
 	 */
 	public function __set ($key, $value){
 		if (\is_array ($value) || \is_object ($value)) {
-			$this->offsetSet ($key, (new self ($value)));
+			$this->offsetSet ($key, $this->newChild ($value));
 		} else {
 			$this->offsetSet ($key, $value);
 		}
 	}
-
 
 	/**
 	 * Retrieve the value of a property.
@@ -59,9 +58,8 @@ class RecursiveArrayObject extends \ArrayObject {
 			return $this[$key];
 		}
 
-		throw new \InvalidArgumentException (\sprintf ('$this have not prop `%s`', $key));
+		throw new \InvalidArgumentException (\sprintf ('No property `%s` in `%s`: %s', $key, static::className(), print_r ($this, true)));
 	}
-
 
 	/**
 	 * @param string $key Property to search for in the dataset.
@@ -77,5 +75,20 @@ class RecursiveArrayObject extends \ArrayObject {
 	 */
 	public function __unset ($key) {
 		unset ($this[$key]);
+	}
+
+	/**
+	 * Create a new child object.
+	 * 
+	 * @param mixed $value Value of the property.
+	 * @return Object Return a new instance of a child of the instantiated class
+	 */
+	protected function newChild ($value) {
+		return new static ($value);
+	}
+
+	/** @return class Current class name */
+	protected static function className () {
+		return get_called_class ();
 	}
 }

@@ -7,10 +7,13 @@
  * See LICENCE for legal information.
  */
 
-// Fetch a list of cohorts
+namespace CDT\User;
 
-$rh = \CDT\RH::i();
-$oUserModel = $rh->cdt_user_model;
+/**
+ * List of cohorts.
+ * 
+ * @author Martin Porcheron <martin@porcheron.uk>
+ */
+class Cohorts extends \CDT\BaseData {
 
-print $oUserModel->getCohorts ()->toArrayJson();
-
+}

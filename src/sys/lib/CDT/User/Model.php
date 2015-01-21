@@ -31,20 +31,26 @@ class Model extends \CDT\Singleton {
 	/** @var string File name for submission deadlines */
 	const DEADLINES_FILE = '/deadlines.txt';
 
-	/** @var \CDT\User\Data Currently logged in user */
-	private $user = array();
+	/** @var \CDT\User\User Currently logged in user */
+	private $user = null;
 
-	/** @var \CDT\User\Data[] Cache of user details */
-	private $userCache = array();
+	/** @var \CDT\User\Users Cache of user details */
+	private $userCache;
 
 	/** @var string[] Cache of funding statements */
-	private $fundingCache = array();
+	private $fundingCache;
 
 	/** @var string[] Cache of deadline statements */
-	private $deadlineCache = array();
+	private $deadlineCache;
 
 	/** @var int[] Cache of word counts */
-	private $wordCountCache = array();
+	private $wordCountCache;
+
+	/** Construct the User model */
+	public function __construct() {
+		parent::__construct();
+		$this->userCache = new Users();
+	}
 
 	/**
 	 * Log a user into the system.
@@ -90,8 +96,9 @@ class Model extends \CDT\Singleton {
 		$newUser = $this->get (\strtolower ($username));
 		if (isSet ($this->user->admin) && !empty ($newUser)) {
 			$this->user = $newUser;
-			$this->fundingCache = array();
-			$this->deadlineCache = array();
+			$this->fundingCache = null;
+			$this->deadlineCache = null;
+			$this->wordCountCache = null;
 			return true;
 		}
 
@@ -103,41 +110,43 @@ class Model extends \CDT\Singleton {
 	 * 
 	 * @param string|null $username Username to retrieve full details for, or 
 	 * 	if `null`, retrieve the currently logged in user
-	 * @return \CDT\User\Data Details of the user
+	 * @return \CDT\User\User Details of the user
 	 */
 	public function get ($username = null) {
 		if (\is_null ($username)) {
 			return $this->user;
-		} else if (isSet ($this->userCache[$username])) {
-			return $this->userCache[$username];
 		}
-		
+
+		if (isSet ($this->userCache->$username)) {
+			return $this->userCache->$username;
+		}
+
 		$ret = $this->getData (self::USER_FILE, $username);
 
-		if (\count ($ret) == 0) {
+		if ($ret->count () == 0) {
 			$ret = $this->getData (self::ADMIN_FILE, $username);
-			if (count ($ret) > 0) {
-				$ret->admin = 'true'; // TODO: break this
+			if ($ret->count () > 0) {
+				$ret->admin = true;
 			}
 		}
 
-		$this->userCache[$username] = $ret;
 
+		$this->userCache->offsetSet ($username, $ret);
 		return $ret;
 	}
 
 	/**
 	 * Retrieve the details of all users.
 	 * 
-	 * @param function|null $sort How to sort the user list; if `null`, reverse 
+	 * @param function|null $sortFn How to sort the user list; if `null`, reverse 
 	 * 	sort by cohort, then sort by name
-	 * @param function|null @filter How to filter the user list; if `null`, all
+	 * @param function|null $filterFn How to filter the user list; if `null`, all
 	 * 	users are included
-	 * @return \CDT\User\Data[] Array of details of the users
+	 * @return \CDT\User\Users Data on all requested users.
 	 */
-	public function getAll ($sort = null, $filter = null) {
-		if (\is_null ($sort)) {
-			$sort = function ($a, $b) {
+	public function getAll ($sortFn = null, $filterFn = null) {
+		if (\is_null ($sortFn)) {
+			$sortFn = function ($a, $b) {
 				if ($a->cohort === $b->cohort) {
 					if ($a->surname === $b->surname) {
 						return \strcmp ($a->firstName, $b->firstName);
@@ -150,17 +159,18 @@ class Model extends \CDT\Singleton {
 			};
 		}
 
-		if (\is_null ($filter)) {
-			$filter = function ($oUser) {
+		if (\is_null ($filterFn)) {
+			$filterFn = function ($oUser) {
 				return true;
 			};
 		}
 
-		$users = \array_merge ($this->getData (self::USER_FILE), $this->getData (self::ADMIN_FILE));
-		$users = \array_filter ($users, $filter);
-		\usort ($users, $sort);
+		$data = $this->getData (self::USER_FILE);
+		$data->merge ($this->getData (self::ADMIN_FILE));
+		$data->uasort ($sortFn);
+		$data->filter ($filterFn);
 
-		return $users;
+		return $data;
 	}
 
 	/**
@@ -185,16 +195,17 @@ class Model extends \CDT\Singleton {
 			};
 		}
 
-		$users = \array_merge ($this->getData (self::USER_FILE), $this->getData (self::ADMIN_FILE));
-		$cohorts = array();
+		$users = $this->getAll ();
+		$cohorts = new Cohorts();
 		foreach ($users as $user) {
-			if (!\in_array ($user->cohort, $cohorts)) {
-				$cohorts[] = $user->cohort;
+			$cohort = $user->cohort;
+			if (!isSet ($cohorts->$cohort)) {
+				$cohorts->$cohort = $cohort;
 			}
 		}
 
-		$cohorts = \array_filter ($cohorts, $filter);
-		\usort ($cohorts, $sort);
+		$cohorts->filter ($filter);
+		$cohorts->uasort ($sort);
 
 		return $cohorts;
 	}
@@ -205,7 +216,7 @@ class Model extends \CDT\Singleton {
 	 * @param string $file File to get the user's data from.
 	 * @param string $username Username of the user to retrieve, or `null` to 
 	 * 	get all users in the file.
-	 * @return \CDT\User\Data|\CDT\User\Data[] Details of the user(s).
+	 * @return \CDT\User\Users|\CDT\User\User Details of the user(s).
 	 */
 	private function getData ($file, $username = null) {
 		$oFileReader = $this->rh->cdt_file_reader;
@@ -218,9 +229,9 @@ class Model extends \CDT\Singleton {
 		};
 
 		$data = $oFileReader->read (DIR_USR . $file, 'username', $readRowFn, $calcValuesFn);
-		$oData = \CDT\User\Data::fromArrays ($data);
-
-		return \is_null ($username) || empty ($data) ? $oData : array_pop ($oData);
+		return \is_null ($username) || empty ($data)
+			? new \CDT\User\Users ($data)
+			: new \CDT\User\User (\array_pop ($data));
 	}
 
 	/**
@@ -270,14 +281,14 @@ class Model extends \CDT\Singleton {
 	 * @return string Word count of the user
 	 */
 	public function getWordCount ($username = null) {
-		$oUser = $this->get ($username);
-
-		if (empty ($this->wordCountCache)) {
+		if (\is_null ($this->wordCountCache)) {
 			$oFileReader = $this->rh->cdt_file_reader;
-			$this->wordCountCache = $oFileReader->read (DIR_USR . self::WORD_COUNT_FILE, 'cohort');
+			$data = $oFileReader->read (DIR_USR . self::WORD_COUNT_FILE, 'cohort');
+			$this->wordCountCache = new WordCounts ($data);
 		}
 
-		return $this->wordCountCache[$oUser->cohort]['wordCount'];
+		$cohort = $this->get ($username)->cohort;
+		return $this->wordCountCache->$cohort->wordCount;
 	}
 
 	/**
@@ -288,14 +299,16 @@ class Model extends \CDT\Singleton {
 	 * @return string Funding statement of the user
 	 */
 	public function getFunding ($username = null) {
-		$user = $this->get ($username);
+		$oUser = $this->get ($username);
 
-		if (empty ($this->fundingCache)) {
+		if (\is_null ($this->fundingCache)) {
 			$oFileReader = $this->rh->cdt_file_reader;
-			$this->fundingCache = $oFileReader->read (DIR_USR . self::FUNDING_FILE, 'fundingStatementId');
+			$data = $oFileReader->read (DIR_USR . self::FUNDING_FILE, 'fundingStatementId');
+			$this->fundingCache = new FundingStatements ($data);
 		}
 
-		return $this->fundingCache[$user->fundingStatementId]['fundingStatement'];
+		$id = $this->get ($username)->fundingStatementId;
+		return $this->fundingCache->$id->fundingStatement;
 	}
 
 	/**
@@ -306,14 +319,14 @@ class Model extends \CDT\Singleton {
 	 * @return string Deadline of the user
 	 */
 	public function getDeadline ($username = null) {
-		$user = $this->get ($username);
-
-		if (empty ($this->deadlineCache)) {
+		if (\is_null ($this->deadlineCache)) {
 			$oFileReader = $this->rh->cdt_file_reader;
-			$this->deadlineCache = $oFileReader->read (DIR_USR . self::DEADLINES_FILE, 'cohort');
+			$data = $oFileReader->read (DIR_USR . self::DEADLINES_FILE, 'cohort');
+			$this->deadlineCache = new Deadlines ($data);
 		}
 
-		return $this->deadlineCache[$user->cohort]['deadline'];
+		$cohort = $this->get ($username)->cohort;
+		return $this->deadlineCache->$cohort->deadline;
 	}
 
 	/**
@@ -338,11 +351,20 @@ class Model extends \CDT\Singleton {
 			}
 		}
 
-		$fandr['<password>'] = \is_null ($username) ? '' : $this->generatePassword ($username);
-		$fandr['<wordCount>'] = \is_null ($username) ? '' : $this->getWordCount ($username);
-		$fandr['<deadline>'] = \is_null ($username) ? '' : $this->getDeadline ($username);
-		$fandr['<fundingStatement>'] = \is_null ($username) ? '' : $this->getFunding ($username);
-		$fandr['<imgDir>'] = \is_null ($username) ? ''
+		$fandr['<password>'] = \is_null ($username)
+			? ''
+			: $this->generatePassword ($username);
+		$fandr['<wordCount>'] = \is_null ($username)
+			? ''
+			: $this->getWordCount ($username);
+		$fandr['<deadline>'] = \is_null ($username)
+			? ''
+			: $this->getDeadline ($username);
+		$fandr['<fundingStatement>'] = \is_null ($username)
+			? ''
+			: $this->getFunding ($username);
+		$fandr['<imgDir>'] = \is_null ($username)
+			? ''
 			: URI_DATA . '/' . $oUser->cohort . '/' . $oUser->username . '/' . $oUser->latestVersion .'/';
 
 		return $fandr;

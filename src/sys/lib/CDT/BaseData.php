@@ -28,13 +28,6 @@ abstract class BaseData extends \RecursiveArrayObject {
 
 
 	/**
-	 * @return mixed[] Data stored in an array.
-	 */
-	public function toArray() {
-		return $this->getArrayCopy ();
-	}
-
-	/**
 	 * Convert an array of `BaseData` objects to a 2D array.
 	 * 
 	 * @param BaseData[] Objects to convert to arrays
@@ -54,9 +47,9 @@ abstract class BaseData extends \RecursiveArrayObject {
 	 * @param BaseData[] Objects to convert to arrays
 	 * @return string JSON string
 	 */
-	public static function toJson ($data) {
-		return \json_encode (self::toArrays ($data));
-	}
+	// public static function toJson ($data) {
+	// 	return \json_encode (self::toArrays ($data));
+	// }
 
 	/**
 	 * Convert multiple `BaseData` objects to a merged arrays.
@@ -104,16 +97,74 @@ abstract class BaseData extends \RecursiveArrayObject {
 	 */
 	public static function fromArrays ($data) {
 		$res = array();
-		$class = static::_get_class_name ();
+		$class = static::className ();
 		foreach ($data as $k => $v) {
 			$res[$k] = new $class ($v);
 		}
 		return $res;
 	}
 
-	/** @return class Current class name */
-	protected static function _get_class_name () {
-		return get_called_class ();
+	/**
+	 * Merge a second BaseData object, overwriting any existing values;
+	 * 
+	 * @param Traversable|mixed[] Another BaseData object or array to merge into 
+	 * 	this one
+	 * @return This BaseData object.
+	 */
+	public function merge ($data) {
+		foreach ($data as $k => $v) {
+			$this[$k] = $v;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Filter this dataset.
+	 * 
+	 * @param function $filterFn Filter function that takes one parameter (the 
+	 * 	data property) and returns a boolean value.
+	 * @return modified BaseData
+	 */
+	public function filter ($filterFn) {
+		$unset = array(); $i = $this->count() - 1;
+
+		foreach ($this as $key => $value) {
+			if (!$filterFn ($value)) {
+				$unset[] = $key;
+			}
+		}
+
+		foreach ($unset as $index) {
+			$this->offsetUnset ($index);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @return mixed[] Data stored in an array.
+	 */
+	public function toArray() {
+		return $this->getArrayCopy ();
+	}
+
+	/**
+	 * Convert this object to a JSON object.
+	 * 
+	 * @return string JSON object representation of this object.
+	 */
+	public function toJson () {
+		return \json_encode ($this);
+	}
+
+	/**
+	 * Convert this object to a JSON array.
+	 * 
+	 * @return string JSON array representation of this object.
+	 */
+	public function toArrayJson () {
+		return \json_encode (\array_values ($this->toArray ()));
 	}
 
 }
