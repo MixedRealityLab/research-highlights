@@ -60,12 +60,12 @@
 								len++;
 							});
 
-							if (len > limit) {
-								$field.val($field.val().substring(0, limit));
+							//if (len > limit) {
+							//	$field.val($field.val().substring(0, limit));
 								$output.text(0);
-							} else {
+							//} else {
 								$output.text(limit - len);
-							}
+							//}
 						},
 
 	rqst				: 0,
