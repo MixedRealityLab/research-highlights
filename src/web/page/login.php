@@ -14,7 +14,7 @@ $oPageTemplate->startCapture ();
 
 ?>
 		<div class="visible-xs visible-sm">
-			<div class="alert alert-danger"><div class="container"><div class="row">Your screen is small and this will make editing your input difficult. It is recommended you use a desktop/laptop for the submission system.</div></div></div>
+			<div class="alert alert-danger"><div class="container"><div class="row">Your screen is small and this will make editing your input difficult. It is recommended you use a desktop/laptop while submitting/modifying solutions.</div></div></div>
 		</div>
 
 		<div class="container main">
@@ -46,7 +46,8 @@ $oPageTemplate->startCapture ();
 					</div>
 
 					<div class="col-sm-6 col-md-6 col-lg-8">
-						<h2>Submission Form</h2>
+						<h2>Making your Submission</h2>
+						<p>Only Horizon CDT students can make submissions to the Research Highlights website.</p>
 						<p>Firstly, we need to identify who you are. We emailed you the details that you need to login to the system. If you have lost this email, either send an email to <a href="mailto:cdt-rh@lists.porcheron.uk">Martin Porcheron or Kyle Arch</a> and we'll send out a password reminder.</p>
 						<p><strong>Hint:</strong> Your username is your university username (e.g. <em>psxmp9</em>) and your password is a long sequence of letters and numbers.</p>
 					</div>
@@ -253,6 +254,6 @@ $oPageTemplate->set ('body', $oPageTemplate->endCapture ());
 
 $oPageTemplate->add ('css', URI_SYS . '/css/bootstrap-tagsinput' . EXT_CSS);
 $oPageTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
-$oPageTemplate->add ('javascript', URI_WEB . '/js/submit' . EXT_JS);
+$oPageTemplate->add ('javascript', URI_WEB . '/js/login' . EXT_JS);
 
 print $oPageTemplate->load ('2015');

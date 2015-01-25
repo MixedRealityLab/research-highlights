@@ -15,7 +15,7 @@ $oPageTemplate->startCapture ();
 
 ?>
 			<div class="visible-xs visible-sm">
-				<div class="alert alert-danger"><div class="container"><div class="row">Your screen is small and this will make editing your input difficult. It is recommended you use a desktop/laptop for the submission system.</div></div></div>
+			<div class="alert alert-danger"><div class="container"><div class="row">Your screen is small and this will make editing your input difficult. It is recommended you use a desktop/laptop while sending emails.</div></div></div>
 			</div>
 			<div class="container main">
 				<div class="row main">

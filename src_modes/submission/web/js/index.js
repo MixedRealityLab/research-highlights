@@ -10,6 +10,6 @@
 	ReHi.fadePageIn();
 
 	$('#submit').click(function() {
-		ReHi.fadePageOut(function() { window.location = '@@@URI_ROOT@@@/submit'; });
+		ReHi.fadePageOut(function() { window.location = '@@@URI_ROOT@@@/login'; });
 	});
 });
