@@ -128,7 +128,6 @@ if (!\is_file ($file) || \filemtime ($file) + KEY_CACHE > \date ('U')) {
 	@\file_put_contents ($file, \serialize ($searchKeywords));
 }
 
-
 // keyword database
 $db = \unserialize (\file_get_contents ($file));
 $dbK = \array_keys ($db);
@@ -147,24 +146,6 @@ foreach ($qWords as $qWord) {
 		}
 	}
 }
-
-
-// // load results                      
-// $results = array();
-// $query = $oPageInput->q;
-// $qWords = \explode (' ', $query);
-// foreach ($qWords as $qWord) {
-// 	$qWordL = \trim (\strtolower ($qWord));
-// 	if (!empty ($qWordL)) {
-// 		foreach ($db as $key => $row) {
-// 			if (\strpos ($key, $qWord) !== false) {
-// 				$row['qWord'] = $qWord;
-// 				$row['key'] = $key;
-// 				$results[] = $row;
-// 			}
-// 		}
-// 	}
-// }
 
 // Get user weights
 $combinedResults = array();

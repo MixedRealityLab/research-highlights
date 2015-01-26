@@ -89,9 +89,9 @@ $(function() {
 				$.getScript("web/js/admin@@@EXT_JS@@@");
 			}
 		} else if (response.error != undefined) {
-			ReHi.showError('Oh, snap!', response.error + ' <a href="mailto:cdt-rh@lists.porcheron.uk" class="alert-link">Email support</a> for help.'); 
+			ReHi.showError('Oh, snap!', response.error + ' <a href="mailto:@@@EMAIL@@@" class="alert-link">Email support</a> for help.'); 
 		} else {
-			ReHi.showError('Oh, snap!', 'An unknown error occurred. <a href="mailto:cdt-rh@lists.porcheron.uk" class="alert-link">Email support</a> for help.'); 
+			ReHi.showError('Oh, snap!', 'An unknown error occurred. <a href="mailto:@@@EMAIL@@@" class="alert-link">Email support</a> for help.'); 
 		}
 	}, 'json');
 
@@ -116,9 +116,9 @@ $(function() {
 		if (response.success == '1') {
 			ReHi.showSuccess('Good News!', 'Your submission was saved, ' + $('#name').val() + '! For reference, you can see the latest version of <a href="@@@URI_ROOT@@@/read#' + $('#saveAs').attr('value') + '" target="_blank">your submission</a> online (although it may not look like this in the final website).');
 		} else if (response.error != undefined) {
-			ReHi.showError('Goshdarnit!', response.error + ' <a href="mailto:cdt-rh@lists.porcheron.uk" class="alert-link">I need help!</a>');
+			ReHi.showError('Goshdarnit!', response.error + ' <a href="mailto:@@@EMAIL@@@" class="alert-link">I need help!</a>');
 		} else  {
-			ReHi.showError('Fiddlesticks!', 'An unknown error occurred! <a href="mailto:cdt-rh@lists.porcheron.uk" class="alert-link">I need help!</a>');
+			ReHi.showError('Fiddlesticks!', 'An unknown error occurred! <a href="mailto:@@@EMAIL@@@" class="alert-link">I need help!</a>');
 		}
 	}, 'json');
 

@@ -88,7 +88,6 @@ Many thanks and good luck!</textarea>
 									<hr>
 									<div class="form-group">
 										<label for="title">Users to email</label>
-										<!-- TODO: change to cohorts checking ajax -->
 										<p>Add <span id="cohortLinks"></span> cohorts.</p>
 										<textarea name="usernames" id="usernames" rows="15" class="form-control input input-large" placeholder="Enter each university username, seperated by a new line"></textarea>
 									</div>

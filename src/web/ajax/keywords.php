@@ -29,7 +29,9 @@ if (\is_file ($file) && \filemtime ($file) + KEY_CACHE > \date ('U')) {
 // generate list of keywords for everyone
 $keywordsList = $oSubmissionController->getKeywords ()->toArray();
 \ksort ($keywordsList);
+
 $keywords = \RH\Submission\Keywords::mergeJson (\array_values ($keywordsList));
 @\file_put_contents ($file, $keywords);
 @\chmod ($file, 0777);
+
 print $keywords;
