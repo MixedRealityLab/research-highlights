@@ -83,15 +83,17 @@ class Controller implements \RH\Singleton {
 			return substr ($fileName, 0, $end);
 		};
 
+		$data = array();
 		try {
 			$dir = $oUser->latestSubmission;
 			$data = $oFileReader->multiRead ($dir, $readFileFn, $fileNameFn);
-			$oSubmission->merge ($data)->makeSubsts ($oUser);
-		} catch (\InvalidArgumentException $e) {
-			throw new \RH\Error\NoSubmission();
 		} catch (\RH\Error\NoField $e) {
-			throw new \RH\Error\NoSubmission();
+			if (!$includeDefaults) {
+				throw new \RH\Error\NoSubmission();
+			}
 		}
+
+		$oSubmission->merge ($data)->makeSubsts ($oUser);
 
 		return $oSubmission;
 	}
