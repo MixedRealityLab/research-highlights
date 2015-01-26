@@ -68,7 +68,7 @@
 
 		<div class="container collapse">
 			<footer class="row">
-				<p>Website &copy; Martin Porcheron <?php print SITE_YEAR; ?> &bull; Source code is <a href="https://github.com/mporcheron/ResearchHighlights" title="Research Highlights project on GitHub">open source</a> &bull; <a href="<?php print URI_HOME; ?>/login" title="<<?php print SITE_NAME; ?> Submissions">Manage Submissions</a></p>
+				<p>Website &copy; Martin Porcheron <?php print SITE_YEAR; ?> &bull; This site is <a href="https://github.com/mporcheron/ResearchHighlights" title="Research Highlights project on GitHub">open source</a> &bull; <a href="<?php print URI_HOME; ?>/login" title="<?php print SITE_NAME; ?> Submissions">Manage Submissions</a></p>
 			</footer>
 		</div>
 

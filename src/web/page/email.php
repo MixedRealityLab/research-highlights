@@ -77,9 +77,7 @@ For the <?php print SITE_NAME . ' ' . SITE_YEAR; ?> you need to produce a <wordC
 
 <strong>IMPORTANT: This process requires you to make your submission by the <deadline>!</strong>
 
- As with previous years, submission takes place via an online system. We have improved this system based on last years feedback, with a focus on making it easier and quicker for you to make a submission.
-
-The submission system can be found at <a href="<?php print URI_ROOT; ?>/submit" target="_blank"><?php print URI_ROOT; ?></a> and you need to use the following details to login:
+The submission system can be found at <a href="<?php print URI_ROOT; ?>/login" target="_blank"><?php print URI_ROOT; ?>/login</a> and you need to use the following details to login:
 <strong>Username:</strong> <username>
 <strong>Password:</strong> <password>
 
