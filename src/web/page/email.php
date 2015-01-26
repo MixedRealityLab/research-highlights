@@ -7,8 +7,8 @@
  * See LICENCE for legal information.
  */
 
-$oPageTemplate = \I::rh_page_template ();
-$oUserController = \I::rh_user_controller ();
+$oPageTemplate = I::RH_Page_Template ();
+$oUserController = I::RH_User_Controller ();
 
 $oPageTemplate->startCapture ();   
 

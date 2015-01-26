@@ -9,9 +9,9 @@
 
 // Fetch all submissions, or a single submission for reading
 
-$oSubmissionController = \I::rh_submission_controller ();
-$oPageInput = \I::rh_page_input ();
-$oUserController = \I::rh_user_controller ();
+$oSubmissionController = I::RH_Submission_Controller ();
+$oPageInput = I::RH_Page_Input ();
+$oUserController = I::RH_User_Controller ();
 
 // Get the users for which we want to return their submission
 if (isSet ($oPageInput->user)) {

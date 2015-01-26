@@ -9,9 +9,9 @@
 
 // Fetch a list of keywords
 
-$oPageInput = \I::rh_page_input ();
-$oUserController = \I::rh_user_controller ();
-$oSubmissionController = \I::rh_submission_controller ();
+$oPageInput = I::RH_Page_Input ();
+$oUserController = I::RH_User_Controller ();
+$oSubmissionController = I::RH_Submission_Controller ();
 
 // for just one user?
 if (isSet ($oPageInput->user)) {
@@ -22,7 +22,7 @@ if (isSet ($oPageInput->user)) {
 
 // is there a saved copy of all keywords?
 $file = DIR_DAT . '/keywords.txt';
-if (\is_file ($file) && \filemtime ($file) + KEY_CACHE > \date ('U')) {
+if (\is_file ($file) && \filemtime ($file) + KEY_CACHE < \date ('U')) {
 	print @\file_get_contents ($file);
 }
 

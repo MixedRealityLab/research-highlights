@@ -9,8 +9,8 @@
 
 // Fetch all tweets
 
-$oSubmissionController = \I::rh_submission_controller ();
-$oUserController = \I::rh_user_controller ();
+$oSubmissionController = I::RH_Submission_Controller ();
+$oUserController = I::RH_User_Controller ();
 
 \header ('Content-Type: text/csv');
 

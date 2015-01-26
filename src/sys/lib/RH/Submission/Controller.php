@@ -33,7 +33,7 @@ class Controller implements \RH\Singleton {
 	 */
 	public function getDefaultData () {
 		if (\is_null ($this->defaultData)) {
-			$oFileReader = \I::rh_file_reader ();
+			$oFileReader = \I::RH_File_Reader ();
 
 			$sufLen = \strlen (self::DEF_FILE_SUF);
 			$readFileFn = function ($fileName) use ($sufLen) {
@@ -65,7 +65,7 @@ class Controller implements \RH\Singleton {
 	 * @throws \RH\Error\NoSubmission if there is no submission
 	 */
 	public function get (\RH\User\User $oUser, $includeDefaults = true) {
-		$oFileReader = \I::rh_file_reader ();
+		$oFileReader = \I::RH_File_Reader ();
 
 		if ($includeDefaults) {
 			$oSubmission = $this->getDefaultData();
@@ -107,7 +107,7 @@ class Controller implements \RH\Singleton {
 	 * @return Keywords|null
 	 */
 	public function getKeywords ($username = null, &$ret = array(), &$total = 0) {
-		$oUserController = \I::rh_user_controller ();
+		$oUserController = \I::RH_User_Controller ();
 
 		// get keywords
 		if (is_null ($username)) {

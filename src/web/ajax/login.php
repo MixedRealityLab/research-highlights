@@ -9,13 +9,13 @@
 
 // Validate login credentials
 
-$oUserController = \I::rh_user_controller ();
+$oUserController = I::RH_User_Controller ();
 
 try {
 	$oUser = $oUserController->login ();
 
-	$oPageInput = \I::rh_page_input ();
-	$oSubmissionController = \I::rh_submission_controller ();
+	$oPageInput = I::RH_Page_Input ();
+	$oSubmissionController = I::RH_Submission_Controller ();
 
 	// if admin, are we masquerading
 	if ($oUser->admin && isSet ($oPageInput->profile)) {

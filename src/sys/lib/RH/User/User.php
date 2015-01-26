@@ -51,7 +51,7 @@ class User extends \RH\AbstractModel {
 	public static function substsKeys () {
 		$k = array ('<password>', '<wordCount>', '<fundingStatment>', '<imgDir>');
 
-		$oFileReader = \I::rh_file_reader ();
+		$oFileReader = \I::RH_File_Reader ();
 		$header = $oFileReader->readHeader (DIR_USR . Controller::USER_FILE);
 		$ret = \array_merge ($k, array_map (function ($col) {
 			return '<' . $col->name .'>';

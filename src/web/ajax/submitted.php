@@ -9,7 +9,7 @@
 
 // Fetch a list of users who have submitted
 
-$oUserController = \I::rh_user_controller ();
+$oUserController = I::RH_User_Controller ();
 
 print $oUserController->getAll (null, function ($oUser) {
 	return $oUser->latestVersion && $oUser->countSubmission;

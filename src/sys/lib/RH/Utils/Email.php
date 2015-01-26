@@ -76,7 +76,7 @@ class Email implements \RH\Singleton {
 	 * @return bool `true` if the message was successfully sent
 	 */
 	public function send ($username, $subject, $messageText, $messageHtml) {
-		$oUserController = \I::rh_user_controller ();
+		$oUserController = \I::RH_User_Controller ();
 
 		try {
 			$oUser = $oUserController->get ($username);

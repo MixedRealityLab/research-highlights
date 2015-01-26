@@ -85,7 +85,7 @@ $(function() {
 			$('#editor-user').attr('value', $('#username').val());
 			$('#editor-pass').attr('value', $('#password').val());
 			loginPrefill(response, textStatus, jqXHR); 
-			if(response.admin == 'true') {
+			if(response.admin) {
 				$.getScript("web/js/admin@@@EXT_JS@@@");
 			}
 		} else if (response.error != undefined) {

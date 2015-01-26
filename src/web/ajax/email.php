@@ -12,10 +12,10 @@
 // -1 : Not logged in as admin
 // -2 : Incomplete form
 
-$oSubmissionController = \I::rh_submission_controller ();
-$oUserController = \I::rh_user_controller ();
-$oPageInput = \I::rh_page_input ();
-$oUtilsEmail = \I::rh_utils_email ();
+$oSubmissionController = I::RH_Submission_Controller ();
+$oUserController = I::RH_User_Controller ();
+$oPageInput = I::RH_Page_Input ();
+$oUtilsEmail = I::RH_Utils_Email ();
 
 if (!$oUserController->login (true)) {
 	print '-1';

@@ -9,7 +9,7 @@
 
 // Fetch a list of cohorts
 
-$oUserController = \I::rh_user_controller ();
-
-print $oUserController->getCohorts ()->toArrayJson();
+print I::RH_User_Controller ()
+	->getCohorts ()
+	->toArrayJson();
 

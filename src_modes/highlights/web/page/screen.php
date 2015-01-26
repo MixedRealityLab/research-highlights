@@ -15,9 +15,9 @@ use PhpOffice\PhpPowerpoint\Style\Color;
 
 // Serve a PowerPoint/ODP of all the tweets submitted
 
-$oSubmissionController = \I::rh_submission_controller ();
-$oPageInput = \I::rh_page_input ();
-$oUserController = \I::rh_user_controller ();
+$oSubmissionController = I::RH_Submission_Controller ();
+$oPageInput = I::RH_Page_Input ();
+$oUserController = I::RH_User_Controller ();
 
 $oPowerpoint = new PhpPowerpoint ();
 $oPowerpoint->getProperties ()->setCreator (VERSION)

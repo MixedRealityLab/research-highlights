@@ -10,13 +10,13 @@
 // Save a user's submission
 
 try {
-	$oUserController = \I::rh_user_controller ();
+	$oUserController = I::RH_User_Controller ();
 	$oUser = $oUserController->login ();
 
-	$oSubmissionController = \I::rh_submission_controller ();
-	$oPageInput = \I::rh_page_input ();
+	$oSubmissionController = I::RH_Submission_Controller ();
+	$oPageInput = I::RH_Page_Input ();
 
-	if (\is_null ($oPageInput->saveAs)) {
+	if (!isSet ($oPageInput->saveAs)) {
 		throw new \RH\Error\InvalidInput ('Must provide saveAs attribute');
 	}
 

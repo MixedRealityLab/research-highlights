@@ -9,9 +9,9 @@
 
 // Perform a search
 
-$oPageInput = \I::rh_page_input ();
-$oUserController = \I::rh_user_controller ();
-$oSubmissionController = \I::rh_submission_controller ();
+$oPageInput = I::RH_Page_Input ();
+$oUserController = I::RH_User_Controller ();
+$oSubmissionController = I::RH_Submission_Controller ();
 
 // if no query, no results...
 if (!isSet ($oPageInput->q)) {
@@ -50,8 +50,7 @@ $F['exact_match'] 			= 1.2;
 
 // is there a cached db?
 $file = DIR_DAT . '/search-keywords.txt';
-if (!\is_file ($file) || \filemtime ($file) + KEY_CACHE > \date ('U')) {
-	
+if (!\is_file ($file) || \filemtime ($file) + KEY_CACHE < \date ('U')) {
 	// Weighted factors and all keywords
 	$globalWeights = array();
 	$searchKeywords = array();
@@ -97,35 +96,39 @@ if (!\is_file ($file) || \filemtime ($file) + KEY_CACHE > \date ('U')) {
 
 	// catalogue the keywords
 	foreach ($oUsers as $oUser) {
-		$data = $oSubmissionController->get ($oUser->username, false);
+		try {
+			$data = $oSubmissionController->get ($oUser, false);
 
-		if (!isSet ($data->text)) {
-			continue;
-		}
-
-		addKeywords ($oUser->firstName, $weights['author'], $useFactors['author'], $oUser->username);
-		addKeywords ($oUser->surname, $weights['author'], $useFactors['author'], $oUser->username);
-
-		addKeywords ($data->title, $weights['title'], $useFactors['title'], $oUser->username);
-
-		$keywords = \explode (',', $data->keywords);
-		foreach ($keywords as $keyword) {
-			addKeywords ($words, $weights['keyword'], $useFactors['keyword'], $oUser->username);
-		}
-
-		$text = $oUser->makeSubsts ($data->text);
-		$text = $oSubmissionController->markdownToHtml ($text);
-
-		$tags = array('h1', 'h2', 'h3', 'h4', 'strong', 'em', 'blockquote');
-		foreach ($tags as $tag) {
-			$results = getTags ($tag, $text);
-			foreach ($results as $result) {
-				addKeywords (\trim (\strip_tags ($text)), $weights['text_' . $tag], $useFactors['text_' . $tag], $oUser->username);
+			if (!isSet ($data->text)) {
+				continue;
 			}
-		}
+
+			addKeywords ($oUser->firstName, $weights['author'], $useFactors['author'], $oUser->username);
+			addKeywords ($oUser->surname, $weights['author'], $useFactors['author'], $oUser->username);
+
+			addKeywords ($data->title, $weights['title'], $useFactors['title'], $oUser->username);
+
+			$keywords = \explode (',', $data->keywords);
+			foreach ($keywords as $keyword) {
+				addKeywords ($words, $weights['keyword'], $useFactors['keyword'], $oUser->username);
+			}
+
+			$text = $oUser->makeSubsts ($data->text);
+			$text = $oSubmissionController->markdownToHtml ($text);
+
+			$tags = array('h1', 'h2', 'h3', 'h4', 'strong', 'em', 'blockquote');
+			foreach ($tags as $tag) {
+				$results = getTags ($tag, $text);
+				foreach ($results as $result) {
+					addKeywords (\trim (\strip_tags ($text)), $weights['text_' . $tag], $useFactors['text_' . $tag], $oUser->username);
+				}
+			}
+		} catch (\RH\Error\NoSubmission $e)
+		{}
 	}
 
 	@\file_put_contents ($file, \serialize ($searchKeywords));
+	@\chmod ($file, 0777);
 }
 
 // keyword database

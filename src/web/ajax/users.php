@@ -9,8 +9,8 @@
 
 // Fetch a list of users (either all, a cohort, or (not) submitted)
 
-$oPageInput = \I::rh_page_input ();
-$oUserController = \I::rh_user_controller ();
+$oPageInput = I::RH_Page_Input ();
+$oUserController = I::RH_User_Controller ();
 
 // Fetch a specific cohort?
 if (!isSet ($oPageInput->cohort) || !\is_numeric ($oPageInput->cohort)) {
@@ -33,7 +33,7 @@ try {
 
 // Filter the user list
 $oUsers = $oUserController->getAll (null, function ($oUser) use ($cohort, $submitted) {
-	$oSubmissionController = \I::rh_submission_controller ();
+	$oSubmissionController = I::RH_Submission_Controller ();
 
 	$isCohort = \is_null ($cohort) ? true : $oUser->cohort === $cohort;
 	

@@ -62,7 +62,7 @@ class Controller implements \RH\Singleton {
 	 * @throws \RH\Error\AccountDisabled if the account is disabled
 	 */
 	public function login ($requireAdmin = false) {
-		$oPageInput = \I::rh_page_input ();
+		$oPageInput = \I::RH_Page_Input ();
 
 		try {
 			$username = \strtolower ($oPageInput->username);
@@ -100,7 +100,7 @@ class Controller implements \RH\Singleton {
 	 * @return User new User object
 	 */
 	public function overrideLogin (\RH\User\User $oUser) {
-		$oPageInput = \I::rh_page_input ();
+		$oPageInput = \I::RH_Page_Input ();
 
 		if (!isSet ($this->user->admin)) {
 			throw new \RH\Error\NotAuthorised();
@@ -236,7 +236,7 @@ class Controller implements \RH\Singleton {
 	 * @return Users|User Details of the user(s).
 	 */
 	private function getData ($file, $username = null) {
-		$oFileReader = \I::rh_file_reader ();
+		$oFileReader = \I::RH_File_Reader ();
 
 		$readRowFn = function ($cols) use ($username) {
 			return \is_null ($username) || $cols[2] === $username;
@@ -270,7 +270,7 @@ class Controller implements \RH\Singleton {
 	 */
 	private function getWordCount (User $oUser = null) {
 		if (\is_null ($this->wordCountCache)) {
-			$oFileReader = \I::rh_file_reader ();
+			$oFileReader = \I::RH_File_Reader ();
 			$data = $oFileReader->read (DIR_USR . self::WORD_COUNT_FILE, 'cohort');
 			$this->wordCountCache = new WordCounts ($data);
 		}
@@ -291,7 +291,7 @@ class Controller implements \RH\Singleton {
 	 */
 	private function getFunding (User $oUser = null) {
 		if (\is_null ($this->fundingCache)) {
-			$oFileReader = \I::rh_file_reader ();
+			$oFileReader = \I::RH_File_Reader ();
 			$data = $oFileReader->read (DIR_USR . self::FUNDING_FILE, 'fundingStatementId');
 			$this->fundingCache = new FundingStatements ($data);
 		}
@@ -312,7 +312,7 @@ class Controller implements \RH\Singleton {
 	 */
 	private function getDeadline (User $oUser = null) {
 		if (\is_null ($this->deadlineCache)) {
-			$oFileReader = \I::rh_file_reader ();
+			$oFileReader = \I::RH_File_Reader ();
 			$data = $oFileReader->read (DIR_USR . self::DEADLINES_FILE, 'cohort');
 			$this->deadlineCache = new Deadlines ($data);
 		}
