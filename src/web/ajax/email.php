@@ -24,8 +24,8 @@ if (!$oUserController->login (true)) {
 }
 
 if (!isSet ($oPageInput->usernames)
-	&& !isSet ($oPageInput->subject)
-	&& !isSet ($oPageInput->message)) {
+	|| !isSet ($oPageInput->subject)
+	|| !isSet ($oPageInput->message)) {
 	print '-2';
 	exit;
 }

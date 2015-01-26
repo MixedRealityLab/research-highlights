@@ -7,7 +7,7 @@
  * See LICENCE for legal information.
  */
 
-// Fetch a list of eywords
+// Fetch a list of keywords
 
 $rh = \CDT\RH::i();
 $oPageInput = $rh->cdt_page_input;

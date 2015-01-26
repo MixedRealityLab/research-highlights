@@ -92,11 +92,10 @@ class Controller extends \CDT\Singleton {
 		try {
 			$dir = $oUser->latestSubmission;
 			$data = $oFileReader->multiRead ($dir, $readFileFn, $fileNameFn);
-			$oSubmission->merge ($data)->makeSubsts ($oUserController, $oUser);
+			$oSubmission->merge ($data)->makeSubsts ($oUser);
 		} catch (\InvalidArgumentException $e) {
 			// the user hasn't submitted
 		}
-
 
 		return $oSubmission;
 	}

@@ -14,7 +14,7 @@ $oSubmissionController = $rh->cdt_submission_controller;
 $oUserController = $rh->cdt_user_controller;
 
 $oUsers = $oUserController->getAll (null, function ($oUser) use ($oSubmissionController) {
-	$submission = $oSubmissionController->get ($oUser->username, false);
+	$submission = $oSubmissionController->get ($oUser, false);
 	return !isSet ($submission->text) && $oUser->countSubmission;
 });
 

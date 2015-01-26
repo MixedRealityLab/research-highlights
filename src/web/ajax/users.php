@@ -35,7 +35,7 @@ $oUsers = $oUserController->getAll (null, function ($oUser) use ($rh, $cohort, $
 	$oSubmissionController = $rh->cdt_submission_controller;
 	$submission = $oSubmissionController->get ($oUser->username, false);
 
-	$isCohort = is_null ($cohort) ? true : $oUser->cohort === $cohort;
+	$isCohort = \is_null ($cohort) ? true : $oUser->cohort === $cohort;
 	$isSubmitted = \is_null ($submitted)
 		? true 
 		: isSet ($submission->text) === $submitted && $oUser->countSubmission;

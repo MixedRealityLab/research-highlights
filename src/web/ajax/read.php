@@ -16,16 +16,18 @@ $oUserController = $rh->cdt_user_controller;
 
 // Get the users for which we want to return their submission
 if (isSet ($oPageInput->user)) {
-	$oUsers = array ($oUserController->get ($oPageInput->user));
+	$oUsers = new \CDT\User\Users ($oUserController->get ($oPageInput->user));
+
 } else if (isSet ($oPageInput->cohort)) {
 	$cohort = $oPageInput->cohort;
 	$oUsers = $oUserController->getAll (null, function ($user) use ($cohort) {
 		return $user->countSubmission && $user->cohort === $cohort;
 	});
+
 } else if (isSet ($oPageInput->keywords)) {
 	// is there a saved copy of all keywords?
 	$keywords = @\explode (',', $oPageInput->keywords);
-	foreach($keywords as $keyword) {
+	foreach ($keywords as $keyword) {
 		$keywords[] = \str_replace ('_', ' ', $keyword);
 	}
 
@@ -40,6 +42,7 @@ if (isSet ($oPageInput->user)) {
 		}
 	}
 	$oUsers = \array_values ($oUsers);
+
 } else {
 	$oUsers = $oUserController->getAll (null, function ($user) {
 		return $user->countSubmission;
@@ -54,7 +57,7 @@ foreach ($oUsers as $oUser) {
 	if (isSet ($temp->text)) {
 		$userData =  $oUserController->get ($oUser->username);
 		
-		$temp->text = $oUserController->makeSubsts ($temp->text, $oUser->username);
+		$temp->text = $oUser->makeSubsts ($temp->text);
 	
 		$textMd = $temp->text;
 		$textHtml = !empty ($textMd) ? $oSubmissionController->markdownToHtml ($textMd) : '<em>No text submitted.</em>';
@@ -66,7 +69,7 @@ foreach ($oUsers as $oUser) {
 		$pubHtml = !empty ($pubMd) ? '<h1>Publications in the Last Year</h1>' . $oSubmissionController->markdownToHtml ($pubMd) : '';
 
 		$temp->html = $textHtml . $refHtml . $pubHtml;
-		$temp->fundingStatement = $oUserController->getFunding ($oUser->username);
+		$temp->fundingStatement = $oUserController->getFunding ($oUser);
 
 		$output[] = \array_merge ($temp->toArray (), $userData->toArray ());
 	}

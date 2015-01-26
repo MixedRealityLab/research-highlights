@@ -33,13 +33,12 @@ class Submission extends \CDT\AbstractModel {
 	/**
 	 * Take this submission and make substitutes for the keywords.
 	 * 
-	 * @param \CDT\User\Controller $oUserController User controller.
 	 * @param \CDT\User\User $oUser User to make modifications for.
 	 * @return Submission
 	 */
-	public function makeSubsts (\CDT\User\Controller $oUserController, \CDT\User\User $oUser) {
+	public function makeSubsts (\CDT\User\User $oUser) {
 		foreach ($this as $key => $value) {
-			 $this->$key = $oUserController->makeSubsts ($value, $oUser->username);
+			 $this->$key = $oUser->makeSubsts ($value);
 		}
 
 		return $this;

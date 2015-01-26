@@ -114,7 +114,7 @@ if (!\is_file ($file) || \filemtime ($file) + KEY_CACHE > \date ('U')) {
 			addKeywords ($words, $weights['keyword'], $useFactors['keyword'], $oUser->username);
 		}
 
-		$text = $oUserController->makeSubsts ($data->text, $oUser->username);
+		$text = $oUser->makeSubsts ($data->text);
 		$text = $oSubmissionController->markdownToHtml ($text);
 
 		$tags = array('h1', 'h2', 'h3', 'h4', 'strong', 'em', 'blockquote');

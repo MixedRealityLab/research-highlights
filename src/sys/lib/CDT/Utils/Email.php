@@ -85,9 +85,9 @@ class Email extends \CDT\Singleton {
 		}
 
 		$mAddress = $oUser->email;
-		$mSubject = $oUserController->makeSubsts ($subject, $username);
-		$mMessageText = $oUserController->makeSubsts ($messageText, $username);
-		$mMessageHtml = $oUserController->makeSubsts ($messageHtml, $username);
+		$mSubject = $oUser->makeSubsts ($subject);
+		$mMessageText = $oUser->makeSubsts ($messageText);
+		$mMessageHtml = $oUser->makeSubsts ($messageHtml);
 
 		$mHeaders = $this->headers;
 		$mHeaders['To'] = $mAddress;

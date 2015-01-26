@@ -35,9 +35,7 @@ if ($oUserController->login ()) {
 	// gather the data to populate the submission form
 	print $oUserController->get ()
 		->merge ($oSubmissionController->get ())
-		->merge (array ('success' => 1,
-				   'wordCount' => $oUserController->getWordCount (),
-				   'fundingStatement' => $oUserController->getFunding ()))
+		->merge (array ('success' => 1))
 		->toJson ();
 	exit;
 }

@@ -63,9 +63,12 @@ class Controller extends \CDT\Singleton {
 
 		try {
 			$username = \strtolower ($oPageInput->username);
-			$oPageInput->password == $this->generatePassword ($username);
-
 			$temp = $this->get ($username);
+
+			if ($oPageInput->password !== $temp->getPassword ()) {
+				return false;
+			}
+
 			if ($requireAdmin && !isSet ($temp->admin)) {
 				return false;
 			}
@@ -79,8 +82,6 @@ class Controller extends \CDT\Singleton {
 		} catch (\InvalidArgumentException $e) {
 			return false;
 		}
-
-
 		
 		return \count ($temp) > 0;
 	}
@@ -118,6 +119,8 @@ class Controller extends \CDT\Singleton {
 	public function get ($username = null) {
 		if (\is_null ($username)) {
 			return $this->user;
+		} else if ($username instanceof User) {
+			return $username;
 		}
 
 		if (isSet ($this->userCache->$username)) {
@@ -125,14 +128,18 @@ class Controller extends \CDT\Singleton {
 		}
 
 		$ret = $this->getData (self::USER_FILE, $username);
-
 		if ($ret->count () == 0) {
 			$ret = $this->getData (self::ADMIN_FILE, $username);
 			if ($ret->count () > 0) {
 				$ret->admin = true;
+			} else {
+				return false;
 			}
 		}
 
+		$ret->deadline = $this->getDeadline ($ret);
+		$ret->wordCount = $this->getWordCount ($ret);
+		$ret->fundingStatement = $this->getFunding ($ret);
 
 		$this->userCache->offsetSet ($username, $ret);
 		return $ret;
@@ -179,21 +186,21 @@ class Controller extends \CDT\Singleton {
 	/**
 	 * Retrieve the cohorts.
 	 * 
-	 * @param function|null $sort How to sort the cohort list; if `null`,
+	 * @param function|null $sortFn How to sort the cohort list; if `null`,
 	 * 	reverse sort by cohort
-	 * @param function|null @filter How to filter the cohort list; if `null`, all
+	 * @param function|null $filterFn How to filter the cohort list; if `null`, all
 	 * 	cohort are included
 	 * @return string[] Array of details of the cohorts
 	 */
-	public function getCohorts ($sort = null, $filter = null) {
-		if (\is_null ($sort)) {
-			$sort = function ($a, $b) {
+	public function getCohorts ($sortFn = null, $filterFn = null) {
+		if (\is_null ($sortFn)) {
+			$sortFn = function ($a, $b) {
 				return \strcmp ($b, $a);
 			};
 		}
 
-		if (\is_null ($filter)) {
-			$filter = function ($cohort) {
+		if (\is_null ($filterFn)) {
+			$filterFn = function ($cohort) {
 				return true;
 			};
 		}
@@ -207,8 +214,8 @@ class Controller extends \CDT\Singleton {
 			}
 		}
 
-		$cohorts->filter ($filter);
-		$cohorts->uasort ($sort);
+		$cohorts->filter ($filterFn);
+		$cohorts->uasort ($sortFn);
 
 		return $cohorts;
 	}
@@ -248,136 +255,65 @@ class Controller extends \CDT\Singleton {
 	}
 
 	/**
-	 * Generate the user's password
-	 * 
-	 * @param string $username Username of the user to generate the password
-	 * 	for, if `null`, gets the currently logged in user
-	 * @return string Password of the user
-	 */
-	public function generatePassword ($username = null) {
-		return \is_null ($username) ? $this->generatePassword ($this->user->username) : \sha1 (SALT . $username);
-	}
-
-	/**
 	 * Retrieve the word count for a particular user.
 	 * 
-	 * @param string $username Username of the user to retrieve the word count 
+	 * @param User $oUser User to retrieve the word count 
 	 * 	for, if `null`, gets the currently logged in user
 	 * @return string Word count of the user
 	 */
-	public function getWordCount ($username = null) {
+	private function getWordCount (User $oUser = null) {
 		if (\is_null ($this->wordCountCache)) {
 			$oFileReader = $this->rh->cdt_file_reader;
 			$data = $oFileReader->read (DIR_USR . self::WORD_COUNT_FILE, 'cohort');
 			$this->wordCountCache = new WordCounts ($data);
 		}
 
-		$cohort = $this->get ($username)->cohort;
+		$cohort = \is_null ($oUser)
+			? $this->user->cohort
+			: $oUser->cohort;
+
 		return $this->wordCountCache->$cohort->wordCount;
 	}
 
 	/**
 	 * Retrieve the funding statement for a particular user.
 	 * 
-	 * @param string $username Username of the user to retrieve the funding 
-	 * 	statement for, if `null`, gets the currently logged in user
+	 * @param User $oUser User to retrieve the funding statement for, if 
+	 * 	`null`, gets the currently logged in user
 	 * @return string Funding statement of the user
 	 */
-	public function getFunding ($username = null) {
-		$oUser = $this->get ($username);
-
+	private function getFunding (User $oUser = null) {
 		if (\is_null ($this->fundingCache)) {
 			$oFileReader = $this->rh->cdt_file_reader;
 			$data = $oFileReader->read (DIR_USR . self::FUNDING_FILE, 'fundingStatementId');
 			$this->fundingCache = new FundingStatements ($data);
 		}
 
-		$id = $this->get ($username)->fundingStatementId;
+		$id = \is_null ($oUser)
+			? $this->user->fundingStatementId
+			: $oUser->fundingStatementId;
+
 		return $this->fundingCache->$id->fundingStatement;
 	}
 
 	/**
 	 * Retrieve the deadline for a particular user.
 	 * 
-	 * @param string $username Username of the user to retrieve the deadline
-	 * 	for, if `null`, gets the currently logged in user
+	 * @param User $oUser User to retrieve the deadline for, if `null`,
+	 * 	gets the currently logged in user
 	 * @return string Deadline of the user
 	 */
-	public function getDeadline ($username = null) {
+	private function getDeadline (User $oUser = null) {
 		if (\is_null ($this->deadlineCache)) {
 			$oFileReader = $this->rh->cdt_file_reader;
 			$data = $oFileReader->read (DIR_USR . self::DEADLINES_FILE, 'cohort');
 			$this->deadlineCache = new Deadlines ($data);
 		}
 
-		$cohort = $this->get ($username)->cohort;
+		$cohort = \is_null ($oUser)
+			? $this->user->cohort
+			: $oUser->cohort;
+
 		return $this->deadlineCache->$cohort->deadline;
-	}
-
-	/**
-	 * Get a list of all the substitutions that can be made.
-	 * 
-	 * @param string $username User to whom the output pertains, if `null`, 
-	 * 	the current logged in user is used
-	 * @return string[] Text and substituted values as an associate array
-	 */
-	private function substs ($username = null) {
-		$fandr = array();
-		if (\is_null ($username)) {
-		$oFileReader = $this->rh->cdt_file_reader;
-			$header = $oFileReader->readHeader (DIR_USR . self::USER_FILE);
-			foreach ($header->toArray() as $col) {
-				$fandr['<' . $col->name .'>'] = '';
-			}
-		} else {
-			$oUser = $this->get ($username);
-			foreach ($oUser->toArray () as $k => $v) {
-				$fandr['<' . $k .'>'] = $v;
-			}
-		}
-
-		$fandr['<password>'] = \is_null ($username)
-			? ''
-			: $this->generatePassword ($username);
-		$fandr['<wordCount>'] = \is_null ($username)
-			? ''
-			: $this->getWordCount ($username);
-		$fandr['<deadline>'] = \is_null ($username)
-			? ''
-			: $this->getDeadline ($username);
-		$fandr['<fundingStatement>'] = \is_null ($username)
-			? ''
-			: $this->getFunding ($username);
-		$fandr['<imgDir>'] = \is_null ($username)
-			? ''
-			: URI_DATA . '/' . $oUser->cohort . '/' . $oUser->username . '/' . $oUser->latestVersion .'/';
-
-		return $fandr;
-	}
-
-	/**
-	 * List of possible substitutions.
-	 * 
-	 * @param string $username User to whom the output pertains, if `null`, 
-	 * 	the current logged in user is used
-	 * @return string[] List of possible substitutions
-	 */
-	public function substsKeys ($username = null) {
-		return \array_keys ($this->substs ($username));
-	}
-
-	/**
-	 * Scan text for keywords that can be replaced. These keywords are currently
-	 * hardcoded.
-	 * 
-	 * @param string $input Input to be scanned
-	 * @param string $username User to whom the output pertains, if `null`, 
-	 * 	the current logged in user is used
-	 * @return string Output with the substitutions made
-	 */
-	public function makeSubsts ($input, $username = null) {
-		$fandr = $this->substs ($username);
-		return \str_replace (\array_keys ($fandr), 
-		                     \array_values ($fandr), $input);
 	}
 }
