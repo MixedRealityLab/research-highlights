@@ -48,11 +48,11 @@ class Submission extends \RH\AbstractModel {
 	 * Add an image to be saved to disk.
 	 * 
 	 * @param string $filename name of the image
-	 * @param string $data Image data
+	 * @param string $url Image URL
 	 * @return void
 	 */
-	public function addImage ($filename, $data) {
-		$image = new Image(array ('filename' => $filename, 'data' => $data));
+	public function addImage ($filename, $url) {
+		$image = new Image(array ('filename' => $filename, 'url' => $url));
 		$this->images[] = $image;
 	}
 
@@ -71,11 +71,8 @@ class Submission extends \RH\AbstractModel {
 		}
 
 		foreach ($this->images as $image) {
-			$filename = $dir . $image->filename;
-			$data = $dir . $image->data;
-
-			if (@\file_put_contents ($filename, $data) === false) {
-				throw new \RH\Error\System ('Could not save image ' . $image->filename . ' to the system');
+			if (copy ($image->url, $dir . $image->filename) === false) {
+				throw new \RH\Error\System ('Could not save image ' . $image->url . ' to the system');
 			}
 		}
 

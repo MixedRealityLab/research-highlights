@@ -46,11 +46,6 @@ try {
 
 	$id = 0;
 	foreach ($images[4] as $url) {
-		$img = @\file_get_contents ($url);
-		if ($img === false) {
-			throw new \RH\Error\System ('Could not fetch the image at ' . $url);
-		}
-
 		$path_parts = \pathinfo ($url);
 		$ext = $path_parts['extension'];
 		if (\strpos ($ext, '?') !== false) {
@@ -59,7 +54,7 @@ try {
 
 		$filename = 'img-' . $id++ . '.' . $ext;
 
-		$oSubmission->addImage ($filename, $img);
+		$oSubmission->addImage ($filename, $url);
 		$oSubmission->text = \str_replace ($url, '<imgDir>' . $filename, $oSubmission->text);
 	}
 
