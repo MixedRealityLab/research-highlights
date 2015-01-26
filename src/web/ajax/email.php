@@ -32,7 +32,7 @@ if (!isSet ($oPageInput->usernames)
 $oUser = $oUserController->get ();
 
 $from = '"'. $oUser->firstName . ' ' . $oUser->surname .'" <'. $oUser->email .'>';
-$replyTo = 'cdt-rh@lists.porcheron.uk';
+$replyTo = EMAIL;
 $oUtilsEmail->setHeaders ($from, $replyTo);
 
 $usernames = \explode ("\n", \trim ($oPageInput->usernames));

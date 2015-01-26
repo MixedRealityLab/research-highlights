@@ -47,7 +47,7 @@ $oPageTemplate->startCapture ();
 					<div class="col-sm-6 col-md-6 col-lg-8">
 						<h2>Making your Submission</h2>
 						<p>Only Horizon CDT students can make submissions to the Research Highlights website.</p>
-						<p>Firstly, we need to identify who you are. We emailed you the details that you need to login to the system. If you have lost this email, either send an email to <a href="mailto:cdt-rh@lists.porcheron.uk">Martin Porcheron or Kyle Arch</a> and we'll send out a password reminder.</p>
+						<p>Firstly, we need to identify who you are. We emailed you the details that you need to login to the system. If you have lost this email, either send an email to <a href="mailto:<?php print EMAIL; ?>">Martin Porcheron or Kyle Arch</a> and we'll send out a password reminder.</p>
 						<p><strong>Hint:</strong> Your username is your university username (e.g. <em>psxmp9</em>) and your password is a long sequence of letters and numbers.</p>
 					</div>
 				</form>
@@ -171,7 +171,7 @@ $oPageTemplate->startCapture ();
 					<!-- BEGIN ABOUT TAB -->
 					<div role="tabpanel" class="tab-pane fade" id="about">
 						<div class="col-sm-12 col-md-12 col-lg-12">
-							<p>These details have been taken from the University system. If your University email address is different to the one below, please <a href="mailto:cdt-rh@lists.porcheron.uk">send me an email</a>. Details included here will be printed alongside your submission - do not include your website or twitter account if you do not wish for these to be published.</p>
+							<p>These details have been taken from the University system. If your University email address is different to the one below, please <a href="mailto:<?php print EMAIL; ?>">send me an email</a>. Details included here will be printed alongside your submission - do not include your website or twitter account if you do not wish for these to be published.</p>
 							<hr>
 						</div>
 			

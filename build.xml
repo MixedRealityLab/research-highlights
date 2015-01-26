@@ -81,7 +81,7 @@
 			</then>
 		</if>
 
-		<echo message="Replacing DOMAIN, PATH and URI_ROOT in all files, based on configuration"/>
+		<echo message="Replacing constants in all files, based on configuration"/>
 		<loadfile property="config.file" srcfile="${dist.dir}/config.php"/>
 		<if>
 			<not>
@@ -103,6 +103,21 @@
 				</antcall>
 			</then>
 		</if>
+
+		<if>
+			<not>
+				<isset property="email"/>
+			</not>
+			<then>
+				<propertyregex property="email" input="${config.file}" regexp="\\define \('EMAIL', '([@a-zA-Z\:./_-]*)'" select="\1" />
+			</then>
+		</if>
+
+		<antcall target="set-const">
+			<param name="const" value="EMAIL"/>
+			<param name="val" value="${email}"/>
+			<param name="files" value="**/*"/>
+		</antcall>
 
 		<if>
 			<not>
