@@ -8,17 +8,17 @@
  */
 
 // Fetch all tweets
-$rh = \CDT\RH::i();
-$oSubmissionController = $rh->cdt_submission_controller;
-$oUserController = $rh->cdt_user_controller;
+
+$oSubmissionController = \I::rh_submission_controller ();
+$oUserController = \I::rh_user_controller ();
 
 \header ('Content-Type: text/csv');
 
 $oUsers = $oUserController->getAll ();
 foreach ($oUsers as $oUser) {
-	$temp = $oSubmissionController->get ($oUser->username, false);
-
-	if (isSet ($temp->text)) {
-		print $oUser->firstName . ',' . $oUser->surname . ',' . $oUser->email . ',' . $temp->tweet . "\n";
+	try {
+		$tweet = $oSubmissionController->get ($oUser, false)->tweet;
+		print $oUser->firstName . ',' . $oUser->surname . ',' . $oUser->email . ',' . $tweet . "\n";
+	} catch (\RH\Error\NoSubmission $e) {
 	}
 }

@@ -9,10 +9,9 @@
 
 // Perform a search
 
-$rh = \CDT\RH::i();
-$oPageInput = $rh->cdt_page_input;
-$oUserController = $rh->cdt_user_controller;
-$oSubmissionController = $rh->cdt_submission_controller;
+$oPageInput = \I::rh_page_input ();
+$oUserController = \I::rh_user_controller ();
+$oSubmissionController = \I::rh_submission_controller ();
 
 // if no query, no results...
 if (!isSet ($oPageInput->q)) {
@@ -185,7 +184,7 @@ foreach ($results as $result) {
 $output = array();
 foreach ($combinedResults as $username => $weight) {
 	$oUser = $oUserController->get ($username);
-	$temp = $oSubmissionController->get ($username, false);
+	$temp = $oSubmissionController->get ($oUser, false);
 
 	if (isSet ($temp->text)) {
 		$output[] = \array_merge ($temp->toArray (), $oUser->toArray (), array('weight' => $weight));

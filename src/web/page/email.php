@@ -7,9 +7,8 @@
  * See LICENCE for legal information.
  */
 
-$rh = \CDT\RH::i();
-$oPageTemplate = $rh->cdt_page_template;
-$oUserController = $rh->cdt_user_controller;
+$oPageTemplate = \I::rh_page_template ();
+$oUserController = \I::rh_user_controller ();
 
 $oPageTemplate->startCapture ();   
 
@@ -54,7 +53,7 @@ $oPageTemplate->startCapture ();
 					<!-- BEGIN EMAIL STAGE -->
 					<form class="stage stage-email collapse">
 						<div class="col-sm-12 col-md-12 col-lg-12">
-							<p>You can use any of the following codes, these are substituted per user at email time: <?php $keys = ''; foreach (\CDT\User\User::substsKeys () as $key): $keys .= (empty ($keys) ? '' : ', ') . '<code>'. \htmlentities ($key) .'</code>'; endforeach; print $keys; ?>.</p>
+							<p>You can use any of the following codes, these are substituted per user at email time: <?php $keys = ''; foreach (\RH\User\User::substsKeys () as $key): $keys .= (empty ($keys) ? '' : ', ') . '<code>'. \htmlentities ($key) .'</code>'; endforeach; print $keys; ?>.</p>
 							<hr>
 						</div>
 						<div class="col-sm-12 col-md-12 col-lg-12">
@@ -92,7 +91,7 @@ Many thanks and good luck!</textarea>
 									<div class="form-group">
 										<label for="title">Users to email</label>
 										<!-- TODO: change to cohorts checking ajax -->
-										<p>Add <a href="#" class="addUsers">2014</a>, <a href="#" class="addUsers">2013</a>, <a href="#" class="addUsers">2012</a>, and <a href="#" class="addUsers">2011</a> cohorts. Add users who have <a href="#" class="addUsers">submitted</a>, or <a href="#" class="addUsers">not submitted</a>.</p>
+										<p>Add <span id="cohortLinks"></span> cohorts.</p>
 										<textarea name="usernames" id="usernames" rows="15" class="form-control input input-large" placeholder="Enter each university username, seperated by a new line"></textarea>
 									</div>
 								</div>

@@ -9,14 +9,13 @@
 
 // Fetch all submissions, or a single submission for reading
 
-$rh = \CDT\RH::i();
-$oSubmissionController = $rh->cdt_submission_controller;
-$oPageInput = $rh->cdt_page_input;
-$oUserController = $rh->cdt_user_controller;
+$oSubmissionController = \I::rh_submission_controller ();
+$oPageInput = \I::rh_page_input ();
+$oUserController = \I::rh_user_controller ();
 
 // Get the users for which we want to return their submission
 if (isSet ($oPageInput->user)) {
-	$oUsers = new \CDT\User\Users ($oUserController->get ($oPageInput->user));
+	$oUsers = array ($oUserController->get ($oPageInput->user));
 
 } else if (isSet ($oPageInput->cohort)) {
 	$cohort = $oPageInput->cohort;
@@ -52,26 +51,25 @@ if (isSet ($oPageInput->user)) {
 // Format the submission for output
 $output = array();
 foreach ($oUsers as $oUser) {
-	$temp = $oSubmissionController->get ($oUser->username, false);
+	try {
+		$oSubmission = $oSubmissionController->get ($oUser, false);
 
-	if (isSet ($temp->text)) {
-		$userData =  $oUserController->get ($oUser->username);
-		
-		$temp->text = $oUser->makeSubsts ($temp->text);
+		$oSubmission->text = $oUser->makeSubsts ($oSubmission->text);
 	
-		$textMd = $temp->text;
+		$textMd = $oSubmission->text;
 		$textHtml = !empty ($textMd) ? $oSubmissionController->markdownToHtml ($textMd) : '<em>No text submitted.</em>';
 
-		$refMd = \trim ($temp->references);
+		$refMd = \trim ($oSubmission->references);
 		$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $oSubmissionController->markdownToHtml ($refMd) : '';
 		
-		$pubMd = \trim ($temp->publications);
+		$pubMd = \trim ($oSubmission->publications);
 		$pubHtml = !empty ($pubMd) ? '<h1>Publications in the Last Year</h1>' . $oSubmissionController->markdownToHtml ($pubMd) : '';
 
-		$temp->html = $textHtml . $refHtml . $pubHtml;
-		$temp->fundingStatement = $oUserController->getFunding ($oUser);
+		$oSubmission->html = $textHtml . $refHtml . $pubHtml;
 
-		$output[] = \array_merge ($temp->toArray (), $userData->toArray ());
+		$output[] = \array_merge ($oSubmission->toArray (), $oUser->toArray ());
+	} catch (\RH\Error\NoSubmission $e) {
+
 	}
 }
 

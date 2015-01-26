@@ -58,7 +58,7 @@ class RecursiveArrayObject extends \ArrayObject {
 			return $this[$key];
 		}
 
-		throw new \InvalidArgumentException (\sprintf ('No property `%s` in `%s`: %s', $key, static::className(), print_r ($this, true)));
+		throw new \InvalidArgumentException (\sprintf ('No property `%s` in `%s`', $key, static::className()));
 	}
 
 	/**

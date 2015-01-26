@@ -8,37 +8,27 @@
  */
 
 // Validate login credentials
-// -1 : Failed login
-// -4 : Cannot masquerade as given user (doesn't exist)
 
-$rh = \CDT\RH::i();
-$oUserController = $rh->cdt_user_controller;
+$oUserController = \I::rh_user_controller ();
 
-if ($oUserController->login ()) {
-	$oPageInput = $rh->cdt_page_input;
-	$oSubmissionController = $rh->cdt_submission_controller;
+try {
+	$oUser = $oUserController->login ();
+
+	$oPageInput = \I::rh_page_input ();
+	$oSubmissionController = \I::rh_submission_controller ();
 
 	// if admin, are we masquerading
-	if ($oUserController->login (true) && isSet ($oPageInput->profile)) {
-		$override = $oPageInput->profile;
-
-		$override = \strtolower ($override);
-		$temp = $oUserController->get ($override);
-		if (empty ($temp)) {
-			print '-4';
-			exit;
-		}
-
-		$oUserController->overrideLogin ($override);
+	if ($oUser->admin && isSet ($oPageInput->profile)) {
+		$username = \strtolower ($oPageInput->profile);
+		$oUser = $oUserController->get ($username);
+		$oUserController->overrideLogin ($oUser);
 	}
 
 	// gather the data to populate the submission form
-	print $oUserController->get ()
-		->merge ($oSubmissionController->get ())
+	print $oUser
+		->merge ($oSubmissionController->get ($oUser))
 		->merge (array ('success' => 1))
 		->toJson ();
-	exit;
+} catch (\RH\Error\UserError $e) {
+	print $e->toJson ();
 }
-
-print '-1';
-exit;

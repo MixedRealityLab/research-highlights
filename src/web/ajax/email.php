@@ -12,11 +12,10 @@
 // -1 : Not logged in as admin
 // -2 : Incomplete form
 
-$rh = \CDT\RH::i();
-$oSubmissionController = $rh->cdt_submission_controller;
-$oUserController = $rh->cdt_user_controller;
-$oPageInput = $rh->cdt_page_input;
-$oUtilsEmail = $rh->cdt_utils_email;
+$oSubmissionController = \I::rh_submission_controller ();
+$oUserController = \I::rh_user_controller ();
+$oPageInput = \I::rh_page_input ();
+$oUtilsEmail = \I::rh_utils_email ();
 
 if (!$oUserController->login (true)) {
 	print '-1';
@@ -36,9 +35,8 @@ $from = '"'. $oUser->firstName . ' ' . $oUser->surname .'" <'. $oUser->email .'>
 $replyTo = 'cdt-rh@lists.porcheron.uk';
 $oUtilsEmail->setHeaders ($from, $replyTo);
 
-$usernames = \explode ("\n", $oPageInput->usernames);
+$usernames = \explode ("\n", \trim ($oPageInput->usernames));
 $subject = $oPageInput->subject;
 $message = \nl2br ($oPageInput->message);
-$oUtilsEmail->sendAll ($usernames, $subject, \strip_tags ($message), $message);
 
-print '1';
+print $oUtilsEmail->sendAll ($usernames, $subject, \strip_tags ($message), $message) ? '1' : '-1';

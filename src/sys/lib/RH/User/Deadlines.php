@@ -7,9 +7,13 @@
  * See LICENCE for legal information.
  */
 
-// Fetch a list of cohorts
+namespace RH\User;
 
-$oUserController = \I::rh_user_controller ();
+/**
+ * List of deadlines.
+ * 
+ * @author Martin Porcheron <martin@porcheron.uk>
+ */
+class Deadlines extends \RH\AbstractModel {
 
-print $oUserController->getCohorts ()->toArrayJson();
-
+}

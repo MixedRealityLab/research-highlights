@@ -77,11 +77,7 @@ $(function() {
 	ReHi.showAlert('Welcome!', 'Please enter your credentials to continue.', 'info'); 
 
 	ReHi.regSubForm($('form.stage-login'), '@@@URI_ROOT@@@/do/login', function(response, textStatus, jqXHR) {
-		if (response == '-3') {
-			ReHi.showError('Humph!', 'Your account has been disabled. <a href="mailto:cdt-rh@lists.porcheron.uk" class="alert-link">Email support</a> for help.');
-		} else if (response == '-1') {
-			ReHi.showError('Oh, snap!', 'Looks like you\'ve entered an invalid username/password combination. <a href="mailto:cdt-rh@lists.porcheron.uk" class="alert-link">Email support</a> for help.'); 
-		} else if (response.success == '1') {
+		if (response.success == '1') {
 			ReHi.showSuccess('Welcome!', 'Your login was successful. You can log back in any time to modify your submission before the deadline.');
 			$('#saveAs').attr('value', $('#username').val());
 			$('#admin-user').attr('value', $('#username').val());
@@ -92,6 +88,10 @@ $(function() {
 			if(response.admin != undefined) {
 				$.getScript("web/js/admin@@@EXT_JS@@@");
 			}
+		} else if (response.error != undefined) {
+			ReHi.showError('Oh, snap!', response.error + ' <a href="mailto:cdt-rh@lists.porcheron.uk" class="alert-link">Email support</a> for help.'); 
+		} else {
+			ReHi.showError('Oh, snap!', 'An unknown error occurred. <a href="mailto:cdt-rh@lists.porcheron.uk" class="alert-link">Email support</a> for help.'); 
 		}
 	}, 'json');
 
@@ -113,12 +113,14 @@ $(function() {
 	});
 
 	ReHi.regSubForm($('form.stage-editor'), '@@@URI_ROOT@@@/do/submit', function (response, textStatus, jqXHR) {
-		if (response != '1') {
-			ReHi.showError('Goshdarnit!', 'Something has gone wrong! <a href="mailto:cdt-rh@lists.porcheron.uk" class="alert-link">I need help!</a> (error: ' + response + ')');
-		} else {
-			ReHi.showSuccess('Good News!', 'Your submission was saved, ' + $('#name').val() + '! For reference, you can see the latest version of <a href="@@@URI_ROOT@@@/read#' + $('#saveAs').attr('value') + '" target="_blank">your submission</a> online (although it may not look like this in the final website).')
+		if (response.success == '1') {
+			ReHi.showSuccess('Good News!', 'Your submission was saved, ' + $('#name').val() + '! For reference, you can see the latest version of <a href="@@@URI_ROOT@@@/read#' + $('#saveAs').attr('value') + '" target="_blank">your submission</a> online (although it may not look like this in the final website).');
+		} else if (response.error != undefined) {
+			ReHi.showError('Goshdarnit!', response.error + ' <a href="mailto:cdt-rh@lists.porcheron.uk" class="alert-link">I need help!</a>');
+		} else  {
+			ReHi.showError('Fiddlesticks!', 'An unknown error occurred! <a href="mailto:cdt-rh@lists.porcheron.uk" class="alert-link">I need help!</a>');
 		}
-	});
+	}, 'json');
 
 	$('a[href="#content"]').on('shown.bs.tab', function(e) {
 		$('#text').show().trigger('autosize.resize');

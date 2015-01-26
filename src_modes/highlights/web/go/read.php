@@ -9,8 +9,7 @@
 
 // Redirects for the submissions
 
-$rh = \CDT\RH::i();
-$oUserController = $rh->cdt_user_controller;
+$oUserController = \I::rh_user_controller ();
 
 $redirectTo = \substr ($page, 8);
 

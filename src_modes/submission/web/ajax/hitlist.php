@@ -9,13 +9,10 @@
 
 // Fetch a list of users who have not submitted
 
-$rh = \CDT\RH::i();
-$oSubmissionController = $rh->cdt_submission_controller;
-$oUserController = $rh->cdt_user_controller;
+$oUserController = \I::rh_user_controller ();
 
-$oUsers = $oUserController->getAll (null, function ($oUser) use ($oSubmissionController) {
-	$submission = $oSubmissionController->get ($oUser, false);
-	return !isSet ($submission->text) && $oUser->countSubmission;
+$oUsers = $oUserController->getAll (null, function ($oUser) {
+	return !$oUser->latestVersion && $oUser->countSubmission;
 });
 
-print \CDT\User\Data::toJson ($oUsers);
+print $oUsers->toArrayJson ();

@@ -9,9 +9,8 @@
 
 // Fetch a list of users (either all, a cohort, or (not) submitted)
 
-$rh = \CDT\RH::i();
-$oPageInput = $rh->cdt_page_input;
-$oUserController = $rh->cdt_user_controller;
+$oPageInput = \I::rh_page_input ();
+$oUserController = \I::rh_user_controller ();
 
 // Fetch a specific cohort?
 if (!isSet ($oPageInput->cohort) || !\is_numeric ($oPageInput->cohort)) {
@@ -21,26 +20,36 @@ if (!isSet ($oPageInput->cohort) || !\is_numeric ($oPageInput->cohort)) {
 }
 
 // Fetch those who have submitted, or not?
-$submitted = $oPageInput->submitted;
-if ($submitted === '1') {
-	$submitted = true;
-} else if ($submitted === '0') {
-	$submitted = false;
-} else {
+try {
+	$submitted = $oPageInput->submitted;
+	if ($submitted === '1') {
+		$submitted = true;
+	} else if ($submitted === '0') {
+		$submitted = false;
+	}
+} catch (\RH\Error\NoField $e) {
 	$submitted = null;
 }
 
 // Filter the user list
-$oUsers = $oUserController->getAll (null, function ($oUser) use ($rh, $cohort, $submitted) {
-	$oSubmissionController = $rh->cdt_submission_controller;
-	$submission = $oSubmissionController->get ($oUser->username, false);
+$oUsers = $oUserController->getAll (null, function ($oUser) use ($cohort, $submitted) {
+	$oSubmissionController = \I::rh_submission_controller ();
 
 	$isCohort = \is_null ($cohort) ? true : $oUser->cohort === $cohort;
-	$isSubmitted = \is_null ($submitted)
-		? true 
-		: isSet ($submission->text) === $submitted && $oUser->countSubmission;
+	
+	if (\is_null ($submitted)) {
+		$isSubmitted = true;
+	} else {
+		try {
+			$submission = $oSubmissionController->get ($oUser, false);
+			$isSubmitted = $submitted === true;
+		} catch (\RH\Error\NoSubmission $e) {
+			$isSubmitted = $submitted === false;
+		}
+	}
 
-	return !$oUser->enabled && $isCohort && $isSubmitted;
+	return $oUser->enabled && $oUser->countSubmission 
+		&& $isCohort && $isSubmitted;
 });
 
-print \CDT\User\Data::toJson ($oUsers);
+print $oUsers->toArrayJson();

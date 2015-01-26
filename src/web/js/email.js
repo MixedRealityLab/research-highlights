@@ -44,39 +44,57 @@ $(function() {
 		}
 	});	
 
-	$('.addUsers').click(function(e) {
-		e.preventDefault();
-		var $allInputs = $('form.stage-email').find('input, select, button, textarea');
 
-		var data = '';
-		var input = $(this).text();
-		if(input == 'submitted') {
-			data = 'submitted=1';
-		} else if(input == 'not submitted') {
-			data = 'submitted=0';
-		} else {
-			data = 'cohort=' + input;
-		}
+	ReHi.sendData({
+		dataType: 'json',
+		url: '@@@URI_ROOT@@@/do/cohorts',
+		type: 'post',
+		success: function (response, textStatus, jqXHR) {
+	  				var html = '';
+	  		 		for (var i = 0; i < response.length; i++) {
+	  		 			var cohort = response[i];
+	  		 			if (html != '') {
+	  		 				html += ', ';
+	  		 			}
+	  		 			html += '<a href="#" class="addUsers">' + cohort + '</a>';
+					}
+					$('#cohortLinks').html(html);
 
-		ReHi.sendData({
-			dataType: 'json',
-			data: data,
-			url: '@@@URI_ROOT@@@/do/users',
-			type: 'post',
-			beforeSend: function() {
-				$allInputs.prop('disabled', true);
-			},
-			complete: function() {
-				$allInputs.prop('disabled', false);
-			},
-			success: function(response, textStatus, jqXHR) {
-				$.each(response, function(i, v) {
-					$('#usernames').append(v.username + "\n");
-					$('#usernames').trigger('autosize.resize'); 
-				});
-			}
-		});
-		});
+					$('.addUsers').click(function(e) {
+						e.preventDefault();
+						var $allInputs = $('form.stage-email').find('input, select, button, textarea');
+
+						var data = '';
+						var input = $(this).text();
+						if(input == 'submitted') {
+							data = 'submitted=1';
+						} else if(input == 'not submitted') {
+							data = 'submitted=0';
+						} else {
+							data = 'cohort=' + input;
+						}
+
+						ReHi.sendData({
+							dataType: 'json',
+							data: data,
+							url: '@@@URI_ROOT@@@/do/users',
+							type: 'post',
+							beforeSend: function() {
+								$allInputs.prop('disabled', true);
+							},
+							complete: function() {
+								$allInputs.prop('disabled', false);
+							},
+							success: function(response, textStatus, jqXHR) {
+								$.each(response, function(i, v) {
+									$('#usernames').append(v.username + "\n");
+									$('#usernames').trigger('autosize.resize'); 
+								});
+							}
+						});
+					});
+				}
+	});
 
 	$('#submit').click(function(e) {
 		e.preventDefault();

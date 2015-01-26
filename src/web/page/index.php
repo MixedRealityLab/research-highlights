@@ -7,7 +7,8 @@
  * See LICENCE for legal information.
  */
 
-$oPageTemplate = \CDT\RH::i()->cdt_page_template;
+$oPageTemplate = \I::rh_page_template ();
+
 $oPageTemplate->startCapture ();
 
 ?>

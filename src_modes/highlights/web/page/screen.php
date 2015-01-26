@@ -15,10 +15,9 @@ use PhpOffice\PhpPowerpoint\Style\Color;
 
 // Serve a PowerPoint/ODP of all the tweets submitted
 
-$rh = \CDT\RH::i();
-$oSubmissionController = $rh->cdt_submission_controller;
-$oPageInput = $rh->cdt_page_input;
-$oUserController = $rh->cdt_user_controller;
+$oSubmissionController = \I::rh_submission_controller ();
+$oPageInput = \I::rh_page_input ();
+$oUserController = \I::rh_user_controller ();
 
 $oPowerpoint = new PhpPowerpoint ();
 $oPowerpoint->getProperties ()->setCreator (VERSION)
@@ -26,7 +25,6 @@ $oPowerpoint->getProperties ()->setCreator (VERSION)
 			->setTitle (SITE_NAME . ' ' . SITE_YEAR)
 			->setSubject (SITE_NAME)
 			->setLooped (true);
-
 
 // Set to 16x9
 $oLayout = new DocumentLayout();
@@ -56,84 +54,87 @@ $usernames = (\array_keys ($oUsers->getArrayCopy ()));
 // Create slides
 foreach ($usernames as $username) {
 	$oUser = $oUsers->$username;
-	$oSubmission = $oSubmissionController->get ($username, false);
+	try {
+		$oSubmission = $oSubmissionController->get ($oUser, false);
 
-	if (!isSet ($oSubmission->tweet)) {
-		continue;
+		if (!isSet ($oSubmission->tweet)) {
+			continue;
+		}
+
+		$slide = $oPowerpoint->createSlide();
+
+		$slide->setAdvancement (20000);
+
+		$shape = $slide->createDrawingShape();
+		$shape->setName ('Horizon CDT header')
+					->setDescription ('Horizon Centre for Doctoral Training')
+					->setPath (DIR_WIM . '/screen-header.png')
+					->setWidth (961)
+					->setOffsetX (0)
+					->setOffsetY (0);
+
+		$shape = $slide->createRichTextShape()
+			->setHeight(200)
+			->setWidth(881)
+			->setOffsetX(40)
+			->setOffsetY(140)
+			->setInsetTop(0)
+			->setInsetBottom(0);
+		$shape->getActiveParagraph()->getAlignment()
+				->setHorizontal (Alignment::HORIZONTAL_LEFT)
+				->setVertical (Alignment::VERTICAL_BOTTOM);
+		$tweet = $shape->createTextRun ($oSubmission->tweet);
+		$tweet->getFont()->setBold (false)
+				->setName('Helvetica Neue')
+				->setSize (30)
+				->setColor (new Color ('FF000000'));
+
+		$line = $slide->createLineShape(40, 360, 915, 360);
+		$line->getBorder()->setColor (new Color ('FF000000'));
+
+		$name = $oUser->firstName . ' ' . $oUser->surname . ' (' . $oUser->cohort . ' cohort)';
+
+		$shape = $slide->createRichTextShape()
+			->setHeight(50)
+			->setWidth(881)
+			->setOffsetX(40)
+			->setOffsetY(380)
+			->setInsetTop(0)
+			->setInsetBottom(0);
+		$shape->getActiveParagraph()->getAlignment()
+				->setHorizontal (Alignment::HORIZONTAL_LEFT)
+				->setVertical (Alignment::VERTICAL_TOP);
+		$author = $shape->createTextRun ($name);
+		$author->getFont()->setBold (false)
+				->setName('Helvetica Neue')
+				->setSize (14)
+				->setColor (new Color ('FF333333'));
+
+		$link = 'find out more at ' . URI_HOME . '/go/read/' . $oUser->username;
+		$shape = $slide->createRichTextShape()
+			->setHeight(50)
+			->setWidth(881)
+			->setOffsetX(40)
+			->setOffsetY(380)
+			->setInsetTop(0)
+			->setInsetBottom(0);
+		$shape->getActiveParagraph()->getAlignment()
+				->setHorizontal (Alignment::HORIZONTAL_RIGHT)
+				->setVertical (Alignment::VERTICAL_TOP);
+		$author = $shape->createTextRun ($link);
+		$author->getFont()->setBold (false)
+				->setName('Helvetica Neue')
+				->setSize (14)
+				->setColor (new Color ('FF0C2577'));
+
+		$shape = $slide->createDrawingShape();
+		$shape->setName ('Horizon CDT footer')
+					->setPath (DIR_WIM . '/screen-footer.png')
+					->setWidth (921)
+					->setOffsetX (20)
+					->setOffsetY (470);
+	} catch (\RH\Error\NoSubmission $e) {
 	}
-
-	$slide = $oPowerpoint->createSlide();
-
-	$slide->setAdvancement (20000);
-
-	$shape = $slide->createDrawingShape();
-	$shape->setName ('Horizon CDT header')
-				->setDescription ('Horizon Centre for Doctoral Training')
-				->setPath (DIR_WIM . '/screen-header.png')
-				->setWidth (961)
-				->setOffsetX (0)
-				->setOffsetY (0);
-
-	$shape = $slide->createRichTextShape()
-		->setHeight(200)
-		->setWidth(881)
-		->setOffsetX(40)
-		->setOffsetY(140)
-		->setInsetTop(0)
-		->setInsetBottom(0);
-	$shape->getActiveParagraph()->getAlignment()
-			->setHorizontal (Alignment::HORIZONTAL_LEFT)
-			->setVertical (Alignment::VERTICAL_BOTTOM);
-	$tweet = $shape->createTextRun ($oSubmission->tweet);
-	$tweet->getFont()->setBold (false)
-			->setName('Helvetica Neue')
-			->setSize (30)
-			->setColor (new Color ('FF000000'));
-
-	$line = $slide->createLineShape(40, 360, 915, 360);
-	$line->getBorder()->setColor (new Color ('FF000000'));
-
-	$name = $oUser->firstName . ' ' . $oUser->surname . ' (' . $oUser->cohort . ' cohort)';
-
-	$shape = $slide->createRichTextShape()
-		->setHeight(50)
-		->setWidth(881)
-		->setOffsetX(40)
-		->setOffsetY(380)
-		->setInsetTop(0)
-		->setInsetBottom(0);
-	$shape->getActiveParagraph()->getAlignment()
-			->setHorizontal (Alignment::HORIZONTAL_LEFT)
-			->setVertical (Alignment::VERTICAL_TOP);
-	$author = $shape->createTextRun ($name);
-	$author->getFont()->setBold (false)
-			->setName('Helvetica Neue')
-			->setSize (14)
-			->setColor (new Color ('FF333333'));
-
-	$link = 'find out more at ' . URI_HOME . '/go/read/' . $oUser->username;
-	$shape = $slide->createRichTextShape()
-		->setHeight(50)
-		->setWidth(881)
-		->setOffsetX(40)
-		->setOffsetY(380)
-		->setInsetTop(0)
-		->setInsetBottom(0);
-	$shape->getActiveParagraph()->getAlignment()
-			->setHorizontal (Alignment::HORIZONTAL_RIGHT)
-			->setVertical (Alignment::VERTICAL_TOP);
-	$author = $shape->createTextRun ($link);
-	$author->getFont()->setBold (false)
-			->setName('Helvetica Neue')
-			->setSize (14)
-			->setColor (new Color ('FF0C2577'));
-
-	$shape = $slide->createDrawingShape();
-	$shape->setName ('Horizon CDT footer')
-				->setPath (DIR_WIM . '/screen-footer.png')
-				->setWidth (921)
-				->setOffsetX (20)
-				->setOffsetY (470);
 }
 
 // Save, serve then delete

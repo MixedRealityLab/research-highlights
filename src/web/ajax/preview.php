@@ -7,32 +7,32 @@
  * See LICENCE for legal information.
  */
 
+use CDT\Error as Error;
+
 // Generate a submission preview from MD to HTML
 // -1 : Not logged in
 // -3 : No details on who to save submission as
 // -5 : Attempting to masquerade when not admin
 
-$rh = \CDT\RH::i();
-$oUserController = $rh->cdt_user_controller;
-$oPageInput = $rh->cdt_page_input;
+$oUserController = \I::rh_user_controller ();
+$oPageInput = \I::rh_page_input ();
 
-if (!$oUserController->login ()) {
-	print '-1';
+try {
+	$oUser = $oUserController->login ();
+
+	if (!isSet ($oPageInput->saveAs)) {
+		throw new Error\InvalidInput ('Must provide saveAs attribute.');
+	}
+
+	if ($oPageInput->username !== $oPageInput->saveAs) {
+		$oUserController->login (true);
+	}
+} catch (Error\UserError $e) {
+	print $e->toJson();
 	exit;
 }
 
-if (!isSet ($oPageInput->saveAs)) {
-	print '-3';
-	exit;
-}
-
-if ($oPageInput->username !== $oPageInput->saveAs
-	&& !$oUserController->login (true)) {
-	print '-5';
-	exit;
-}
-
-$oSubmissionController = $rh->cdt_submission_controller;
+$oSubmissionController = \I::rh_submission_controller ();
 
 $textMd = \trim ($oPageInput->text);
 $textHtml = !empty ($textMd) ? $oSubmissionController->markdownToHtml ($textMd) : '<em>No text.</em>';

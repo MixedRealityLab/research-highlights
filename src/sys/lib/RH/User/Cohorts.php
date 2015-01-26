@@ -7,9 +7,13 @@
  * See LICENCE for legal information.
  */
 
-// Fetch a list of cohorts
+namespace RH\User;
 
-$oUserController = \I::rh_user_controller ();
+/**
+ * List of cohorts.
+ * 
+ * @author Martin Porcheron <martin@porcheron.uk>
+ */
+class Cohorts extends \RH\AbstractModel {
 
-print $oUserController->getCohorts ()->toArrayJson();
-
+}

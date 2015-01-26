@@ -7,9 +7,13 @@
  * See LICENCE for legal information.
  */
 
-// Fetch a list of cohorts
+namespace RH\User;
 
-$oUserController = \I::rh_user_controller ();
+/**
+ * List of word counts.
+ * 
+ * @author Martin Porcheron <martin@porcheron.uk>
+ */
+class WordCounts extends \RH\AbstractModel {
 
-print $oUserController->getCohorts ()->toArrayJson();
-
+}

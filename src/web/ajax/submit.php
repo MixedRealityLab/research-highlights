@@ -8,48 +8,36 @@
  */
 
 // Save a user's submission
-//  1 : Success!
-// -1 : Not logged in
-// -3 : No details on who to save submission as
-// -5 : Attempting to masquerade when not admin
-
-$rh = \CDT\RH::i();
-$oUserController = $rh->cdt_user_controller;
-if (!$oUserController->login ()) {
-	print '-1';
-	exit;
-}
-
-$oSubmissionController = $rh->cdt_submission_controller;
-$oPageInput = $rh->cdt_page_input;
-
-if (\is_null ($oPageInput->saveAs)) {
-	print '-3';
-	exit;
-}
-
-if ($oPageInput->username !== $oPageInput->saveAs
-	&& !$oUserController->login (true)) {
-	print '-5';
-	exit;
-}
-
-// Go ahead and save the submission!
 
 try {
+	$oUserController = \I::rh_user_controller ();
+	$oUser = $oUserController->login ();
+
+	$oSubmissionController = \I::rh_submission_controller ();
+	$oPageInput = \I::rh_page_input ();
+
+	if (\is_null ($oPageInput->saveAs)) {
+		throw new \RH\Error\InvalidInput ('Must provide saveAs attribute');
+	}
+
+	if ($oPageInput->username !== $oPageInput->saveAs) {
+		$oUserController->login (true);
+	}
+
+	// Go ahead and save the submission!
 	if (!isSet ($oPageInput->cohort) && !isSet ($oPageInput->title)
 		&& !isSet ($oPageInput->keywords) && !isSet ($oPageInput->text)) {
-		throw new \CDT\Error\InvalidInput ('Missing inputs');
+		throw new \RH\Error\InvalidInput ('Missing provide a cohort, title, keywords and your submission text.');
 	}
 
 	$oUser = $oUserController->get ($oPageInput->saveAs);
 	$cohortDir = DIR_DAT . '/' . $oPageInput->cohort;
 	if ($oPageInput->cohort !== $oUser->cohort
 		|| !is_numeric ($oPageInput->cohort) || !is_dir ($cohortDir)) {
-		throw new \CDT\Error\InvalidInput ('Invalid cohort!');
+		throw new \RH\Error\InvalidInput ('Invalid cohort supplied');
 	}
 
-	$oSubmission = new \CDT\Submission\Submission ($oPageInput);
+	$oSubmission = new \RH\Submission\Submission ($oPageInput);
 
 	$html = $oSubmissionController->markdownToHtml ($oSubmission->text);
 
@@ -60,7 +48,7 @@ try {
 	foreach ($images[4] as $url) {
 		$img = @\file_get_contents ($url);
 		if ($img === false) {
-			throw new \CDT\Error\System ('Could not fetch the image at ' . $url);
+			throw new \RH\Error\System ('Could not fetch the image at ' . $url);
 		}
 
 		$path_parts = \pathinfo ($url);
@@ -82,9 +70,9 @@ try {
 
 	$oSubmission->save ();
 
-	print '1';
-	exit;
-} catch (\Exception $e) {
-	print $e->getMessage();
-	exit;
+	print \json_encode (array ('success' => '1'));
+} catch (\RH\Error\UserError $e) {
+	print $e->toJson ();
+} catch (\RH\Error\SystemError $e) {
+	print $e->toJson ();
 }
