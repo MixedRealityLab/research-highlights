@@ -90,8 +90,8 @@ class Email implements \RH\Singleton {
 			return false;
 		}
 		$mSubject = $oUser->makeSubsts ($subject);
-		$mMessageText = $oUser->makeSubsts ($messageText);
-		$mMessageHtml = $oUser->makeSubsts ($messageHtml);
+		$mMessageText = $oUser->makeSubsts ($messageText, true);
+		$mMessageHtml = $oUser->makeSubsts ($messageHtml, true);
 
 		$mHeaders = $this->headers;
 		$mHeaders['To'] = $mAddress;

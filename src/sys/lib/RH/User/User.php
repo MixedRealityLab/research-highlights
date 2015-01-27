@@ -20,11 +20,14 @@ class User extends \RH\AbstractModel {
 	 * Scan text for keywords that can be replaced.
 	 * 
 	 * @param string $input Input to be scanned
+	 * @param bool @includePassword Include the password in the substitutions
 	 * @return string Output with the substitutions made
 	 */
-	public function makeSubsts ($input) {
-		$k = array ('password' => $this->getPassword(),
-		            'imgDir' => URI_DATA . '/' . $this->cohort . '/' . $this->username . '/' . $this->latestVersion .'/');
+	public function makeSubsts ($input, $includePassword = false) {
+		$k = array ('imgDir' => URI_DATA . '/' . $this->cohort . '/' . $this->username . '/' . $this->latestVersion .'/');
+		if ($includePassword) {
+			$k['password'] = $this->getPassword();
+		}
 
 		$arr = \array_merge ($k, $this->getArrayCopy ());
 		$keys = \array_map (function ($k) {
@@ -46,10 +49,14 @@ class User extends \RH\AbstractModel {
 	/**
 	 * List of possible substitutions.
 	 * 
+	 * @param bool @includePassword Include the password in the substitutions
 	 * @return string[] List of possible substitutions
 	 */
-	public static function substsKeys () {
-		$k = array ('<password>', '<wordCount>', '<fundingStatment>', '<imgDir>');
+	public static function substsKeys ($includePassword = false) {
+		$k = array ('<wordCount>', '<fundingStatment>', '<imgDir>');
+		if ($includePassword) {
+			$k[] = 'password';
+		}
 
 		$oFileReader = \I::RH_File_Reader ();
 		$header = $oFileReader->readHeader (DIR_USR . Controller::USER_FILE);
