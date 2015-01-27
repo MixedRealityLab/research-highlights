@@ -74,6 +74,10 @@ body {
 	margin-bottom: 10px;
 }
 
+.viewItem.loadPage.selected {
+	background: #f5f5f5;
+}
+
 .view-by .selected {
 	color: #000;
 	font-weight: bold;
@@ -118,7 +122,7 @@ body {
 	margin-top: -5px;
 }
 
-.panel-body > .subgroup {
+.panel-body	 > .subgroup {
 	margin: -16px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;

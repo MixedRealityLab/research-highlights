@@ -22,8 +22,9 @@ if (isSet ($oPageInput->user)) {
 
 // is there a saved copy of all keywords?
 $file = DIR_DAT . '/keywords.txt';
-if (\is_file ($file) && \filemtime ($file) + KEY_CACHE < \date ('U')) {
+if (\is_file ($file) && \filemtime ($file) + KEY_CACHE > \date ('U')) {
 	print @\file_get_contents ($file);
+	exit;
 }
 
 // generate list of keywords for everyone

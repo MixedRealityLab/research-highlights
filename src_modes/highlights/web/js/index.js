@@ -65,11 +65,11 @@ function changeListView (list, onCompleteFn) {
 	completeFn = function() {
 		$('a').click(function(e) {
 			if (($(this).hasClass('loadPage') || $(this).parents('.loadPage').length > 0) && this.hash.charAt(0) == '#') {
-    			e.preventDefault();
+				e.preventDefault();
 				window.location.hash = this.hash;
 				firstResponder(this.hash);
-    		}
-    	});
+			}
+		});
 
 		if(onCompleteFn != undefined) {
 			onCompleteFn();
@@ -85,10 +85,10 @@ function changeListView (list, onCompleteFn) {
 			url: '@@@URI_ROOT@@@/do/cohorts',
 			type: 'post',
 			success: function (response, textStatus, jqXHR) {
-		  				var html = '<div class="panel-body"><ul class="list-group subgroup">';
-		  		 		for (var i = 0; i < response.length; i++) {
-		  		 			var cohort = response[i];
-		  		 			html += '<li class="list-group-item viewItem loadPage"><a href="#cohort=' + cohort + '">' + cohort + ' Cohort</a></li>';
+						var html = '<div class="panel-body"><ul class="list-group subgroup">';
+						for (var i = 0; i < response.length; i++) {
+							var cohort = response[i];
+							html += '<li class="list-group-item viewItem loadPage"><a href="#cohort=' + cohort + '">' + cohort + ' Cohort</a></li>';
 						}
 						$('#viewList').html(html + '</ul></div>');
 						completeFn();
@@ -100,23 +100,23 @@ function changeListView (list, onCompleteFn) {
 			url: '@@@URI_ROOT@@@/do/submitted',
 			type: 'post',
 			success: function (response, textStatus, jqXHR) {
-		  				$('#viewList').empty();
-		  				var prevCohort = '', addCohort = '';
-		  		 		for (var i = 0; i < response.length; i++) {
-		  		 			var user = response[i];
-		  		 			if(prevCohort != '' && user.cohort != prevCohort) {
-		  		 				$('#viewList').append(addCohort + '</ul></div></div></div>');
-		  		 				addCohort = '';
-		  		 			}
-		  		 			if(prevCohort == '' || user.cohort != prevCohort) {
+						$('#viewList').empty();
+						var prevCohort = '', addCohort = '';
+						for (var i = 0; i < response.length; i++) {
+							var user = response[i];
+							if(prevCohort != '' && user.cohort != prevCohort) {
+								$('#viewList').append(addCohort + '</ul></div></div></div>');
+								addCohort = '';
+							}
+							if(prevCohort == '' || user.cohort != prevCohort) {
 								addCohort += '<div class="panel panel-default"><div class="panel-heading pageGroup" role="tab" id="cohort-' + user.cohort + '"><h4 class="panel-title">';
 								addCohort += '<a data-toggle="collapse" data-parent="#viewList" href="#cohort-' + user.cohort + '-links" aria-expanded="true" aria-controls="cohort-' + user.cohort + '-links">' +  user.cohort + ' Cohort';
 								addCohort += '</a></h4></div><div id="cohort-' + user.cohort + '-links" class="panel-collapse collapse" role="tabpanel" aria-labelledby="cohort-' + user.cohort + '"><div class="panel-body"><ul class="list-group subgroup">';
-		  		 				prevCohort = user.cohort;
-		  		 			}
-		  		 			addCohort += '<li class="list-group-item viewItem loadPage"><a href="#read=' + user.username + '">' + user.firstName + ' ' + user.surname + '</a></li>';
+								prevCohort = user.cohort;
+							}
+							addCohort += '<li class="list-group-item viewItem loadPage"><a href="#read=' + user.username + '">' + user.firstName + ' ' + user.surname + '</a></li>';
 						}
-		  		 		$('#viewList').append(addCohort + '</ul></li>');
+						$('#viewList').append(addCohort + '</ul></li>');
 						completeFn();
 					}
 		});
@@ -126,13 +126,13 @@ function changeListView (list, onCompleteFn) {
 			url: '@@@URI_ROOT@@@/do/keywords',
 			type: 'post',
 			success: function (response, textStatus, jqXHR) {
-		  				var html = '<div class="keywordSidebar">';
-		  				var colours = ["primary", "success", "info", "warning", "danger"];
-		  		 		for (var i = 0; i < response.length; i++) {
-		  		 			var data = response[i];
-		  		 			var cleanVal = replaceAll(' ', '_', data.name);
-		  		 			var size = 1 * data.weight; if(size < .7) size = .7;
-		  		 			html += '<a href="" data-keyword="' + cleanVal + '" class="toggleKeyword label label-onlyHover label-' + colours[i % colours.length] + '" style="font-size: ' + size + 'em;" id="keyword-' + cleanVal + '">' + data.name + '</a> ';
+						var html = '<div class="keywordSidebar">';
+						var colours = ["primary", "success", "info", "warning", "danger"];
+						for (var i = 0; i < response.length; i++) {
+							var data = response[i];
+							var cleanVal = replaceAll(' ', '_', data.name);
+							var size = 1 * data.weight; if(size < .7) size = .7;
+							html += '<a href="" data-keyword="' + cleanVal + '" class="toggleKeyword label label-onlyHover label-' + colours[i % colours.length] + '" style="font-size: ' + size + 'em;" id="keyword-' + cleanVal + '">' + data.name + '</a> ';
 						}
 						$('#viewList').html(html + '</div>');
 						$('.toggleKeyword').click(function(e) { e.preventDefault(); toggleKeyword( $(e.target).data('keyword')) });
