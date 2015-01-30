@@ -87,6 +87,8 @@ try {
 		$message = $U->makeSubsts ($message);
 		$subject = $U->makeSubsts (MAIL_ON_CHANGE_SUBJ);
 
+		$message .= '<br><br><strong>Account Details</strong><br>Username: <em><username></em><br>Password: <em><password></em>';
+
 		$oEmail->sendAll ($unamesMail, $subject, \strip_tags ($message), $message) ? '1' : '-1';
 	}
 
