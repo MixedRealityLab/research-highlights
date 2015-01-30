@@ -70,8 +70,7 @@ try {
 		$oEmail = I::RH_Utils_Email ();
 
 		$from = '"'. $U->firstName . ' ' . $U->surname .'" <'. $U->email .'>';
-		$replyTo = $U->email;
-		$oEmail->setHeaders ($from, $replyTo);
+		$oEmail->setHeaders ($from, $from);
 
 		$usernames = \explode (',', \trim (MAIL_ON_CHANGE_USRS));
 		$unamesMail = array();

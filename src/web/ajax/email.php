@@ -18,7 +18,7 @@ try {
 	$U = $oUser->login ($oInput->username, $oInput->password, true);
 
 	$from = '"'. $U->firstName . ' ' . $U->surname .'" <'. $U->email .'>';
-	$replyTo = EMAIL;
+	$replyTo = '"'. SITE_NAME .'" <'. EMAIL .'>';
 	$oEmail->setHeaders ($from, $replyTo);
 
 	$usernames = \explode ("\n", \trim ($oInput->usernames));
