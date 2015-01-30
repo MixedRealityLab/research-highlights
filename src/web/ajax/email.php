@@ -8,35 +8,24 @@
  */
 
 // Send an email to users
-//  1 : Success
-// -1 : Not logged in as admin
-// -2 : Incomplete form
 
-$oSubmissionController = I::RH_Submission_Controller ();
-$oUserController = I::RH_User_Controller ();
-$oPageInput = I::RH_Page_Input ();
-$oUtilsEmail = I::RH_Utils_Email ();
+try {
+	$oSubmission = I::RH_Submission ();
+	$oUser = I::RH_User ();
+	$oInput = I::RH_Page_Input ();
+	$oEmail = I::RH_Utils_Email ();
 
-if (!$oUserController->login (true)) {
-	print '-1';
-	exit;
+	$U = $oUser->login ($oInput->username, $oInput->password, true);
+
+	$from = '"'. $U->firstName . ' ' . $U->surname .'" <'. $U->email .'>';
+	$replyTo = EMAIL;
+	$oEmail->setHeaders ($from, $replyTo);
+
+	$usernames = \explode ("\n", \trim ($oInput->usernames));
+	$subject = $oInput->subject;
+	$message = \nl2br ($oInput->message);
+
+	print $oEmail->sendAll ($usernames, $subject, \strip_tags ($message), $message) ? '1' : '-1';
+} catch (\RH\Error $e) {
+	print $e->toJson ();
 }
-
-if (!isSet ($oPageInput->usernames)
-	|| !isSet ($oPageInput->subject)
-	|| !isSet ($oPageInput->message)) {
-	print '-2';
-	exit;
-}
-
-$oUser = $oUserController->get ();
-
-$from = '"'. $oUser->firstName . ' ' . $oUser->surname .'" <'. $oUser->email .'>';
-$replyTo = EMAIL;
-$oUtilsEmail->setHeaders ($from, $replyTo);
-
-$usernames = \explode ("\n", \trim ($oPageInput->usernames));
-$subject = $oPageInput->subject;
-$message = \nl2br ($oPageInput->message);
-
-print $oUtilsEmail->sendAll ($usernames, $subject, \strip_tags ($message), $message) ? '1' : '-1';

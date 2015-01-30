@@ -9,12 +9,12 @@
 
 // Perform a search
 
-$oPageInput = I::RH_Page_Input ();
-$oUserController = I::RH_User_Controller ();
-$oSubmissionController = I::RH_Submission_Controller ();
+$oInput = I::RH_Page_Input ();
+$oUser = I::RH_User ();
+$oSubmission = I::RH_Submission ();
 
 // if no query, no results...
-if (!isSet ($oPageInput->q)) {
+if (!isSet ($oInput->q)) {
 	print '[]';
 	exit;
 }
@@ -90,14 +90,14 @@ if (!\is_file ($file) || \filemtime ($file) + KEY_CACHE < \date ('U')) {
 	}
 
 	// load all submission data
-	$oUsers = $oUserController->getAll (null, function ($user) {
+	$Us = $oUser->getAll (null, function ($user) {
 		return $user->countSubmission;
 	});
 
 	// catalogue the keywords
-	foreach ($oUsers as $oUser) {
+	foreach ($Us as $oUser) {
 		try {
-			$data = $oSubmissionController->get ($oUser, false);
+			$data = $oSubmission->get ($oUser, false);
 
 			if (!isSet ($data->text)) {
 				continue;
@@ -114,7 +114,7 @@ if (!\is_file ($file) || \filemtime ($file) + KEY_CACHE < \date ('U')) {
 			}
 
 			$text = $oUser->makeSubsts ($data->text);
-			$text = $oSubmissionController->markdownToHtml ($text);
+			$text = $oSubmission->markdownToHtml ($text);
 
 			$tags = array('h1', 'h2', 'h3', 'h4', 'strong', 'em', 'blockquote');
 			foreach ($tags as $tag) {
@@ -136,7 +136,7 @@ $db = \unserialize (\file_get_contents ($file));
 $dbK = \array_keys ($db);
 
 // search database
-$query = $oPageInput->q;
+$query = $oInput->q;
 $qWords = \preg_split ('/ /', $query, -1, PREG_SPLIT_NO_EMPTY);
 $results = array();
 foreach ($qWords as $qWord) {
@@ -167,8 +167,8 @@ foreach ($results as $result) {
 // Collect the relevant submissions and return
 $output = array();
 foreach ($combinedResults as $username => $weight) {
-	$oUser = $oUserController->get ($username);
-	$temp = $oSubmissionController->get ($oUser, false);
+	$U = $oUser->get ($username);
+	$temp = $oSubmission->get ($oUser, false);
 
 	if (isSet ($temp->text)) {
 		$output[] = \array_merge ($temp->toArray (), $oUser->toArray (), array('weight' => $weight));

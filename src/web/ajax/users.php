@@ -9,47 +9,47 @@
 
 // Fetch a list of users (either all, a cohort, or (not) submitted)
 
-$oPageInput = I::RH_Page_Input ();
-$oUserController = I::RH_User_Controller ();
-
-// Fetch a specific cohort?
-if (!isSet ($oPageInput->cohort) || !\is_numeric ($oPageInput->cohort)) {
-	$cohort = null;
-} else {
-	$cohort = $oPageInput->cohort;
-}
-
-// Fetch those who have submitted, or not?
 try {
-	$submitted = $oPageInput->submitted;
-	if ($submitted === '1') {
-		$submitted = true;
-	} else if ($submitted === '0') {
-		$submitted = false;
-	}
-} catch (\RH\Error\NoField $e) {
-	$submitted = null;
-}
+	$oInput = I::RH_Page_Input ();
+	$oUser = I::RH_User ();
 
-// Filter the user list
-$oUsers = $oUserController->getAll (null, function ($oUser) use ($cohort, $submitted) {
-	$oSubmissionController = I::RH_Submission_Controller ();
-
-	$isCohort = \is_null ($cohort) ? true : $oUser->cohort === $cohort;
-	
-	if (\is_null ($submitted)) {
-		$isSubmitted = true;
+	// Fetch a specific cohort?
+	if (!isSet ($oInput->cohort) || !\is_numeric ($oInput->cohort)) {
+		$cohort = null;
 	} else {
-		try {
-			$submission = $oSubmissionController->get ($oUser, false);
-			$isSubmitted = $submitted === true;
-		} catch (\RH\Error\NoSubmission $e) {
-			$isSubmitted = $submitted === false;
-		}
+		$cohort = $oInput->cohort;
 	}
 
-	return $oUser->enabled && $oUser->countSubmission 
-		&& $isCohort && $isSubmitted;
-});
+	// Fetch those who have submitted, or not?
+	try {
+		$submitted = $oInput->submitted;
+		if ($submitted === '1') {
+			$submitted = true;
+		} else if ($submitted === '0') {
+			$submitted = false;
+		}
+	} catch (\RH\Error\NoField $e) {
+		$submitted = null;
+	}
 
-print $oUsers->toArrayJson();
+	// Filter the user list
+	print $oUser->getAll (null, function ($U) use ($cohort, $submitted) {
+		$oSubmission = I::RH_Submission ();
+		$isCohort = \is_null ($cohort) ? true : $U->cohort === $cohort;
+		
+		if (\is_null ($submitted)) {
+			$isSubmitted = true;
+		} else {
+			try {
+				$S = $oSubmission->get ($U, false);
+				$isSubmitted = $submitted === true;
+			} catch (\RH\Error\NoSubmission $e) {
+				$isSubmitted = $submitted === false;
+			}
+		}
+
+		return $U->enabled && $U->countSubmission && $isCohort && $isSubmitted;
+	})->toArrayJson();
+} catch (\RH\Error $e) {
+	print $e->toJson ();
+}

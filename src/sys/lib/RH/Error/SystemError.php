@@ -17,7 +17,7 @@ namespace RH\Error;
  *
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class SystemError extends Error {
+class SystemError extends \RH\Error {
 	
 	/**
 	 * Throw the exception, detailing the cause. This message may be shown to

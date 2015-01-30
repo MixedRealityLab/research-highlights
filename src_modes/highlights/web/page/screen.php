@@ -15,9 +15,9 @@ use PhpOffice\PhpPowerpoint\Style\Color;
 
 // Serve a PowerPoint/ODP of all the tweets submitted
 
-$oSubmissionController = I::RH_Submission_Controller ();
-$oPageInput = I::RH_Page_Input ();
-$oUserController = I::RH_User_Controller ();
+$oSubmission = I::RH_Submission ();
+$oInput = I::RH_Page_Input ();
+$oUser = I::RH_User ();
 
 $oPowerpoint = new PhpPowerpoint ();
 $oPowerpoint->getProperties ()->setCreator (VERSION)
@@ -34,28 +34,28 @@ $oPowerpoint->setLayout ($oLayout);
 $oPowerpoint->removeSlideByIndex (0);
 
 // Which tweets should be displayed?
-if (isSet ($oPageInput->user)) {
-	$oUsers = array ($oUserController->get ($oPageInput->user));
-} else if (isSet ($oPageInput->cohort)) {
-	$cohort = $oPageInput->cohort;
-	$oUsers = $oUserController->getAll (null, function ($user) use ($cohort) {
+if (isSet ($oInput->user)) {
+	$Us = array ($oUser->get ($oInput->user));
+} else if (isSet ($oInput->cohort)) {
+	$cohort = $oInput->cohort;
+	$Us = $oUser->getAll (null, function ($user) use ($cohort) {
 		return $user->countSubmission && $user->cohort === $cohort;
 	});
 } else {
-	$oUsers = $oUserController->getAll (null, function ($user) {
+	$Us = $oUser->getAll (null, function ($user) {
 		return $user->countSubmission;
 	});
 }
 
-$usernames = (\array_keys ($oUsers->getArrayCopy ()));
+$usernames = (\array_keys ($Us->getArrayCopy ()));
 \shuffle ($usernames);
 
 
 // Create slides
 foreach ($usernames as $username) {
-	$oUser = $oUsers->$username;
+	$U = $Us->$username;
 	try {
-		$oSubmission = $oSubmissionController->get ($oUser, false);
+		$s = $oSubmission->get ($oUser, false);
 
 		if (!isSet ($oSubmission->tweet)) {
 			continue;

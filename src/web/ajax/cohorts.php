@@ -9,7 +9,11 @@
 
 // Fetch a list of cohorts
 
-print I::RH_User_Controller ()
-	->getCohorts ()
-	->toArrayJson();
+try {
+	print I::RH_User ()
+		->getCohorts ()
+		->toArrayJson();
+} catch (\RH\Error $e) {
+	print $e->toJson ();
+}
 

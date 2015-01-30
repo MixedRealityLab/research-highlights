@@ -7,9 +7,9 @@
  * See LICENCE for legal information.
  */
 
-$oPageTemplate = I::RH_Page_Template ();
+$oTemplate = I::RH_Page_Template ();
 
-$oPageTemplate->startCapture ();
+$oTemplate->startCapture ();
 
 ?>
 	<div class="jumbotron primary collapse">
@@ -19,6 +19,6 @@ $oPageTemplate->startCapture ();
 	</div>
 <?php
 
-$oPageTemplate->set ('header', true);
-$oPageTemplate->set ('body', $oPageTemplate->endCapture ());
-print $oPageTemplate->load ('2015');
+$oTemplate->set ('header', true);
+$oTemplate->set ('body', $oTemplate->endCapture ());
+print $oTemplate->load ('2015');

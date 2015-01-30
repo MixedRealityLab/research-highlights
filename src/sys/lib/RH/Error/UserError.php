@@ -15,7 +15,7 @@ namespace RH\Error;
  *
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class UserError extends Error {
+class UserError extends \RH\Error {
 	
 	/**
 	 * Throw the exception, detailing the cause. The user may seem this message.

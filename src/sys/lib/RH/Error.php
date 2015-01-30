@@ -7,7 +7,7 @@
  * See LICENCE for legal information.
  */
 
-namespace RH\Error;
+namespace RH;
 
 /**
  * Base RH exception.
@@ -24,7 +24,7 @@ abstract class Error extends \Exception {
 	 * @param string $name JSON object parameter to store the error message.
 	 * @return JSON encoded string.
 	 */
-	public function toJson ($name = "error") {
+	public function toJson ($name = 'error') {
 		return \json_encode (array ($name => $this->getMessage()));
 	}
 	

@@ -10,36 +10,37 @@
 // Save a user's submission
 
 try {
-	$oUserController = I::RH_User_Controller ();
-	$oUser = $oUserController->login ();
+	$oUser = I::RH_User ();
+	$oInput = I::RH_Page_Input ();
 
-	$oSubmissionController = I::RH_Submission_Controller ();
-	$oPageInput = I::RH_Page_Input ();
+	if ($username !== $oInput->saveAs) {
+		$U = $oUser->login ($oInput->username, $oInput->password, true);
+	} else {
+		$U = $oUser->login ($oInput->username, $oInput->password);
+	}
 
-	if (!isSet ($oPageInput->saveAs)) {
+	$oSubmission = I::RH_Submission ();
+
+	if (!isSet ($oInput->saveAs)) {
 		throw new \RH\Error\InvalidInput ('Must provide saveAs attribute');
 	}
 
-	if ($oPageInput->username !== $oPageInput->saveAs) {
-		$oUserController->login (true);
-	}
-
 	// Go ahead and save the submission!
-	if (!isSet ($oPageInput->cohort) && !isSet ($oPageInput->title)
-		&& !isSet ($oPageInput->keywords) && !isSet ($oPageInput->text)) {
+	if (!isSet ($oInput->cohort) && !isSet ($oInput->title)
+		&& !isSet ($oInput->keywords) && !isSet ($oInput->text)) {
 		throw new \RH\Error\InvalidInput ('Missing provide a cohort, title, keywords and your submission text.');
 	}
 
-	$oUser = $oUserController->get ($oPageInput->saveAs);
-	$cohortDir = DIR_DAT . '/' . $oPageInput->cohort;
-	if ($oPageInput->cohort !== $oUser->cohort
-		|| !is_numeric ($oPageInput->cohort) || !is_dir ($cohortDir)) {
+	$U = $oUser->get ($oInput->saveAs);
+	$cohortDir = DIR_DAT . '/' . $oInput->cohort;
+	if ($oInput->cohort !== $U->cohort
+		|| !is_numeric ($oInput->cohort) || !is_dir ($cohortDir)) {
 		throw new \RH\Error\InvalidInput ('Invalid cohort supplied');
 	}
 
-	$oSubmission = new \RH\Submission\Submission ($oPageInput);
+	$S = new \RH\Submission\Submission ($oInput);
 
-	$html = $oSubmissionController->markdownToHtml ($oSubmission->text);
+	$html = $oSubmission->markdownToHtml ($S->text);
 
 	$images = array();
 	\preg_match_all ('/(<img).*(src\s*=\s*("|\')([a-zA-Z0-9\.;:\/\?&=\-_|\r|\n]{1,})\3)/isxmU', $html, $images, PREG_PATTERN_ORDER);
@@ -54,20 +55,43 @@ try {
 
 		$filename = 'img-' . $id++ . '.' . $ext;
 
-		$oSubmission->addImage ($filename, $url);
-		$oSubmission->text = \str_replace ($url, '<imgDir>' . $filename, $oSubmission->text);
+		$S->addImage ($filename, $url);
+		$S->text = \str_replace ($url, '<imgDir>' . $filename, $S->text);
 	}
 
-	$oSubmission->keywords = \strtolower ($oSubmission->keywords);
+	$S->keywords = \strtolower ($S->keywords);
 
-	$oSubmission->website = !\is_null ($oSubmission->website) && $oSubmission->website != 'http://' ? \trim ($oSubmission->website) : '';
-	$oSubmission->twitter = \strlen ($oSubmission->twitter) > 0 && $oSubmission->twitter[0] != '@' ? '@' . $oSubmission->twitter : $oSubmission->twitter;
+	$S->website = !\is_null ($S->website) && $S->website != 'http://' ? \trim ($S->website) : '';
+	$S->twitter = \strlen ($S->twitter) > 0 && $S->twitter[0] != '@' ? '@' . $S->twitter : $S->twitter;
 
-	$oSubmission->save ();
+	$S->save ();
+
+	if (MAIL_ON_CHANGE_USRS !== null) {
+		$oEmail = I::RH_Utils_Email ();
+
+		$from = '"'. $U->firstName . ' ' . $U->surname .'" <'. $U->email .'>';
+		$replyTo = $U->email;
+		$oEmail->setHeaders ($from, $replyTo);
+
+		$usernames = \explode (',', \trim (MAIL_ON_CHANGE_USRS));
+		$unamesMail = array();
+		foreach ($usernames as $username) {
+			$tempU = $oUser->get ($username);
+			if ($tempU->emailOnChange) {
+				$unamesMail[] = $username;
+			}
+		}
+
+		$message = '<strong>Tasks</strong><br>';
+		$message .= '&bull; <a href="' . URI_ROOT . '/#read=<username>" target="_blank">Read submission</a><br>';
+		$message .= '&bull; <a href="' . URI_ROOT . '/login" target="_blank">Edit submission</a> (login and then enter the username <em><username></em> in the bottom left)';
+		$message = $U->makeSubsts ($message);
+		$subject = $U->makeSubsts ($MAIL_ON_CHANGE_SUBJ);
+
+		$oEmail->sendAll ($unamesMail, $subject, \strip_tags ($message), $message) ? '1' : '-1';
+	}
 
 	print \json_encode (array ('success' => '1'));
-} catch (\RH\Error\UserError $e) {
-	print $e->toJson ();
-} catch (\RH\Error\SystemError $e) {
+} catch (\RH\Error $e) {
 	print $e->toJson ();
 }

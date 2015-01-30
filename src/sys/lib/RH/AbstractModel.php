@@ -41,6 +41,24 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	}
 
 	/**
+	 * Fill this model with data from a string, with a numerical offset.
+	 * 
+	 * @param string $str String to extract data from 
+	 * @param string $sep How to separate the data in the field.
+	 * @throws \RH\Error\NoField if the property not found
+	 * @return \RH\AbstractModel
+	 */
+	public function fromString ($str, $sep = ',') {
+		$data = @\explode ($sep, $str);
+		foreach ($data as $k => $v) {
+			$v = \trim ($v);
+			if (!empty ($v)) {
+				$this->$k = $v;
+			}
+		}
+	}
+
+	/**
 	 * Convert an array of `AbstractModel` objects to a 2D array.
 	 * 
 	 * @param AbstractModel[] Objects to convert to arrays
@@ -53,16 +71,6 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 		}
 		return $result;
 	}
-
-	/**
-	 * Convert an array of `AbstractModel` objects to a JSON string.
-	 * 
-	 * @param AbstractModel[] Objects to convert to arrays
-	 * @return string JSON string
-	 */
-	// public static function toJson ($data) {
-	// 	return \json_encode (self::toArrays ($data));
-	// }
 
 	/**
 	 * Convert multiple `AbstractModel` objects to a merged arrays.
@@ -115,6 +123,27 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 			$res[$k] = new $class ($v);
 		}
 		return $res;
+	}
+
+	/**
+	 * Append a second AbstractModel object, adds values with new numerical 
+	 * offsets.
+	 * 
+	 * @param AbstractModel|mixed Another AbstractModel object or array to 
+	 * 	append into this one
+	 * @return This AbstractModel object.
+	 */
+	public function append ($data) {
+		if (is_array ($data) || $data instanceof AbstractModel) {
+			foreach ($data as $k => $v) {
+				$k = $this->count();
+				$this->$k = $v;
+			}
+		} else {
+			parent::append ($data);
+		}
+
+		return $this;
 	}
 
 	/**

@@ -9,16 +9,16 @@
 
 // Fetch all tweets
 
-$oSubmissionController = I::RH_Submission_Controller ();
-$oUserController = I::RH_User_Controller ();
+$oSubmission = I::RH_Submission ();
+$oUser = I::RH_User ();
 
 \header ('Content-Type: text/csv');
 
-$oUsers = $oUserController->getAll ();
-foreach ($oUsers as $oUser) {
+$Us = $oUser->getAll ();
+foreach ($Us as $U) {
 	try {
-		$tweet = $oSubmissionController->get ($oUser, false)->tweet;
-		print $oUser->firstName . ',' . $oUser->surname . ',' . $oUser->email . ',' . $tweet . "\n";
+		$tweet = $oSubmission->get ($u, false)->tweet;
+		print $U->firstName . ',' . $U->surname . ',' . $U->email . ',' . $tweet . "\n";
 	} catch (\RH\Error\NoSubmission $e) {
 	}
 }

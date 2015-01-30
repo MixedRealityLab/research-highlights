@@ -10,10 +10,10 @@
 namespace RH\Submission;
 
 /**
- * List of keywords, and the user submissions which have used then.
+ * A keyword in a submission.
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Keywords extends \RH\AbstractModel {
+class Keyword extends \RH\AbstractModel {
 
 }

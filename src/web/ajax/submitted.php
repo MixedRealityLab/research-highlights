@@ -9,9 +9,10 @@
 
 // Fetch a list of users who have submitted
 
-$oUserController = I::RH_User_Controller ();
-
-print $oUserController->getAll (null, function ($oUser) {
-	return $oUser->latestVersion && $oUser->countSubmission;
-})->toArrayJson();
-
+try {
+	print I::RH_User ()->getAll (null, function ($U) {
+		return $U->latestVersion && $U->countSubmission;
+	})->toArrayJson ();
+} catch (\RH\Error $e) {
+	print $e->toJson ();
+}

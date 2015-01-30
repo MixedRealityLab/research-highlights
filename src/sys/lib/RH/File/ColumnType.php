@@ -35,6 +35,7 @@ abstract class ColumnType {
 	 * @return int Column type flag.
 	 */
 	public static function fromString ($str) {
+		$str = \trim ($str);
 		switch ($str) {
 			case 'bool':
 				return self::BOOL;

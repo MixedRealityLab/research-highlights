@@ -76,22 +76,22 @@ class Email implements \RH\Singleton {
 	 * @return bool `true` if the message was successfully sent
 	 */
 	public function send ($username, $subject, $messageText, $messageHtml) {
-		$oUserController = \I::RH_User_Controller ();
+		$oUser = \I::RH_User ();
 
 		try {
-			$oUser = $oUserController->get ($username);
+			$U = $oUser->get ($username);
 		} catch (\RH\Error\NoUser $e) {
 			return false;
 		}
 
 		try {
-			$mAddress = $oUser->email;
+			$mAddress = $U->email;
 		} catch (\RH\Error\NoField $e) {
 			return false;
 		}
-		$mSubject = $oUser->makeSubsts ($subject);
-		$mMessageText = $oUser->makeSubsts ($messageText, true);
-		$mMessageHtml = $oUser->makeSubsts ($messageHtml, true);
+		$mSubject = $U->makeSubsts ($subject);
+		$mMessageText = $U->makeSubsts ($messageText, true);
+		$mMessageHtml = $U->makeSubsts ($messageHtml, true);
 
 		$mHeaders = $this->headers;
 		$mHeaders['To'] = $mAddress;
@@ -127,8 +127,8 @@ class Email implements \RH\Singleton {
 			return false;
 		}
 
-		foreach ($usernames as $u) {
-			$ret &= $this->send ($u, $subject, $messageText, $messageHtml);
+		foreach ($usernames as $username) {
+			$ret &= $this->send ($username, $subject, $messageText, $messageHtml);
 		}
 
 		return $ret;

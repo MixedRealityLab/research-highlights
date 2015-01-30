@@ -6,7 +6,7 @@
  * See LICENCE for legal information.
  */
 
- var wordCount = 1500;
+var wordCount = 1500;
 var year = 1;
 
 $(function() {

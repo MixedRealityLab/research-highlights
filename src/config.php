@@ -49,6 +49,9 @@
 \define ('MAIL_USER', '');
 \define ('MAIL_PASS', '');
 
+\define ('MAIL_ON_CHANGE_USRS', 'psxmp9');
+\define ('MAIL_ON_CHANGE_SUBJ', '[' . SITE_NAME . '] Submission Updated for <firstName> <surname>');
+
 \define ('KEY_CACHE', 900);
 
 \date_default_timezone_set ('Europe/London');

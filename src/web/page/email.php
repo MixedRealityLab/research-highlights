@@ -7,14 +7,14 @@
  * See LICENCE for legal information.
  */
 
-$oPageTemplate = I::RH_Page_Template ();
-$oUserController = I::RH_User_Controller ();
+$oTemplate = I::RH_Page_Template ();
+$oUser = I::RH_User ();
 
-$oPageTemplate->startCapture ();   
+$oTemplate->startCapture ();   
 
 ?>
 			<div class="visible-xs visible-sm">
-			<div class="alert alert-danger"><div class="container"><div class="row">Your screen is small and this will make editing your input difficult. It is recommended you use a desktop/laptop while sending emails.</div></div></div>
+				<div class="alert alert-danger"><div class="container"><div class="row">Your screen is small and this will make editing your input difficult. It is recommended you use a desktop/laptop while sending emails.</div></div></div>
 			</div>
 			<div class="container main">
 				<div class="row main">
@@ -111,10 +111,10 @@ Many thanks and good luck!</textarea>
 				</div>
 <?php
 
-$oPageTemplate->set ('header', true);
-$oPageTemplate->set ('body', $oPageTemplate->endCapture ());
+$oTemplate->set ('header', true);
+$oTemplate->set ('body', $oTemplate->endCapture ());
 
-$oPageTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
-$oPageTemplate->add ('javascript', URI_WEB . '/js/email' . EXT_JS);
+$oTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
+$oTemplate->add ('javascript', URI_WEB . '/js/email' . EXT_JS);
 
-print $oPageTemplate->load ('2015');
+print $oTemplate->load ('2015');

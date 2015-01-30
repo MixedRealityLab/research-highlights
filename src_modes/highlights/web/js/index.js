@@ -128,12 +128,11 @@ function changeListView (list, onCompleteFn) {
 			success: function (response, textStatus, jqXHR) {
 						var html = '<div class="keywordSidebar">';
 						var colours = ["primary", "success", "info", "warning", "danger"];
-						for (var i = 0; i < response.length; i++) {
-							var data = response[i];
-							var cleanVal = replaceAll(' ', '_', data.name);
-							var size = 1 * data.weight; if(size < .7) size = .7;
-							html += '<a href="" data-keyword="' + cleanVal + '" class="toggleKeyword label label-onlyHover label-' + colours[i % colours.length] + '" style="font-size: ' + size + 'em;" id="keyword-' + cleanVal + '">' + data.name + '</a> ';
-						}
+						var i = 0;
+						$.each(response, function(k,v) {
+							var cleanVal = replaceAll(' ', '%20', k);
+							html += '<a href="" data-keyword="' + k + '" class="toggleKeyword label label-onlyHover label-' + colours[i++ % colours.length] + '"  id="keyword-' + cleanVal + '">' + k + '</a> ';
+						});
 						$('#viewList').html(html + '</div>');
 						$('.toggleKeyword').click(function(e) { e.preventDefault(); toggleKeyword( $(e.target).data('keyword')) });
 						completeFn();
@@ -276,19 +275,22 @@ function firstResponder(hash) {
 		$('.jumbotron').remove();
 
 		changeListView ('keyword', function() {
-			var keywords = hash.replace ('#keywords=', '').split(',');
-			
-			$('.toggleKeyword').each(function(i,elem) {
-				if ($.inArray($(elem).data('keyword'), keywords) > -1) {
-					$(elem).addClass('label-selected');
-				} else {
-					$(elem).removeClass('label-selected');
-				}
-			});
+			var keywords = hash.replace ('#keywords=', '');
+			if (keywords != '') {
+				keywords = replaceAll('%20', ' ', keywords).split(',');
+				
+				$('.toggleKeyword').each(function(i,elem) {
+					if ($.inArray($(elem).data('keyword'), keywords) > -1) {
+						$(elem).addClass('label-selected');
+					} else {
+						$(elem).removeClass('label-selected');
+					}
+				});
 
-			loadPage ('read', hash, 'keywords=' + hash.replace ('#keywords=', ''), function() {
-				showError('Sorry, no submission were found for the keywords supplied.');
-			}, 'Submissions matching the highlighted keywords');
+				loadPage ('read', hash, 'keywords=' + hash.replace ('#keywords=', ''), function() {
+					showError('Sorry, no submission were found for the keywords supplied.');
+				}, 'Submissions matching the highlighted keywords');
+			}
 		});
 		$('#q').val('');
 	} else if (hash.indexOf ('#q') >= 0) {

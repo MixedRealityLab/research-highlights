@@ -7,14 +7,14 @@
  * See LICENCE for legal information.
  */
 
-$oPageTemplate = I::RH_Page_Template ();
+$oTemplate = I::RH_Page_Template ();
 
-$oPageTemplate->add ('css', URI_WEB . '/css/submitted' . EXT_CSS);
+$oTemplate->add ('css', URI_WEB . '/css/submitted' . EXT_CSS);
 
-$oPageTemplate->add ('javascript', URI_SYS . '/js/jquery.ba-hashchange' . EXT_JS);
-$oPageTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
-$oPageTemplate->add ('javascript', URI_WEB . '/js/submitted' . EXT_JS);
+$oTemplate->add ('javascript', URI_SYS . '/js/jquery.ba-hashchange' . EXT_JS);
+$oTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
+$oTemplate->add ('javascript', URI_WEB . '/js/submitted' . EXT_JS);
 
-$oPageTemplate->set ('body', '<div class="loading">Loading, please wait...</div><div class="container submitted"></div>');
+$oTemplate->set ('body', '<div class="loading">Loading, please wait...</div><div class="container submitted"></div>');
 
-print $oPageTemplate->load ('2015');
+print $oTemplate->load ('2015');

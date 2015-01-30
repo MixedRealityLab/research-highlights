@@ -8,6 +8,7 @@
 
 var wordCount = 1500;
 var year = 1;
+var changesMade = false;
 
 function autoResize() {
 	$('.stage-editor textarea').each(function() {$(this).trigger('autosize.resize')});
@@ -110,6 +111,7 @@ $(function() {
 		}
 
 		$('.preview-input').html(response);
+		changesMade = true;
 	});
 
 	ReHi.regSubForm($('form.stage-editor'), '@@@URI_ROOT@@@/do/submit', function (response, textStatus, jqXHR) {
@@ -155,6 +157,7 @@ $(function() {
 	});
 
 	$('#submit').click(function(e) {
+		changedMade = false;
 		e.preventDefault();
 		if ($('#title').val().length == 0) {
 			ReHi.showError('Whoopsie!', 'You need to give your submission a title!');

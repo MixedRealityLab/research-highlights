@@ -9,11 +9,11 @@
 
 // Redirects for the submissions
 
-$oUserController = \I::rh_user_controller ();
+$oUser = \I::rh_user_controller ();
 
 $redirectTo = \substr ($page, 8);
 
-if (!(empty ($redirectTo) && ($ouser = $oUserController->get ($redirectTo)) !== false)) {
+if (!(empty ($redirectTo) && ($ouser = $oUser->get ($redirectTo)) !== false)) {
 	header ('Location: ' . URI_ROOT .'/#read=' . $redirectTo);
 	exit;
 }

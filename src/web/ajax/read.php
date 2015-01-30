@@ -9,69 +9,65 @@
 
 // Fetch all submissions, or a single submission for reading
 
-$oSubmissionController = I::RH_Submission_Controller ();
-$oPageInput = I::RH_Page_Input ();
-$oUserController = I::RH_User_Controller ();
+try {
+	$oSubmission = I::RH_Submission ();
+	$oInput = I::RH_Page_Input ();
+	$oUser = I::RH_User ();
 
-// Get the users for which we want to return their submission
-if (isSet ($oPageInput->user)) {
-	$oUsers = array ($oUserController->get ($oPageInput->user));
+	// Get the users for which we want to return their submission
+	if (isSet ($oInput->user)) {
+		$Us = array ($oUser->get ($oInput->user));
 
-} else if (isSet ($oPageInput->cohort)) {
-	$cohort = $oPageInput->cohort;
-	$oUsers = $oUserController->getAll (null, function ($user) use ($cohort) {
-		return $user->countSubmission && $user->cohort === $cohort;
-	});
+	} else if (isSet ($oInput->cohort)) {
+		$cohort = $oInput->cohort;
+		$Us = $oUser->getAll (null, function ($U) use ($cohort) {
+			return $U->countSubmission && $U->cohort === $cohort;
+		});
 
-} else if (isSet ($oPageInput->keywords)) {
-	// is there a saved copy of all keywords?
-	$keywords = @\explode (',', $oPageInput->keywords);
-	foreach ($keywords as $keyword) {
-		$keywords[] = \str_replace ('_', ' ', $keyword);
-	}
+	} else if (isSet ($oInput->keywords)) {
+		// is there a saved copy of all keywords?
+		$keywords = @\explode (',', $oInput->keywords);
+		$Ks = $oSubmission->getKeywords ();
+		$Us = new \RH\User\Users();
 
-	$allKeywords = $oSubmissionController->getKeywords ()->toArray();
-	$oUsers = array();
-
-	foreach ($keywords as $keyword) {
-		if(!empty ($keyword) && isSet ($allKeywords[$keyword])) {
-			foreach ($allKeywords[$keyword]['users'] as $k => $user) {
-				$oUsers[$user] = $oUserController->get ($user);
+		foreach ($keywords as $keyword) {
+			if(!empty ($keyword) && isSet ($Ks[$keyword])) {
+				$Us->merge ($Ks->$keyword);
 			}
 		}
+
+	} else {
+		$Us = $oUser->getAll (null, function ($U) {
+			return $U->countSubmission;
+		});
 	}
-	$oUsers = \array_values ($oUsers);
 
-} else {
-	$oUsers = $oUserController->getAll (null, function ($user) {
-		return $user->countSubmission;
-	});
-}
+	// Format the submission for output
+	$output = array();
+	foreach ($Us as $U) {
+		try {
+			$S = $oSubmission->get ($U, false);
 
-// Format the submission for output
-$output = array();
-foreach ($oUsers as $oUser) {
-	try {
-		$oSubmission = $oSubmissionController->get ($oUser, false);
-
-		$oSubmission->text = $oUser->makeSubsts ($oSubmission->text);
-	
-		$textMd = $oSubmission->text;
-		$textHtml = !empty ($textMd) ? $oSubmissionController->markdownToHtml ($textMd) : '<em>No text submitted.</em>';
-
-		$refMd = \trim ($oSubmission->references);
-		$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $oSubmissionController->markdownToHtml ($refMd) : '';
+			$S->text = $U->makeSubsts ($S->text);
 		
-		$pubMd = \trim ($oSubmission->publications);
-		$pubHtml = !empty ($pubMd) ? '<h1>Publications in the Last Year</h1>' . $oSubmissionController->markdownToHtml ($pubMd) : '';
+			$textMd = $S->text;
+			$textHtml = !empty ($textMd) ? $oSubmission->markdownToHtml ($textMd) : '<em>No text submitted.</em>';
 
-		$oSubmission->html = $textHtml . $refHtml . $pubHtml;
+			$refMd = \trim ($S->references);
+			$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $oSubmission->markdownToHtml ($refMd) : '';
+			
+			$pubMd = \trim ($S->publications);
+			$pubHtml = !empty ($pubMd) ? '<h1>Publications in the Last Year</h1>' . $oSubmission->markdownToHtml ($pubMd) : '';
 
-		$output[] = \array_merge ($oSubmission->toArray (), $oUser->toArray ());
-	} catch (\RH\Error\NoSubmission $e) {
+			$S->html = $textHtml . $refHtml . $pubHtml;
 
+			$output[] = \array_merge ($S->toArray (), $U->toArray ());
+		} catch (\RH\Error\NoSubmission $e) {
+		}
 	}
-}
 
-print \json_encode ($output);
-exit;
+	print \json_encode ($output);
+	exit;
+} catch (\RH\Error $e) {
+	print $e->toJson ();
+}

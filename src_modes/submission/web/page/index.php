@@ -7,9 +7,9 @@
  * See LICENCE for legal information.
  */
 
-$oPageTemplate = I::RH_Page_Template ();
+$oTemplate = I::RH_Page_Template ();
 
-$oPageTemplate->startCapture ();
+$oTemplate->startCapture ();
 
 ?>
 		<div class="visible-xs visible-sm">
@@ -44,10 +44,10 @@ $oPageTemplate->startCapture ();
 		</div>
 <?php
 
-$oPageTemplate->set ('header', true);
-$oPageTemplate->set ('body', $oPageTemplate->endCapture ());
+$oTemplate->set ('header', true);
+$oTemplate->set ('body', $oTemplate->endCapture ());
 
-$oPageTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
-$oPageTemplate->add ('javascript', URI_WEB . '/js/index' . EXT_JS);
+$oTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
+$oTemplate->add ('javascript', URI_WEB . '/js/index' . EXT_JS);
 
-print $oPageTemplate->load ('2015');
+print $oTemplate->load ('2015');

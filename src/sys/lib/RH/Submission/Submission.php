@@ -33,7 +33,7 @@ class Submission extends \RH\AbstractModel {
 	/**
 	 * Take this submission and make substitutes for the keywords.
 	 * 
-	 * @param \RH\User\User $oUser User to make modifications for.
+	 * @param \RH\User\User $U User to make modifications for.
 	 * @return Submission
 	 */
 	public function makeSubsts (\RH\User\User $oUser) {
@@ -63,7 +63,7 @@ class Submission extends \RH\AbstractModel {
 	 * @throws \RH\Error\System if something went wrong
 	 */
 	public function save () {
-		$ext = Controller::DAT_FILE_SUF;
+		$ext = \RH\Submission::DAT_FILE_SUF;
 		$dir = DIR_DAT . '/' . $this->cohort . '/' . $this->saveAs  . '/' . date ('U') .'/';
 
 		if (@mkdir ($dir, 0777, true) === false) {
@@ -83,6 +83,17 @@ class Submission extends \RH\AbstractModel {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Fetch the model for the keywords.
+	 * 
+	 * @return \RH\Submission\Keywords
+	 */
+	public function getKeywords() {
+		$keywords = new \RH\Submission\Keywords();
+		$keywords->fromString ($this->keywords, ',');
+		return $keywords;
 	}
 
 }

@@ -7,14 +7,14 @@
  * See LICENCE for legal information.
  */
 
-namespace RH\Submission;
+namespace RH;
 
 /**
  * Controller for submissions made by users.
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Controller implements \RH\Singleton {
+class Submission implements \RH\Singleton {
 
 	/** @var string Data file name suffix */
 	const DAT_FILE_SUF = '.txt';
@@ -29,7 +29,7 @@ class Controller implements \RH\Singleton {
 	private $defaultData;
 
 	/**
-	 * @return Submission Default submission template
+	 * @return \RH\Submission\Submission Default submission template
 	 */
 	public function getDefaultData () {
 		if (\is_null ($this->defaultData)) {
@@ -48,7 +48,7 @@ class Controller implements \RH\Singleton {
 			};
 
 			$data = $oFileReader->multiRead (DIR_USR, $readFileFn, $fileNameFn);
-			$this->defaultData = new Submission ($data);
+			$this->defaultData = new \RH\Submission\Submission ($data);
 		}
 
 		return $this->defaultData;
@@ -57,20 +57,20 @@ class Controller implements \RH\Singleton {
 	/**
 	 * Retrieve a user's submission
 	 * 
-	 * @param \RH\User\User $username User's submission to retrieve
+	 * @param \RH\User\User $U User's submission to retrieve
 	 * @param bool $includeDefaults Use the submission template if the user has
 	 * 	not submitted
-	 * @return Submission
+	 * @return \RH\Submission\Submission
 	 * @throws \RH\Error\NoUser if there is no user to retrieve submission for
 	 * @throws \RH\Error\NoSubmission if there is no submission
 	 */
-	public function get (\RH\User\User $oUser, $includeDefaults = true) {
+	public function get (\RH\User\User $U, $includeDefaults = true) {
 		$oFileReader = \I::RH_File_Reader ();
 
 		if ($includeDefaults) {
-			$oSubmission = $this->getDefaultData();
+			$S = $this->getDefaultData();
 		} else {
-			$oSubmission = new Submission ();
+			$S = new \RH\Submission\Submission ();
 		}
 
 		$sufLen = \strlen (self::DEF_FILE_SUF);
@@ -85,7 +85,7 @@ class Controller implements \RH\Singleton {
 
 		$data = array();
 		try {
-			$dir = $oUser->latestSubmission;
+			$dir = $U->latestSubmission;
 			$data = $oFileReader->multiRead ($dir, $readFileFn, $fileNameFn);
 		} catch (\RH\Error\NoField $e) {
 			if (!$includeDefaults) {
@@ -93,74 +93,38 @@ class Controller implements \RH\Singleton {
 			}
 		}
 
-		$oSubmission->merge ($data)->makeSubsts ($oUser);
-
-		return $oSubmission;
+		return $S->merge ($data)->makeSubsts ($U);
 	}
 
 	/**
 	 * Retrieve a list of keywords
 	 * 
-	 * @param string $username User's keywords, or all keywords if `null`
-	 * @param mixed[] $ret Results of the keyword scan
-	 * @param int $total Total number of keywords found
-	 * @return Keywords|null
+	 * @return \RH\Submission\Keywords
 	 */
-	public function getKeywords ($username = null, &$ret = array(), &$total = 0) {
-		$oUserController = \I::RH_User_Controller ();
-
-		// get keywords
-		if (is_null ($username)) {
-			$oUsers = $oUserController->getAll (null, function ($user) {
-				return $user->countSubmission;
-			});
-
-			foreach ($oUsers as $oUser) {
-				if (isSet ($oUser->latestSubmission)) {
-					$this->getKeywords ($oUser->username, $ret, $total);
-				}
-			}
-		} else {
-			$oUser = $oUserController->get ($username);
-
-			if (!isSet ($oUser->latestSubmission)) {
-				return null;
-			}
-
-			$fileName =  $oUser->latestSubmission .'/keywords.txt';
-			$file = @\file_get_contents ($fileName);
-			$keywords = \explode (',', $file);			
-
-			// count keywords
-			foreach ($keywords as $keyword) {
-				$keyword = \trim ($keyword);
-
-				if ($keyword == '') {
-					continue;
-				}
-
-				if (!isSet ($ret[$keyword])) {
-					$ret[$keyword]['name'] = $keyword;
-					$ret[$keyword]['users'] = array();
-					$ret[$keyword]['num'] = 1;
-
-					$colour = \array_shift (\unpack ('L*', $keyword) );
-					$ret[$keyword]['colour'] = dechex ($colour % 16777216);
-				} else {
-					$ret[$keyword]['num']++;
-				}
-
-				$ret[$keyword]['users'][] = $oUser->username;
-				$total++;
-			}
+	public function getKeywords () {
+		$file = DIR_DAT . '/keywords.txt';
+		if (\is_file ($file) && \filemtime ($file) + KEY_CACHE < \date ('U')) {
+			return @\file_get_contents ($file)->unserialize ();
 		}
 
-		// normalise
-		foreach ($ret as $key=>$row) {
-			$ret[$key]['weight'] = $row['num'] / $total;
-		}
+		$oUser = \I::RH_User ();
 
-		return new Keywords ($ret);
+		$Ks = new \RH\Submission\Keywords ();
+		foreach ($oUser->getAll() as $U) {
+			try {
+				$S = $this->get ($U, false);
+				foreach ($S->getKeywords () as $keyword) {
+					if (!isSet ($Ks->$keyword)) {
+						$Ks->$keyword = new \RH\User\Users();
+					}
+					$Ks->$keyword->offsetSet ($U->username, $U);
+				}
+			} catch (\RH\Error\NoSubmission $e) {
+				
+			}
+		}
+		$Ks->ksort ();
+		return $Ks;
 	}
 
 	/**

@@ -8,34 +8,27 @@
  */
 
 // Generate a submission preview from MD to HTML
-// -1 : Not logged in
-// -3 : No details on who to save submission as
-// -5 : Attempting to masquerade when not admin
 
-$oUserController = I::RH_User_Controller ();
-$oPageInput = I::RH_Page_Input ();
+$oUser = I::RH_User ();
+$oInput = I::RH_Page_Input ();
 
 try {
-	$oUser = $oUserController->login ();
+	$U = $oUser->login ($oInput->username, $oInput->password);
 
-	if (!isSet ($oPageInput->saveAs)) {
-		throw new \RH\Error\InvalidInput ('Must provide saveAs attribute.');
+	if ($oInput->username !== $oInput->saveAs) {
+		$oUser->login ($oInput->username, $oInput->password, true);
 	}
-
-	if ($oPageInput->username !== $oPageInput->saveAs) {
-		$oUserController->login (true);
-	}
-} catch (\RH\Error\UserError $e) {
+} catch (\RH\Error $e) {
 	print $e->toJson();
 	exit;
 }
 
-$oSubmissionController = I::RH_Submission_Controller ();
+$oSubmission = I::RH_Submission ();
 
-$textMd = \trim ($oPageInput->text);
-$textHtml = !empty ($textMd) ? $oSubmissionController->markdownToHtml ($textMd) : '<em>No text.</em>';
+$textMd = \trim ($oInput->text);
+$textHtml = !empty ($textMd) ? $oSubmission->markdownToHtml ($textMd) : '<em>No text.</em>';
 
-$refMd = \trim ($oPageInput->references);
-$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $oSubmissionController->markdownToHtml ($refMd) : '';
+$refMd = \trim ($oInput->references);
+$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $oSubmission->markdownToHtml ($refMd) : '';
 
 print $textHtml . $refHtml;

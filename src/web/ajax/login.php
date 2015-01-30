@@ -9,26 +9,25 @@
 
 // Validate login credentials
 
-$oUserController = I::RH_User_Controller ();
-
 try {
-	$oUser = $oUserController->login ();
+	$oInput = I::RH_Page_Input ();
+	$oUser = I::RH_User ();
 
-	$oPageInput = I::RH_Page_Input ();
-	$oSubmissionController = I::RH_Submission_Controller ();
+	$U = $oUser->login ($oInput->username, $oInput->password);
+
+	$oSubmission = I::RH_Submission ();
 
 	// if admin, are we masquerading
-	if ($oUser->admin && isSet ($oPageInput->profile)) {
-		$username = \strtolower ($oPageInput->profile);
-		$oUser = $oUserController->get ($username);
-		$oUserController->overrideLogin ($oUser);
+	if ($U->admin && isSet ($oInput->profile)) {
+		$U = $oUser->get (\strtolower ($oInput->profile));
+		$oUser->overrideLogin ($U);
 	}
 
 	// gather the data to populate the submission form
-	print $oUser
-		->merge ($oSubmissionController->get ($oUser))
+	print $U
+		->merge ($oSubmission->get ($U))
 		->merge (array ('success' => 1))
 		->toJson ();
-} catch (\RH\Error\UserError $e) {
+} catch (\RH\Error $e) {
 	print $e->toJson ();
 }
