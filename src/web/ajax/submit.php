@@ -86,7 +86,7 @@ try {
 		$message .= '&bull; <a href="' . URI_ROOT . '/#read=<username>" target="_blank">Read submission</a><br>';
 		$message .= '&bull; <a href="' . URI_ROOT . '/login" target="_blank">Edit submission</a> (login and then enter the username <em><username></em> in the bottom left)';
 		$message = $U->makeSubsts ($message);
-		$subject = $U->makeSubsts ($MAIL_ON_CHANGE_SUBJ);
+		$subject = $U->makeSubsts (MAIL_ON_CHANGE_SUBJ);
 
 		$oEmail->sendAll ($unamesMail, $subject, \strip_tags ($message), $message) ? '1' : '-1';
 	}
