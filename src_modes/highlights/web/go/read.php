@@ -9,7 +9,7 @@
 
 // Redirects for the submissions
 
-$cUser = \I::rh_user_controller ();
+$cUser = \I::RH_User ();
 
 $redirectTo = \substr ($page, 8);
 
