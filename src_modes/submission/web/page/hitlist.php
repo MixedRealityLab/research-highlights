@@ -7,7 +7,7 @@
  * See LICENCE for legal information.
  */
 
-$oTemplate = I::RH_Page_Template ();
+$oTemplate = I::RH_Template ();
 
 $oTemplate->add ('css', URI_WEB . '/css/hitlist' . EXT_CSS);
 
