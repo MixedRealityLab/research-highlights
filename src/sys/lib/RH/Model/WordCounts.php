@@ -7,13 +7,13 @@
  * See LICENCE for legal information.
  */
 
-namespace RH\Submission;
+namespace RH\Model;
 
 /**
- * List of keywords, and the user submissions which have used then.
+ * List of word counts.
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Keywords extends \RH\AbstractModel {
+class WordCounts extends AbstractModel {
 
 }

@@ -7,14 +7,14 @@
  * See LICENCE for legal information.
  */
 
-namespace RH\Page;
+namespace RH\Model;
 
 /**
  * Class to handle all `REQUEST` data into the website.
  *
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Input extends \RH\AbstractModel implements \RH\Singleton {
+class Input extends AbstractModel implements \RH\Singleton {
 
 	/**
 	 * Construct the `Input` handler by importing the superglobals, and then

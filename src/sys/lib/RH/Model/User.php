@@ -7,20 +7,20 @@
  * See LICENCE for legal information.
  */
 
-namespace RH\User;
+namespace RH\Model;
 
 /**
  * A user within the system.
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class User extends \RH\AbstractModel {
+class User extends AbstractModel {
 
 	/**
 	 * Scan text for keywords that can be replaced.
 	 * 
 	 * @param string $input Input to be scanned
-	 * @param bool @includePassword Include the password in the substitutions
+	 * @param bool $includePassword Include the password in the substitutions
 	 * @return string Output with the substitutions made
 	 */
 	public function makeSubsts ($input, $includePassword = false) {
@@ -49,7 +49,7 @@ class User extends \RH\AbstractModel {
 	/**
 	 * List of possible substitutions.
 	 * 
-	 * @param bool @includePassword Include the password in the substitutions
+	 * @param bool $includePassword Include the password in the substitutions
 	 * @return string[] List of possible substitutions
 	 */
 	public static function substsKeys ($includePassword = false) {

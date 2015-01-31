@@ -11,24 +11,24 @@
 
 try {
 	$oSubmission = I::RH_Submission ();
-	$oInput = I::RH_Page_Input ();
+	$mInput = I::RH_Model_Input ();
 	$oUser = I::RH_User ();
 
 	// Get the users for which we want to return their submission
-	if (isSet ($oInput->user)) {
-		$Us = array ($oUser->get ($oInput->user));
+	if (isSet ($mInput->user)) {
+		$Us = array ($oUser->get ($mInput->user));
 
-	} else if (isSet ($oInput->cohort)) {
-		$cohort = $oInput->cohort;
+	} else if (isSet ($mInput->cohort)) {
+		$cohort = $mInput->cohort;
 		$Us = $oUser->getAll (null, function ($U) use ($cohort) {
 			return $U->countSubmission && $U->cohort === $cohort;
 		});
 
-	} else if (isSet ($oInput->keywords)) {
+	} else if (isSet ($mInput->keywords)) {
 		// is there a saved copy of all keywords?
-		$keywords = @\explode (',', $oInput->keywords);
+		$keywords = @\explode (',', $mInput->keywords);
 		$Ks = $oSubmission->getKeywords ();
-		$Us = new \RH\User\Users();
+		$Us = new \RH\Model\Users();
 
 		foreach ($keywords as $keyword) {
 			if(!empty ($keyword) && isSet ($Ks[$keyword])) {

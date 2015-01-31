@@ -11,34 +11,34 @@
 
 try {
 	$oUser = I::RH_User ();
-	$oInput = I::RH_Page_Input ();
+	$mInput = I::RH_Model_Input ();
 
-	if ($oInput->username !== $oInput->saveAs) {
-		$U = $oUser->login ($oInput->username, $oInput->password, true);
+	if ($mInput->username !== $mInput->saveAs) {
+		$U = $oUser->login ($mInput->username, $mInput->password, true);
 	} else {
-		$U = $oUser->login ($oInput->username, $oInput->password);
+		$U = $oUser->login ($mInput->username, $mInput->password);
 	}
 
 	$oSubmission = I::RH_Submission ();
 
-	if (!isSet ($oInput->saveAs)) {
+	if (!isSet ($mInput->saveAs)) {
 		throw new \RH\Error\InvalidInput ('Must provide saveAs attribute');
 	}
 
 	// Go ahead and save the submission!
-	if (!isSet ($oInput->cohort) && !isSet ($oInput->title)
-		&& !isSet ($oInput->keywords) && !isSet ($oInput->text)) {
+	if (!isSet ($mInput->cohort) && !isSet ($mInput->title)
+		&& !isSet ($mInput->keywords) && !isSet ($mInput->text)) {
 		throw new \RH\Error\InvalidInput ('Missing provide a cohort, title, keywords and your submission text.');
 	}
 
-	$U = $oUser->get ($oInput->saveAs);
-	$cohortDir = DIR_DAT . '/' . $oInput->cohort;
-	if ($oInput->cohort !== $U->cohort
-		|| !is_numeric ($oInput->cohort) || !is_dir ($cohortDir)) {
+	$U = $oUser->get ($mInput->saveAs);
+	$cohortDir = DIR_DAT . '/' . $mInput->cohort;
+	if ($mInput->cohort !== $U->cohort
+		|| !is_numeric ($mInput->cohort) || !is_dir ($cohortDir)) {
 		throw new \RH\Error\InvalidInput ('Invalid cohort supplied');
 	}
 
-	$S = new \RH\Submission\Submission ($oInput);
+	$S = new \RH\Model\Submission ($mInput);
 
 	$html = $oSubmission->markdownToHtml ($S->text);
 

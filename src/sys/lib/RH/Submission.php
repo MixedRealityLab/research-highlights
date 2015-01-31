@@ -29,7 +29,7 @@ class Submission implements \RH\Singleton {
 	private $defaultData;
 
 	/**
-	 * @return \RH\Submission\Submission Default submission template
+	 * @return \RH\Model\Submission Default submission template
 	 */
 	public function getDefaultData () {
 		if (\is_null ($this->defaultData)) {
@@ -48,7 +48,7 @@ class Submission implements \RH\Singleton {
 			};
 
 			$data = $oFileReader->multiRead (DIR_USR, $readFileFn, $fileNameFn);
-			$this->defaultData = new \RH\Submission\Submission ($data);
+			$this->defaultData = new \RH\Model\Submission ($data);
 		}
 
 		return $this->defaultData;
@@ -57,20 +57,20 @@ class Submission implements \RH\Singleton {
 	/**
 	 * Retrieve a user's submission
 	 * 
-	 * @param \RH\User\User $U User's submission to retrieve
+	 * @param \RH\Model\User $U User's submission to retrieve
 	 * @param bool $includeDefaults Use the submission template if the user has
 	 * 	not submitted
-	 * @return \RH\Submission\Submission
+	 * @return \RH\Model\Submission
 	 * @throws \RH\Error\NoUser if there is no user to retrieve submission for
 	 * @throws \RH\Error\NoSubmission if there is no submission
 	 */
-	public function get (\RH\User\User $U, $includeDefaults = true) {
+	public function get (\RH\Model\User $U, $includeDefaults = true) {
 		$oFileReader = \I::RH_File_Reader ();
 
 		if ($includeDefaults) {
 			$S = $this->getDefaultData();
 		} else {
-			$S = new \RH\Submission\Submission ();
+			$S = new \RH\Model\Submission ();
 		}
 
 		$sufLen = \strlen (self::DEF_FILE_SUF);
@@ -99,31 +99,37 @@ class Submission implements \RH\Singleton {
 	/**
 	 * Retrieve a list of keywords
 	 * 
-	 * @return \RH\Submission\Keywords
+	 * @return \RH\Model\Keywords
 	 */
 	public function getKeywords () {
 		$file = DIR_DAT . '/keywords.txt';
+		\clearstatcache (true, $file);
+
+		$Ks = new \RH\Model\Keywords ();
+
 		if (\is_file ($file) && \filemtime ($file) + KEY_CACHE < \date ('U')) {
-			return @\file_get_contents ($file)->unserialize ();
-		}
+			$Us = I::RH_User ()->getAll (null, function ($U) {
+				return $U->latestVersion && $U->countSubmission;
+			});
 
-		$oUser = \I::RH_User ();
-
-		$Ks = new \RH\Submission\Keywords ();
-		foreach ($oUser->getAll() as $U) {
-			try {
-				$S = $this->get ($U, false);
+			foreach ($Us as $U) {
+				$S = $oSubmission->get ($U, false);
 				foreach ($S->getKeywords () as $keyword) {
 					if (!isSet ($Ks->$keyword)) {
-						$Ks->$keyword = new \RH\User\Users();
+						$Ks->$keyword = new \RH\Model\Users();
 					}
 					$Ks->$keyword->offsetSet ($U->username, $U);
 				}
-			} catch (\RH\Error\NoSubmission $e) {
-				
 			}
+			$Ks->ksort ();
+
+			@\file_put_contents ($file, $Ks->serialize ());
+			@\chmod ($file, 0777);
+		} else {
+			$str = @\file_get_contents ($file);
+			$Ks->unserialize ($str);
 		}
-		$Ks->ksort ();
+
 		return $Ks;
 	}
 

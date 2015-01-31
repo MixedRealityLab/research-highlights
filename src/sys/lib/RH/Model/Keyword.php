@@ -7,13 +7,13 @@
  * See LICENCE for legal information.
  */
 
-namespace RH\User;
+namespace RH\Model;
 
 /**
- * List of cohorts.
+ * A keyword in a submission.
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Cohorts extends \RH\AbstractModel {
+class Keyword extends AbstractModel {
 
 }

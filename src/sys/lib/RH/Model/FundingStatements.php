@@ -7,13 +7,13 @@
  * See LICENCE for legal information.
  */
 
-namespace RH\User;
+namespace RH\Model;
 
 /**
- * List of word counts.
+ * List of funding statements.
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class WordCounts extends \RH\AbstractModel {
+class FundingStatements extends AbstractModel {
 
 }

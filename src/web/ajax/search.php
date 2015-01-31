@@ -9,12 +9,12 @@
 
 // Perform a search
 
-$oInput = I::RH_Page_Input ();
+$mInput = I::RH_Model_Input ();
 $oUser = I::RH_User ();
 $oSubmission = I::RH_Submission ();
 
 // if no query, no results...
-if (!isSet ($oInput->q)) {
+if (!isSet ($mInput->q)) {
 	print '[]';
 	exit;
 }
@@ -136,7 +136,7 @@ $db = \unserialize (\file_get_contents ($file));
 $dbK = \array_keys ($db);
 
 // search database
-$query = $oInput->q;
+$query = $mInput->q;
 $qWords = \preg_split ('/ /', $query, -1, PREG_SPLIT_NO_EMPTY);
 $results = array();
 foreach ($qWords as $qWord) {

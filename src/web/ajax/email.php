@@ -12,18 +12,18 @@
 try {
 	$oSubmission = I::RH_Submission ();
 	$oUser = I::RH_User ();
-	$oInput = I::RH_Page_Input ();
+	$mInput = I::RH_Model_Input ();
 	$oEmail = I::RH_Email ();
 
-	$U = $oUser->login ($oInput->username, $oInput->password, true);
+	$U = $oUser->login ($mInput->username, $mInput->password, true);
 
 	$from = '"'. $U->firstName . ' ' . $U->surname .'" <'. $U->email .'>';
 	$replyTo = '"'. SITE_NAME .'" <'. EMAIL .'>';
 	$oEmail->setHeaders ($from, $replyTo);
 
-	$usernames = \explode ("\n", \trim ($oInput->usernames));
-	$subject = $oInput->subject;
-	$message = \nl2br ($oInput->message);
+	$usernames = \explode ("\n", \trim ($mInput->usernames));
+	$subject = $mInput->subject;
+	$message = \nl2br ($mInput->message);
 
 	print $oEmail->sendAll ($usernames, $subject, \strip_tags ($message), $message) ? '1' : '-1';
 } catch (\RH\Error $e) {

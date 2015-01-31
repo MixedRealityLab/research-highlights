@@ -7,13 +7,13 @@
  * See LICENCE for legal information.
  */
 
-namespace RH\User;
+namespace RH\Model;
 
 /**
- * List of funding statements.
+ * An image within a submission.
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class FundingStatements extends \RH\AbstractModel {
+class Image extends AbstractModel {
 
 }

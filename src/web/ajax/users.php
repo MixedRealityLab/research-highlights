@@ -10,19 +10,19 @@
 // Fetch a list of users (either all, a cohort, or (not) submitted)
 
 try {
-	$oInput = I::RH_Page_Input ();
+	$mInput = I::RH_Model_Input ();
 	$oUser = I::RH_User ();
 
 	// Fetch a specific cohort?
-	if (!isSet ($oInput->cohort) || !\is_numeric ($oInput->cohort)) {
+	if (!isSet ($mInput->cohort) || !\is_numeric ($mInput->cohort)) {
 		$cohort = null;
 	} else {
-		$cohort = $oInput->cohort;
+		$cohort = $mInput->cohort;
 	}
 
 	// Fetch those who have submitted, or not?
 	try {
-		$submitted = $oInput->submitted;
+		$submitted = $mInput->submitted;
 		if ($submitted === '1') {
 			$submitted = true;
 		} else if ($submitted === '0') {

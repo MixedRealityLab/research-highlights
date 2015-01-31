@@ -7,13 +7,13 @@
  * See LICENCE for legal information.
  */
 
-namespace RH\Submission;
+namespace RH\Model;
 
 /**
- * A n image within a submission;
+ * List of cohorts.
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Image extends \RH\AbstractModel {
+class Cohorts extends AbstractModel {
 
 }

@@ -10,16 +10,16 @@
 // Validate login credentials
 
 try {
-	$oInput = I::RH_Page_Input ();
+	$mInput = I::RH_Model_Input ();
 	$oUser = I::RH_User ();
 
-	$U = $oUser->login ($oInput->username, $oInput->password);
+	$U = $oUser->login ($mInput->username, $mInput->password);
 
 	$oSubmission = I::RH_Submission ();
 
 	// if admin, are we masquerading
-	if ($U->admin && isSet ($oInput->profile)) {
-		$U = $oUser->get (\strtolower ($oInput->profile));
+	if ($U->admin && isSet ($mInput->profile)) {
+		$U = $oUser->get (\strtolower ($mInput->profile));
 		$oUser->overrideLogin ($U);
 	}
 

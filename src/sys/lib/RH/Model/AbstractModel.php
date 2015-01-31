@@ -7,7 +7,7 @@
  * See LICENCE for legal information.
  */
 
-namespace RH;
+namespace RH\Model;
 
 /**
  * Data storage model.
@@ -20,7 +20,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	 * Construct the data object, with initial data values, if any.
 	 * 
 	 * @param mixed[] $data Data to construct initial object with
-	 * @return New AbstractModel
+	 * @return \RH\Model\AbstractModel
 	 */
 	public function __construct ($data = array()) {
 		return parent::__construct ($data);
@@ -46,7 +46,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	 * @param string $str String to extract data from 
 	 * @param string $sep How to separate the data in the field.
 	 * @throws \RH\Error\NoField if the property not found
-	 * @return \RH\AbstractModel
+	 * @return \RH\Model\AbstractModel
 	 */
 	public function fromString ($str, $sep = ',') {
 		$data = @\explode ($sep, $str);
@@ -61,7 +61,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	/**
 	 * Convert an array of `AbstractModel` objects to a 2D array.
 	 * 
-	 * @param AbstractModel[] Objects to convert to arrays
+	 * @param \RH\Model\AbstractModel[] Objects to convert to arrays
 	 * @return mixed[][] 2D array of data
 	 */
 	public static function toArrays ($data) {
@@ -75,13 +75,13 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	/**
 	 * Convert multiple `AbstractModel` objects to a merged arrays.
 	 * 
-	 * @return AbstractModel[] Combined arrays
+	 * @return \RH\Model\AbstractModel[] Combined arrays
 	 */
 	public static function mergeArrays () {
 		$args = \func_get_args ();
 		$arrArgs = array();
 		foreach ($args as $arg) {
-			if ($arg instanceof \RH\AbstractModel) {
+			if ($arg instanceof AbstractModel) {
 				$arrArgs = \array_merge ($arrArgs, $arg->toArray());
 			} else if (\is_array ($arg)) {
 				$arrArgs = \array_merge ($arrArgs, $arg);
@@ -100,7 +100,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 		$args = \func_get_args ();
 		$arrArgs = array();
 		foreach ($args as $arg) {
-			if ($arg instanceof \RH\AbstractModel) {
+			if ($arg instanceof AbstractModel) {
 				$arrArgs = \array_merge ($arrArgs, $arg->toArray());
 			} else if (\is_array ($arg)) {
 				$arrArgs = \array_merge ($arrArgs, $arg);
@@ -114,7 +114,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	 * Convert a 2D array to an array of `AbstractModel` objects.
 	 * 
 	 * @param mixed[][] Arrays to convert to array of AbstractModels
-	 * @return AbstractModel[] Array of data
+	 * @return \RH\Model\AbstractModel[] Array of data
 	 */
 	public static function fromArrays ($data) {
 		$res = array();
@@ -129,9 +129,9 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	 * Append a second AbstractModel object, adds values with new numerical 
 	 * offsets.
 	 * 
-	 * @param AbstractModel|mixed Another AbstractModel object or array to 
+	 * @param \RH\Model\AbstractModel|mixed Another AbstractModel object or array to 
 	 * 	append into this one
-	 * @return This AbstractModel object.
+	 * @return \RH\Model\AbstractModel thisßobject
 	 */
 	public function append ($data) {
 		if (is_array ($data) || $data instanceof AbstractModel) {
@@ -149,9 +149,9 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	/**
 	 * Merge a second AbstractModel object, overwriting any existing values;
 	 * 
-	 * @param Traversable|mixed[] Another AbstractModel object or array to merge into 
-	 * 	this one
-	 * @return This AbstractModel object.
+	 * @param \RH\Model\AbstractModel|mixed[] Another AbstractModel object or 
+	 * 	array to merge into this one
+	 * @return \RH\Model\AbstractModel this object
 	 */
 	public function merge ($data) {
 		foreach ($data as $k => $v) {
@@ -166,7 +166,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	 * 
 	 * @param function $filterFn Filter function that takes one parameter (the 
 	 * 	data property) and returns a boolean value.
-	 * @return modified AbstractModel
+	 * @return \RH\Model\AbstractModel
 	 */
 	public function filter ($filterFn) {
 		$unset = array(); $i = $this->count() - 1;

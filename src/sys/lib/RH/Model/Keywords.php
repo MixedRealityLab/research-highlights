@@ -7,13 +7,13 @@
  * See LICENCE for legal information.
  */
 
-namespace RH\Submission;
+namespace RH\Model;
 
 /**
- * A keyword in a submission.
+ * List of keywords, and the user submissions which have used then.
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Keyword extends \RH\AbstractModel {
+class Keywords extends AbstractModel {
 
 }

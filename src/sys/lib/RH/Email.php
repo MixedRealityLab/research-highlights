@@ -7,7 +7,7 @@
  * See LICENCE for legal information.
  */
 
-namespace RH\Utils;
+namespace RH;
 
 /**
  * Send emails to users within the system using PEAR's `Mail_mime`.
@@ -65,7 +65,7 @@ class Email implements \RH\Singleton {
 	/**
 	 * Send an email to a user
 	 * 
-	 * @see RH\User\Model::makeSubsts()
+	 * @see \RH\User\Model::makeSubsts()
 	 * @param string $username Username to whom the email should be sent
 	 * @param string $subject Subject of the email, substitutions are made for 
 	 * 	user keywords.
@@ -110,7 +110,7 @@ class Email implements \RH\Singleton {
 	/**
 	 * Send an email to multiple users.
 	 * 
-	 * @see CDT\User\Model::makeSubsts()
+	 * @see \RH\User\Model::makeSubsts()
 	 * @param string[] $usernames Usernames to whom the email should be sent
 	 * @param string $subject Subject of the email, substitutions are made for 
 	 * 	system keywords, per user.

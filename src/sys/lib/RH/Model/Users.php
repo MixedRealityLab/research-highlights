@@ -7,20 +7,20 @@
  * See LICENCE for legal information.
  */
 
-namespace RH\User;
+namespace RH\Model;
 
 /**
  * A list of users.
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Users extends \RH\AbstractModel {
+class Users extends AbstractModel {
 
 	/**
 	 * Create a new user within this list.
 	 * 
 	 * @param mixed $value Value of the user data.
-	 * @return \RH\User\User New User object.
+	 * @return \RH\Model\User New User object.
 	 */
 	protected function newChild ($value) {
 		return new User ($value);

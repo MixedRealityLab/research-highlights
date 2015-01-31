@@ -7,14 +7,14 @@
  * See LICENCE for legal information.
  */
 
-namespace RH\Submission;
+namespace RH\Model;
 
 /**
  * A user's submission.
  * 
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Submission extends \RH\AbstractModel {
+class Submission extends AbstractModel {
 
 	/** @var Images List of Images in the Submission to save */
 	private $images;
@@ -23,7 +23,7 @@ class Submission extends \RH\AbstractModel {
 	 * Construct the data object, with initial data values, if any.
 	 * 
 	 * @param mixed[] $data Data to construct initial object with
-	 * @return New AbstractModel
+	 * @return \RH\Model\Submission
 	 */
 	public function __construct($data = array()) {
 		parent::__construct ($data);
@@ -33,10 +33,10 @@ class Submission extends \RH\AbstractModel {
 	/**
 	 * Take this submission and make substitutes for the keywords.
 	 * 
-	 * @param \RH\User\User $U User to make modifications for.
-	 * @return Submission
+	 * @param \RH\Model\User $U User to make modifications for.
+	 * @return \RH\Model\Submission
 	 */
-	public function makeSubsts (\RH\User\User $oUser) {
+	public function makeSubsts (\RH\Model\User $oUser) {
 		foreach ($this as $key => $value) {
 			 $this->$key = $oUser->makeSubsts ($value);
 		}
@@ -88,10 +88,10 @@ class Submission extends \RH\AbstractModel {
 	/**
 	 * Fetch the model for the keywords.
 	 * 
-	 * @return \RH\Submission\Keywords
+	 * @return \RH\Model\Keywords
 	 */
 	public function getKeywords() {
-		$keywords = new \RH\Submission\Keywords();
+		$keywords = new \RH\Model\Keywords();
 		$keywords->fromString ($this->keywords, ',');
 		return $keywords;
 	}

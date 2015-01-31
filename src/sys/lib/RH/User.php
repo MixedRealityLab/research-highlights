@@ -31,24 +31,24 @@ class User implements \RH\Singleton {
 	/** @var string File name for submission deadlines */
 	const DEADLINES_FILE = '/deadlines.txt';
 
-	/** @var User Currently logged in user */
+	/** @var \RH\Model\User Currently logged in user */
 	private $user = null;
 
-	/** @var Users Cache of user details */
+	/** @var \RH\Model\Users Cache of user details */
 	private $userCache;
 
-	/** @var FundingStatements Cache of funding statements */
+	/** @var \RH\Model\FundingStatements Cache of funding statements */
 	private $fundingCache;
 
-	/** @var Deadlines Cache of deadline statements */
+	/** @var \RH\Model\Deadlines Cache of deadline statements */
 	private $deadlineCache;
 
-	/** @var WordCounts Cache of word counts */
+	/** @var \RH\Model\WordCounts Cache of word counts */
 	private $wordCountCache;
 
 	/** Construct the User model */
 	public function __construct() {
-		$this->userCache = new \RH\User\Users();
+		$this->userCache = new \RH\Model\Users();
 	}
 
 	/**
@@ -57,7 +57,7 @@ class User implements \RH\Singleton {
 	 * @param string $username Username to login with.
 	 * @param string $password Password to use to login with.
 	 * @param bool $requireAdmin if `true`, is an administrator account required
-	 * @return the \RH\User\User object
+	 * @return the \RH\Model\User object
 	 * @throws \RH\Error\NoUser if the account is disabled
 	 * @throws \RH\Error\NotAuthorised if an admin account is required and the 
 	 * 	login request is for a non-admin account
@@ -97,10 +97,10 @@ class User implements \RH\Singleton {
 	 * @throws \RH\Error\NotAuthorised if an admin account is required and the 
 	 * 	login request is for a non-admin account
 	 * @throws \RH\Error\NoUser if the account is disabled
-	 * @return User new User object
+	 * @return \RH\Model\User new User object
 	 */
-	public function overrideLogin (\RH\User\User $U) {
-		$oInput = \I::RH_Page_Input ();
+	public function overrideLogin (\RH\Model\User $U) {
+		$mInput = \I::RH_Model_Input ();
 
 		if (!isSet ($this->user->admin)) {
 			throw new \RH\Error\NotAuthorised();
@@ -119,7 +119,7 @@ class User implements \RH\Singleton {
 	 * @param string|null $user User to retrieve full details for, or 
 	 * 	if `null`, retrieve the currently logged in user, or if a User object,
 	 * 	the function will return this object.
-	 * @return User Details of the user
+	 * @return \RH\Model\User Details of the user
 	 */
 	public function get ($user = null) {
 		if (\is_null ($user)) {
@@ -159,7 +159,7 @@ class User implements \RH\Singleton {
 	 * 	sort by cohort, then sort by name
 	 * @param function|null $filterFn How to filter the user list; if `null`, all
 	 * 	users are included
-	 * @return Users Data on all requested users.
+	 * @return \RH\Model\Users Data on all requested users.
 	 */
 	public function getAll ($sortFn = null, $filterFn = null) {
 		if (\is_null ($sortFn)) {
@@ -219,7 +219,7 @@ class User implements \RH\Singleton {
 		}
 
 		$Us = $this->getAll ();
-		$cohorts = new \RH\User\Cohorts();
+		$cohorts = new \RH\Model\Cohorts();
 		foreach ($Us as $U) {
 			$cohort = $U->cohort;
 			if (!isSet ($cohorts->$cohort)) {
@@ -239,7 +239,7 @@ class User implements \RH\Singleton {
 	 * @param string $file File to get the user's data from.
 	 * @param string $username Username of the user to retrieve, or `null` to 
 	 * 	get all users in the file.
-	 * @return Users|User Details of the user(s).
+	 * @return \RH\Model\Users|\RH\Model\User Details of the user(s).
 	 */
 	private function getData ($file, $username = null) {
 		$oFileReader = \I::RH_File_Reader ();
@@ -263,8 +263,8 @@ class User implements \RH\Singleton {
 
 		$data = $oFileReader->read (DIR_USR . $file, 'username', $readRowFn, $calcValuesFn);
 		return \is_null ($username) || empty ($data)
-			? new \RH\User\Users ($data)
-			: new \RH\User\User (\array_pop ($data));
+			? new \RH\Model\Users ($data)
+			: new \RH\Model\User (\array_pop ($data));
 	}
 
 	/**
@@ -274,11 +274,11 @@ class User implements \RH\Singleton {
 	 * 	for, if `null`, gets the currently logged in user
 	 * @return string Word count of the user
 	 */
-	private function getWordCount (\RH\User\User $U = null) {
+	private function getWordCount (\RH\Model\User $U = null) {
 		if (\is_null ($this->wordCountCache)) {
 			$oFileReader = \I::RH_File_Reader ();
 			$data = $oFileReader->read (DIR_USR . self::WORD_COUNT_FILE, 'cohort');
-			$this->wordCountCache = new \RH\User\WordCounts ($data);
+			$this->wordCountCache = new \RH\Model\WordCounts ($data);
 		}
 
 		$cohort = \is_null ($U)
@@ -295,11 +295,11 @@ class User implements \RH\Singleton {
 	 * 	`null`, gets the currently logged in user
 	 * @return string Funding statement of the user
 	 */
-	private function getFunding (\RH\User\User $U = null) {
+	private function getFunding (\RH\Model\User $U = null) {
 		if (\is_null ($this->fundingCache)) {
 			$oFileReader = \I::RH_File_Reader ();
 			$data = $oFileReader->read (DIR_USR . self::FUNDING_FILE, 'fundingStatementId');
-			$this->fundingCache = new \RH\User\FundingStatements ($data);
+			$this->fundingCache = new \RH\Model\FundingStatements ($data);
 		}
 
 		$id = \is_null ($U)
@@ -316,11 +316,11 @@ class User implements \RH\Singleton {
 	 * 	gets the currently logged in user
 	 * @return string Deadline of the user
 	 */
-	private function getDeadline (\RH\User\User $U = null) {
+	private function getDeadline (\RH\Model\User $U = null) {
 		if (\is_null ($this->deadlineCache)) {
 			$oFileReader = \I::RH_File_Reader ();
 			$data = $oFileReader->read (DIR_USR . self::DEADLINES_FILE, 'cohort');
-			$this->deadlineCache = new \RH\User\Deadlines ($data);
+			$this->deadlineCache = new \RH\Model\Deadlines ($data);
 		}
 
 		$cohort = \is_null ($U)

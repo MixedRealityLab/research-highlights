@@ -16,7 +16,7 @@ use PhpOffice\PhpPowerpoint\Style\Color;
 // Serve a PowerPoint/ODP of all the tweets submitted
 
 $oSubmission = I::RH_Submission ();
-$oInput = I::RH_Page_Input ();
+$mInput = I::RH_Model_Input ();
 $oUser = I::RH_User ();
 
 $oPowerpoint = new PhpPowerpoint ();
@@ -34,10 +34,10 @@ $oPowerpoint->setLayout ($oLayout);
 $oPowerpoint->removeSlideByIndex (0);
 
 // Which tweets should be displayed?
-if (isSet ($oInput->user)) {
-	$Us = array ($oUser->get ($oInput->user));
-} else if (isSet ($oInput->cohort)) {
-	$cohort = $oInput->cohort;
+if (isSet ($mInput->user)) {
+	$Us = array ($oUser->get ($mInput->user));
+} else if (isSet ($mInput->cohort)) {
+	$cohort = $mInput->cohort;
 	$Us = $oUser->getAll (null, function ($user) use ($cohort) {
 		return $user->countSubmission && $user->cohort === $cohort;
 	});

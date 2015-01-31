@@ -7,7 +7,7 @@
  * See LICENCE for legal information.
  */
 
-namespace RH\Page;
+namespace RH;
 
 /**
  * Class responsible for assisting with templating.
