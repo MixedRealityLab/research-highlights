@@ -35,29 +35,29 @@ $oPowerpoint->removeSlideByIndex (0);
 
 // Which tweets should be displayed?
 if (isSet ($mInput->user)) {
-	$Us = array ($oUser->get ($mInput->user));
+	$mUsers = array ($oUser->get ($mInput->user));
 } else if (isSet ($mInput->cohort)) {
 	$cohort = $mInput->cohort;
-	$Us = $oUser->getAll (null, function ($user) use ($cohort) {
+	$mUsers = $oUser->getAll (null, function ($user) use ($cohort) {
 		return $user->countSubmission && $user->cohort === $cohort;
 	});
 } else {
-	$Us = $oUser->getAll (null, function ($user) {
+	$mUsers = $oUser->getAll (null, function ($user) {
 		return $user->countSubmission;
 	});
 }
 
-$usernames = (\array_keys ($Us->getArrayCopy ()));
+$usernames = (\array_keys ($mUsers->getArrayCopy ()));
 \shuffle ($usernames);
 
 
 // Create slides
 foreach ($usernames as $username) {
-	$U = $Us->$username;
+	$mUser = $mUsers->$username;
 	try {
-		$s = $oSubmission->get ($oUser, false);
+		$mSubmission = $oSubmission->get ($oUser, false);
 
-		if (!isSet ($oSubmission->tweet)) {
+		if (!isSet ($mSubmission->tweet)) {
 			continue;
 		}
 
@@ -83,7 +83,7 @@ foreach ($usernames as $username) {
 		$shape->getActiveParagraph()->getAlignment()
 				->setHorizontal (Alignment::HORIZONTAL_LEFT)
 				->setVertical (Alignment::VERTICAL_BOTTOM);
-		$tweet = $shape->createTextRun ($oSubmission->tweet);
+		$tweet = $shape->createTextRun ($mSubmission->tweet);
 		$tweet->getFont()->setBold (false)
 				->setName('Helvetica Neue')
 				->setSize (30)
@@ -92,7 +92,7 @@ foreach ($usernames as $username) {
 		$line = $slide->createLineShape(40, 360, 915, 360);
 		$line->getBorder()->setColor (new Color ('FF000000'));
 
-		$name = $oUser->firstName . ' ' . $oUser->surname . ' (' . $oUser->cohort . ' cohort)';
+		$name = $mUser->firstName . ' ' . $mUser->surname . ' (' . $mUser->cohort . ' cohort)';
 
 		$shape = $slide->createRichTextShape()
 			->setHeight(50)
@@ -110,7 +110,7 @@ foreach ($usernames as $username) {
 				->setSize (14)
 				->setColor (new Color ('FF333333'));
 
-		$link = 'find out more at ' . URI_HOME . '/go/read/' . $oUser->username;
+		$link = 'find out more at ' . URI_HOME . '/go/read/' . $mUser->username;
 		$shape = $slide->createRichTextShape()
 			->setHeight(50)
 			->setWidth(881)

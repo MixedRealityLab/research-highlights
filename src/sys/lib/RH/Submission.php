@@ -57,20 +57,20 @@ class Submission implements \RH\Singleton {
 	/**
 	 * Retrieve a user's submission
 	 * 
-	 * @param \RH\Model\User $U User's submission to retrieve
+	 * @param \RH\Model\User $mUser User's submission to retrieve
 	 * @param bool $includeDefaults Use the submission template if the user has
 	 * 	not submitted
 	 * @return \RH\Model\Submission
 	 * @throws \RH\Error\NoUser if there is no user to retrieve submission for
 	 * @throws \RH\Error\NoSubmission if there is no submission
 	 */
-	public function get (\RH\Model\User $U, $includeDefaults = true) {
+	public function get (\RH\Model\User $mUser, $includeDefaults = true) {
 		$oFileReader = \I::RH_File_Reader ();
 
 		if ($includeDefaults) {
-			$S = $this->getDefaultData();
+			$mSubmission = $this->getDefaultData();
 		} else {
-			$S = new \RH\Model\Submission ();
+			$mSubmission = new \RH\Model\Submission ();
 		}
 
 		$sufLen = \strlen (self::DEF_FILE_SUF);
@@ -85,7 +85,7 @@ class Submission implements \RH\Singleton {
 
 		$data = array();
 		try {
-			$dir = $U->latestSubmission;
+			$dir = $mUser->latestSubmission;
 			$data = $oFileReader->multiRead ($dir, $readFileFn, $fileNameFn);
 		} catch (\RH\Error\NoField $e) {
 			if (!$includeDefaults) {
@@ -93,7 +93,7 @@ class Submission implements \RH\Singleton {
 			}
 		}
 
-		return $S->merge ($data)->makeSubsts ($U);
+		return $mSubmission->merge ($data)->makeSubsts ($mUser);
 	}
 
 	/**
@@ -105,32 +105,32 @@ class Submission implements \RH\Singleton {
 		$file = DIR_DAT . '/keywords.txt';
 		\clearstatcache (true, $file);
 
-		$Ks = new \RH\Model\Keywords ();
+		$mKeywords = new \RH\Model\Keywords ();
 
 		if (\is_file ($file) && \filemtime ($file) + KEY_CACHE < \date ('U')) {
-			$Us = I::RH_User ()->getAll (null, function ($U) {
-				return $U->latestVersion && $U->countSubmission;
+			$mUsers = I::RH_User ()->getAll (null, function ($mUser) {
+				return $mUser->latestVersion && $mUser->countSubmission;
 			});
 
-			foreach ($Us as $U) {
-				$S = $oSubmission->get ($U, false);
-				foreach ($S->getKeywords () as $keyword) {
-					if (!isSet ($Ks->$keyword)) {
-						$Ks->$keyword = new \RH\Model\Users();
+			foreach ($mUsers as $mUser) {
+				$mSubmission = $oSubmission->get ($mUser, false);
+				foreach ($mSubmission->getKeywords () as $keyword) {
+					if (!isSet ($mKeywords->$keyword)) {
+						$mKeywords->$keyword = new \RH\Model\Users();
 					}
-					$Ks->$keyword->offsetSet ($U->username, $U);
+					$mKeywords->$keyword->offsetSet ($mUser->username, $mUser);
 				}
 			}
-			$Ks->ksort ();
+			$mKeywords->ksort ();
 
-			@\file_put_contents ($file, $Ks->serialize ());
+			@\file_put_contents ($file, $mKeywords->serialize ());
 			@\chmod ($file, 0777);
 		} else {
 			$str = @\file_get_contents ($file);
-			$Ks->unserialize ($str);
+			$mKeywords->unserialize ($str);
 		}
 
-		return $Ks;
+		return $mKeywords;
 	}
 
 	/**

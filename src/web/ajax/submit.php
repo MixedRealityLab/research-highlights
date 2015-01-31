@@ -14,9 +14,9 @@ try {
 	$mInput = I::RH_Model_Input ();
 
 	if ($mInput->username !== $mInput->saveAs) {
-		$U = $oUser->login ($mInput->username, $mInput->password, true);
+		$mUser = $oUser->login ($mInput->username, $mInput->password, true);
 	} else {
-		$U = $oUser->login ($mInput->username, $mInput->password);
+		$mUser = $oUser->login ($mInput->username, $mInput->password);
 	}
 
 	$oSubmission = I::RH_Submission ();
@@ -31,16 +31,16 @@ try {
 		throw new \RH\Error\InvalidInput ('Missing provide a cohort, title, keywords and your submission text.');
 	}
 
-	$U = $oUser->get ($mInput->saveAs);
+	$mUser = $oUser->get ($mInput->saveAs);
 	$cohortDir = DIR_DAT . '/' . $mInput->cohort;
-	if ($mInput->cohort !== $U->cohort
+	if ($mInput->cohort !== $mUser->cohort
 		|| !is_numeric ($mInput->cohort) || !is_dir ($cohortDir)) {
 		throw new \RH\Error\InvalidInput ('Invalid cohort supplied');
 	}
 
-	$S = new \RH\Model\Submission ($mInput);
+	$mSubmission = new \RH\Model\Submission ($mInput);
 
-	$html = $oSubmission->markdownToHtml ($S->text);
+	$html = $oSubmission->markdownToHtml ($mSubmission->text);
 
 	$images = array();
 	\preg_match_all ('/(<img).*(src\s*=\s*("|\')([a-zA-Z0-9\.;:\/\?&=\-_|\r|\n]{1,})\3)/isxmU', $html, $images, PREG_PATTERN_ORDER);
@@ -55,21 +55,21 @@ try {
 
 		$filename = 'img-' . $id++ . '.' . $ext;
 
-		$S->addImage ($filename, $url);
-		$S->text = \str_replace ($url, '<imgDir>' . $filename, $S->text);
+		$mSubmission->addImage ($filename, $url);
+		$mSubmission->text = \str_replace ($url, '<imgDir>' . $filename, $mSubmission->text);
 	}
 
-	$S->keywords = \strtolower ($S->keywords);
+	$mSubmission->keywords = \strtolower ($mSubmission->keywords);
 
-	$S->website = !\is_null ($S->website) && $S->website != 'http://' ? \trim ($S->website) : '';
-	$S->twitter = \strlen ($S->twitter) > 0 && $S->twitter[0] != '@' ? '@' . $S->twitter : $S->twitter;
+	$mSubmission->website = !\is_null ($mSubmission->website) && $mSubmission->website != 'http://' ? \trim ($mSubmission->website) : '';
+	$mSubmission->twitter = \strlen ($mSubmission->twitter) > 0 && $mSubmission->twitter[0] != '@' ? '@' . $mSubmission->twitter : $mSubmission->twitter;
 
-	$S->save ();
+	$mSubmission->save ();
 
 	if (MAIL_ON_CHANGE_USRS !== null) {
 		$oEmail = I::RH_Email ();
 
-		$from = '"'. $U->firstName . ' ' . $U->surname .'" <'. $U->email .'>';
+		$from = '"'. $mUser->firstName . ' ' . $mUser->surname .'" <'. $mUser->email .'>';
 		$oEmail->setHeaders ($from, $from);
 
 		$usernames = \explode (',', \trim (MAIL_ON_CHANGE_USRS));
@@ -84,8 +84,8 @@ try {
 		$message = '<strong>Tasks</strong><br>';
 		$message .= '&bull; <a href="' . URI_ROOT . '/#read=<username>" target="_blank">Read submission</a><br>';
 		$message .= '&bull; <a href="' . URI_ROOT . '/login" target="_blank">Edit submission</a> (login and then enter the username <em><username></em> in the bottom left)';
-		$message = $U->makeSubsts ($message);
-		$subject = $U->makeSubsts (MAIL_ON_CHANGE_SUBJ);
+		$message = $mUser->makeSubsts ($message);
+		$subject = $mUser->makeSubsts (MAIL_ON_CHANGE_SUBJ);
 
 		$message .= '<br><br><strong>Account Details</strong><br>Username: <em><username></em><br>Password: <em><password></em>';
 

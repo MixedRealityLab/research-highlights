@@ -13,19 +13,19 @@ try {
 	$mInput = I::RH_Model_Input ();
 	$oUser = I::RH_User ();
 
-	$U = $oUser->login ($mInput->username, $mInput->password);
+	$mUser = $oUser->login ($mInput->username, $mInput->password);
 
 	$oSubmission = I::RH_Submission ();
 
 	// if admin, are we masquerading
-	if ($U->admin && isSet ($mInput->profile)) {
-		$U = $oUser->get (\strtolower ($mInput->profile));
-		$oUser->overrideLogin ($U);
+	if ($mUser->admin && isSet ($mInput->profile)) {
+		$mUser = $oUser->get (\strtolower ($mInput->profile));
+		$oUser->overrideLogin ($mUser);
 	}
 
 	// gather the data to populate the submission form
-	print $U
-		->merge ($oSubmission->get ($U))
+	print $mUser
+		->merge ($oSubmission->get ($mUser))
 		->merge (array ('success' => 1))
 		->toJson ();
 } catch (\RH\Error $e) {

@@ -33,12 +33,12 @@ class Submission extends AbstractModel {
 	/**
 	 * Take this submission and make substitutes for the keywords.
 	 * 
-	 * @param \RH\Model\User $U User to make modifications for.
+	 * @param \RH\Model\User $mUser User to make modifications for.
 	 * @return \RH\Model\Submission
 	 */
-	public function makeSubsts (\RH\Model\User $oUser) {
+	public function makeSubsts (\RH\Model\User $mUser) {
 		foreach ($this as $key => $value) {
-			 $this->$key = $oUser->makeSubsts ($value);
+			 $this->$key = $mUser->makeSubsts ($value);
 		}
 
 		return $this;

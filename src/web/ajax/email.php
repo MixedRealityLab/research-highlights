@@ -15,9 +15,9 @@ try {
 	$mInput = I::RH_Model_Input ();
 	$oEmail = I::RH_Email ();
 
-	$U = $oUser->login ($mInput->username, $mInput->password, true);
+	$mUser = $oUser->login ($mInput->username, $mInput->password, true);
 
-	$from = '"'. $U->firstName . ' ' . $U->surname .'" <'. $U->email .'>';
+	$from = '"'. $mUser->firstName . ' ' . $mUser->surname .'" <'. $mUser->email .'>';
 	$replyTo = '"'. SITE_NAME .'" <'. EMAIL .'>';
 	$oEmail->setHeaders ($from, $replyTo);
 

@@ -79,19 +79,19 @@ class Email implements \RH\Singleton {
 		$oUser = \I::RH_User ();
 
 		try {
-			$U = $oUser->get ($username);
+			$mUser = $oUser->get ($username);
 		} catch (\RH\Error\NoUser $e) {
 			return false;
 		}
 
 		try {
-			$mAddress = $U->email;
+			$mAddress = $mUser->email;
 		} catch (\RH\Error\NoField $e) {
 			return false;
 		}
-		$mSubject = $U->makeSubsts ($subject);
-		$mMessageText = $U->makeSubsts ($messageText, true);
-		$mMessageHtml = $U->makeSubsts ($messageHtml, true);
+		$mSubject = $mUser->makeSubsts ($subject);
+		$mMessageText = $mUser->makeSubsts ($messageText, true);
+		$mMessageHtml = $mUser->makeSubsts ($messageHtml, true);
 
 		$mHeaders = $this->headers;
 		$mHeaders['To'] = $mAddress;

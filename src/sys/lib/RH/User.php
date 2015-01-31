@@ -92,14 +92,14 @@ class User implements \RH\Singleton {
 	 * Allow a user to masquerade as another user (must be currently logged in
 	 * as an administrator).
 	 * 	
-	 * @param User $U User of the person who we are going to 
+	 * @param \RH\Model\User $mUser User of the person who we are going to 
 	 * 	pretend to be.
 	 * @throws \RH\Error\NotAuthorised if an admin account is required and the 
 	 * 	login request is for a non-admin account
 	 * @throws \RH\Error\NoUser if the account is disabled
 	 * @return \RH\Model\User new User object
 	 */
-	public function overrideLogin (\RH\Model\User $U) {
+	public function overrideLogin (\RH\Model\User $mUser) {
 		$mInput = \I::RH_Model_Input ();
 
 		if (!isSet ($this->user->admin)) {
@@ -187,10 +187,10 @@ class User implements \RH\Singleton {
 		$data->uasort ($sortFn);
 		$data->filter ($filterFn);
 
-		foreach ($data as $U) {
-			$U->deadline = $this->getDeadline ($U);
-			$U->wordCount = $this->getWordCount ($U);
-			$U->fundingStatement = $this->getFunding ($U);
+		foreach ($data as $mUser) {
+			$mUser->deadline = $this->getDeadline ($mUser);
+			$mUser->wordCount = $this->getWordCount ($mUser);
+			$mUser->fundingStatement = $this->getFunding ($mUser);
 		}
 
 		return $data;
@@ -218,10 +218,10 @@ class User implements \RH\Singleton {
 			};
 		}
 
-		$Us = $this->getAll ();
+		$mUsers = $this->getAll ();
 		$cohorts = new \RH\Model\Cohorts();
-		foreach ($Us as $U) {
-			$cohort = $U->cohort;
+		foreach ($mUsers as $mUser) {
+			$cohort = $mUser->cohort;
 			if (!isSet ($cohorts->$cohort)) {
 				$cohorts->$cohort = $cohort;
 			}
@@ -270,20 +270,20 @@ class User implements \RH\Singleton {
 	/**
 	 * Retrieve the word count for a particular user.
 	 * 
-	 * @param User $U User to retrieve the word count 
+	 * @param \RH\Model\User $mUser User to retrieve the word count 
 	 * 	for, if `null`, gets the currently logged in user
 	 * @return string Word count of the user
 	 */
-	private function getWordCount (\RH\Model\User $U = null) {
+	private function getWordCount (\RH\Model\User $mUser = null) {
 		if (\is_null ($this->wordCountCache)) {
 			$oFileReader = \I::RH_File_Reader ();
 			$data = $oFileReader->read (DIR_USR . self::WORD_COUNT_FILE, 'cohort');
 			$this->wordCountCache = new \RH\Model\WordCounts ($data);
 		}
 
-		$cohort = \is_null ($U)
+		$cohort = \is_null ($mUser)
 			? $this->user->cohort
-			: $U->cohort;
+			: $mUser->cohort;
 
 		return $this->wordCountCache->$cohort->wordCount;
 	}
@@ -291,20 +291,20 @@ class User implements \RH\Singleton {
 	/**
 	 * Retrieve the funding statement for a particular user.
 	 * 
-	 * @param User $U User to retrieve the funding statement for, if 
+	 * @param \RH\Model\User $mUser User to retrieve the funding statement for, if 
 	 * 	`null`, gets the currently logged in user
 	 * @return string Funding statement of the user
 	 */
-	private function getFunding (\RH\Model\User $U = null) {
+	private function getFunding (\RH\Model\User $mUser = null) {
 		if (\is_null ($this->fundingCache)) {
 			$oFileReader = \I::RH_File_Reader ();
 			$data = $oFileReader->read (DIR_USR . self::FUNDING_FILE, 'fundingStatementId');
 			$this->fundingCache = new \RH\Model\FundingStatements ($data);
 		}
 
-		$id = \is_null ($U)
+		$id = \is_null ($mUser)
 			? $this->user->fundingStatementId
-			: $U->fundingStatementId;
+			: $mUser->fundingStatementId;
 
 		return $this->fundingCache->$id->fundingStatement;
 	}
@@ -312,20 +312,20 @@ class User implements \RH\Singleton {
 	/**
 	 * Retrieve the deadline for a particular user.
 	 * 
-	 * @param User $U User to retrieve the deadline for, if `null`,
+	 * @param \RH\Model\User $mUser User to retrieve the deadline for, if `null`,
 	 * 	gets the currently logged in user
 	 * @return string Deadline of the user
 	 */
-	private function getDeadline (\RH\Model\User $U = null) {
+	private function getDeadline (\RH\Model\User $mUser = null) {
 		if (\is_null ($this->deadlineCache)) {
 			$oFileReader = \I::RH_File_Reader ();
 			$data = $oFileReader->read (DIR_USR . self::DEADLINES_FILE, 'cohort');
 			$this->deadlineCache = new \RH\Model\Deadlines ($data);
 		}
 
-		$cohort = \is_null ($U)
+		$cohort = \is_null ($mUser)
 			? $this->user->cohort
-			: $U->cohort;
+			: $mUser->cohort;
 
 		return $this->deadlineCache->$cohort->deadline;
 	}

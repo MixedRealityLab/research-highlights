@@ -46,7 +46,7 @@ $U['text']['em'] 			= .94;
 $U['text']['blockquote'] 	= .95;
 
 // Standard factors
-$F['exact_match'] 			= 1.2;
+$F['exact_match'] 			= 1.5;
 
 // is there a cached db?
 $file = DIR_DAT . '/search-keywords.txt';
@@ -90,37 +90,37 @@ if (!\is_file ($file) || \filemtime ($file) + KEY_CACHE < \date ('U')) {
 	}
 
 	// load all submission data
-	$Us = $oUser->getAll (null, function ($user) {
+	$mUsers = $oUser->getAll (null, function ($user) {
 		return $user->countSubmission;
 	});
 
 	// catalogue the keywords
-	foreach ($Us as $oUser) {
+	foreach ($mUsers as $mUser) {
 		try {
-			$data = $oSubmission->get ($oUser, false);
+			$data = $oSubmission->get ($mUser, false);
 
 			if (!isSet ($data->text)) {
 				continue;
 			}
 
-			addKeywords ($oUser->firstName, $weights['author'], $useFactors['author'], $oUser->username);
-			addKeywords ($oUser->surname, $weights['author'], $useFactors['author'], $oUser->username);
+			addKeywords ($mUser->firstName, $weights['author'], $useFactors['author'], $mUser->username);
+			addKeywords ($mUser->surname, $weights['author'], $useFactors['author'], $mUser->username);
 
-			addKeywords ($data->title, $weights['title'], $useFactors['title'], $oUser->username);
+			addKeywords ($data->title, $weights['title'], $useFactors['title'], $mUser->username);
 
 			$keywords = \explode (',', $data->keywords);
 			foreach ($keywords as $keyword) {
-				addKeywords ($words, $weights['keyword'], $useFactors['keyword'], $oUser->username);
+				addKeywords ($words, $weights['keyword'], $useFactors['keyword'], $mUser->username);
 			}
 
-			$text = $oUser->makeSubsts ($data->text);
+			$text = $mUser->makeSubsts ($data->text);
 			$text = $oSubmission->markdownToHtml ($text);
 
 			$tags = array('h1', 'h2', 'h3', 'h4', 'strong', 'em', 'blockquote');
 			foreach ($tags as $tag) {
 				$results = getTags ($tag, $text);
 				foreach ($results as $result) {
-					addKeywords (\trim (\strip_tags ($text)), $weights['text_' . $tag], $useFactors['text_' . $tag], $oUser->username);
+					addKeywords (\trim (\strip_tags ($text)), $weights['text_' . $tag], $useFactors['text_' . $tag], $mUser->username);
 				}
 			}
 		} catch (\RH\Error\NoSubmission $e)
@@ -167,11 +167,11 @@ foreach ($results as $result) {
 // Collect the relevant submissions and return
 $output = array();
 foreach ($combinedResults as $username => $weight) {
-	$U = $oUser->get ($username);
-	$temp = $oSubmission->get ($oUser, false);
+	$mUser = $oUser->get ($username);
+	$temp = $oSubmission->get ($mUser, false);
 
 	if (isSet ($temp->text)) {
-		$output[] = \array_merge ($temp->toArray (), $oUser->toArray (), array('weight' => $weight));
+		$output[] = \array_merge ($temp->toArray (), $mUser->toArray (), array('weight' => $weight));
 	}
 }
 

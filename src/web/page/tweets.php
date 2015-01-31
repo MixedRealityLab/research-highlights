@@ -14,11 +14,11 @@ $oUser = I::RH_User ();
 
 \header ('Content-Type: text/csv');
 
-$Us = $oUser->getAll ();
-foreach ($Us as $U) {
+$mUsers = $oUser->getAll ();
+foreach ($mUsers as $mUser) {
 	try {
 		$tweet = $oSubmission->get ($u, false)->tweet;
-		print $U->firstName . ',' . $U->surname . ',' . $U->email . ',' . $tweet . "\n";
+		print $mUser->firstName . ',' . $mUser->surname . ',' . $mUser->email . ',' . $tweet . "\n";
 	} catch (\RH\Error\NoSubmission $e) {
 	}
 }

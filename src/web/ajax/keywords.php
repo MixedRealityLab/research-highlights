@@ -11,14 +11,14 @@
 
 try {
 	$mInput = I::RH_Model_Input ();
-	$oUser = I::RH_User ();
 	$oSubmission = I::RH_Submission ();
 
 	// for just one user?
 	if (isSet ($mInput->user)) {
-		$U = $oUser->get ($mInput->user);
-		$K = $oSubmission->get ($U, false)->getKeywords();
-		print $K->toArrayJson ();
+		$oUser = I::RH_User ();
+		$mUser = $oUser->get ($mInput->user);
+		$mKeyword = $oSubmission->get ($mUser, false)->getKeywords();
+		print $mKeyword->toArrayJson ();
 		exit;
 	}
 

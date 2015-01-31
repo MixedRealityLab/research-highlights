@@ -16,52 +16,52 @@ try {
 
 	// Get the users for which we want to return their submission
 	if (isSet ($mInput->user)) {
-		$Us = array ($oUser->get ($mInput->user));
+		$mUsers = array ($oUser->get ($mInput->user));
 
 	} else if (isSet ($mInput->cohort)) {
 		$cohort = $mInput->cohort;
-		$Us = $oUser->getAll (null, function ($U) use ($cohort) {
-			return $U->countSubmission && $U->cohort === $cohort;
+		$mUsers = $oUser->getAll (null, function ($mUser) use ($cohort) {
+			return $mUser->countSubmission && $mUser->cohort === $cohort;
 		});
 
 	} else if (isSet ($mInput->keywords)) {
 		// is there a saved copy of all keywords?
 		$keywords = @\explode (',', $mInput->keywords);
-		$Ks = $oSubmission->getKeywords ();
-		$Us = new \RH\Model\Users();
+		$mKeywords = $oSubmission->getKeywords ();
+		$mUsers = new \RH\Model\Users();
 
 		foreach ($keywords as $keyword) {
-			if(!empty ($keyword) && isSet ($Ks[$keyword])) {
-				$Us->merge ($Ks->$keyword);
+			if(!empty ($keyword) && isSet ($mKeywords[$keyword])) {
+				$mUsers->merge ($mKeywords->$keyword);
 			}
 		}
 
 	} else {
-		$Us = $oUser->getAll (null, function ($U) {
-			return $U->countSubmission;
+		$mUsers = $oUser->getAll (null, function ($mUser) {
+			return $mUser->countSubmission;
 		});
 	}
 
 	// Format the submission for output
 	$output = array();
-	foreach ($Us as $U) {
+	foreach ($mUsers as $mUser) {
 		try {
-			$S = $oSubmission->get ($U, false);
+			$mSubmission = $oSubmission->get ($mUser, false);
 
-			$S->text = $U->makeSubsts ($S->text);
+			$mSubmission->text = $mUser->makeSubsts ($mSubmission->text);
 		
-			$textMd = $S->text;
+			$textMd = $mSubmission->text;
 			$textHtml = !empty ($textMd) ? $oSubmission->markdownToHtml ($textMd) : '<em>No text submitted.</em>';
 
-			$refMd = \trim ($S->references);
+			$refMd = \trim ($mSubmission->references);
 			$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $oSubmission->markdownToHtml ($refMd) : '';
 			
-			$pubMd = \trim ($S->publications);
+			$pubMd = \trim ($mSubmission->publications);
 			$pubHtml = !empty ($pubMd) ? '<h1>Publications in the Last Year</h1>' . $oSubmission->markdownToHtml ($pubMd) : '';
 
-			$S->html = $textHtml . $refHtml . $pubHtml;
+			$mSubmission->html = $textHtml . $refHtml . $pubHtml;
 
-			$output[] = \array_merge ($S->toArray (), $U->toArray ());
+			$output[] = \array_merge ($mSubmission->toArray (), $mUser->toArray ());
 		} catch (\RH\Error\NoSubmission $e) {
 		}
 	}

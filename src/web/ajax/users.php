@@ -33,22 +33,22 @@ try {
 	}
 
 	// Filter the user list
-	print $oUser->getAll (null, function ($U) use ($cohort, $submitted) {
+	print $oUser->getAll (null, function ($mUser) use ($cohort, $submitted) {
 		$oSubmission = I::RH_Submission ();
-		$isCohort = \is_null ($cohort) ? true : $U->cohort === $cohort;
+		$isCohort = \is_null ($cohort) ? true : $mUser->cohort === $cohort;
 		
 		if (\is_null ($submitted)) {
 			$isSubmitted = true;
 		} else {
 			try {
-				$S = $oSubmission->get ($U, false);
+				$mSubmission = $oSubmission->get ($mUser, false);
 				$isSubmitted = $submitted === true;
 			} catch (\RH\Error\NoSubmission $e) {
 				$isSubmitted = $submitted === false;
 			}
 		}
 
-		return $U->enabled && $U->countSubmission && $isCohort && $isSubmitted;
+		return $mUser->enabled && $mUser->countSubmission && $isCohort && $isSubmitted;
 	})->toArrayJson();
 } catch (\RH\Error $e) {
 	print $e->toJson ();

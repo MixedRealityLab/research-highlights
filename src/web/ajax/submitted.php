@@ -10,8 +10,8 @@
 // Fetch a list of users who have submitted
 
 try {
-	print I::RH_User ()->getAll (null, function ($U) {
-		return $U->latestVersion && $U->countSubmission;
+	print I::RH_User ()->getAll (null, function ($mUser) {
+		return $mUser->latestVersion && $mUser->countSubmission;
 	})->toArrayJson ();
 } catch (\RH\Error $e) {
 	print $e->toJson ();

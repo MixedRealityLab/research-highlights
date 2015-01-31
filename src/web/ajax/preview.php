@@ -13,7 +13,7 @@ $oUser = I::RH_User ();
 $mInput = I::RH_Model_Input ();
 
 try {
-	$U = $oUser->login ($mInput->username, $mInput->password);
+	$mUser = $oUser->login ($mInput->username, $mInput->password);
 
 	if ($mInput->username !== $mInput->saveAs) {
 		$oUser->login ($mInput->username, $mInput->password, true);
