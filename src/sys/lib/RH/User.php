@@ -177,7 +177,7 @@ class User implements \RH\Singleton {
 		}
 
 		if (\is_null ($filterFn)) {
-			$filterFn = function ($oUser) {
+			$filterFn = function ($cUser) {
 				return true;
 			};
 		}

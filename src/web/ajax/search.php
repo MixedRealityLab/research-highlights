@@ -10,8 +10,8 @@
 // Perform a search
 
 $mInput = I::RH_Model_Input ();
-$oUser = I::RH_User ();
-$oSubmission = I::RH_Submission ();
+$cUser = I::RH_User ();
+$cSubmission = I::RH_Submission ();
 
 // if no query, no results...
 if (!isSet ($mInput->q)) {
@@ -90,14 +90,14 @@ if (!\is_file ($file) || \filemtime ($file) + KEY_CACHE < \date ('U')) {
 	}
 
 	// load all submission data
-	$mUsers = $oUser->getAll (null, function ($user) {
+	$mUsers = $cUser->getAll (null, function ($user) {
 		return $user->countSubmission;
 	});
 
 	// catalogue the keywords
 	foreach ($mUsers as $mUser) {
 		try {
-			$data = $oSubmission->get ($mUser, false);
+			$data = $cSubmission->get ($mUser, false);
 
 			if (!isSet ($data->text)) {
 				continue;
@@ -114,7 +114,7 @@ if (!\is_file ($file) || \filemtime ($file) + KEY_CACHE < \date ('U')) {
 			}
 
 			$text = $mUser->makeSubsts ($data->text);
-			$text = $oSubmission->markdownToHtml ($text);
+			$text = $cSubmission->markdownToHtml ($text);
 
 			$tags = array('h1', 'h2', 'h3', 'h4', 'strong', 'em', 'blockquote');
 			foreach ($tags as $tag) {
@@ -167,8 +167,8 @@ foreach ($results as $result) {
 // Collect the relevant submissions and return
 $output = array();
 foreach ($combinedResults as $username => $weight) {
-	$mUser = $oUser->get ($username);
-	$temp = $oSubmission->get ($mUser, false);
+	$mUser = $cUser->get ($username);
+	$temp = $cSubmission->get ($mUser, false);
 
 	if (isSet ($temp->text)) {
 		$output[] = \array_merge ($temp->toArray (), $mUser->toArray (), array('weight' => $weight));

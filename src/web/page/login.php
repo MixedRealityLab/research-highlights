@@ -7,9 +7,9 @@
  * See LICENCE for legal information.
  */
 
-$oTemplate = I::RH_Template ();
+$cTemplate = I::RH_Template ();
 
-$oTemplate->startCapture ();   
+$cTemplate->startCapture ();   
 
 ?>
 		<div class="visible-xs visible-sm">
@@ -248,11 +248,11 @@ $oTemplate->startCapture ();
 		</nav>
 <?php
 
-$oTemplate->set ('header', true);
-$oTemplate->set ('body', $oTemplate->endCapture ());
+$cTemplate->set ('header', true);
+$cTemplate->set ('body', $cTemplate->endCapture ());
 
-$oTemplate->add ('css', URI_SYS . '/css/bootstrap-tagsinput' . EXT_CSS);
-$oTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
-$oTemplate->add ('javascript', URI_WEB . '/js/login' . EXT_JS);
+$cTemplate->add ('css', URI_SYS . '/css/bootstrap-tagsinput' . EXT_CSS);
+$cTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
+$cTemplate->add ('javascript', URI_WEB . '/js/login' . EXT_JS);
 
-print $oTemplate->load ('2015');
+print $cTemplate->load ('2015');

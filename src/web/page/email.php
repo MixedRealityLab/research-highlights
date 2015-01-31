@@ -7,10 +7,10 @@
  * See LICENCE for legal information.
  */
 
-$oTemplate = I::RH_Template ();
-$oUser = I::RH_User ();
+$cTemplate = I::RH_Template ();
+$cUser = I::RH_User ();
 
-$oTemplate->startCapture ();   
+$cTemplate->startCapture ();   
 
 ?>
 			<div class="visible-xs visible-sm">
@@ -111,10 +111,10 @@ Many thanks and good luck!</textarea>
 				</div>
 <?php
 
-$oTemplate->set ('header', true);
-$oTemplate->set ('body', $oTemplate->endCapture ());
+$cTemplate->set ('header', true);
+$cTemplate->set ('body', $cTemplate->endCapture ());
 
-$oTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
-$oTemplate->add ('javascript', URI_WEB . '/js/email' . EXT_JS);
+$cTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
+$cTemplate->add ('javascript', URI_WEB . '/js/email' . EXT_JS);
 
-print $oTemplate->load ('2015');
+print $cTemplate->load ('2015');

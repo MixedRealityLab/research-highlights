@@ -11,7 +11,7 @@
 
 try {
 	$mInput = I::RH_Model_Input ();
-	$oUser = I::RH_User ();
+	$cUser = I::RH_User ();
 
 	// Fetch a specific cohort?
 	if (!isSet ($mInput->cohort) || !\is_numeric ($mInput->cohort)) {
@@ -33,15 +33,15 @@ try {
 	}
 
 	// Filter the user list
-	print $oUser->getAll (null, function ($mUser) use ($cohort, $submitted) {
-		$oSubmission = I::RH_Submission ();
+	print $cUser->getAll (null, function ($mUser) use ($cohort, $submitted) {
+		$cSubmission = I::RH_Submission ();
 		$isCohort = \is_null ($cohort) ? true : $mUser->cohort === $cohort;
 		
 		if (\is_null ($submitted)) {
 			$isSubmitted = true;
 		} else {
 			try {
-				$mSubmission = $oSubmission->get ($mUser, false);
+				$mSubmission = $cSubmission->get ($mUser, false);
 				$isSubmitted = $submitted === true;
 			} catch (\RH\Error\NoSubmission $e) {
 				$isSubmitted = $submitted === false;

@@ -76,10 +76,10 @@ class Email implements \RH\Singleton {
 	 * @return bool `true` if the message was successfully sent
 	 */
 	public function send ($username, $subject, $messageText, $messageHtml) {
-		$oUser = \I::RH_User ();
+		$cUser = \I::RH_User ();
 
 		try {
-			$mUser = $oUser->get ($username);
+			$mUser = $cUser->get ($username);
 		} catch (\RH\Error\NoUser $e) {
 			return false;
 		}

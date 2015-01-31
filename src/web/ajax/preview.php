@@ -9,26 +9,26 @@
 
 // Generate a submission preview from MD to HTML
 
-$oUser = I::RH_User ();
+$cUser = I::RH_User ();
 $mInput = I::RH_Model_Input ();
 
 try {
-	$mUser = $oUser->login ($mInput->username, $mInput->password);
+	$mUser = $cUser->login ($mInput->username, $mInput->password);
 
 	if ($mInput->username !== $mInput->saveAs) {
-		$oUser->login ($mInput->username, $mInput->password, true);
+		$cUser->login ($mInput->username, $mInput->password, true);
 	}
 } catch (\RH\Error $e) {
 	print $e->toJson();
 	exit;
 }
 
-$oSubmission = I::RH_Submission ();
+$cSubmission = I::RH_Submission ();
 
 $textMd = \trim ($mInput->text);
-$textHtml = !empty ($textMd) ? $oSubmission->markdownToHtml ($textMd) : '<em>No text.</em>';
+$textHtml = !empty ($textMd) ? $cSubmission->markdownToHtml ($textMd) : '<em>No text.</em>';
 
 $refMd = \trim ($mInput->references);
-$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $oSubmission->markdownToHtml ($refMd) : '';
+$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $cSubmission->markdownToHtml ($refMd) : '';
 
 print $textHtml . $refHtml;

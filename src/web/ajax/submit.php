@@ -10,16 +10,16 @@
 // Save a user's submission
 
 try {
-	$oUser = I::RH_User ();
+	$cUser = I::RH_User ();
 	$mInput = I::RH_Model_Input ();
 
 	if ($mInput->username !== $mInput->saveAs) {
-		$mUser = $oUser->login ($mInput->username, $mInput->password, true);
+		$mUser = $cUser->login ($mInput->username, $mInput->password, true);
 	} else {
-		$mUser = $oUser->login ($mInput->username, $mInput->password);
+		$mUser = $cUser->login ($mInput->username, $mInput->password);
 	}
 
-	$oSubmission = I::RH_Submission ();
+	$cSubmission = I::RH_Submission ();
 
 	if (!isSet ($mInput->saveAs)) {
 		throw new \RH\Error\InvalidInput ('Must provide saveAs attribute');
@@ -31,7 +31,7 @@ try {
 		throw new \RH\Error\InvalidInput ('Missing provide a cohort, title, keywords and your submission text.');
 	}
 
-	$mUser = $oUser->get ($mInput->saveAs);
+	$mUser = $cUser->get ($mInput->saveAs);
 	$cohortDir = DIR_DAT . '/' . $mInput->cohort;
 	if ($mInput->cohort !== $mUser->cohort
 		|| !is_numeric ($mInput->cohort) || !is_dir ($cohortDir)) {
@@ -40,7 +40,7 @@ try {
 
 	$mSubmission = new \RH\Model\Submission ($mInput);
 
-	$html = $oSubmission->markdownToHtml ($mSubmission->text);
+	$html = $cSubmission->markdownToHtml ($mSubmission->text);
 
 	$images = array();
 	\preg_match_all ('/(<img).*(src\s*=\s*("|\')([a-zA-Z0-9\.;:\/\?&=\-_|\r|\n]{1,})\3)/isxmU', $html, $images, PREG_PATTERN_ORDER);
@@ -75,7 +75,7 @@ try {
 		$usernames = \explode (',', \trim (MAIL_ON_CHANGE_USRS));
 		$unamesMail = array();
 		foreach ($usernames as $username) {
-			$tempU = $oUser->get ($username);
+			$tempU = $cUser->get ($username);
 			if ($tempU->emailOnChange) {
 				$unamesMail[] = $username;
 			}

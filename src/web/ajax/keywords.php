@@ -11,18 +11,18 @@
 
 try {
 	$mInput = I::RH_Model_Input ();
-	$oSubmission = I::RH_Submission ();
+	$cSubmission = I::RH_Submission ();
 
 	// for just one user?
 	if (isSet ($mInput->user)) {
-		$oUser = I::RH_User ();
-		$mUser = $oUser->get ($mInput->user);
-		$mKeyword = $oSubmission->get ($mUser, false)->getKeywords();
+		$cUser = I::RH_User ();
+		$mUser = $cUser->get ($mInput->user);
+		$mKeyword = $cSubmission->get ($mUser, false)->getKeywords();
 		print $mKeyword->toArrayJson ();
 		exit;
 	}
 
-	print $oSubmission->getKeywords ()->toJson();
+	print $cSubmission->getKeywords ()->toJson();
 } catch (\RH\Error $e) {
 	print $e->toJson ();
 }

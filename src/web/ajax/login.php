@@ -11,21 +11,21 @@
 
 try {
 	$mInput = I::RH_Model_Input ();
-	$oUser = I::RH_User ();
+	$cUser = I::RH_User ();
 
-	$mUser = $oUser->login ($mInput->username, $mInput->password);
+	$mUser = $cUser->login ($mInput->username, $mInput->password);
 
-	$oSubmission = I::RH_Submission ();
+	$cSubmission = I::RH_Submission ();
 
 	// if admin, are we masquerading
 	if ($mUser->admin && isSet ($mInput->profile)) {
-		$mUser = $oUser->get (\strtolower ($mInput->profile));
-		$oUser->overrideLogin ($mUser);
+		$mUser = $cUser->get (\strtolower ($mInput->profile));
+		$cUser->overrideLogin ($mUser);
 	}
 
 	// gather the data to populate the submission form
 	print $mUser
-		->merge ($oSubmission->get ($mUser))
+		->merge ($cSubmission->get ($mUser))
 		->merge (array ('success' => 1))
 		->toJson ();
 } catch (\RH\Error $e) {

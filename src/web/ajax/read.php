@@ -10,24 +10,24 @@
 // Fetch all submissions, or a single submission for reading
 
 try {
-	$oSubmission = I::RH_Submission ();
+	$cSubmission = I::RH_Submission ();
 	$mInput = I::RH_Model_Input ();
-	$oUser = I::RH_User ();
+	$cUser = I::RH_User ();
 
 	// Get the users for which we want to return their submission
 	if (isSet ($mInput->user)) {
-		$mUsers = array ($oUser->get ($mInput->user));
+		$mUsers = array ($cUser->get ($mInput->user));
 
 	} else if (isSet ($mInput->cohort)) {
 		$cohort = $mInput->cohort;
-		$mUsers = $oUser->getAll (null, function ($mUser) use ($cohort) {
+		$mUsers = $cUser->getAll (null, function ($mUser) use ($cohort) {
 			return $mUser->countSubmission && $mUser->cohort === $cohort;
 		});
 
 	} else if (isSet ($mInput->keywords)) {
 		// is there a saved copy of all keywords?
 		$keywords = @\explode (',', $mInput->keywords);
-		$mKeywords = $oSubmission->getKeywords ();
+		$mKeywords = $cSubmission->getKeywords ();
 		$mUsers = new \RH\Model\Users();
 
 		foreach ($keywords as $keyword) {
@@ -37,7 +37,7 @@ try {
 		}
 
 	} else {
-		$mUsers = $oUser->getAll (null, function ($mUser) {
+		$mUsers = $cUser->getAll (null, function ($mUser) {
 			return $mUser->countSubmission;
 		});
 	}
@@ -46,18 +46,18 @@ try {
 	$output = array();
 	foreach ($mUsers as $mUser) {
 		try {
-			$mSubmission = $oSubmission->get ($mUser, false);
+			$mSubmission = $cSubmission->get ($mUser, false);
 
 			$mSubmission->text = $mUser->makeSubsts ($mSubmission->text);
 		
 			$textMd = $mSubmission->text;
-			$textHtml = !empty ($textMd) ? $oSubmission->markdownToHtml ($textMd) : '<em>No text submitted.</em>';
+			$textHtml = !empty ($textMd) ? $cSubmission->markdownToHtml ($textMd) : '<em>No text submitted.</em>';
 
 			$refMd = \trim ($mSubmission->references);
-			$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $oSubmission->markdownToHtml ($refMd) : '';
+			$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $cSubmission->markdownToHtml ($refMd) : '';
 			
 			$pubMd = \trim ($mSubmission->publications);
-			$pubHtml = !empty ($pubMd) ? '<h1>Publications in the Last Year</h1>' . $oSubmission->markdownToHtml ($pubMd) : '';
+			$pubHtml = !empty ($pubMd) ? '<h1>Publications in the Last Year</h1>' . $cSubmission->markdownToHtml ($pubMd) : '';
 
 			$mSubmission->html = $textHtml . $refHtml . $pubHtml;
 

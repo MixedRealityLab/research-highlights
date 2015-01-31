@@ -10,12 +10,12 @@
 // Send an email to users
 
 try {
-	$oSubmission = I::RH_Submission ();
-	$oUser = I::RH_User ();
+	$cSubmission = I::RH_Submission ();
+	$cUser = I::RH_User ();
 	$mInput = I::RH_Model_Input ();
 	$oEmail = I::RH_Email ();
 
-	$mUser = $oUser->login ($mInput->username, $mInput->password, true);
+	$mUser = $cUser->login ($mInput->username, $mInput->password, true);
 
 	$from = '"'. $mUser->firstName . ' ' . $mUser->surname .'" <'. $mUser->email .'>';
 	$replyTo = '"'. SITE_NAME .'" <'. EMAIL .'>';

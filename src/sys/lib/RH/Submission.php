@@ -113,7 +113,7 @@ class Submission implements \RH\Singleton {
 			});
 
 			foreach ($mUsers as $mUser) {
-				$mSubmission = $oSubmission->get ($mUser, false);
+				$mSubmission = $cSubmission->get ($mUser, false);
 				foreach ($mSubmission->getKeywords () as $keyword) {
 					if (!isSet ($mKeywords->$keyword)) {
 						$mKeywords->$keyword = new \RH\Model\Users();
