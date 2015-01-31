@@ -67,7 +67,7 @@ try {
 	$S->save ();
 
 	if (MAIL_ON_CHANGE_USRS !== null) {
-		$oEmail = I::RH_Utils_Email ();
+		$oEmail = I::RH_Email ();
 
 		$from = '"'. $U->firstName . ' ' . $U->surname .'" <'. $U->email .'>';
 		$oEmail->setHeaders ($from, $from);

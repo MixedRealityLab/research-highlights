@@ -13,7 +13,7 @@ try {
 	$oSubmission = I::RH_Submission ();
 	$oUser = I::RH_User ();
 	$oInput = I::RH_Page_Input ();
-	$oEmail = I::RH_Utils_Email ();
+	$oEmail = I::RH_Email ();
 
 	$U = $oUser->login ($oInput->username, $oInput->password, true);
 
