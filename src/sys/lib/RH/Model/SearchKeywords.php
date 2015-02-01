@@ -23,6 +23,7 @@ class SearchKeywords extends AbstractModel {
 		$importance							= array ();
 		$importance['author']				= 100;
 		$importance['keyword']				= 40;
+		$importance['tweet']				= 30;
 		$importance['title']				= 10;
 		$importance['text']['h1']			= 9;
 		$importance['text']['h2']			= 8;
@@ -34,17 +35,18 @@ class SearchKeywords extends AbstractModel {
 		$importance['text']['text']			= 1;
 
 		$use								= array ();
-		$use['author']						= 1;
+		$use['author']						= 1.1;
 		$use['keyword']						= .95;
-		$use['title']						= .96;
-		$use['text']['h1']					= .97;
-		$use['text']['h2']					= .98;
-		$use['text']['h3']					= .99;
-		$use['text']['h4']					= 1;
-		$use['text']['strong']				= .99;
-		$use['text']['em']					= .98;
-		$use['text']['blockquote']			= .97;
-		$use['text']['text']				= .96;
+		$use['tweet']						= .92;
+		$use['title']						= .92;
+		$use['text']['h1']					= .95;
+		$use['text']['h2']					= .95;
+		$use['text']['h3']					= .95;
+		$use['text']['h4']					= .95;
+		$use['text']['strong']				= .95;
+		$use['text']['em']					= .90;
+		$use['text']['blockquote']			= .90;
+		$use['text']['text']				= .85;
 
 		return array ('imp' => $importance, 'use' => $use);
 	}
@@ -110,6 +112,10 @@ class SearchKeywords extends AbstractModel {
 			                    $weights['imp']['author'],
 			                    $weights['use']['keyword']);
 		}
+
+		$this->appendIndex ($mSubmission->tweet, $mUser, $mSubmission,
+		                    $weights['imp']['tweet'],
+		                    $weights['use']['tweet']);
 
 		$this->appendIndex ($mSubmission->title, $mUser, $mSubmission,
 		                    $weights['imp']['author'],
