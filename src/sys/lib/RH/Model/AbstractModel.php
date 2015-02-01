@@ -135,8 +135,11 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	public function saveCache () {
 		if ($this->cacheTime > 0 && !\is_null ($this->cacheFile)) {
 			$file = DIR_CAC . '/' . $this->cacheFile;
-			@\file_put_contents ($file, $this->serialize ());
-			@\chmod ($file, 0777);
+
+			if (@mkdir (DIR_CAC, 0777, true) !== false) {
+				@\file_put_contents ($file, $this->serialize ());
+				@\chmod ($file, 0777);
+			}
 		}
 
 		return $this;
@@ -154,37 +157,6 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Load a Model from the cache, or generate it from scratch. By default, this
-	 * will also cache the generated model.
-	 * 
-	 * @param string $file Filename for the cache
-	 * @param \RH\Model\AbstractModel $mModel Model to populate/restore from
-	 * 	cache
-	 * @param function $generateFn Function to generate the Model data if it 
-	 * 	is not cached
-	 * @param bool $cache Cache the model if it is generated.
-	 * @param int $time Time in seconds that the cache lasts
-	 * @return \RH\Model\AbstractModel
-	 */
-	public static function load ($file, \RH\Model\AbstractModel &$mModel, $generateFn, $cache = true, $time = CACHE_GENERAL) {
-		$file = DIR_CAC . '/' . $file;
-		\clearstatcache (true, $file);
-
-		if (!\is_file ($file) || (\is_file ($file) && \filemtime ($file) + CACHE_GENERAL < \date ('U'))) {
-			$generateFn ($mModel);
-			if ($cache) {
-				@\file_put_contents ($file, $mModel->serialize ());
-				@\chmod ($file, 0777);
-			}
-		} else {
-			$str = @\file_get_contents ($file);
-			$mModel->unserialize ($str);
-		}
-
-		return $mModel;
 	}
 
 	/**
