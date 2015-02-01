@@ -55,7 +55,7 @@ $usernames = (\array_keys ($mUsers->getArrayCopy ()));
 foreach ($usernames as $username) {
 	$mUser = $mUsers->$username;
 	try {
-		$mSubmission = $cSubmission->get ($cUser, false);
+		$mSubmission = $cSubmission->get ($mUser, false);
 
 		if (!isSet ($mSubmission->tweet)) {
 			continue;
@@ -110,7 +110,7 @@ foreach ($usernames as $username) {
 				->setSize (14)
 				->setColor (new Color ('FF333333'));
 
-		$link = 'find out more at ' . URI_HOME . '/go/read/' . $mUser->username;
+		$link = 'find out more at ' . URI_HOME . '/';
 		$shape = $slide->createRichTextShape()
 			->setHeight(50)
 			->setWidth(881)
@@ -141,10 +141,11 @@ foreach ($usernames as $username) {
 $file = SITE_NAME . ' ' . SITE_YEAR .'.pptx';
 
 $oWriterPPTx = IOFactory::createWriter ($oPowerpoint, 'PowerPoint2007');
-$oWriterPPTx->save ('/tmp/' . $file);
+$oWriterPPTx->save (DIR_CAC . '/' . $file);
 
 \header ('Content-Disposition: attachment; filename="' . $file . '"');
 \header ('Content-type: application/vnd.openxmlformats-officedocument.presentationml.presentation');
-\readfile ('/tmp/' . $file);
 
-\unlink ('/tmp/' . $file);
+\readfile (DIR_CAC . '/' . $file);
+
+@\unlink (DIR_CAC . '/' . $file);
