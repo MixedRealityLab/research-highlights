@@ -26,9 +26,9 @@ try {
 $cSubmission = I::RH_Submission ();
 
 $textMd = \trim ($mInput->text);
-$textHtml = !empty ($textMd) ? $cSubmission->markdownToHtml ($textMd) : '<em>No text.</em>';
+$textHtml = !empty ($textMd) ? \RH\Submission::markdownToHtml ($textMd) : '<em>No text.</em>';
 
 $refMd = \trim ($mInput->references);
-$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . $cSubmission->markdownToHtml ($refMd) : '';
+$refHtml = !empty ($textMd) && !empty ($refMd) ?  '<h1>References</h1>' . \RH\Submission::markdownToHtml ($refMd) : '';
 
 print $textHtml . $refHtml;

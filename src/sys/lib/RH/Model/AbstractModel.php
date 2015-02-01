@@ -16,6 +16,21 @@ namespace RH\Model;
  */
 abstract class AbstractModel extends \RecursiveArrayObject {
 
+	/** @var bool Create field when they are retrieved */
+	protected $createOnGet = false;
+
+	/** @var string Cache file name */
+	protected $cacheFile = null;
+
+	/** @var int Cache expiry time */
+	protected $cacheTime = CACHE_GENERAL;
+
+	/** @var int `1` if a cache of this model exists, `-1` if not */
+	private $hasCache = 0;
+
+	/** @var bool Save the Model to the cache on destruction */
+	protected $saveOnDestruct = false;
+
 	/**
 	 * Construct the data object, with initial data values, if any.
 	 * 
@@ -24,6 +39,18 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	 */
 	public function __construct ($data = array()) {
 		return parent::__construct ($data);
+	}
+
+	/**
+	 * Construct the data object, with initial data values, if any.
+	 * 
+	 * @param mixed[] $data Data to construct initial object with
+	 * @return \RH\Model\AbstractModel
+	 */
+	public function __destruct () {
+		if ($this->saveOnDestruct && $this->cacheTime > 0) {
+			$this->saveCache ();
+		}
 	}
 
 	/**
@@ -36,8 +63,128 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 		try {
 			return parent::__get ($key);
 		} catch (\InvalidArgumentException $e) {
-			throw new \RH\Error\NoField ($key, get_called_class ());
+			if ($this->createOnGet) {
+				parent::offsetSet ($key, $this->newChild (array ()));
+				return parent::__get ($key);
+			} else {
+				throw new \RH\Error\NoField ($key, get_called_class ());
+			}
 		}
+	}
+
+	/**
+	 * Set the Cache properties for this model.
+	 * 
+	 * @param int $time Cache expiry time (set to 0 to disable cache)
+	 * @param string $file Filename of the cache
+	 * @param bool $saveOnDestruct Save the Model to the cache on destruction
+	 * @return \RH\Model\AbstractModel
+	 */
+	public function setCache ($time, $file = null, $saveOnDestruct = false) {
+		$this->cacheTime = $time;
+		$this->cacheFile = $file;
+		$this->saveOnDestruct = $saveOnDestruct;
+		return $this;
+	}
+
+	/**
+	 * Does a cache exist for this Model?
+	 * 
+	 * @return bool
+	 */
+	public function hasCache () {
+		if (\defined ('NO_CACHE')) {
+			return false;
+		} else if ($this->hasCache !== 0) {
+			return $this->hasCache > 0;
+		} else if (!\is_null ($this->cacheFile)) {
+			$file = DIR_CAC . '/' . $this->cacheFile;
+			\clearstatcache (true, $file);
+			$bool = \is_file ($file) && \filemtime ($file) + CACHE_GENERAL > \date ('U');
+			$this->hasCache = $bool ? 1 : -1;
+			return $bool;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Load a Model from the cache.
+	 * 
+	 * @return \RH\Model\AbstractModel
+	 */
+	public function loadCache () {
+		if ($this->hasCache ()) {
+			$file = DIR_CAC . '/' . $this->cacheFile;
+			$str = @\file_get_contents ($file);
+			if (!empty ($str)) {
+				$mModel = new static ();
+				$mModel->unserialize ($str);
+				$this->merge ($mModel);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Save this model to the cache.
+	 * 
+	 * @return \RH\Model\AbstractModel
+	 */
+	public function saveCache () {
+		if ($this->cacheTime > 0 && !\is_null ($this->cacheFile)) {
+			$file = DIR_CAC . '/' . $this->cacheFile;
+			@\file_put_contents ($file, $this->serialize ());
+			@\chmod ($file, 0777);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Clear the cache for this model;
+	 * 
+	 * @return \RH\Model\AbstractModel
+	 */
+	public function clearCache () {
+		if (!\is_null ($this->cacheFile)) {
+			$file = DIR_CAC . '/' . $this->cacheFile;
+			@\unlink ($file);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Load a Model from the cache, or generate it from scratch. By default, this
+	 * will also cache the generated model.
+	 * 
+	 * @param string $file Filename for the cache
+	 * @param \RH\Model\AbstractModel $mModel Model to populate/restore from
+	 * 	cache
+	 * @param function $generateFn Function to generate the Model data if it 
+	 * 	is not cached
+	 * @param bool $cache Cache the model if it is generated.
+	 * @param int $time Time in seconds that the cache lasts
+	 * @return \RH\Model\AbstractModel
+	 */
+	public static function load ($file, \RH\Model\AbstractModel &$mModel, $generateFn, $cache = true, $time = CACHE_GENERAL) {
+		$file = DIR_CAC . '/' . $file;
+		\clearstatcache (true, $file);
+
+		if (!\is_file ($file) || (\is_file ($file) && \filemtime ($file) + CACHE_GENERAL < \date ('U'))) {
+			$generateFn ($mModel);
+			if ($cache) {
+				@\file_put_contents ($file, $mModel->serialize ());
+				@\chmod ($file, 0777);
+			}
+		} else {
+			$str = @\file_get_contents ($file);
+			$mModel->unserialize ($str);
+		}
+
+		return $mModel;
 	}
 
 	/**
@@ -155,7 +302,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	 */
 	public function merge ($data) {
 		foreach ($data as $k => $v) {
-			$this[$k] = $v;
+			$this->__set ($k, $v);
 		}
 
 		return $this;

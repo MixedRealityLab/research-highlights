@@ -116,7 +116,7 @@ $(function() {
 
 	ReHi.regSubForm($('form.stage-editor'), '@@@URI_ROOT@@@/do/submit', function (response, textStatus, jqXHR) {
 		if (response.success == '1') {
-			ReHi.showSuccess('Good News!', 'Your submission was saved, ' + $('#name').val() + '! For reference, you can see the latest version of <a href="@@@URI_ROOT@@@/read#' + $('#saveAs').attr('value') + '" target="_blank">your submission</a> online (although it may not look like this in the final website).');
+			ReHi.showSuccess('Good News!', 'Your submission was saved, ' + $('#name').val() + '! It make take some time for your changes to propagate onto the website.');
 		} else if (response.error != undefined) {
 			ReHi.showError('Goshdarnit!', response.error + ' <a href="mailto:@@@EMAIL@@@" class="alert-link">I need help!</a>');
 		} else  {

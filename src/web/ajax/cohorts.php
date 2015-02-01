@@ -9,6 +9,8 @@
 
 // Fetch a list of cohorts
 
+\header ('Content-type: application/json');
+
 try {
 	print I::RH_User ()
 		->getCohorts ()

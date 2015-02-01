@@ -35,7 +35,7 @@ class Header {
 		foreach ($cols as $i => $col) {
 			$data = \explode (':', \trim ($col));
 			if (\count ($data) !== 2) {
-				throw new \RH\Error\Data ('File has incorrect number of parameters per column (has ' . count($data) .') in ' . $col);
+				throw new \RH\Error\SystemError ('File has incorrect number of parameters per column (has ' . count($data) .') in ' . $col);
 			}
 			$this->add ($data[0], $data[1]);
 		}

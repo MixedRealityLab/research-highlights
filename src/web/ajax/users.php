@@ -9,6 +9,8 @@
 
 // Fetch a list of users (either all, a cohort, or (not) submitted)
 
+\header ('Content-type: application/json');
+
 try {
 	$mInput = I::RH_Model_Input ();
 	$cUser = I::RH_User ();

@@ -25,33 +25,51 @@ class Submission implements \RH\Singleton {
 	/** @var string Default file name suffix */
 	const DEF_FILE_SUF = '.txt';
 
-	/** @var Submission Submission template */
-	private $defaultData;
+	/** @var string Submission model cache */
+	const DEFAULT_DATA_CACHE = 'defaultData.cache';
+
+	/** @var string Submission model cache */
+	const SUBMISSION_CACHE = 'submission-%s-%s.cache';
+
+	/** @var \RH\Model\Submission Submission template */
+	private $mDefaultData;
+
+	/** @var \RH\Model\Submissions Cache submissions */
+	private $mSubmissions;
 
 	/**
 	 * @return \RH\Model\Submission Default submission template
 	 */
 	public function getDefaultData () {
-		if (\is_null ($this->defaultData)) {
-			$oFileReader = \I::RH_File_Reader ();
+		if (\is_null ($this->mDefaultData)) {
+			$mDefaultData = new \RH\Model\Submission();
+			$mDefaultData->setCache (CACHE_SUBMISSION, self::DEFAULT_DATA_CACHE);
 
-			$sufLen = \strlen (self::DEF_FILE_SUF);
-			$readFileFn = function ($fileName) use ($sufLen) {
-				return \strpos ($fileName, self::DEF_FILE_PRE) === 0 &&
-				    \strlen ($fileName) - \strrpos ($fileName, self::DEF_FILE_SUF) === $sufLen;
-			};
+			if ($mDefaultData->hasCache ()) {
+				$mDefaultData->loadCache ();
+			} else {
+				$oFileReader = \I::RH_File_Reader ();
 
-			$preLen = \strlen (self::DEF_FILE_PRE);
-			$fileNameFn = function ($fileName) use ($preLen, $sufLen) {
-				$end = \strlen ($fileName) - $preLen - $sufLen;
-				return substr ($fileName, $preLen, $end);
-			};
+				$sufLen = \strlen (self::DEF_FILE_SUF);
+				$readFileFn = function ($fileName) use ($sufLen) {
+					return \strpos ($fileName, self::DEF_FILE_PRE) === 0 &&
+					    \strlen ($fileName) - \strrpos ($fileName, self::DEF_FILE_SUF) === $sufLen;
+				};
 
-			$data = $oFileReader->multiRead (DIR_USR, $readFileFn, $fileNameFn);
-			$this->defaultData = new \RH\Model\Submission ($data);
+				$preLen = \strlen (self::DEF_FILE_PRE);
+				$fileNameFn = function ($fileName) use ($preLen, $sufLen) {
+					$end = \strlen ($fileName) - $preLen - $sufLen;
+					return substr ($fileName, $preLen, $end);
+				};
+
+				$data = $oFileReader->multiRead (DIR_USR, $readFileFn, $fileNameFn);
+				$mDefaultData->merge ($data)->saveCache ();
+			}
+
+			$this->mDefaultData = $mDefaultData;
 		}
 
-		return $this->defaultData;
+		return $this->mDefaultData;
 	}
 
 	/**
@@ -65,72 +83,55 @@ class Submission implements \RH\Singleton {
 	 * @throws \RH\Error\NoSubmission if there is no submission
 	 */
 	public function get (\RH\Model\User $mUser, $includeDefaults = true) {
-		$oFileReader = \I::RH_File_Reader ();
-
-		if ($includeDefaults) {
-			$mSubmission = $this->getDefaultData();
-		} else {
-			$mSubmission = new \RH\Model\Submission ();
+		if (\is_null ($this->mSubmissions)) {
+			$this->mSubmissions = new \RH\Model\Submissions();
 		}
 
-		$sufLen = \strlen (self::DEF_FILE_SUF);
-		$readFileFn = function ($fileName) use ($sufLen) {
-			return \substr ($fileName, 0 - $sufLen) === self::DEF_FILE_SUF;
-		};
+		$username = $mUser->username;
 
-		$fileNameFn = function ($fileName) use ($sufLen) {
-			$end = \strlen ($fileName) - $sufLen;
-			return substr ($fileName, 0, $end);
-		};
+		if (!isSet ($this->mSubmissions->$username)) {
+			$file = \sprintf (self::SUBMISSION_CACHE, $username, $mUser->latestVersion);
 
-		$data = array();
-		try {
-			$dir = $mUser->latestSubmission;
-			$data = $oFileReader->multiRead ($dir, $readFileFn, $fileNameFn);
-		} catch (\RH\Error\NoField $e) {
-			if (!$includeDefaults) {
-				throw new \RH\Error\NoSubmission();
-			}
-		}
+			$mSubmission = new \RH\Model\Submission();
+			$mSubmission->setCache (CACHE_SUBMISSION, $file);
 
-		return $mSubmission->merge ($data)->makeSubsts ($mUser);
-	}
+			if ($mSubmission->hasCache ()) {
+				$mSubmission->loadCache ();
+			} else {
+				$oFileReader = \I::RH_File_Reader ();
 
-	/**
-	 * Retrieve a list of keywords
-	 * 
-	 * @return \RH\Model\Keywords
-	 */
-	public function getKeywords () {
-		$file = DIR_DAT . '/keywords.txt';
-		\clearstatcache (true, $file);
-
-		$mKeywords = new \RH\Model\Keywords ();
-
-		if (\is_file ($file) && \filemtime ($file) + KEY_CACHE < \date ('U')) {
-			$mUsers = I::RH_User ()->getAll (null, function ($mUser) {
-				return $mUser->latestVersion && $mUser->countSubmission;
-			});
-
-			foreach ($mUsers as $mUser) {
-				$mSubmission = $cSubmission->get ($mUser, false);
-				foreach ($mSubmission->getKeywords () as $keyword) {
-					if (!isSet ($mKeywords->$keyword)) {
-						$mKeywords->$keyword = new \RH\Model\Users();
-					}
-					$mKeywords->$keyword->offsetSet ($mUser->username, $mUser);
+				if ($includeDefaults) {
+					$mSubmission->merge ($this->getDefaultData());
 				}
-			}
-			$mKeywords->ksort ();
 
-			@\file_put_contents ($file, $mKeywords->serialize ());
-			@\chmod ($file, 0777);
-		} else {
-			$str = @\file_get_contents ($file);
-			$mKeywords->unserialize ($str);
+				$sufLen = \strlen (self::DEF_FILE_SUF);
+				$readFileFn = function ($fileName) use ($sufLen) {
+					return \substr ($fileName, 0 - $sufLen) === self::DEF_FILE_SUF;
+				};
+
+				$fileNameFn = function ($fileName) use ($sufLen) {
+					$end = \strlen ($fileName) - $sufLen;
+					return substr ($fileName, 0, $end);
+				};
+
+				$data = array();
+				try {
+					$dir = $mUser->latestSubmission;
+					$oFileReader = \I::RH_File_Reader ();
+					$data = $oFileReader->multiRead ($dir, $readFileFn, $fileNameFn);
+				} catch (\RH\Error\NoField $e) {
+					if (!$includeDefaults) {
+						throw new \RH\Error\NoSubmission();
+					}
+				}
+
+				$mSubmission->merge ($data)->makeSubsts ($mUser)->saveCache ();
+			}
+
+			$this->mSubmissions->$username = $mSubmission;
 		}
 
-		return $mKeywords;
+		return $this->mSubmissions->$username;
 	}
 
 	/**
@@ -139,7 +140,7 @@ class Submission implements \RH\Singleton {
 	 * @param string $markdown Markdown-formatted text
 	 * @return string HTML formatted text
 	 */
-	public function markdownToHtml ($markdown) {
+	public static function markdownToHtml ($markdown) {
 		return \Michelf\Markdown::defaultTransform ($markdown);
 	}
 

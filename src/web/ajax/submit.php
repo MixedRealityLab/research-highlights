@@ -9,6 +9,10 @@
 
 // Save a user's submission
 
+\header ('Content-type: application/json');
+
+\define ('NO_CACHE', true);
+
 try {
 	$cUser = I::RH_User ();
 	$mInput = I::RH_Model_Input ();
@@ -40,7 +44,7 @@ try {
 
 	$mSubmission = new \RH\Model\Submission ($mInput);
 
-	$html = $cSubmission->markdownToHtml ($mSubmission->text);
+	$html = \RH\Submission::markdownToHtml ($mSubmission->text);
 
 	$images = array();
 	\preg_match_all ('/(<img).*(src\s*=\s*("|\')([a-zA-Z0-9\.;:\/\?&=\-_|\r|\n]{1,})\3)/isxmU', $html, $images, PREG_PATTERN_ORDER);

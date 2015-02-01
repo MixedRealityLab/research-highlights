@@ -9,6 +9,8 @@
 
 // Fetch a list of keywords
 
+\header ('Content-type: application/json');
+
 try {
 	$mInput = I::RH_Model_Input ();
 	$cSubmission = I::RH_Submission ();
@@ -22,7 +24,7 @@ try {
 		exit;
 	}
 
-	print $cSubmission->getKeywords ()->toJson();
+	print \RH\Keywords::get ()->toJson ();
 } catch (\RH\Error $e) {
 	print $e->toJson ();
 }

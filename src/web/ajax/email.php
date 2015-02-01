@@ -9,6 +9,8 @@
 
 // Send an email to users
 
+\header ('Content-type: application/json');
+
 try {
 	$cSubmission = I::RH_Submission ();
 	$cUser = I::RH_User ();

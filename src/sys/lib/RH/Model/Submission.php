@@ -64,7 +64,8 @@ class Submission extends AbstractModel {
 	 */
 	public function save () {
 		$ext = \RH\Submission::DAT_FILE_SUF;
-		$dir = DIR_DAT . '/' . $this->cohort . '/' . $this->saveAs  . '/' . date ('U') .'/';
+		$version = date ('U');
+		$dir = DIR_DAT . '/' . $this->cohort . '/' . $this->saveAs  . '/' . $version .'/';
 
 		if (@mkdir ($dir, 0777, true) === false) {
 			throw new \RH\Error\System ('Could not create directory to save input to');
@@ -81,7 +82,7 @@ class Submission extends AbstractModel {
 				throw new \RH\Error\System ('Could not save ' . $key . ' to the system');
 			}
 		}
-
+		
 		return true;
 	}
 

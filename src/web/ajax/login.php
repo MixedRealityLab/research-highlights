@@ -9,6 +9,10 @@
 
 // Validate login credentials
 
+\header ('Content-type: application/json');
+
+\define ('NO_CACHE', true);
+
 try {
 	$mInput = I::RH_Model_Input ();
 	$cUser = I::RH_User ();

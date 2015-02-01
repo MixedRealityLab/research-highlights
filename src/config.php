@@ -19,6 +19,7 @@
 \define ('DIR_WTP', DIR . '/web/tpl');
 
 \define ('DIR_DAT', \dirname (DIR) . '/submissions-' . SITE_YEAR);
+\define ('DIR_CAC', \dirname (DIR) . '/submissions-' . SITE_YEAR .'/cache');
 
 \define ('DIR_SLB', DIR .  '/sys/lib');
 \define ('DIR_SCS', DIR . '/sys/css');
@@ -52,6 +53,10 @@
 \define ('MAIL_ON_CHANGE_USRS', 'psxmp9');
 \define ('MAIL_ON_CHANGE_SUBJ', '[' . SITE_NAME . '] Submission Updated for <firstName> <surname>');
 
-\define ('KEY_CACHE', 900);
+\define ('CACHE_GENERAL', 86400);
+\define ('CACHE_USER', CACHE_GENERAL);
+\define ('CACHE_KEYWORDS', CACHE_GENERAL);
+\define ('CACHE_SUBMISSION', CACHE_GENERAL);
+\define ('CACHE_SEARCH', 604800);
 
 \date_default_timezone_set ('Europe/London');
