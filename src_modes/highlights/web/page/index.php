@@ -60,7 +60,11 @@ $cTemplate->startCapture ();
 					</div>
 				</div>
 
-				<div class="read collapse">
+				<div class="read noAutoFadeIn collapse">
+				</div>
+
+				<div class="loading">
+					<img src="<?php print URI_WEB; ?>/img/loading.gif" alt="Loading">
 				</div>
 			</div>
 		</div>

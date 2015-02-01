@@ -14,6 +14,9 @@
  */
 class RecursiveArrayObject extends \ArrayObject {
 	
+	/** @var bool Enable recursive object creation */
+	protected $recurse = true;
+
 	/**
 	 * Construct the data object, with initial data values, if any.
 	 * 
@@ -38,7 +41,7 @@ class RecursiveArrayObject extends \ArrayObject {
 	 * @return void
 	 */
 	public function __set ($key, $value){
-		if (\is_array ($value) || \is_object ($value)) {
+		if ($this->recurse && \is_array ($value) || \is_object ($value)) {
 			$this->offsetSet ($key, $this->newChild ($value));
 		} else {
 			$this->offsetSet ($key, $value);

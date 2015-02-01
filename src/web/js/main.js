@@ -9,7 +9,11 @@
  var ReHi = {
 	fadePageIn			: function() {
 							$('.collapse').each(function(i) {
-								$(this).delay(200 * i).fadeIn();
+								if ($(this).hasClass('noAutoFadeIn')) {
+									return;
+								} else {
+									$(this).delay(200 * i).fadeIn();
+								}
 							});
 						},
 

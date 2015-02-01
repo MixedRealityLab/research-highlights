@@ -16,19 +16,37 @@ function replaceAll(find, replace, str) {
 }
 
 // load a page
-function loadPage (handler, hash, data, showErrorFn, title) {
+function loadPage (handler, hash, data, showErrorFn, title, showLoading) {
+	if (showLoading == undefined) {
+		showLoading = false;
+	}
+
 	ReHi.sendData({
 		dataType: 'json',
 		data: data,
 		url: '@@@URI_ROOT@@@/do/' + handler,
 		type: 'post',
+		beforeSend: function() {
+			if (showLoading) {
+				$('.read').fadeOut();
+				$('.loading').fadeIn();
+			}
+		},
+		complete: function() {
+			if (showLoading) {
+				$('.loading').fadeOut();
+				$('.read').fadeIn();
+			} else if ($('.read').hasClass('collapse')) {
+				$('.read').fadeIn();
+			}
+		},
 		success: function (response, textStatus, jqXHR) {
-					if (response.length == 0) {
-						showErrorFn(response);
-					} else {
-						showSubmissions(response, title);
-					}
-				}
+			if (response.length == 0) {
+				showErrorFn(response);
+			} else {
+				showSubmissions(response, title);
+			}
+		}
 	});
 }
 
@@ -77,7 +95,9 @@ function changeListView (list, onCompleteFn) {
 	}
 
 	$('a.listMode').removeClass('selected');
-	$('a[data-listmode="' + list + '"]').addClass('selected');
+	if (list != 'none') {
+		$('a[data-listmode="' + list + '"]').addClass('selected');
+	}
 
 	if (list == 'cohort') {
 		ReHi.sendData({
@@ -138,16 +158,19 @@ function changeListView (list, onCompleteFn) {
 						completeFn();
 					}
 		});
+	} else {
+		$('#viewList').html('');
+		completeFn();
 	}
 }
 
 // show error message
-function showError(text) {
+function showError(title, text) {
 	$('.read').empty();
 	$('.headerOnly').unbind('click.headerOnly');
 
 	var $submission = $('<section></section>');
-	$submission.append([$('<h1 class="pagetitle">Whoops, looks like there was a problem!</h1>'),$('<p></p>').addClass('error').html(text)]);
+	$submission.append([$('<h1 class="pagetitle">' + title + '</h1>'),$('<p></p>').addClass('error').html(text)]);
 	$('.read').append($submission);
 
 	$('.row-offcanvas').toggleClass('active');
@@ -250,7 +273,7 @@ function firstResponder(hash) {
 
 			var cohort = hash.replace ('#cohort=', '');
 			loadPage ('read', hash, 'cohort=' + cohort, function() {
-				showError('Sorry, no articles were found for that cohort.');
+				showError('Invalid cohort', 'Sorry, no articles were found for that cohort.');
 			}, 'Submissions from the ' + cohort + ' Cohort');
 		});
 		$('#q').val('');
@@ -266,7 +289,7 @@ function firstResponder(hash) {
 			$item.parents('.panel-collapse').collapse();
 
 			loadPage ('read', hash, 'user=' + hash.replace ('#read=', ''), function() {
-				showError('Sorry, no submission was found for that username.');
+				showError('Unknown username', 'Sorry, no submission was found for that username.');
 			});
 		});
 		$('#q').val('');
@@ -287,9 +310,15 @@ function firstResponder(hash) {
 					}
 				});
 
+				if (keywords == undefined || keywords.length > 2) {
+					title = 'Submissions matching the selected keywords';
+				} else {
+					title = 'Submissions with the keyword <em>' + keywords[0] + '</em>';
+				}
+
 				loadPage ('read', hash, 'keywords=' + hash.replace ('#keywords=', ''), function() {
-					showError('Sorry, no submission were found for the keywords supplied.');
-				}, 'Submissions matching the highlighted keywords');
+					showError('No results found :-(', 'Sorry, no submission were found for the keywords supplied.');
+				}, title);
 			}
 		});
 		$('#q').val('');
@@ -297,11 +326,15 @@ function firstResponder(hash) {
 		curType = 'search';
 		$('.jumbotron').remove();
 
-		var q= hash.replace ('#q=', '');
-		$('#q').val(q);
-		loadPage ('search', hash, 'q=' + q, function() {
-			showError('Sorry, no results were found for <em>' + q + '</em>, please try refining your search terms');
-		}, 'Search results for <em>' + q + '</em>');
+		changeListView ('none', function() {
+			$('.loadPage.selected').removeClass('selected');
+			var q = hash.replace ('#q=', '');
+			$('#q').val(q);
+			loadPage ('search', hash, 'q=' + q, function() {
+				showError('No results found :-(', 'Sorry, no results were found for <em>' + q + '</em>, please try refining your search terms');
+			}, 'Search results for <em>' + q + '</em>', true);
+
+		});
 	} else {
 		changeListView('name');
 	}
@@ -309,6 +342,8 @@ function firstResponder(hash) {
 
 
 $(function() {
+	ReHi.fadePageIn();
+
 	$('[data-toggle=offcanvas]').click(function() {
 		$('.row-offcanvas').toggleClass('active');
 	});
@@ -330,7 +365,7 @@ $(function() {
 		window.location.hash = '#q=' + $('#q').val();
 	});
 
-	ReHi.fadePageIn();
+	$('.loading').fadeOut();
 
 	firstResponder(window.location.hash);
 	$(window).hashchange( function(){

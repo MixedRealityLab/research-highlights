@@ -25,6 +25,9 @@ class Search implements \RH\Singleton {
 	/** @var float Weighting for exact matches */
 	const WEIGHT_MATCH = 1.5;
 
+	/** @var float Weighting for all terms */
+	const WEIGHT_ALL_TERMS = 2;
+
 	/** @var \RH\Model\SearchKeywords keyword model */
 	private $mSearchKeywords;
 
@@ -79,37 +82,53 @@ class Search implements \RH\Singleton {
 			$dbKeywords = \array_keys ($mSearchKeywords->getArrayCopy());
 			$mRelevantSearchKeywords = array();
 
+			$terms = \preg_replace ('/[^a-z0-9 *]+/i', '', $terms);
+			$terms = \str_replace ('*', '.*', $terms); 
 			$terms = \preg_split ('/\s+/', $terms, null, PREG_SPLIT_NO_EMPTY);
 			foreach ($terms as $term) {
-				$matches = \preg_grep ('/' . $term .'/', $dbKeywords);
+				if (\strlen ($term) < 3) {
+					continue;
+				}
+
+				$matches = \preg_grep ('/^' . $term .'$/', $dbKeywords);
 				foreach ($matches as $row => $foundTerm) {
 					$mRelevantSearchKeywords[$foundTerm] = $mSearchKeywords[$foundTerm];
 				}
 			}
 
-
+			$cUser = \I::RH_User();
 			$cSubmission = \I::RH_Submission();
 			foreach ($mRelevantSearchKeywords as $keyword => $mSearchKeyword) {
-				foreach ($mSearchKeyword->users as $mUser) {
-
-					$username = $mUser->username;
+				foreach ($mSearchKeyword->getUsers () as $username) {
 					if (!isSet ($mSearchResults->$username)) {
 
-						$mSubmission = $mSearchKeyword->submissions[$username];
+						$mUser = $cUser->get ($username);
+						$mSubmission = $cSubmission->get ($mUser);
+
 						$mSearchResults->$username = $mSubmission;
 						$mSearchResults->$username->merge ($mUser);
 
 						$html = \RH\Submission::markdownTohtml ($mSubmission->text);
 
 						$mSearchResults->$username->html = $html;
+						$mSearchResults->$username->found = 0;
 					}
+
+
+					$mSearchResults->$username = $mSubmission;
 
 					$imp = $mSearchKeyword->importance;
 					if (\in_array ($keyword, $terms)) {
+						$mSearchResults->$username->found++;
 						$imp *= self::WEIGHT_MATCH;
 					}
-
+					
 					$mSearchResults->$username->weight += $imp;
+
+					if ($mSearchResults->$username->found == \count ($terms)) {
+						$mSearchResults->$username->weight *= self::WEIGHT_ALL_TERMS;
+					}
+
 				}
 			}
 

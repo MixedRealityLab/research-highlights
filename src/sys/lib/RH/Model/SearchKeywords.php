@@ -22,9 +22,9 @@ class SearchKeywords extends AbstractModel {
 	private static function getWeights() {
 		$importance							= array ();
 		$importance['author']				= 100;
-		$importance['keyword']				= 40;
-		$importance['tweet']				= 30;
-		$importance['title']				= 10;
+		$importance['keyword']				= 50;
+		$importance['tweet']				= 50;
+		$importance['title']				= 20;
 		$importance['text']['h1']			= 9;
 		$importance['text']['h2']			= 8;
 		$importance['text']['h3']			= 7;
@@ -35,18 +35,18 @@ class SearchKeywords extends AbstractModel {
 		$importance['text']['text']			= 1;
 
 		$use								= array ();
-		$use['author']						= 1.1;
-		$use['keyword']						= .95;
-		$use['tweet']						= .92;
-		$use['title']						= .92;
-		$use['text']['h1']					= .95;
-		$use['text']['h2']					= .95;
-		$use['text']['h3']					= .95;
-		$use['text']['h4']					= .95;
-		$use['text']['strong']				= .95;
-		$use['text']['em']					= .90;
-		$use['text']['blockquote']			= .90;
-		$use['text']['text']				= .85;
+		$use['author']						= 1;
+		$use['keyword']						= 1;
+		$use['tweet']						= 1;
+		$use['title']						= .7;
+		$use['text']['h1']					= .6;
+		$use['text']['h2']					= .5;
+		$use['text']['h3']					= .5;
+		$use['text']['h4']					= .5;
+		$use['text']['strong']				= .5;
+		$use['text']['em']					= .5;
+		$use['text']['blockquote']			= .3;
+		$use['text']['text']				= .5;
 
 		return array ('imp' => $importance, 'use' => $use);
 	}
@@ -75,16 +75,15 @@ class SearchKeywords extends AbstractModel {
 	 * 	added
 	 */
 	private function appendIndex ($keywords, \RH\Model\User $mUser, \RH\Model\Submission $mSubmission, $importance, $use) {
-		$keywords =  \preg_replace ('/[^a-z0-9 ]+/i', '', \strtolower ($keywords));
+		$keywords = \preg_replace ('/[^a-z0-9 ]+/i', '', \strtolower ($keywords));
 		$keywords = \preg_split ('/\s+/', $keywords, null, PREG_SPLIT_NO_EMPTY);
 		foreach ($keywords as $keyword) {
 			if (!$this->offsetExists ($keyword)) {
 			 	$this->offsetSet ($keyword, new \RH\Model\SearchKeyword());
 			}
 
-			$this->$keyword->users[$mUser->username] = $mUser;
-			$this->$keyword->submissions[$mUser->username] = $mSubmission;
-			$this->$keyword->importance += $importance * \pow ($use, \count ($this->$keyword->users));
+			$this->$keyword->addUser ($mUser->username);
+			$this->$keyword->importance += $importance * \pow ($use, $this->$keyword->countUsers());
 		}
 	}
 
@@ -109,7 +108,7 @@ class SearchKeywords extends AbstractModel {
 		$keywords = \preg_split ('/,+/', $mSubmission->keywords, null, PREG_SPLIT_NO_EMPTY);
 		foreach ($keywords as $keyword) {
 			$this->appendIndex ($keyword, $mUser, $mSubmission,
-			                    $weights['imp']['author'],
+			                    $weights['imp']['keyword'],
 			                    $weights['use']['keyword']);
 		}
 
@@ -118,7 +117,7 @@ class SearchKeywords extends AbstractModel {
 		                    $weights['use']['tweet']);
 
 		$this->appendIndex ($mSubmission->title, $mUser, $mSubmission,
-		                    $weights['imp']['author'],
+		                    $weights['imp']['title'],
 		                    $weights['use']['title']);
 
 		$text = $mUser->makeSubsts ($mSubmission->text);

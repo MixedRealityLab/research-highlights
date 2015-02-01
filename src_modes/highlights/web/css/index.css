@@ -238,6 +238,10 @@ article img {
 	margin: 0 auto 0 auto;
 }
 
+.loading {
+	text-align: center;
+}
+
 /** FOOTER **/
 footer {
 	padding-left: 15px;
