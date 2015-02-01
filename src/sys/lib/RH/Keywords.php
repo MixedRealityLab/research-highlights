@@ -20,7 +20,7 @@ class Keywords implements \RH\Singleton {
 	const KEYWORDS_CACHE = 'keywords.cache';
 
 	/** @var \RH\Model\Keywords List of keywords */
-	private static $keywords = null;
+	private static $mKeywords = null;
 
 	/**
 	 * Retrieve a list of keywords
@@ -28,7 +28,7 @@ class Keywords implements \RH\Singleton {
 	 * @return \RH\Model\Keywords
 	 */
 	public static function get () {
-		if (\is_null (self::$keywords)) {
+		if (\is_null (self::$mKeywords)) {
 			$mKeywords = new \RH\Model\Keywords();
 			$mKeywords->setCache (CACHE_KEYWORDS, self::KEYWORDS_CACHE);
 
@@ -43,7 +43,7 @@ class Keywords implements \RH\Singleton {
 
 				foreach ($mUsers as $mUser) {
 					$mSubmission = $cSubmission->get ($mUser, false);
-					foreach (\RH\Keywords::get () as $keyword) {
+					foreach ($mSubmission->getKeywords () as $keyword) {
 						if (!isSet ($mKeywords->$keyword)) {
 							$mKeywords->$keyword = new \RH\Model\Users();
 						}
@@ -52,11 +52,12 @@ class Keywords implements \RH\Singleton {
 				}
 
 				$mKeywords->ksort ();
+				$mKeywords->saveCache ();
 			}
 			
 			self::$mKeywords = $mKeywords;
 		}
 
-		return self::$keywords;
+		return self::$mKeywords;
 	}
 }
