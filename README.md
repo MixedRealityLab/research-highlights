@@ -1,5 +1,5 @@
 # Research Highlights
-This is the repository for a PHP + flat-file DB system for highlighting research highlights within a Centre for Doctoral Training. The system was developed at The University of Nottingham, by [Martin Porcheron](https://www.porcheron.uk/).
+This is the repository for a PHP + flat-file DB system for publishing highlights from research conducted within a Centre for Doctoral Training. The system was developed at The University of Nottingham, by [Martin Porcheron](https://www.porcheron.uk/).
 
 ## Configuration Instructions
 * Configuration is based in the _src/config.php_ file
