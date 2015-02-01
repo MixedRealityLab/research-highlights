@@ -193,7 +193,7 @@ function showSubmissions (response, title) {
 			// header
 			var $submission = $('<section></section>');
 
-			var linkedTitle = headersOnly ? 'headerOnly loadPage" href="#read=' + data.username + '"' : '';
+			var linkedTitle = headersOnly ? 'headerOnly loadPage" href="#read=' + data.saveAs + '"' : '';
 
 			var header = [];
 			header.push ($('<h1 class="' + linkedTitle + '"> ' + data.title + '</h1>'));
