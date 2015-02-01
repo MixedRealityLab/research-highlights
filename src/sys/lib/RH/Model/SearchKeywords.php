@@ -19,7 +19,7 @@ class SearchKeywords extends AbstractModel {
 	/**
 	 * @return mixedp[]
 	 */
-	private static function getWeights() {
+	private static function getWeights () {
 		$importance							= array ();
 		$importance['author']				= 100;
 		$importance['keyword']				= 50;
@@ -79,11 +79,11 @@ class SearchKeywords extends AbstractModel {
 		$keywords = \preg_split ('/\s+/', $keywords, null, PREG_SPLIT_NO_EMPTY);
 		foreach ($keywords as $keyword) {
 			if (!$this->offsetExists ($keyword)) {
-			 	$this->offsetSet ($keyword, new \RH\Model\SearchKeyword());
+				$this->offsetSet ($keyword, new \RH\Model\SearchKeyword ());
 			}
 
 			$this->$keyword->addUser ($mUser->username);
-			$this->$keyword->importance += $importance * \pow ($use, $this->$keyword->countUsers());
+			$this->$keyword->importance += $importance * \pow ($use, $this->$keyword->countUsers ());
 		}
 	}
 
@@ -123,9 +123,9 @@ class SearchKeywords extends AbstractModel {
 		$text = $mUser->makeSubsts ($mSubmission->text);
 		$text = \RH\Submission::markdownToHtml ($text);
 
-		$tags = array('h1', 'h2', 'h3', 'h4', 'strong', 'em', 'blockquote');
+		$tags = array ('h1', 'h2', 'h3', 'h4', 'strong', 'em', 'blockquote');
 		foreach ($tags as $tag) {
-			$matches = array();
+			$matches = array ();
 			\preg_match_all ("/<$tag>(.*?)<\/$tag>/", $text, $matches, PREG_PATTERN_ORDER);
 			
 			foreach ($matches[1] as $keywords) {

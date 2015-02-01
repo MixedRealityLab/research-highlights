@@ -26,16 +26,16 @@ class Header {
 	 * Construct the header representation, with the `string` text of the file
 	 * header.
 	 * 
-	 * @see \RH\File\Reader::read() for formatting
+	 * @see \RH\File\Reader::read () for formatting
 	 * @param string $row Header of the file. 
 	 * @return void
 	 */
 	public function __construct ($row) {
-		$cols = \explode (',', $row);
+		$cols = \preg_split ('/,/', \trim ($row), null, PREG_SPLIT_NO_EMPTY);
 		foreach ($cols as $i => $col) {
-			$data = \explode (':', \trim ($col));
+			$data = \preg_split ('/:/', $col, null, PREG_SPLIT_NO_EMPTY);
 			if (\count ($data) !== 2) {
-				throw new \RH\Error\SystemError ('File has incorrect number of parameters per column (has ' . count($data) .') in ' . $col);
+				throw new \RH\Error\SystemError ('File has incorrect number of parameters per column (has ' . count ($data) .') in ' . $col);
 			}
 			$this->add ($data[0], $data[1]);
 		}

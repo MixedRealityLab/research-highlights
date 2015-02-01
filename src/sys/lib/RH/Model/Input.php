@@ -20,12 +20,12 @@ class Input extends AbstractModel implements \RH\Singleton {
 	 * Construct the `Input` handler by importing the superglobals, and then
 	 * destroying them. This makes this class the definitive source of input.
 	 */
-	public function __construct() {
+	public function __construct () {
 		if (!isSet ($_GET)) {
-			$_GET = array();
+			$_GET = array ();
 		}
 		if (!isSet ($_POST)) {
-			$_POST = array();
+			$_POST = array ();
 		}
 
 		parent::__construct (\array_merge ($_GET, $_POST));

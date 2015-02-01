@@ -14,7 +14,7 @@
 try {
 	print I::RH_User ()
 		->getCohorts ()
-		->toArrayJson();
+		->toArrayJson ();
 } catch (\RH\Error $e) {
 	print $e->toJson ();
 }

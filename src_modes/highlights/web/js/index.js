@@ -11,8 +11,8 @@ var curType = '';
 var prevHash = '';
 
 // from http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
-function replaceAll(find, replace, str) {
-	return str.replace(new RegExp(find, 'g'), replace);
+function replaceAll (find, replace, str) {
+	return str.replace (new RegExp (find, 'g'), replace);
 }
 
 // load a page
@@ -21,30 +21,30 @@ function loadPage (handler, hash, data, showErrorFn, title, showLoading) {
 		showLoading = false;
 	}
 
-	ReHi.sendData({
+	ReHi.sendData ({
 		dataType: 'json',
 		data: data,
 		url: '@@@URI_ROOT@@@/do/' + handler,
 		type: 'post',
-		beforeSend: function() {
+		beforeSend: function () {
 			if (showLoading) {
-				$('.read').fadeOut();
-				$('.loading').fadeIn();
+				$('.read').fadeOut ();
+				$('.loading').fadeIn ();
 			}
 		},
-		complete: function() {
+		complete: function () {
 			if (showLoading) {
-				$('.loading').fadeOut();
-				$('.read').fadeIn();
-			} else if ($('.read').hasClass('collapse')) {
-				$('.read').fadeIn();
+				$('.loading').fadeOut ();
+				$('.read').fadeIn ();
+			} else if ($('.read').hasClass ('collapse')) {
+				$('.read').fadeIn ();
 			}
 		},
 		success: function (response, textStatus, jqXHR) {
 			if (response.length == 0) {
-				showErrorFn(response);
+				showErrorFn (response);
 			} else {
-				showSubmissions(response, title);
+				showSubmissions (response, title);
 			}
 		}
 	});
@@ -59,48 +59,48 @@ function toggleKeyword (keyword) {
 		curKeywords = hash.replace ('#keywords=', '');
 	}
 
-	if (curKeywords.indexOf(keyword) > -1) {
-		curKeywords = curKeywords.replace(keyword + ',', '');
+	if (curKeywords.indexOf (keyword) > -1) {
+		curKeywords = curKeywords.replace (keyword + ',', '');
 	} else {
 		curKeywords += keyword + ',';
 	}
 
 	window.location.hash = '#keywords=' + curKeywords;
-	firstResponder('#keywords=' + curKeywords);
+	firstResponder ('#keywords=' + curKeywords);
 }
 
 // change the sidebar list view
 function changeListView (list, onCompleteFn) {
-	if(list == curListView) {
-		if(onCompleteFn != undefined) {
-			onCompleteFn();
+	if (list == curListView) {
+		if (onCompleteFn != undefined) {
+			onCompleteFn ();
 		}
 		return;
 	}
 
 	curListView = list;
 
-	completeFn = function() {
-		$('a').click(function(e) {
-			if (($(this).hasClass('loadPage') || $(this).parents('.loadPage').length > 0) && this.hash.charAt(0) == '#') {
-				e.preventDefault();
+	completeFn = function () {
+		$('a').click (function (e) {
+			if (($(this).hasClass ('loadPage') || $(this).parents ('.loadPage').length > 0) && this.hash.charAt (0) == '#') {
+				e.preventDefault ();
 				window.location.hash = this.hash;
-				firstResponder(this.hash);
+				firstResponder (this.hash);
 			}
 		});
 
-		if(onCompleteFn != undefined) {
-			onCompleteFn();
+		if (onCompleteFn != undefined) {
+			onCompleteFn ();
 		}
 	}
 
-	$('a.listMode').removeClass('selected');
+	$('a.listMode').removeClass ('selected');
 	if (list != 'none') {
-		$('a[data-listmode="' + list + '"]').addClass('selected');
+		$('a[data-listmode="' + list + '"]').addClass ('selected');
 	}
 
 	if (list == 'cohort') {
-		ReHi.sendData({
+		ReHi.sendData ({
 			dataType: 'json',
 			url: '@@@URI_ROOT@@@/do/cohorts',
 			type: 'post',
@@ -110,25 +110,25 @@ function changeListView (list, onCompleteFn) {
 							var cohort = response[i];
 							html += '<li class="list-group-item viewItem loadPage"><a href="#cohort=' + cohort + '">' + cohort + ' Cohort</a></li>';
 						}
-						$('#viewList').html(html + '</ul></div>');
-						completeFn();
+						$('#viewList').html (html + '</ul></div>');
+						completeFn ();
 					}
 		});
 	} else if (list == 'name') {
-		ReHi.sendData({
+		ReHi.sendData ({
 			dataType: 'json',
 			url: '@@@URI_ROOT@@@/do/submitted',
 			type: 'post',
 			success: function (response, textStatus, jqXHR) {
-						$('#viewList').empty();
+						$('#viewList').empty ();
 						var prevCohort = '', addCohort = '';
 						for (var i = 0; i < response.length; i++) {
 							var user = response[i];
-							if(prevCohort != '' && user.cohort != prevCohort) {
-								$('#viewList').append(addCohort + '</ul></div></div></div>');
+							if (prevCohort != '' && user.cohort != prevCohort) {
+								$('#viewList').append (addCohort + '</ul></div></div></div>');
 								addCohort = '';
 							}
-							if(prevCohort == '' || user.cohort != prevCohort) {
+							if (prevCohort == '' || user.cohort != prevCohort) {
 								addCohort += '<div class="panel panel-default"><div class="panel-heading pageGroup" role="tab" id="cohort-' + user.cohort + '"><h4 class="panel-title">';
 								addCohort += '<a data-toggle="collapse" data-parent="#viewList" href="#cohort-' + user.cohort + '-links" aria-expanded="true" aria-controls="cohort-' + user.cohort + '-links">' +  user.cohort + ' Cohort';
 								addCohort += '</a></h4></div><div id="cohort-' + user.cohort + '-links" class="panel-collapse collapse" role="tabpanel" aria-labelledby="cohort-' + user.cohort + '"><div class="panel-body"><ul class="list-group subgroup">';
@@ -136,12 +136,12 @@ function changeListView (list, onCompleteFn) {
 							}
 							addCohort += '<li class="list-group-item viewItem loadPage"><a href="#read=' + user.username + '">' + user.firstName + ' ' + user.surname + '</a></li>';
 						}
-						$('#viewList').append(addCohort + '</ul></li>');
-						completeFn();
+						$('#viewList').append (addCohort + '</ul></li>');
+						completeFn ();
 					}
 		});
 	} else if (list == 'keyword') {
-		ReHi.sendData({
+		ReHi.sendData ({
 			dataType: 'json',
 			url: '@@@URI_ROOT@@@/do/keywords',
 			type: 'post',
@@ -149,164 +149,164 @@ function changeListView (list, onCompleteFn) {
 						var html = '<div class="keywordSidebar">';
 						var colours = ["primary", "success", "info", "warning", "danger"];
 						var i = 0;
-						$.each(response, function(k,v) {
-							var cleanVal = replaceAll(' ', '%20', k);
+						$.each (response, function (k,v) {
+							var cleanVal = replaceAll (' ', '%20', k);
 							html += '<a href="" data-keyword="' + k + '" class="toggleKeyword label label-onlyHover label-' + colours[i++ % colours.length] + '"  id="keyword-' + cleanVal + '">' + k + '</a> ';
 						});
-						$('#viewList').html(html + '</div>');
-						$('.toggleKeyword').click(function(e) { e.preventDefault(); toggleKeyword( $(e.target).data('keyword')) });
-						completeFn();
+						$('#viewList').html (html + '</div>');
+						$('.toggleKeyword').click (function (e) { e.preventDefault (); toggleKeyword ( $(e.target).data ('keyword')) });
+						completeFn ();
 					}
 		});
 	} else {
-		$('#viewList').html('');
-		completeFn();
+		$('#viewList').html ('');
+		completeFn ();
 	}
 }
 
 // show error message
-function showError(title, text) {
-	$('.read').empty();
-	$('.headerOnly').unbind('click.headerOnly');
+function showError (title, text) {
+	$('.read').empty ();
+	$('.headerOnly').unbind ('click.headerOnly');
 
 	var $submission = $('<section></section>');
-	$submission.append([$('<h1 class="pagetitle">' + title + '</h1>'),$('<p></p>').addClass('error').html(text)]);
-	$('.read').append($submission);
+	$submission.append ([$('<h1 class="pagetitle">' + title + '</h1>'),$('<p></p>').addClass ('error').html (text)]);
+	$('.read').append ($submission);
 
-	$('.row-offcanvas').toggleClass('active');
+	$('.row-offcanvas').toggleClass ('active');
 }
 
 // show loaded submissions
-function showSubmissions(response, title) {
-	$('.read').empty();
-	$('.headerOnly').unbind('click.headerOnly');
+function showSubmissions (response, title) {
+	$('.read').empty ();
+	$('.headerOnly').unbind ('click.headerOnly');
 
 	var headersOnly = response.length > 1 || response[0].html == undefined;
 
 	if (title != undefined) {
-		$('.read').append($('<h1 class="pagetitle"></h1>').html(title));
+		$('.read').append ($('<h1 class="pagetitle"></h1>').html (title));
 	}
 
-	for(var i = 0; i < response.length; i++) {
+	for (var i = 0; i < response.length; i++) {
 		var data = response[i];
-		if(data.length != 0) {
+		if (data.length != 0) {
 			// header
 			var $submission = $('<section></section>');
 
 			var linkedTitle = headersOnly ? 'headerOnly loadPage" href="#read=' + data.username + '"' : '';
 
 			var header = [];
-			header.push($('<h1 class="' + linkedTitle + '"> ' + data.title + '</h1>'));
+			header.push ($('<h1 class="' + linkedTitle + '"> ' + data.title + '</h1>'));
 
-			if(!headersOnly) {
-				header.push($('<span class="name"></span>').text(data.firstName + ' ' + data.surname + ' (' + data.cohort + ' cohort)'));
+			if (!headersOnly) {
+				header.push ($('<span class="name"></span>').text (data.firstName + ' ' + data.surname + ' (' + data.cohort + ' cohort)'));
 				if (data.twitter != '')
-					header.push($('<span class="twitter"><span class="glyphicon glyphicon-user"></span><a href="https://twitter.com/' + data.twitter.substring(1) + '">' + data.twitter + '</a></span>'));
+					header.push ($('<span class="twitter"><span class="glyphicon glyphicon-user"></span><a href="https://twitter.com/' + data.twitter.substring (1) + '">' + data.twitter + '</a></span>'));
 				if (data.website != '') {
-					var visible = data.website.replace(/(http|https):\/\//, '');
-					if(visible.slice(-1) == '/') {
-						visible = visible.substring(0, visible.length - 1);
+					var visible = data.website.replace (/(http|https):\/\//, '');
+					if (visible.slice (-1) == '/') {
+						visible = visible.substring (0, visible.length - 1);
 					}
-					header.push($('<span class="website"><span class="glyphicon glyphicon-home"></span><a href="' + data.website + '">' + visible + '</a></span></span>'));
+					header.push ($('<span class="website"><span class="glyphicon glyphicon-home"></span><a href="' + data.website + '">' + visible + '</a></span></span>'));
 				}
 			}
 
-			if(data.keywords != undefined) {
+			if (data.keywords != undefined) {
 				var colours = ["primary", "success", "info", "warning", "danger"]; var colK = 0;
 				var kwHtml = '<span class="keywords' + linkedTitle + '">';
-				var keywords = data.keywords.split(',');
-				for(var k = 0; k < keywords.length; k++) {
+				var keywords = data.keywords.split (',');
+				for (var k = 0; k < keywords.length; k++) {
 					colK = k % colours.length;
 					kwHtml += ' <span class="label label-noColour label-noHover ' + linkedTitle + '">' + keywords[k] + '</span>';
 				}
 			}
-			header.push($(kwHtml + '</span>'));
-			var $header = $('<div class="well ' + (headersOnly ? 'headerOnly ' + linkedTitle : '') + '"></div>').html(header);
+			header.push ($(kwHtml + '</span>'));
+			var $header = $('<div class="well ' + (headersOnly ? 'headerOnly ' + linkedTitle : '') + '"></div>').html (header);
 
 			// article
-			if(!headersOnly) {
+			if (!headersOnly) {
 				var $article = $('<article></article>');
-				var $body = $('<div></div>').addClass('body').html(data.html);
-				var $fundingStatement = $('<small></small>').addClass('body');
+				var $body = $('<div></div>').addClass ('body').html (data.html);
+				var $fundingStatement = $('<small></small>').addClass ('body');
 				
-				if(data.industryName != '') {
-					var industry = ' and ' + data.industryName + ' (' + (data.industryUrl == '' ? '(no website)' : data.industryUrl.replace(/(http|https):\/\//, '')) + ').';
-					$fundingStatement.html(data.fundingStatement + industry);
+				if (data.industryName != '') {
+					var industry = ' and ' + data.industryName + ' (' + (data.industryUrl == '' ? '(no website)' : data.industryUrl.replace (/(http|https):\/\//, '')) + ').';
+					$fundingStatement.html (data.fundingStatement + industry);
 				} else {
-					$fundingStatement.html(data.fundingStatement + '.');
+					$fundingStatement.html (data.fundingStatement + '.');
 				}
 
-				$article.html([$body, $fundingStatement]);
+				$article.html ([$body, $fundingStatement]);
 
-				$submission.append([$header, $article]);
+				$submission.append ([$header, $article]);
 			} else {
-				$submission.append($header);
+				$submission.append ($header);
 			}
-			$('.read').append($submission);
+			$('.read').append ($submission);
 		}
 	}
-	$('.row-offcanvas').toggleClass('active');
-	$('.headerOnly.loadPage').bind('click.headerOnly', function(e) {
-		e.preventDefault();
-		window.location.hash = $(this).attr('href');
-		firstResponder(window.location.hash);
+	$('.row-offcanvas').toggleClass ('active');
+	$('.headerOnly.loadPage').bind ('click.headerOnly', function (e) {
+		e.preventDefault ();
+		window.location.hash = $(this).attr ('href');
+		firstResponder (window.location.hash);
 	});
 }
 
 // Page event handling
-function firstResponder(hash) {
-	if(hash == '') {
+function firstResponder (hash) {
+	if (hash == '') {
 		hash = '#home';
 	}
-	if(hash == prevHash) {
+	if (hash == prevHash) {
 		return;
 	}
 	prevHash = hash;
 
 	if (hash.indexOf ('#cohort') == 0) {
 		curType = 'cohort';
-		$('.jumbotron').remove();
+		$('.jumbotron').remove ();
 
-		changeListView ('cohort', function() {
-			$('.loadPage.selected').removeClass('selected');
-			$('a[href="' + hash + '"]').parents('.loadPage').addClass('selected');
+		changeListView ('cohort', function () {
+			$('.loadPage.selected').removeClass ('selected');
+			$('a[href="' + hash + '"]').parents ('.loadPage').addClass ('selected');
 
 			var cohort = hash.replace ('#cohort=', '');
-			loadPage ('read', hash, 'cohort=' + cohort, function() {
-				showError('Invalid cohort', 'Sorry, no articles were found for that cohort.');
+			loadPage ('read', hash, 'cohort=' + cohort, function () {
+				showError ('Invalid cohort', 'Sorry, no articles were found for that cohort.');
 			}, 'Submissions from the ' + cohort + ' Cohort');
 		});
-		$('#q').val('');
+		$('#q').val ('');
 	} else if (hash.indexOf ('#read') == 0) {
 		curType = 'read';
-		$('.jumbotron').remove();
+		$('.jumbotron').remove ();
 
-		changeListView ('name', function() {
-			$('.loadPage.selected').removeClass('selected');
+		changeListView ('name', function () {
+			$('.loadPage.selected').removeClass ('selected');
 
 			var $item = $('a[href="' + hash + '"]');
-			$item.parents('.loadPage').addClass('selected');
-			$item.parents('.panel-collapse').collapse();
+			$item.parents ('.loadPage').addClass ('selected');
+			$item.parents ('.panel-collapse').collapse ();
 
-			loadPage ('read', hash, 'user=' + hash.replace ('#read=', ''), function() {
-				showError('Unknown username', 'Sorry, no submission was found for that username.');
+			loadPage ('read', hash, 'user=' + hash.replace ('#read=', ''), function () {
+				showError ('Unknown username', 'Sorry, no submission was found for that username.');
 			});
 		});
-		$('#q').val('');
+		$('#q').val ('');
 	} else if (hash.indexOf ('#keywords') >= 0) {
 		curType = 'keyword';
-		$('.jumbotron').remove();
+		$('.jumbotron').remove ();
 
-		changeListView ('keyword', function() {
+		changeListView ('keyword', function () {
 			var keywords = hash.replace ('#keywords=', '');
 			if (keywords != '') {
-				keywords = replaceAll('%20', ' ', keywords).split(',');
+				keywords = replaceAll ('%20', ' ', keywords).split (',');
 				
-				$('.toggleKeyword').each(function(i,elem) {
-					if ($.inArray($(elem).data('keyword'), keywords) > -1) {
-						$(elem).addClass('label-selected');
+				$('.toggleKeyword').each (function (i,elem) {
+					if ($.inArray ($(elem).data ('keyword'), keywords) > -1) {
+						$(elem).addClass ('label-selected');
 					} else {
-						$(elem).removeClass('label-selected');
+						$(elem).removeClass ('label-selected');
 					}
 				});
 
@@ -316,59 +316,59 @@ function firstResponder(hash) {
 					title = 'Submissions with the keyword <em>' + keywords[0] + '</em>';
 				}
 
-				loadPage ('read', hash, 'keywords=' + hash.replace ('#keywords=', ''), function() {
-					showError('No results found :-(', 'Sorry, no submission were found for the keywords supplied.');
+				loadPage ('read', hash, 'keywords=' + hash.replace ('#keywords=', ''), function () {
+					showError ('No results found :-(', 'Sorry, no submission were found for the keywords supplied.');
 				}, title);
 			}
 		});
-		$('#q').val('');
+		$('#q').val ('');
 	} else if (hash.indexOf ('#q') >= 0) {
 		curType = 'search';
-		$('.jumbotron').remove();
+		$('.jumbotron').remove ();
 
-		changeListView ('none', function() {
-			$('.loadPage.selected').removeClass('selected');
+		changeListView ('none', function () {
+			$('.loadPage.selected').removeClass ('selected');
 			var q = hash.replace ('#q=', '');
-			$('#q').val(q);
-			loadPage ('search', hash, 'q=' + q, function() {
-				showError('No results found :-(', 'Sorry, no results were found for <em>' + q + '</em>, please try refining your search terms');
+			$('#q').val (q);
+			loadPage ('search', hash, 'q=' + q, function () {
+				showError ('No results found :-(', 'Sorry, no results were found for <em>' + q + '</em>, please try refining your search terms');
 			}, 'Search results for <em>' + q + '</em>', true);
 
 		});
 	} else {
-		changeListView('name');
+		changeListView ('name');
 	}
 }
 
 
-$(function() {
-	ReHi.fadePageIn();
+$(function () {
+	ReHi.fadePageIn ();
 
-	$('[data-toggle=offcanvas]').click(function() {
-		$('.row-offcanvas').toggleClass('active');
+	$('[data-toggle=offcanvas]').click (function () {
+		$('.row-offcanvas').toggleClass ('active');
 	});
 
-	$('.listMode').click(function(e) {
-		e.preventDefault();
-		$('.listMode').each(function(k,v) {
+	$('.listMode').click (function (e) {
+		e.preventDefault ();
+		$('.listMode').each (function (k,v) {
 			if (v == e.target) {
-				$(v).addClass('selected');
-				changeListView($(v).data('listmode'));
+				$(v).addClass ('selected');
+				changeListView ($(v).data ('listmode'));
 			} else {
-				$(v).removeClass('selected');
+				$(v).removeClass ('selected');
 			}
 		})
 	});
 
-	$('.search-form').submit(function(e) {
-		e.preventDefault();
-		window.location.hash = '#q=' + $('#q').val();
+	$('.search-form').submit (function (e) {
+		e.preventDefault ();
+		window.location.hash = '#q=' + $('#q').val ();
 	});
 
-	$('.loading').fadeOut();
+	$('.loading').fadeOut ();
 
-	firstResponder(window.location.hash);
-	$(window).hashchange( function(){
-		firstResponder(window.location.hash);
+	firstResponder (window.location.hash);
+	$(window).hashchange ( function (){
+		firstResponder (window.location.hash);
 	});
 });

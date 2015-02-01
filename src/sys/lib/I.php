@@ -18,17 +18,17 @@ final class I {
 	private static $instance = null;
 	
 	/** @var Object[] All Singleton instances */
-	private static $objects = array();
+	private static $objects = array ();
 	
 	/**
 	 * Disable public construction of the `RH` class.
 	 */
-	private function __construct() {}
+	private function __construct () {}
 
 	/**
 	 * Disallow cloning of the `RH` class.
 	 */
-	private function __clone() {}
+	private function __clone () {}
 
 	/**
 	 * Retrieve a singleton instance of a class, or create it if it does not
@@ -39,19 +39,19 @@ final class I {
 	 * 
 	 * For example, the class `ExampleClass`, in the namespace `ExampleNS`
 	 * should be stored in _lib/ExampleNS/ExampleClass.php_ and accessed 
-	 * using `I::i()->examplens_exampleclass`
+	 * using `I::i ()->examplens_exampleclass`
 	 * 
 	 * @param string $className Class to retrieve instance of.
 	 * @return Object Instance of the desired class.
 	 */
 	public function __get ($className) {
-		return self::$className();
+		return self::$className ();
 	}
 
 	/**
 	 * @return RH The Singleton instance of `RH`
 	 */
-	public static function i() {
+	public static function i () {
 		if (\is_null (static::$instance)) {
 			static::$instance = new static;
 		}
@@ -70,7 +70,7 @@ final class I {
 	 * @param mixed[] $arguments Arguments to pass to the constructor, only 
 	 * 	used if the class is being instantiated.
 	 */
-	public static function __callStatic ($name, $arguments = array()) {
+	public static function __callStatic ($name, $arguments = array ()) {
 		if (isSet (self::$objects[$name])) {
 			return self::$objects[$name];
 		}

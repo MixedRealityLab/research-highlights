@@ -51,7 +51,7 @@ try {
 		}
 
 		return $mUser->enabled && $mUser->countSubmission && $isCohort && $isSubmitted;
-	})->toArrayJson();
+	})->toArrayJson ();
 } catch (\RH\Error $e) {
 	print $e->toJson ();
 }

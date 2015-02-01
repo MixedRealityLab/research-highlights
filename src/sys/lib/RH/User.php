@@ -70,8 +70,8 @@ class User implements \RH\Singleton {
 	/** @var \RH\Model\Cohorts Cache of cohorts */
 	private $mCohorts;
 
-	public function __construct() {
-		$this->mUsers = new \RH\Model\Users();
+	public function __construct () {
+		$this->mUsers = new \RH\Model\Users ();
 	}
 
 	/**
@@ -91,22 +91,22 @@ class User implements \RH\Singleton {
 			$temp = $this->get (\strtolower ($mUsername));
 
 			if ($password !== $temp->getPassword ()) {
-				throw new \RH\Error\NoUser();
+				throw new \RH\Error\NoUser ();
 			}
 
 			if ($requireAdmin && !$temp->admin) {
-				throw new \RH\Error\NotAuthorised();
+				throw new \RH\Error\NotAuthorised ();
 			}
 
 			if (!$temp->enabled) {
-				throw new \RH\Error\AccountDisabled();
+				throw new \RH\Error\AccountDisabled ();
 			}
 
 			$this->user = $temp;
 
 			return $this->user;
 		} catch (\InvalidArgumentException $e) {
-			throw new \RH\Error\NoUser();
+			throw new \RH\Error\NoUser ();
 		}
 	}
 
@@ -125,7 +125,7 @@ class User implements \RH\Singleton {
 		$mInput = \I::RH_Model_Input ();
 
 		if (!isSet ($this->user->admin)) {
-			throw new \RH\Error\NotAuthorised();
+			throw new \RH\Error\NotAuthorised ();
 		}
 
 		$this->user = $u;
@@ -151,7 +151,7 @@ class User implements \RH\Singleton {
 		} else if (!isSet ($this->mUsers->$user)) {
 			$file = \sprintf (self::USER_CACHE, $user);
 
-			$mUser = new \RH\Model\User();
+			$mUser = new \RH\Model\User ();
 			$mUser->setCache (CACHE_USER, $file);
 
 			if ($mUser->hasCache ()) {
@@ -198,7 +198,7 @@ class User implements \RH\Singleton {
 		}
 
 		if (!$this->mUsersAll) {
-			$mUsers = new \RH\Model\Users();
+			$mUsers = new \RH\Model\Users ();
 			$mUsers->setCache (CACHE_USER, self::USERS_CACHE);
 
 			if ($mUsers->hasCache ()) {
@@ -221,7 +221,7 @@ class User implements \RH\Singleton {
 					}
 				}
 
-				$mUsers->saveCache();
+				$mUsers->saveCache ();
 			}
 
 			$this->mUsers = $mUsers;
@@ -258,7 +258,7 @@ class User implements \RH\Singleton {
 		}
 
 		if (\is_null ($this->mCohorts)) {
-			$mCohorts = new \RH\Model\Cohorts();
+			$mCohorts = new \RH\Model\Cohorts ();
 			$mCohorts->setCache (CACHE_USER, self::COHORT_CACHE);
 
 			if ($mCohorts->hasCache ()) {
@@ -290,7 +290,7 @@ class User implements \RH\Singleton {
 	 * @param string $file File to get the user's data from.
 	 * @param string $username Username of the user to retrieve, or `null` to 
 	 * 	get all users in the file.
-	 * @return \RH\Model\Users|\RH\Model\User Details of the user(s).
+	 * @return \RH\Model\Users|\RH\Model\User Details of the user (s).
 	 */
 	private function getData ($file, $username = null) {
 		$readRowFn = function ($cols) use ($username) {
@@ -331,7 +331,7 @@ class User implements \RH\Singleton {
 	 */
 	private function getWordCount (\RH\Model\User $mUser = null) {
 		if (\is_null ($this->mWordCounts)) {
-			$mWordCounts = new \RH\Model\WordCounts();
+			$mWordCounts = new \RH\Model\WordCounts ();
 			$mWordCounts->setCache (CACHE_USER, self::WORD_COUNT_CACHE);
 
 			if ($mWordCounts->hasCache ()) {
@@ -361,7 +361,7 @@ class User implements \RH\Singleton {
 	 */
 	private function getFunding (\RH\Model\User $mUser = null) {
 		if (\is_null ($this->mFundingStatements)) {
-			$mFundingStatements = new \RH\Model\FundingStatements();
+			$mFundingStatements = new \RH\Model\FundingStatements ();
 			$mFundingStatements->setCache (CACHE_USER, self::FUNDING_CACHE);
 
 			if ($mFundingStatements->hasCache ()) {
@@ -391,7 +391,7 @@ class User implements \RH\Singleton {
 	 */
 	private function getDeadline (\RH\Model\User $mUser = null) {
 		if (\is_null ($this->mDeadlines)) {
-			$mDeadlines = new \RH\Model\Deadlines();
+			$mDeadlines = new \RH\Model\Deadlines ();
 			$mDeadlines->setCache (CACHE_USER, self::DEADLINE_CACHE);
 
 			if ($mDeadlines->hasCache ()) {

@@ -33,8 +33,8 @@ if (!\is_file ($filePath) || (\is_file ($filePath) && \filemtime ($filePath) + C
 				->setLooped (true);
 
 	// Set to 16x9
-	$oLayout = new DocumentLayout();
-	$oLayout->setDocumentLayout(\PhpOffice\PhpPowerpoint\DocumentLayout::LAYOUT_SCREEN_16X9);
+	$oLayout = new DocumentLayout ();
+	$oLayout->setDocumentLayout (\PhpOffice\PhpPowerpoint\DocumentLayout::LAYOUT_SCREEN_16X9);
 	$oPowerpoint->setLayout ($oLayout);
 
 	$oPowerpoint->removeSlideByIndex (0);
@@ -66,11 +66,11 @@ if (!\is_file ($filePath) || (\is_file ($filePath) && \filemtime ($filePath) + C
 				continue;
 			}
 
-			$slide = $oPowerpoint->createSlide();
+			$slide = $oPowerpoint->createSlide ();
 
 			$slide->setAdvancement (20000);
 
-			$shape = $slide->createDrawingShape();
+			$shape = $slide->createDrawingShape ();
 			$shape->setName ('Horizon CDT header')
 						->setDescription ('Horizon Centre for Doctoral Training')
 						->setPath (DIR_WIM . '/screen-header.png')
@@ -78,61 +78,61 @@ if (!\is_file ($filePath) || (\is_file ($filePath) && \filemtime ($filePath) + C
 						->setOffsetX (0)
 						->setOffsetY (0);
 
-			$shape = $slide->createRichTextShape()
-				->setHeight(200)
-				->setWidth(881)
-				->setOffsetX(40)
-				->setOffsetY(140)
-				->setInsetTop(0)
-				->setInsetBottom(0);
-			$shape->getActiveParagraph()->getAlignment()
+			$shape = $slide->createRichTextShape ()
+				->setHeight (200)
+				->setWidth (881)
+				->setOffsetX (40)
+				->setOffsetY (140)
+				->setInsetTop (0)
+				->setInsetBottom (0);
+			$shape->getActiveParagraph ()->getAlignment ()
 					->setHorizontal (Alignment::HORIZONTAL_LEFT)
 					->setVertical (Alignment::VERTICAL_BOTTOM);
 			$tweet = $shape->createTextRun ($mSubmission->tweet);
-			$tweet->getFont()->setBold (false)
-					->setName('Helvetica Neue')
+			$tweet->getFont ()->setBold (false)
+					->setName ('Helvetica Neue')
 					->setSize (30)
 					->setColor (new Color ('FF000000'));
 
-			$line = $slide->createLineShape(40, 360, 915, 360);
-			$line->getBorder()->setColor (new Color ('FF000000'));
+			$line = $slide->createLineShape (40, 360, 915, 360);
+			$line->getBorder ()->setColor (new Color ('FF000000'));
 
 			$name = $mUser->firstName . ' ' . $mUser->surname . ' (' . $mUser->cohort . ' cohort)';
 
-			$shape = $slide->createRichTextShape()
-				->setHeight(50)
-				->setWidth(881)
-				->setOffsetX(40)
-				->setOffsetY(380)
-				->setInsetTop(0)
-				->setInsetBottom(0);
-			$shape->getActiveParagraph()->getAlignment()
+			$shape = $slide->createRichTextShape ()
+				->setHeight (50)
+				->setWidth (881)
+				->setOffsetX (40)
+				->setOffsetY (380)
+				->setInsetTop (0)
+				->setInsetBottom (0);
+			$shape->getActiveParagraph ()->getAlignment ()
 					->setHorizontal (Alignment::HORIZONTAL_LEFT)
 					->setVertical (Alignment::VERTICAL_TOP);
 			$author = $shape->createTextRun ($name);
-			$author->getFont()->setBold (false)
-					->setName('Helvetica Neue')
+			$author->getFont ()->setBold (false)
+					->setName ('Helvetica Neue')
 					->setSize (14)
 					->setColor (new Color ('FF333333'));
 
 			$link = 'find out more at ' . URI_HOME . '/';
-			$shape = $slide->createRichTextShape()
-				->setHeight(50)
-				->setWidth(881)
-				->setOffsetX(40)
-				->setOffsetY(380)
-				->setInsetTop(0)
-				->setInsetBottom(0);
-			$shape->getActiveParagraph()->getAlignment()
+			$shape = $slide->createRichTextShape ()
+				->setHeight (50)
+				->setWidth (881)
+				->setOffsetX (40)
+				->setOffsetY (380)
+				->setInsetTop (0)
+				->setInsetBottom (0);
+			$shape->getActiveParagraph ()->getAlignment ()
 					->setHorizontal (Alignment::HORIZONTAL_RIGHT)
 					->setVertical (Alignment::VERTICAL_TOP);
 			$author = $shape->createTextRun ($link);
-			$author->getFont()->setBold (false)
-					->setName('Helvetica Neue')
+			$author->getFont ()->setBold (false)
+					->setName ('Helvetica Neue')
 					->setSize (14)
 					->setColor (new Color ('FF0C2577'));
 
-			$shape = $slide->createDrawingShape();
+			$shape = $slide->createDrawingShape ();
 			$shape->setName ('Horizon CDT footer')
 						->setPath (DIR_WIM . '/screen-footer.png')
 						->setWidth (921)

@@ -25,7 +25,7 @@ abstract class Error extends \Exception {
 	 * @return JSON encoded string.
 	 */
 	public function toJson ($name = 'error') {
-		return \json_encode (array ($name => $this->getMessage()));
+		return \json_encode (array ($name => $this->getMessage ()));
 	}
 	
 }

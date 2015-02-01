@@ -23,7 +23,7 @@ class SearchResult extends AbstractModel {
 	 * @param mixed[] $data Data to construct initial object with
 	 * @return \RH\Model\SearchResult
 	 */
-	public function __construct ($data = array()) {
+	public function __construct ($data = array ()) {
 		$this->offsetSet ('weight', 0);
 
 		return parent::__construct ($data);

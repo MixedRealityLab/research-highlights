@@ -19,7 +19,7 @@ try {
 		$cUser->login ($mInput->username, $mInput->password, true);
 	}
 } catch (\RH\Error $e) {
-	print $e->toJson();
+	print $e->toJson ();
 	exit;
 }
 

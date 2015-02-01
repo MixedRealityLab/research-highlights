@@ -20,12 +20,12 @@ class Template {
 	private $lastCache = '';
 
 	/** @var mixed[] Data to include in to the template */
-	private $data = array();
+	private $data = array ();
 
 	/**
 	 * Begin output buffering, to be used in the templating.
 	 */
-	public function __construct() {
+	public function __construct () {
 		\ob_start ();
 	}
 	

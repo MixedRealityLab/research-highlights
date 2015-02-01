@@ -26,7 +26,7 @@ class User extends AbstractModel {
 	public function makeSubsts ($input, $includePassword = false) {
 		$k = array ('imgDir' => URI_DATA . '/' . $this->cohort . '/' . $this->username . '/' . $this->latestVersion .'/');
 		if ($includePassword) {
-			$k['password'] = $this->getPassword();
+			$k['password'] = $this->getPassword ();
 		}
 
 		$arr = \array_merge ($k, $this->getArrayCopy ());

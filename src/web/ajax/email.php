@@ -23,7 +23,7 @@ try {
 	$replyTo = '"'. SITE_NAME .'" <'. EMAIL .'>';
 	$oEmail->setHeaders ($from, $replyTo);
 
-	$usernames = \explode ("\n", \trim ($mInput->usernames));
+	$usernames = \preg_split ('/[\n|\r\n|\r]/', \trim ($mInput->usernames), null, PREG_SPLIT_NO_EMPTY);
 	$subject = $mInput->subject;
 	$message = \nl2br ($mInput->message);
 

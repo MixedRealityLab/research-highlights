@@ -37,7 +37,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	 * @param mixed[] $data Data to construct initial object with
 	 * @return \RH\Model\AbstractModel
 	 */
-	public function __construct ($data = array()) {
+	public function __construct ($data = array ()) {
 		return parent::__construct ($data);
 	}
 
@@ -196,12 +196,9 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	 * @return \RH\Model\AbstractModel
 	 */
 	public function fromString ($str, $sep = ',') {
-		$data = @\explode ($sep, $str);
+		$data = \preg_split ("/$sep/", \trim ($str), null, PREG_SPLIT_NO_EMPTY);
 		foreach ($data as $k => $v) {
-			$v = \trim ($v);
-			if (!empty ($v)) {
-				$this->$k = $v;
-			}
+			$this->$k = $v;
 		}
 	}
 
@@ -212,7 +209,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	 * @return mixed[][] 2D array of data
 	 */
 	public static function toArrays ($data) {
-		$result = array();
+		$result = array ();
 		foreach ($data as $k => $v) {
 			$result[$k] = $v->toArray ();
 		}
@@ -226,10 +223,10 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	 */
 	public static function mergeArrays () {
 		$args = \func_get_args ();
-		$arrArgs = array();
+		$arrArgs = array ();
 		foreach ($args as $arg) {
 			if ($arg instanceof AbstractModel) {
-				$arrArgs = \array_merge ($arrArgs, $arg->toArray());
+				$arrArgs = \array_merge ($arrArgs, $arg->toArray ());
 			} else if (\is_array ($arg)) {
 				$arrArgs = \array_merge ($arrArgs, $arg);
 			}
@@ -245,10 +242,10 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	 */
 	public static function mergeJson () {
 		$args = \func_get_args ();
-		$arrArgs = array();
+		$arrArgs = array ();
 		foreach ($args as $arg) {
 			if ($arg instanceof AbstractModel) {
-				$arrArgs = \array_merge ($arrArgs, $arg->toArray());
+				$arrArgs = \array_merge ($arrArgs, $arg->toArray ());
 			} else if (\is_array ($arg)) {
 				$arrArgs = \array_merge ($arrArgs, $arg);
 			}
@@ -264,7 +261,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	 * @return \RH\Model\AbstractModel[] Array of data
 	 */
 	public static function fromArrays ($data) {
-		$res = array();
+		$res = array ();
 		$class = static::className ();
 		foreach ($data as $k => $v) {
 			$res[$k] = new $class ($v);
@@ -283,7 +280,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	public function append ($data) {
 		if (is_array ($data) || $data instanceof AbstractModel) {
 			foreach ($data as $k => $v) {
-				$k = $this->count();
+				$k = $this->count ();
 				$this->$k = $v;
 			}
 		} else {
@@ -316,7 +313,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	 * @return \RH\Model\AbstractModel
 	 */
 	public function filter ($filterFn) {
-		$unset = array(); $i = $this->count() - 1;
+		$unset = array (); $i = $this->count () - 1;
 
 		foreach ($this as $key => $value) {
 			if (!$filterFn ($value)) {
@@ -334,7 +331,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	/**
 	 * @return mixed[] Data stored in an array.
 	 */
-	public function toArray() {
+	public function toArray () {
 		return $this->getArrayCopy ();
 	}
 

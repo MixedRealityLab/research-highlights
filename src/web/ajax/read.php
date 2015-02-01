@@ -27,12 +27,12 @@ try {
 		});
 
 	} else if (isSet ($mInput->keywords)) {
-		$keywords = @\explode (',', $mInput->keywords);
+		$keywords = \preg_split ('/,/', \trim ($mInput->keywords), null, PREG_SPLIT_NO_EMPTY);
 		$mKeywords = \RH\Keywords::get ();
-		$mUsers = new \RH\Model\Users();
+		$mUsers = new \RH\Model\Users ();
 
 		foreach ($keywords as $keyword) {
-			if(!empty ($keyword) && isSet ($mKeywords[$keyword])) {
+			if (isSet ($mKeywords[$keyword])) {
 				$mUsers->merge ($mKeywords->$keyword);
 			}
 		}
@@ -44,7 +44,7 @@ try {
 	}
 
 	// Format the submission for output
-	$output = array();
+	$output = array ();
 	foreach ($mUsers as $mUser) {
 		try {
 			$mSubmission = $cSubmission->get ($mUser, false);

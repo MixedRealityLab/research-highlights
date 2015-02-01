@@ -29,12 +29,12 @@ class Reader implements \RH\Singleton {
 	 * colA:str,colB:int,colC:bool,colD:str_rem
 	 * </code>
 	 * 
-	 * @see \RH\File\Reader\read()
+	 * @see \RH\File\Reader\read ()
 	 * @param string $file Path to file to open
 	 * @return \RH\File\Header File header information.
 	 */
 	public function readHeader ($file) {
-		$result = array();
+		$result = array ();
 
 		$handle = @\fopen ($file, 'r');
 		if ($handle === false) {
@@ -77,7 +77,7 @@ class Reader implements \RH\Singleton {
 	 * @return string[] All data read in from the file.
 	 */
 	public function read ($file, $key = null, $readRowFn = null, $calcValuesFn = null) {
-		$result = array();
+		$result = array ();
 
 		$handle = @\fopen ($file, 'r');
 		if ($handle === false) {
@@ -91,8 +91,8 @@ class Reader implements \RH\Singleton {
 				continue;
 			}
 
-			$temp = array();
-			$cols = \explode (',', $row);
+			$temp = array ();
+			$cols = \preg_split ('/,/', \trim ($row), null, PREG_SPLIT_NO_EMPTY);
 			if (\count ($cols) > 1 && (\is_null ($readRowFn) || $readRowFn ($cols))) {
 				foreach ($cols as $i => $col) {
 					$colHeader = $fileHeader->get ($i);
@@ -138,7 +138,7 @@ class Reader implements \RH\Singleton {
 	 * @return string[] associate array of data from the files.
 	 */
 	public function multiRead ($dir, $readFileFn = null, $fileNameFn = null) {
-		$res = array();
+		$res = array ();
 
 		if (\is_null ($readFileFn)) {
 			$readFileFn = function ($fileName) {

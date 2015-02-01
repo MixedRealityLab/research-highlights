@@ -20,4 +20,4 @@ if (!isSet ($mInput->q)) {
 	exit;
 }
 
-print $cSearch->search ($mInput->q)->toArrayJson();
+print $cSearch->search ($mInput->q)->toArrayJson ();

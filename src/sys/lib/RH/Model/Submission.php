@@ -25,9 +25,9 @@ class Submission extends AbstractModel {
 	 * @param mixed[] $data Data to construct initial object with
 	 * @return \RH\Model\Submission
 	 */
-	public function __construct($data = array()) {
+	public function __construct ($data = array ()) {
 		parent::__construct ($data);
-		$this->images = new Images();
+		$this->images = new Images ();
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Submission extends AbstractModel {
 	 * @return void
 	 */
 	public function addImage ($filename, $url) {
-		$image = new Image(array ('filename' => $filename, 'url' => $url));
+		$image = new Image (array ('filename' => $filename, 'url' => $url));
 		$this->images[] = $image;
 	}
 
@@ -97,8 +97,8 @@ class Submission extends AbstractModel {
 	 * 
 	 * @return \RH\Model\Keywords
 	 */
-	public function getKeywords() {
-		$keywords = new \RH\Model\Keywords();
+	public function getKeywords () {
+		$keywords = new \RH\Model\Keywords ();
 		$keywords->fromString ($this->keywords, ',');
 		return $keywords;
 	}

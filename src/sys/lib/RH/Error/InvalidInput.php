@@ -22,7 +22,7 @@ class InvalidInput extends UserError {
 	 * @param string $message Detail of what triggered the `Exception`
 	 */
 	public function __construct ($message) {
-	 	parent::__construct ('Invalid Input: ' . $message);
+		parent::__construct ('Invalid Input: ' . $message);
 	}
 
 }

@@ -6,10 +6,10 @@
  * See LICENCE for legal information.
  */
 
- $(function() {
-	ReHi.fadePageIn();
+ $(function () {
+	ReHi.fadePageIn ();
 
-	$('#submit').click(function() {
-		ReHi.fadePageOut(function() { window.location = '@@@URI_ROOT@@@/login'; });
+	$('#submit').click (function () {
+		ReHi.fadePageOut (function () { window.location = '@@@URI_ROOT@@@/login'; });
 	});
 });

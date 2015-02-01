@@ -20,7 +20,7 @@ class Email implements \RH\Singleton {
 	private $crlf = "\n";
 
 	/** @var string[] Headers common amongst all emails being sent */
-	private $headers = array();
+	private $headers = array ();
 
 	/** @var Mail PEAR `Mail` factory instance */
 	private $smtp;
@@ -28,7 +28,7 @@ class Email implements \RH\Singleton {
 	/**
 	 * Construct the `Mail` factory and include the relevant libraries.
 	 */
-	public function __construct() {
+	public function __construct () {
 		$this->headers['X-Mailer'] = VERSION;
 
 		\error_reporting (E_ALL & ~E_STRICT);
@@ -65,7 +65,7 @@ class Email implements \RH\Singleton {
 	/**
 	 * Send an email to a user
 	 * 
-	 * @see \RH\User\Model::makeSubsts()
+	 * @see \RH\User\Model::makeSubsts ()
 	 * @param string $username Username to whom the email should be sent
 	 * @param string $subject Subject of the email, substitutions are made for 
 	 * 	user keywords.
@@ -110,7 +110,7 @@ class Email implements \RH\Singleton {
 	/**
 	 * Send an email to multiple users.
 	 * 
-	 * @see \RH\User\Model::makeSubsts()
+	 * @see \RH\User\Model::makeSubsts ()
 	 * @param string[] $usernames Usernames to whom the email should be sent
 	 * @param string $subject Subject of the email, substitutions are made for 
 	 * 	system keywords, per user.

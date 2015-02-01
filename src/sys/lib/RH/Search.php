@@ -47,13 +47,13 @@ class Search implements \RH\Singleton {
 	public function search ($terms) {
 		$resultsCache = \sprintf (self::RESULTS_CACHE, \base64_encode ($terms));
 
-		$mSearchResults = new \RH\Model\SearchResults();
+		$mSearchResults = new \RH\Model\SearchResults ();
 		$mSearchResults->setCache (CACHE_SEARCH, $resultsCache);
 
 		if ($mSearchResults->hasCache ()) {
 			$mSearchResults->loadCache ();
 		} else {
-			$mSearchKeywords = new \RH\Model\SearchKeywords();
+			$mSearchKeywords = new \RH\Model\SearchKeywords ();
 			$mSearchKeywords->setCache (CACHE_SEARCH, self::SEARCH_CACHE);
 
 			if ($mSearchKeywords->hasCache ()) {
@@ -79,8 +79,8 @@ class Search implements \RH\Singleton {
 			}
 			
 			$terms = \strtolower ($terms);
-			$dbKeywords = \array_keys ($mSearchKeywords->getArrayCopy());
-			$mRelevantSearchKeywords = array();
+			$dbKeywords = \array_keys ($mSearchKeywords->getArrayCopy ());
+			$mRelevantSearchKeywords = array ();
 
 			$terms = \preg_replace ('/[^a-z0-9 *]+/i', '', $terms);
 			$terms = \str_replace ('*', '.*', $terms); 
@@ -96,8 +96,8 @@ class Search implements \RH\Singleton {
 				}
 			}
 
-			$cUser = \I::RH_User();
-			$cSubmission = \I::RH_Submission();
+			$cUser = \I::RH_User ();
+			$cSubmission = \I::RH_Submission ();
 			foreach ($mRelevantSearchKeywords as $keyword => $mSearchKeyword) {
 				foreach ($mSearchKeyword->getUsers () as $username) {
 					if (!isSet ($mSearchResults->$username)) {
@@ -132,7 +132,7 @@ class Search implements \RH\Singleton {
 				}
 			}
 
-			$mSearchResults->uasort(function(\RH\Model\SearchResult $a, \RH\Model\SearchResult $b) {
+			$mSearchResults->uasort (function (\RH\Model\SearchResult $a, \RH\Model\SearchResult $b) {
 				return $b->weight - $a->weight;
 			});
 

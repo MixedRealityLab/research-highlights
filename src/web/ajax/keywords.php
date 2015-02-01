@@ -19,7 +19,7 @@ try {
 	if (isSet ($mInput->user)) {
 		$cUser = I::RH_User ();
 		$mUser = $cUser->get ($mInput->user);
-		$mKeyword = $cSubmission->get ($mUser, false)->getKeywords();
+		$mKeyword = $cSubmission->get ($mUser, false)->getKeywords ();
 		print $mKeyword->toArrayJson ();
 		exit;
 	}

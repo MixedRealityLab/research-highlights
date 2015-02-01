@@ -42,7 +42,7 @@ class Submission implements \RH\Singleton {
 	 */
 	public function getDefaultData () {
 		if (\is_null ($this->mDefaultData)) {
-			$mDefaultData = new \RH\Model\Submission();
+			$mDefaultData = new \RH\Model\Submission ();
 			$mDefaultData->setCache (CACHE_SUBMISSION, self::DEFAULT_DATA_CACHE);
 
 			if ($mDefaultData->hasCache ()) {
@@ -84,7 +84,7 @@ class Submission implements \RH\Singleton {
 	 */
 	public function get (\RH\Model\User $mUser, $includeDefaults = true) {
 		if (\is_null ($this->mSubmissions)) {
-			$this->mSubmissions = new \RH\Model\Submissions();
+			$this->mSubmissions = new \RH\Model\Submissions ();
 		}
 
 		$username = $mUser->username;
@@ -92,7 +92,7 @@ class Submission implements \RH\Singleton {
 		if (!isSet ($this->mSubmissions->$username)) {
 			$file = \sprintf (self::SUBMISSION_CACHE, $username, $mUser->latestVersion);
 
-			$mSubmission = new \RH\Model\Submission();
+			$mSubmission = new \RH\Model\Submission ();
 			$mSubmission->setCache (CACHE_SUBMISSION, $file);
 
 			if ($mSubmission->hasCache ()) {
@@ -101,7 +101,7 @@ class Submission implements \RH\Singleton {
 				$oFileReader = \I::RH_File_Reader ();
 
 				if ($includeDefaults) {
-					$mSubmission->merge ($this->getDefaultData());
+					$mSubmission->merge ($this->getDefaultData ());
 				}
 
 				$sufLen = \strlen (self::DEF_FILE_SUF);
@@ -114,14 +114,14 @@ class Submission implements \RH\Singleton {
 					return substr ($fileName, 0, $end);
 				};
 
-				$data = array();
+				$data = array ();
 				try {
 					$dir = $mUser->latestSubmission;
 					$oFileReader = \I::RH_File_Reader ();
 					$data = $oFileReader->multiRead ($dir, $readFileFn, $fileNameFn);
 				} catch (\RH\Error\NoField $e) {
 					if (!$includeDefaults) {
-						throw new \RH\Error\NoSubmission();
+						throw new \RH\Error\NoSubmission ();
 					}
 				}
 

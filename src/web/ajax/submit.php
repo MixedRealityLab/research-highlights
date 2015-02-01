@@ -46,7 +46,7 @@ try {
 
 	$html = \RH\Submission::markdownToHtml ($mSubmission->text);
 
-	$images = array();
+	$images = array ();
 	\preg_match_all ('/(<img).*(src\s*=\s*("|\')([a-zA-Z0-9\.;:\/\?&=\-_|\r|\n]{1,})\3)/isxmU', $html, $images, PREG_PATTERN_ORDER);
 
 	$id = 0;
@@ -76,8 +76,8 @@ try {
 		$from = '"'. $mUser->firstName . ' ' . $mUser->surname .'" <'. $mUser->email .'>';
 		$oEmail->setHeaders ($from, $from);
 
-		$usernames = \explode (',', \trim (MAIL_ON_CHANGE_USRS));
-		$unamesMail = array();
+		$usernames = \preg_split ('/,/', \trim (MAIL_ON_CHANGE_USRS), null, PREG_SPLIT_NO_EMPTY);
+		$unamesMail = array ();
 		foreach ($usernames as $username) {
 			$tempU = $cUser->get ($username);
 			if ($tempU->emailOnChange) {

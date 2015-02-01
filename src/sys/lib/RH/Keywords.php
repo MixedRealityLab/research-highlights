@@ -29,7 +29,7 @@ class Keywords implements \RH\Singleton {
 	 */
 	public static function get () {
 		if (\is_null (self::$mKeywords)) {
-			$mKeywords = new \RH\Model\Keywords();
+			$mKeywords = new \RH\Model\Keywords ();
 			$mKeywords->setCache (CACHE_KEYWORDS, self::KEYWORDS_CACHE);
 
 			if ($mKeywords->hasCache ()) {
@@ -45,7 +45,7 @@ class Keywords implements \RH\Singleton {
 					$mSubmission = $cSubmission->get ($mUser, false);
 					foreach ($mSubmission->getKeywords () as $keyword) {
 						if (!isSet ($mKeywords->$keyword)) {
-							$mKeywords->$keyword = new \RH\Model\Users();
+							$mKeywords->$keyword = new \RH\Model\Users ();
 						}
 						$mKeywords->$keyword->offsetSet ($mUser->username, $mUser);
 					}
