@@ -32,6 +32,9 @@ class User implements \RH\Singleton {
 	const DEADLINES_FILE = '/deadlines.txt';
 
 	/** @var string Users model cache */
+	const USERS_CACHE = 'users.cache';
+
+	/** @var string User model cache */
 	const USER_CACHE = 'user-%s.cache';
 
 	/** @var string Funding statements model cache */
@@ -51,6 +54,9 @@ class User implements \RH\Singleton {
 
 	/** @var \RH\Model\Users Cache of user details */
 	private $mUsers;
+
+	/** @var bool Does `$mUsers` store all users? */
+	private $mUsersAll = false;
 
 	/** @var \RH\Model\FundingStatements Cache of funding statements */
 	private $mFundingStatements;
@@ -149,26 +155,13 @@ class User implements \RH\Singleton {
 			$mUser->setCache (CACHE_USER, $file);
 
 			if ($mUser->hasCache ()) {
-				$mUser->loadCache ();
+				$this->mUsers->$user = $mUser->loadCache ();
 			} else {
-				$data = $this->getData (self::USER_FILE, $user);
-				if ($data === false) {
-					$data = $this->getData (self::ADMIN_FILE, $user);
-					if ($data !== false) {
-						$data->admin = true;
-					}
-				} else {
-					$data->admin = false;
-				}
-
-				$data->deadline = $this->getDeadline ($data);
-				$data->wordCount = $this->getWordCount ($data);
-				$data->fundingStatement = $this->getFunding ($data);
-
-				$mUser->merge ($data)->saveCache ();
+				$this->getAll ();
+				$this->mUsers->$user->setCache (CACHE_USER, $file);
+				$this->mUsers->$user->saveCache ();
 			}
 
-			$this->mUsers->$user = $mUser;
 		}
 
 		return $this->mUsers->$user;
@@ -204,18 +197,42 @@ class User implements \RH\Singleton {
 			};
 		}
 
-		$data = $this->getData (self::USER_FILE);
-		$data->merge ($this->getData (self::ADMIN_FILE));
-		$data->uasort ($sortFn);
-		$data->filter ($filterFn);
+		if (!$this->mUsersAll) {
+			$mUsers = new \RH\Model\Users();
+			$mUsers->setCache (CACHE_USER, self::USERS_CACHE);
 
-		foreach ($data as $mUser) {
-			$mUser->deadline = $this->getDeadline ($mUser);
-			$mUser->wordCount = $this->getWordCount ($mUser);
-			$mUser->fundingStatement = $this->getFunding ($mUser);
+			if ($mUsers->hasCache ()) {
+				$mUsers->loadCache ();
+			} else {
+				$adminUsers = $this->getData (self::ADMIN_FILE);
+				foreach ($adminUsers as $mUser) {
+					$mUser->admin = true;
+				}
+
+				$mUsers->merge ($adminUsers);
+				$mUsers->merge ($this->getData (self::USER_FILE));
+
+				foreach ($mUsers as $mUser) {
+					$mUser->deadline = $this->getDeadline ($mUser);
+					$mUser->wordCount = $this->getWordCount ($mUser);
+					$mUser->fundingStatement = $this->getFunding ($mUser);
+					if (!isSet ($mUser->admin)) {
+						$mUser->admin = false;
+					}
+				}
+
+				$mUsers->saveCache();
+			}
+
+			$this->mUsers = $mUsers;
+			$this->mUsersAll = true;
 		}
 
-		return $data;
+		$mUsers = clone $this->mUsers;
+		$mUsers->uasort ($sortFn);
+		$mUsers->filter ($filterFn);
+
+		return $mUsers;
 	}
 
 	/**
