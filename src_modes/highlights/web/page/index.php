@@ -19,19 +19,19 @@ $cTemplate->startCapture ();
 					<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
 				</p>
 
-				<form class="sidebar-form search-form" role="search">
+				<form class="sidebar-form search-form collapse" role="search">
 					<input type="search" class="form-control" id="q" placeholder="Search">
 				</form>
 
 				<div class="sidebar-nav">
 
-					<p class="view-by">
+					<p class="view-by collapse">
 						List submissions by
 						<br>
 						<a href="#" class="listMode" data-listmode="cohort">Title</a> &bull; <a href="#" class="listMode" data-listmode="name">Name</a> &bull; <a href="#" class="listMode" data-listmode="keyword">Keyword</a> 
 					</p>
 
-					<div class="panel-group nav" id="viewList" role="tablist" aria-multiselectable="true"></div>
+					<div class="panel-group nav collapse" id="viewList" role="tablist" aria-multiselectable="true"></div>
 				</div>
 
 				<div class="collapse side-footer">
@@ -50,7 +50,7 @@ $cTemplate->startCapture ();
 					<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">View Submissions</button>
 				</p>
 
-				<div class="jumbotron primary">
+				<div class="jumbotron primary collapse">
 					<div class="container">
 						<h2>Research Highlights <?php print SITE_YEAR; ?></h2>
 						<img class="pull-right home-img img-circle" alt="Prof. Steve Benford, Centre Director" src="<?php print URI_WEB; ?>/img/sdb.jpg">
@@ -60,7 +60,7 @@ $cTemplate->startCapture ();
 					</div>
 				</div>
 
-				<div class="read">
+				<div class="read collapse">
 				</div>
 			</div>
 		</div>
