@@ -59,5 +59,6 @@
 \define ('CACHE_SUBMISSION', CACHE_GENERAL);
 \define ('CACHE_SEARCH', 604800);
 \define ('CACHE_SCREEN', 604800);
+\define ('CACHE_CLEAR_ON_SUBMIT', true);
 
 \date_default_timezone_set ('Europe/London');

@@ -82,6 +82,12 @@ class Submission extends AbstractModel {
 				throw new \RH\Error\System ('Could not save ' . $key . ' to the system');
 			}
 		}
+
+		if (CACHE_CLEAR_ON_SUBMIT) {
+			$cUser = \I::RH_User ();
+			$cUser->getAll ()->clearCache ();
+			$cUser->get ($this->saveAs)->clearCache ();
+		}
 		
 		return true;
 	}
