@@ -43,6 +43,9 @@ class User implements \RH\Singleton {
 	/** @var string Word Count model cache */
 	const WORD_COUNT_CACHE = 'wordCount.cache';
 
+	/** @var string Cohorts model cache */
+	const COHORT_CACHE = 'cohorts.cache';
+
 	/** @var \RH\Model\User Currently logged in user */
 	private $mUser = null;
 
@@ -57,6 +60,9 @@ class User implements \RH\Singleton {
 
 	/** @var \RH\Model\WordCounts Cache of word counts */
 	private $mWordCounts;
+
+	/** @var \RH\Model\Cohorts Cache of cohorts */
+	private $mCohorts;
 
 	public function __construct() {
 		$this->mUsers = new \RH\Model\Users();
@@ -234,19 +240,31 @@ class User implements \RH\Singleton {
 			};
 		}
 
-		$mUsers = $this->getAll ();
-		$cohorts = new \RH\Model\Cohorts();
-		foreach ($mUsers as $mUser) {
-			$cohort = $mUser->cohort;
-			if (!isSet ($cohorts->$cohort)) {
-				$cohorts->$cohort = $cohort;
+		if (\is_null ($this->mCohorts)) {
+			$mCohorts = new \RH\Model\Cohorts();
+			$mCohorts->setCache (CACHE_USER, self::COHORT_CACHE);
+
+			if ($mCohorts->hasCache ()) {
+				$mCohorts->loadCache ();
+			} else {
+				$mUsers = $this->getAll ();
+				foreach ($mUsers as $mUser) {
+					$cohort = $mUser->cohort;
+					if (!isSet ($mCohorts->$cohort)) {
+						$mCohorts->$cohort = $cohort;
+					}
+				}
+
+				$mCohorts->saveCache ();
 			}
+			
+			$this->mCohorts = $mCohorts;
 		}
 
-		$cohorts->filter ($filterFn);
-		$cohorts->uasort ($sortFn);
+		$this->mCohorts->filter ($filterFn);
+		$this->mCohorts->uasort ($sortFn);
 
-		return $cohorts;
+		return $this->mCohorts;
 	}
 
 	/**
