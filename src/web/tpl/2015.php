@@ -3,7 +3,7 @@
 /**
  * Research Highlights engine
  * 
- * Copyright (c) 2014 Martin Porcheron <martin@porcheron.uk>
+ * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
 
@@ -68,7 +68,7 @@
 
 		<div class="container collapse">
 			<footer class="row">
-				<p>Website &copy; Martin Porcheron <?php print SITE_YEAR; ?> &bull; This site is <a href="https://github.com/mporcheron/ResearchHighlights" title="Research Highlights project on GitHub">open source</a> &bull; <a href="<?php print URI_HOME; ?>/login" title="<?php print SITE_NAME; ?> Submissions">Manage Submissions</a></p>
+				<p>&copy; The University of Nottingham <?php print SITE_YEAR; ?> &bull; Website built and <a href="https://github.com/mporcheron/ResearchHighlights" title="Research Highlights project on GitHub">open sourced</a> by <a href="https://www.porcheron.uk/" title="Martin Porcheron's website">Martin Porcheron</a> &bull; <a href="<?php print URI_HOME; ?>/login" title="<?php print SITE_NAME; ?> Submissions">Manage Submissions</a></p>
 			</footer>
 		</div>
 
