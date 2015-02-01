@@ -15,7 +15,7 @@ require 'salt.php';
 
 $classPaths = array ();
 \set_include_path (\get_include_path () . PATH_SEPARATOR . DIR_SLB . PATH_SEPARATOR . DIR_SLB .'/PEAR');
-\spl_autoload_register (function ($class) use (&$classPaths) {§
+\spl_autoload_register (function ($class) use (&$classPaths) {
 	$parts = \explode ('\\', \strtolower ($class));
 	$parts[] = \array_pop($parts) .'.php';
 	$classPath = DIR_SLB;
