@@ -17,7 +17,7 @@ $cUser = I::RH_User ();
 $mUsers = $cUser->getAll ();
 foreach ($mUsers as $mUser) {
 	try {
-		$tweet = $cSubmission->get ($u, false)->tweet;
+		$tweet = $cSubmission->get ($mUser, false)->tweet;
 		print $mUser->firstName . ',' . $mUser->surname . ',' . $mUser->email . ',' . $tweet . "\n";
 	} catch (\RH\Error\NoSubmission $e) {
 	}
