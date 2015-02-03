@@ -88,8 +88,8 @@ $(function () {
 							success: function (response, textStatus, jqXHR) {
 								$.each (response, function (i, v) {
 									$('#usernames').append (v.username + "\n");
-									$('#usernames').trigger ('autosize.resize'); 
 								});
+								$('#usernames').trigger('autosize.resize');
 							}
 						});
 					});
