@@ -11,7 +11,7 @@ var year = 1;
 var changesMade = false;
 
 function autoResize () {
-	siteTimeout(1000, function() {$('.stage-editor textarea').each (function () {$(this).trigger ('autosize.resize')});
+	siteTimeout(1000, function() {$('.stage-editor textarea').each (function () {$(this).trigger ('autosize.resize'); })});
 }
 
 var loginPrefill = function (response, textStatus, jqXHR) {
