@@ -297,12 +297,17 @@ span.keywords {
 	height: 300px;
 }
 
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 768px) {
 	.well.feature p {
 		-webkit-border-radius: 4px;
 		-moz-border-radius: 4px;
 		border-radius: 4px;
 		height: 300px;
+	}
+}
+
+@media screen and (max-width: 991px) {
+	.well.feature p {
 		margin: 0;
 	}
 }
