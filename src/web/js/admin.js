@@ -1,16 +1,16 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
 
  $(function () {
 	ReHi.regSubForm ($('#profile-form'), '@@@URI_ROOT@@@/do/login', function (response, textStatus, jqXHR) {
-		if (changesMade && !confirm ('Are you sure you want to change user?\nAny unsubmitted changes will be lost.')) {
-			return false;
-		}
+		// if (changesMade && !confirm ('Are you sure you want to change user?\nAny unsubmitted changes will be lost.')) {
+		// 	return false;
+		// }
 
 		if (response == '-1') {
 			ReHi.showError ('Unknown Error', 'You don\'t seem to be logged in.');
