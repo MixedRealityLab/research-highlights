@@ -1,7 +1,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -20,7 +20,7 @@ body {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     border-radius: 0px;
-}    
+}
 
 #viewList .accordion-heading {
     height: 34px;
@@ -32,17 +32,17 @@ body {
     background-image: -webkit-linear-gradient(90deg, #595b59 0%, #616161 100%); /* gradient overlay */
     background-image: linear-gradient(90deg, #595b59 0%, #616161 100%); /* gradient overlay */
     list-style-type:none;
-}  
+}
 
-#viewList .accordion-heading  a{  
+#viewList .accordion-heading  a{
     color: #cbcbcb; /* text color */
     text-shadow: 0 1px 0 #3b3b3b; /* drop shadow */
     text-decoration:none;
-    font-weight:bold;  
+    font-weight:bold;
 }
 
-#viewList .accordion-heading  a:hover{  
-    color:#ccc     
+#viewList .accordion-heading  a:hover{
+    color:#ccc
 }
 
 #viewList .accordion-heading .active {
@@ -205,13 +205,12 @@ span.keywords {
 	background-color: #aaa;
 }
 
-.label-selected { 
+.label-selected {
 	background-color: #000 !important;
 }
 
 .home-img {
 	border: 5px solid black;
-	margin-top: -20px;
 	width: 150px;
 }
 
@@ -230,6 +229,82 @@ span.keywords {
 
 .loadPage, .toggleKeyword {
 	cursor: pointer;
+}
+
+.featureWall h2 {
+	text-align: center;
+}
+
+.well.feature {
+	background-repeat: no-repeat;
+	background-position: center;
+	height: 300px;
+}
+
+.well.feature a, .well.feature a:hover {
+	color: #FFFFFF;
+	display: block;
+	height: 300px;
+	margin: -20px;
+	text-decoration: none;
+}
+
+.well.feature p {
+	background: rgba(0,0,0,.75);
+	-webkit-border-bottom-right-radius: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	-moz-border-radius-bottomright: 4px;
+	-moz-border-radius-bottomleft: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	bottom: 0;
+	color: #FFFFFF;
+	display: block;
+	font-size: .9em;
+	height: 40px;
+	left: 16px;
+	margin: 0 0 20px 0;
+	overflow: hidden;
+	padding: 15px 20px 10px 20px;
+	position: absolute;
+	right: 16px;
+	text-align: center;
+	-webkit-transition-propery: height, background;
+	-webkit-transition-duration: 1s;
+	-webkit-transition-timing-function: ease-out;
+	-moz-transition-propery: height, background;
+	-moz-transition-duration: 1s;
+	-moz-transition-timing-function: ease-out;
+	transition-propery: height, background;
+	transition-duration: 1s;
+	transition-timing-function: ease-out;
+}
+
+.well.feature span, .well.feature small {
+	display: block;
+	text-align: center;
+}
+
+.well.feature small  {
+	color: #CCCCCC;
+}
+
+.well.feature:hover p {
+	background: rgba(0,0,0,.95);
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	height: 300px;
+}
+
+@media screen and (max-width: 991px) {
+	.well.feature p {
+		-webkit-border-radius: 4px;
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+		height: 300px;
+		margin: 0;
+	}
 }
 
 article img {

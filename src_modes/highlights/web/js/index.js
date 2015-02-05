@@ -1,7 +1,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -228,7 +228,7 @@ function showSubmissions (response, title) {
 				var $article = $('<article></article>');
 				var $body = $('<div></div>').addClass ('body').html (data.html);
 				var $fundingStatement = $('<small></small>').addClass ('body');
-				
+
 				if (data.industryName != '') {
 					var industry = ' and ' + data.industryName + ' (' + (data.industryUrl == '' ? '(no website)' : data.industryUrl.replace (/(http|https):\/\//, '')) + ').';
 					$fundingStatement.html (data.fundingStatement + industry);
@@ -266,6 +266,7 @@ function firstResponder (hash) {
 	if (hash.indexOf ('#cohort') == 0) {
 		curType = 'cohort';
 		$('.jumbotron').remove ();
+		$('.featureWall').remove ();
 
 		changeListView ('cohort', function () {
 			$('.loadPage.selected').removeClass ('selected');
@@ -280,6 +281,7 @@ function firstResponder (hash) {
 	} else if (hash.indexOf ('#read') == 0) {
 		curType = 'read';
 		$('.jumbotron').remove ();
+		$('.featureWall').remove ();
 
 		changeListView ('name', function () {
 			$('.loadPage.selected').removeClass ('selected');
@@ -296,12 +298,13 @@ function firstResponder (hash) {
 	} else if (hash.indexOf ('#keywords') >= 0) {
 		curType = 'keyword';
 		$('.jumbotron').remove ();
+		$('.featureWall').remove ();
 
 		changeListView ('keyword', function () {
 			var keywords = hash.replace ('#keywords=', '');
 			if (keywords != '') {
 				keywords = replaceAll ('%20', ' ', keywords).split (',');
-				
+
 				$('.toggleKeyword').each (function (i,elem) {
 					if ($.inArray ($(elem).data ('keyword'), keywords) > -1) {
 						$(elem).addClass ('label-selected');
@@ -325,6 +328,7 @@ function firstResponder (hash) {
 	} else if (hash.indexOf ('#q') >= 0) {
 		curType = 'search';
 		$('.jumbotron').remove ();
+		$('.featureWall').remove ();
 
 		changeListView ('none', function () {
 			$('.loadPage.selected').removeClass ('selected');

@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -47,7 +47,7 @@
 		<!--[if lt IE 7]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
-		
+
 		<?php if ($header): ?>
 		<nav class="navbar navbar-fixed-top navbar-inverse">
 			<div class="container">
@@ -77,7 +77,7 @@
 		<script src="<?php print URI_SYS; ?>/js/bootstrap-tagsinput<?php print EXT_JS; ?>"></script>
 		<script src="<?php print URI_SYS; ?>/js/jquery-ui<?php print EXT_JS; ?>"></script>
 		<script src="<?php print URI_SYS; ?>/js/jquery.scrollTo<?php print EXT_JS; ?>"></script>
-		<script src="<?php print URI_SYS; ?>/js/jquery.autosize<?php print EXT_JS; ?>"></script>
+		<!--<script src="<?php print URI_SYS; ?>/js/jquery.autosize<?php print EXT_JS; ?>"></script>-->
 
 		<?php if ($javascript): ?>
 		<?php foreach ($javascript as $file): ?>

@@ -2,7 +2,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -28,7 +28,7 @@ $cTemplate->startCapture ();
 					<p class="view-by collapse">
 						List submissions by
 						<br>
-						<a href="#" class="listMode" data-listmode="cohort">Title</a> &bull; <a href="#" class="listMode" data-listmode="name">Name</a> &bull; <a href="#" class="listMode" data-listmode="keyword">Keyword</a> 
+						<a href="#" class="listMode" data-listmode="cohort">Title</a> &bull; <a href="#" class="listMode" data-listmode="name">Name</a> &bull; <a href="#" class="listMode" data-listmode="keyword">Keyword</a>
 					</p>
 
 					<div class="panel-group nav collapse" id="viewList" role="tablist" aria-multiselectable="true"></div>
@@ -57,6 +57,47 @@ $cTemplate->startCapture ();
 						<p>Welcome to the <?php print SITE_YEAR; ?> edition of the Horizon CDT Research Highlights. Every year, all students within the centre join together to highlight their research to other academics, our industry partners, and the wider public.</p>
 						<p>Use the menu to the left of this website to read highlights from this year's edition.</p>
 						<p><small>Prof. Steve Benford,<br>Centre Director</small></p>
+					</div>
+				</div>
+
+				<div class="featureWall">
+					<h2 class="collapse">Highlighted PhD Topics</h2>
+					<br>
+
+					<div class="row">
+
+						<div class="col-md-4 collapse">
+							<div class="well feature" style="background-image: url(<?php print URI_HOME; ?>/web/img/home-psxpb2.png)">
+								<a href="#read=psxpb2" title="Neighbourhoods: Identifying the Places that People Talk About on the Web">
+									<p>
+										<span>Mapping UK urban neighbourhoods from postal address data automatically extracted from the internet</span>
+										<small>Paul Brindley (2011 Cohort)</small>
+									</p>
+								</a>
+							</div>
+						</div>
+
+						<div class="col-md-4 collapse">
+							<div class="well feature" style="background-image: url(<?php print URI_HOME; ?>/web/img/home-psxkga.jpg)">
+								<a href="#read=psxkga" title="Understanding Teamwork In Online Games">
+									<p>
+										<span>Is talking to the rest of your team in Call of Duty actually worth it?</span>
+										<small>Kyle Arch (2013 Cohort)</small>
+									</p>
+								</a>
+							</div>
+						</div>
+
+						<div class="col-md-4 collapse">
+							<div class="well feature" style="background-image: url(<?php print URI_HOME; ?>/web/img/home-psxhama.jpg)">
+								<a href="#read=psxhama" title="Real-time Mental Workload Feedback using fNIRS">
+									<p>
+										<span>Real-time Mental Workload Feedback using fNIRs</span>
+										<small>Horia Maior (2012 Cohort)</small>
+									</p>
+								</a>
+							</div>
+						</div>
 					</div>
 				</div>
 

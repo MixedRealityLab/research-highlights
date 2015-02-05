@@ -1,7 +1,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -11,7 +11,7 @@ var year = 1;
 var changesMade = false;
 
 function autoResize () {
-	siteTimeout(1000, function() {$('.stage-editor textarea').each (function () {$(this).trigger ('autosize.resize'); })});
+//	siteTimeout(1000, function() {$('.stage-editor textarea').each (function () {$(this).trigger ('autosize.resize'); })});
 }
 
 var loginPrefill = function (response, textStatus, jqXHR) {
@@ -26,7 +26,7 @@ var loginPrefill = function (response, textStatus, jqXHR) {
 	$('#text').bind ('keyup.count', function (e) {
 		ReHi.wordCount ($(this), $('.text-rem'), response.wordCount);
 	});
-	
+
 	$('.name').text (response.firstName + ' ' + response.surname);
 
 	$('#cohort').attr ('value', response.cohort);
@@ -38,7 +38,7 @@ var loginPrefill = function (response, textStatus, jqXHR) {
 
 	$('#twitter').val (response.twitter);
 	$('#website').attr ('value', response.website);
-	$('#keywords').tagsinput ('removeAll'); 
+	$('#keywords').tagsinput ('removeAll');
 	$.each (response.keywords.split (','), function (k,v) {$('#keywords').tagsinput ('add', v)});
 
 	$('#industryName').attr ('value', response.industryName);
@@ -75,7 +75,7 @@ $(function () {
 
 	$('.navbar-toggle').addClass ('stage-editor');
 
-	ReHi.showAlert ('Welcome!', 'Please enter your credentials to continue.', 'info'); 
+	ReHi.showAlert ('Welcome!', 'Please enter your credentials to continue.', 'info');
 
 	ReHi.regSubForm ($('form.stage-login'), '@@@URI_ROOT@@@/do/login', function (response, textStatus, jqXHR) {
 		if (response.success == '1') {
@@ -85,21 +85,21 @@ $(function () {
 			$('#admin-pass').attr ('value', $('#password').val ());
 			$('#editor-user').attr ('value', $('#username').val ());
 			$('#editor-pass').attr ('value', $('#password').val ());
-			loginPrefill (response, textStatus, jqXHR); 
+			loginPrefill (response, textStatus, jqXHR);
 			if (response.admin) {
 				$.getScript ("web/js/admin@@@EXT_JS@@@");
 			}
 		} else if (response.error != undefined) {
-			ReHi.showError ('Oh, snap!', response.error + ' <a href="mailto:@@@EMAIL@@@" class="alert-link">Email support</a> for help.'); 
+			ReHi.showError ('Oh, snap!', response.error + ' <a href="mailto:@@@EMAIL@@@" class="alert-link">Email support</a> for help.');
 		} else {
-			ReHi.showError ('Oh, snap!', 'An unknown error occurred. <a href="mailto:@@@EMAIL@@@" class="alert-link">Email support</a> for help.'); 
+			ReHi.showError ('Oh, snap!', 'An unknown error occurred. <a href="mailto:@@@EMAIL@@@" class="alert-link">Email support</a> for help.');
 		}
 	}, 'json');
 
 	ReHi.regAutoForm ($('form.stage-editor'), '@@@URI_ROOT@@@/do/preview', function (response, textStatus, jqXHR) {
 		var tVal = $('#title').val ();
 		$('.preview-title').html (tVal.length == 0 ? 'Preview' : tVal);
-	 
+
 		var iNVal = $('#industryName').val (); var iUVal = $('#industryUrl').val ();
 		var fundingStatement = '<small>' + $('.preview-supported').data ('fundingStatement');
 		if (iNVal == '') {
@@ -125,10 +125,10 @@ $(function () {
 	}, 'json');
 
 	$('a[href="#content"]').on ('shown.bs.tab', function (e) {
-		$('#text').show ().trigger ('autosize.resize');
+	//	$('#text').show ().trigger ('autosize.resize');
 	});
 
-	$('textarea').autosize (); 
+//	$('textarea').autosize ();
 
 	$('#keywords').on ('beforeItemAdd', function (e) {
 		var ret = false;
