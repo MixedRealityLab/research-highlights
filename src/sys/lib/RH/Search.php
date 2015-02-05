@@ -2,7 +2,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -11,7 +11,7 @@ namespace RH;
 
 /**
  * Controller for the search system
- * 
+ *
  * @author Martin Porcheron <martin@porcheron.uk>
  */
 class Search implements \RH\Singleton {
@@ -40,11 +40,11 @@ class Search implements \RH\Singleton {
 
 	/**
 	 * Search the database and return the results.
-	 * 
+	 *
 	 * @param string $terms Sequence of space seperated keywords
 	 * @return \RH\Model\SearchResults
 	 */
-	public function search ($terms) {
+	public function search (&$terms) {
 		$resultsCache = \sprintf (self::RESULTS_CACHE, \base64_encode ($terms));
 
 		$mSearchResults = new \RH\Model\SearchResults ();
@@ -73,17 +73,17 @@ class Search implements \RH\Singleton {
 					}
 					catch (\RH\Error $e) {
 					}
-				}	
+				}
 
-				$mSearchKeywords->saveCache ();	
+				$mSearchKeywords->saveCache ();
 			}
-			
+
 			$terms = \strtolower ($terms);
 			$dbKeywords = \array_keys ($mSearchKeywords->getArrayCopy ());
 			$mRelevantSearchKeywords = array ();
 
 			$terms = \preg_replace ('/[^a-z0-9 *]+/i', '', $terms);
-			$terms = \str_replace ('*', '.*', $terms); 
+			$terms = \str_replace ('*', '.*', $terms);
 			$terms = \preg_split ('/\s+/', $terms, null, PREG_SPLIT_NO_EMPTY);
 			foreach ($terms as $term) {
 				if (\strlen ($term) < 3) {
@@ -101,38 +101,35 @@ class Search implements \RH\Singleton {
 			foreach ($mRelevantSearchKeywords as $keyword => $mSearchKeyword) {
 				foreach ($mSearchKeyword->getUsers () as $username) {
 					if (!isSet ($mSearchResults->$username)) {
-
 						$mUser = $cUser->get ($username);
 						$mSubmission = $cSubmission->get ($mUser);
 
-						$mSearchResults->$username = $mSubmission;
-						$mSearchResults->$username->merge ($mUser);
-
-						$html = \RH\Submission::markdownTohtml ($mSubmission->text);
-
-						$mSearchResults->$username->html = $html;
-						$mSearchResults->$username->found = 0;
+						$mSearchResult = new \RH\Model\SearchResult();
+						$mSearchResult->merge ($mSubmission);
+						$mSearchResult->merge ($mUser);
+						$mSearchResult->found = 0;
+						$mSearchResult->weight = 0;
+					} else {
+						 $mSearchResult = $mSearchResults->$username;
 					}
-
-
-					$mSearchResults->$username = $mSubmission;
 
 					$imp = $mSearchKeyword->importance;
 					if (\in_array ($keyword, $terms)) {
-						$mSearchResults->$username->found++;
+						$mSearchResult->found++;
 						$imp *= self::WEIGHT_MATCH;
 					}
-					
-					$mSearchResults->$username->weight += $imp;
 
-					if ($mSearchResults->$username->found == \count ($terms)) {
-						$mSearchResults->$username->weight *= self::WEIGHT_ALL_TERMS;
+					$mSearchResult->weight += $imp;
+
+					if ($mSearchResult->found == \count ($terms)) {
+						$mSearchResult->weight *= self::WEIGHT_ALL_TERMS;
 					}
 
+					$mSearchResults[$username] = $mSearchResult;
 				}
 			}
 
-			$mSearchResults->uasort (function (\RH\Model\SearchResult $a, \RH\Model\SearchResult $b) {
+			$mSearchResults->uasort (function (\RH\Model\SearchResult &$a, \RH\Model\SearchResult &$b) {
 				return $b->weight - $a->weight;
 			});
 
