@@ -340,7 +340,7 @@ function firstResponder (hash) {
 			var q = hash.replace ('#q=', '');
 			$('#q').val (q);
 			loadPage ('search', hash, 'q=' + q, function () {
-				showError ('No results found :-(', 'Sorry, no results were found for <em>' + q + '</em>, please try refining your search terms');
+				showError ('No results found :-(', 'Sorry, no results were found for <em>' + q + '</em>, please try refining your search terms.<br><br><em>Top tip: You can use an asterisk to search for part words, e.g. <strong>collab*</strong></em>.');
 			}, 'Search results for <em>' + q + '</em>', true);
 
 		});
