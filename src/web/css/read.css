@@ -1,7 +1,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -34,7 +34,7 @@ section {
 	-moz-box-shadow: 5px 5px 10px -5px #333333;
 	-webkit-box-shadow: 5px 5px 10px -5px #333333;
 	box-shadow: 5px 5px 10px -5px #333333;
-	margin-bottom: 5em; 
+	margin-bottom: 5em;
 	padding: 45px 15px 60px 15px;
 	clear: both;
 }
@@ -191,7 +191,7 @@ blockquote p {
 	body {
 		background: #fff;
 	}
-	
+
 	.loading {
 		display: none;
 	}
@@ -213,13 +213,13 @@ blockquote p {
 		column-gap: 3em;
 		column-fill: balanced;
 	}
-	
+
 	section {
 		border: 0;
 		-moz-box-shadow: none;
 		-webkit-box-shadow: none;
 		box-shadow: none;
-		margin-bottom: 0;
+		margin: 0;
 		padding: 0;
 	}
 
@@ -233,12 +233,17 @@ blockquote p {
 
 	section > h1 {
 		font-family: Helvetica, sans-serif;
-		font-size: 1.4em;
+		font-size: 1.8em;
 		color: #0C2577;
 		margin: 0 0 1em 0;
-		padding: 0;
+        padding:  0;
 		font-variant: normal;
 	}
+
+    section + section > h1 {
+        border-top: 1px solid #000000;
+        padding: 1em 0 0 0;
+    }
 
 	aside, section h1, section h2, section h3, section h4, section h5, section h6 {
 		text-align: left;
@@ -247,6 +252,14 @@ blockquote p {
 	aside > span + span:before {
 		content: '';
 	}
+
+    aside > span:nth-child(2):before {
+        content: '(username: ';
+    }
+
+    aside > span:nth-child(2):after {
+        content: ')';
+    }
 
 	aside > span {
 		display: block;
