@@ -2,7 +2,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -11,7 +11,7 @@ namespace RH\Model;
 
 /**
  * List of keywords, and the user submissions which have used then.
- * 
+ *
  * @author Martin Porcheron <martin@porcheron.uk>
  */
 class SearchKeywords extends AbstractModel {
@@ -53,7 +53,7 @@ class SearchKeywords extends AbstractModel {
 
 	/**
 	 * Create a new keyword within this list.
-	 * 
+	 *
 	 * @param mixed $value Keyword data.
 	 * @return \RH\Model\SearchKeyword New search keyword object.
 	 */
@@ -63,14 +63,14 @@ class SearchKeywords extends AbstractModel {
 
 	/**
 	 * Add a series of space-separated keywords to the index
-	 * 
+	 *
 	 * @param string[] $arr Array of keywords to append
 	 * @param \RH\Model\User $mUser User responsible
 	 * @param \RH\Model\Submission $mSubmission Submission to add
-	 * @param string $keywords Space-separated keywords to individually add to 
+	 * @param string $keywords Space-separated keywords to individually add to
 	 * 	$arr
 	 * @param float $importance Importance factor for each keyword
-	 * @param float $use Usage multiple (the importance factor is times by this 
+	 * @param float $use Usage multiple (the importance factor is times by this
 	 * 	to the power of the number of occurrences of this keyword) before being
 	 * 	added
 	 */
@@ -90,7 +90,7 @@ class SearchKeywords extends AbstractModel {
 
 	/**
 	 * Add a user and submission to the search keywords database.
-	 * 
+	 *
 	 * @param \RH\Model\User $mUser User to add
 	 * @param \RH\Model\Submission $mSubmission Submission to add
 	 */
@@ -127,13 +127,14 @@ class SearchKeywords extends AbstractModel {
 		foreach ($tags as $tag) {
 			$matches = array ();
 			\preg_match_all ("/<$tag>(.*?)<\/$tag>/", $text, $matches, PREG_PATTERN_ORDER);
-			
+
 			foreach ($matches[1] as $keywords) {
 				$this->appendIndex ($keywords, $mUser, $mSubmission,
 				                    $weights['imp']['text'][$tag],
 				                    $weights['use']['text'][$tag]);
 			}
 		}
+			print 'gg'; exit;
 
 		$this->appendIndex ($text, $mUser, $mSubmission,
 		                    $weights['imp']['text']['text'],

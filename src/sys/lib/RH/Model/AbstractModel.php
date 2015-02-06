@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Research Highlights engine
- * 
- * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
- * See LICENCE for legal information.
- */
+* Research Highlights engine
+*
+* Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
+* See LICENCE for legal information.
+*/
 
 namespace RH\Model;
 
 /**
- * Data storage model.
- * 
- * @author Martin Porcheron <martin@porcheron.uk>
- */
+* Data storage model.
+*
+* @author Martin Porcheron <martin@porcheron.uk>
+*/
 abstract class AbstractModel extends \RecursiveArrayObject {
 
 	/** @var bool Create field when they are retrieved */
@@ -32,21 +32,21 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	protected $saveOnDestruct = false;
 
 	/**
-	 * Construct the data object, with initial data values, if any.
-	 * 
-	 * @param mixed[] $data Data to construct initial object with
-	 * @return \RH\Model\AbstractModel
-	 */
+	* Construct the data object, with initial data values, if any.
+	*
+	* @param mixed[] $data Data to construct initial object with
+	* @return \RH\Model\AbstractModel
+	*/
 	public function __construct ($data = array ()) {
 		return parent::__construct ($data);
 	}
 
 	/**
-	 * Construct the data object, with initial data values, if any.
-	 * 
-	 * @param mixed[] $data Data to construct initial object with
-	 * @return \RH\Model\AbstractModel
-	 */
+	* Construct the data object, with initial data values, if any.
+	*
+	* @param mixed[] $data Data to construct initial object with
+	* @return \RH\Model\AbstractModel
+	*/
 	public function __destruct () {
 		if ($this->saveOnDestruct && $this->cacheTime > 0) {
 			$this->saveCache ();
@@ -54,11 +54,11 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Retrieve the value of a property.
-	 * 
-	 * @param string $key Name of the property to retrieve
-	 * @throws \RH\Error\NoField if the property not found
-	 */
+	* Retrieve the value of a property.
+	*
+	* @param string $key Name of the property to retrieve
+	* @throws \RH\Error\NoField if the property not found
+	*/
 	public function __get ($key){
 		try {
 			return parent::__get ($key);
@@ -73,13 +73,13 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Set the Cache properties for this model.
-	 * 
-	 * @param int $time Cache expiry time (set to 0 to disable cache)
-	 * @param string $file Filename of the cache
-	 * @param bool $saveOnDestruct Save the Model to the cache on destruction
-	 * @return \RH\Model\AbstractModel
-	 */
+	* Set the Cache properties for this model.
+	*
+	* @param int $time Cache expiry time (set to 0 to disable cache)
+	* @param string $file Filename of the cache
+	* @param bool $saveOnDestruct Save the Model to the cache on destruction
+	* @return \RH\Model\AbstractModel
+	*/
 	public function setCache ($time, $file = null, $saveOnDestruct = false) {
 		$this->cacheTime = $time;
 		$this->cacheFile = $file;
@@ -88,10 +88,10 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Does a cache exist for this Model?
-	 * 
-	 * @return bool
-	 */
+	* Does a cache exist for this Model?
+	*
+	* @return bool
+	*/
 	public function hasCache () {
 		if (\defined ('NO_CACHE')) {
 			return false;
@@ -109,10 +109,10 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Load a Model from the cache.
-	 * 
-	 * @return \RH\Model\AbstractModel
-	 */
+	* Load a Model from the cache.
+	*
+	* @return \RH\Model\AbstractModel
+	*/
 	public function loadCache () {
 		if ($this->hasCache ()) {
 			$file = DIR_CAC . '/' . $this->cacheFile;
@@ -128,28 +128,30 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Save this model to the cache.
-	 * 
-	 * @return \RH\Model\AbstractModel
-	 */
+	* Save this model to the cache.
+	*
+	* @return \RH\Model\AbstractModel
+	*/
 	public function saveCache () {
 		if ($this->cacheTime > 0 && !\is_null ($this->cacheFile)) {
 			$file = DIR_CAC . '/' . $this->cacheFile;
 
-			if (@mkdir (DIR_CAC, 0777, true) !== false) {
-				@\file_put_contents ($file, $this->serialize ());
-				@\chmod ($file, 0777);
+			if (\is_dir (DIR_CAC) !== false) {
+				@\mkdir (DIR_CAC, 0777, true);
 			}
+
+			@\file_put_contents ($file, $this->serialize ());
+			@\chmod ($file, 0777);
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Clear the cache for this model;
-	 * 
-	 * @return \RH\Model\AbstractModel
-	 */
+	* Clear the cache for this model;
+	*
+	* @return \RH\Model\AbstractModel
+	*/
 	public function clearCache () {
 		if (!\is_null ($this->cacheFile)) {
 			$file = DIR_CAC . '/' . $this->cacheFile;
@@ -160,13 +162,13 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Fill this model with data from a string, with a numerical offset.
-	 * 
-	 * @param string $str String to extract data from 
-	 * @param string $sep How to separate the data in the field.
-	 * @throws \RH\Error\NoField if the property not found
-	 * @return \RH\Model\AbstractModel
-	 */
+	* Fill this model with data from a string, with a numerical offset.
+	*
+	* @param string $str String to extract data from
+	* @param string $sep How to separate the data in the field.
+	* @throws \RH\Error\NoField if the property not found
+	* @return \RH\Model\AbstractModel
+	*/
 	public function fromString ($str, $sep = ',') {
 		$data = \preg_split ("/$sep/", \trim ($str), null, PREG_SPLIT_NO_EMPTY);
 		foreach ($data as $k => $v) {
@@ -175,11 +177,11 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Convert an array of `AbstractModel` objects to a 2D array.
-	 * 
-	 * @param \RH\Model\AbstractModel[] Objects to convert to arrays
-	 * @return mixed[][] 2D array of data
-	 */
+	* Convert an array of `AbstractModel` objects to a 2D array.
+	*
+	* @param \RH\Model\AbstractModel[] Objects to convert to arrays
+	* @return mixed[][] 2D array of data
+	*/
 	public static function toArrays ($data) {
 		$result = array ();
 		foreach ($data as $k => $v) {
@@ -189,10 +191,10 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Convert multiple `AbstractModel` objects to a merged arrays.
-	 * 
-	 * @return \RH\Model\AbstractModel[] Combined arrays
-	 */
+	* Convert multiple `AbstractModel` objects to a merged arrays.
+	*
+	* @return \RH\Model\AbstractModel[] Combined arrays
+	*/
 	public static function mergeArrays () {
 		$args = \func_get_args ();
 		$arrArgs = array ();
@@ -208,10 +210,10 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Convert multiple `AbstractModel` objects to a merged JSON string.
-	 * 
-	 * @return string JSON string
-	 */
+	* Convert multiple `AbstractModel` objects to a merged JSON string.
+	*
+	* @return string JSON string
+	*/
 	public static function mergeJson () {
 		$args = \func_get_args ();
 		$arrArgs = array ();
@@ -227,11 +229,11 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Convert a 2D array to an array of `AbstractModel` objects.
-	 * 
-	 * @param mixed[][] Arrays to convert to array of AbstractModels
-	 * @return \RH\Model\AbstractModel[] Array of data
-	 */
+	* Convert a 2D array to an array of `AbstractModel` objects.
+	*
+	* @param mixed[][] Arrays to convert to array of AbstractModels
+	* @return \RH\Model\AbstractModel[] Array of data
+	*/
 	public static function fromArrays ($data) {
 		$res = array ();
 		$class = static::className ();
@@ -242,13 +244,13 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Append a second AbstractModel object, adds values with new numerical 
-	 * offsets.
-	 * 
-	 * @param \RH\Model\AbstractModel|mixed Another AbstractModel object or array to 
-	 * 	append into this one
-	 * @return \RH\Model\AbstractModel thisßobject
-	 */
+	* Append a second AbstractModel object, adds values with new numerical
+	* offsets.
+	*
+	* @param \RH\Model\AbstractModel|mixed Another AbstractModel object or array to
+	* 	append into this one
+	* @return \RH\Model\AbstractModel thisßobject
+	*/
 	public function append ($data) {
 		if (is_array ($data) || $data instanceof AbstractModel) {
 			foreach ($data as $k => $v) {
@@ -263,12 +265,12 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Merge a second AbstractModel object, overwriting any existing values;
-	 * 
-	 * @param \RH\Model\AbstractModel|mixed[] Another AbstractModel object or 
-	 * 	array to merge into this one
-	 * @return \RH\Model\AbstractModel this object
-	 */
+	* Merge a second AbstractModel object, overwriting any existing values;
+	*
+	* @param \RH\Model\AbstractModel|mixed[] Another AbstractModel object or
+	* 	array to merge into this one
+	* @return \RH\Model\AbstractModel this object
+	*/
 	public function merge ($data) {
 		foreach ($data as $k => $v) {
 			$this->__set ($k, $v);
@@ -278,12 +280,12 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * Filter this dataset.
-	 * 
-	 * @param function $filterFn Filter function that takes one parameter (the 
-	 * 	data property) and returns a boolean value.
-	 * @return \RH\Model\AbstractModel
-	 */
+	* Filter this dataset.
+	*
+	* @param function $filterFn Filter function that takes one parameter (the
+	* 	data property) and returns a boolean value.
+	* @return \RH\Model\AbstractModel
+	*/
 	public function filter ($filterFn) {
 		$unset = array (); $i = $this->count () - 1;
 
@@ -301,26 +303,26 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	}
 
 	/**
-	 * @return mixed[] Data stored in an array.
-	 */
+	* @return mixed[] Data stored in an array.
+	*/
 	public function toArray () {
 		return $this->getArrayCopy ();
 	}
 
 	/**
-	 * Convert this object to a JSON object.
-	 * 
-	 * @return string JSON object representation of this object.
-	 */
+	* Convert this object to a JSON object.
+	*
+	* @return string JSON object representation of this object.
+	*/
 	public function toJson () {
 		return \json_encode ($this);
 	}
 
 	/**
-	 * Convert this object to a JSON array.
-	 * 
-	 * @return string JSON array representation of this object.
-	 */
+	* Convert this object to a JSON array.
+	*
+	* @return string JSON array representation of this object.
+	*/
 	public function toArrayJson () {
 		return \json_encode (\array_values ($this->toArray ()));
 	}
