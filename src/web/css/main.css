@@ -80,7 +80,31 @@ textarea + p {
 
 .preview-text img {max-width: 100%}
 
+.preview-left {
+	border-right: 1px solid #CCCCCC;
+	clear: left;
+	margin-bottom: 15px;
+}
+
+.preview-right {
+	border-left: 1px solid #CCCCCC;
+	margin-left: -1px;
+	margin-bottom: 20px;
+}
+
+.preview-break {
+	clear: left
+}
+
+.formatting-title {
+	color: #0c2577;
+	font-size: 1.4em;
+	margin-bottom: 1.2em;
+	text-align: center;
+}
+
 footer {
+	clear: both;
 	font-size: .8em;
 	padding-bottom: 50px;
 }

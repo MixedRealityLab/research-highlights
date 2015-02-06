@@ -62,6 +62,7 @@ $cTemplate->startCapture ();
 						<li role="presentation" class="active"><a href="#summary" role="tab" data-toggle="tab">Summary</a></li>
 						<li role="presentation"><a href="#content" role="tab" data-toggle="tab">Research</a></li>
 						<li role="presentation"><a href="#about" role="tab" data-toggle="tab">Personal</a></li>
+						<li role="presentation" class="pull-right"><a href="#formatting" role="tab" data-toggle="tab">Formatting Tips</a></li>
 					</ul>
 				</div>
 				<!-- END TABS -->
@@ -131,13 +132,7 @@ $cTemplate->startCapture ();
 					<!-- BEGIN SUBMISSION TAB -->
 					<div role="tabpanel" class="tab-pane fade" id="content">
 						<div class="col-sm-12 col-md-12 col-lg-12">
-							<p><strong>Formatting</strong>: You can use the <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a> syntax to format your submission. Markdown syntax is excluded from your word count, but please try to adhere to the <strong class="wordlimit">***</strong> word limit.</p>
-
-							<p><strong>Referencing</strong>: Please use the numerical referencing system. In your abstract, your citation should be a number surrounded by square brackets (e.g. <em>[3]</em>). Place the full reference in the separate text box at the bottom of this page using an ordered list in markdown syntax. If you don't do this, you may be asked to do it later. Your references are excluded from the word count. If you don't want to include any references, leave the references textbox empty.</p>
-
-							<p><strong>Images</strong>: You can include images in your submission and when you submit your document, a copy of these images will be automatically made. You should consider hosting your images on your University website address (you may also use a free online service such as <a href="http://imgur.com/" target="_blank">Imgur</a>). Use uncompressed or high-quality images where possible. Please note: <strong>you must</strong> own the copyright to the images, or have rights to redistribute or publish the image publicly.</p>
-							<hr>
-							<p>You should only include content in your submission that is publishable at the time of submission.</p>
+							<p>Information and examples on formatting your submission is available on the <em>Formatting tab</em>. <strong>Please note:</strong> you should only include content in your submission that is publishable at the time of submission, and that you have the legal right to publish.</p>
 							<hr>
 						</div>
 
@@ -262,6 +257,162 @@ $cTemplate->startCapture ();
 						</div>
 					</div>
 					<!-- END ABOUT TAB -->
+
+					<!-- BEGIN SUBMISSION TAB -->
+					<div role="tabpanel" class="tab-pane fade" id="formatting">
+						<div class="container">
+							<div class="col-sm-12 col-md-12 col-lg-12">
+								<p>This page details how to format your text in your submission, with code examples on the left, and what the output looks like on the right. <strong>Top tip:</strong> leave blank lines between text to start a new paragraph, or to change paragraph style (e.g. from text to a bullet-point list)</p>
+							</div>
+
+							<hr class="preview-break">
+
+							<h1 id="headers" class="formatting-title">Headers</h1>
+
+							<div class="col-sm-6 col-md-6 col-lg-6 preview-left">
+								<pre>To insert a header, use a `#`` at the start of the line. The more `#`s you use, the smaller the header will be.
+
+# A Level 1 Header
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+## A Level 2 Header
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+#### A Level 4 Header
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.</pre>
+							</div>
+
+							<div class="col-sm-6 col-md-6 col-lg-6 preview-right preview">
+								<p>To insert a header, use a <code>#</code> at the start of the line. The more <code>#</code>s you use, the smaller the header will be.</p>
+
+								<h1>A Level 1 Header</h1>
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
+								<h2>A Level 2 Header</h2>
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
+								<h4>A Level 4 Header</h4>
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+							</div>
+
+							<hr class="preview-break">
+
+							<h1 id="lists" class="formatting-title">Lists</h1>
+
+							<div class="col-sm-6 col-md-6 col-lg-6 preview-left">
+								<pre>There are two types of lists:
+
+1. Ordered (numbered)
+2. Unordered (bulleted)
+
+- Ordered lists start with numbers
+- You put a new element on each line
+- Unordered lists start with `-`s
+- And continue in the same manner</pre>
+							</div>
+
+							<div class="col-sm-6 col-md-6 col-lg-6 preview-right">
+								<p>There are two types of lists:</p>
+								<ol>
+									<li>Ordered (numbered)</li>
+									<li>Unordered (bulleted)</li>
+								</ol>
+								<ul>
+									<li>Ordered lists start with numbers</li>
+									<li>You put a new element on each line</li>
+									<li>Unordered lists start with <code>-</code>s</li>
+									<li>And continue in the same manner</li>
+								</ul>
+							</div>
+
+							<hr class="preview-break">
+
+							<h1 id="styles" class="formatting-title">Bold / Italic Text</h1>
+
+							<div class="col-sm-6 col-md-6 col-lg-6 preview-left">
+								<p></p>
+
+								<pre>You can make text italic or bold with `*`s.
+
+* One asterisk makes it italic *
+** Two asterisks makes it bold **</pre>
+							</div>
+
+							<div class="col-sm-6 col-md-6 col-lg-6 preview-right">
+								<p>You can make text italic or bold with <code>*</code>s.</p>
+
+								<p><strong>One asterisk makes it italic</strong></p>
+								<p><em>Two asterisks makes it bold</em></p>
+							</div>
+
+							<hr class="preview-break">
+
+							<h1 id="links" class="formatting-title">Links</h1>
+
+							<div class="col-sm-6 col-md-6 col-lg-6 preview-left">
+								<pre>You can easily create links to other webpages.
+
+This produces a [link](http://www.example.com/) - how cool!</pre>
+							</div>
+
+							<div class="col-sm-6 col-md-6 col-lg-6 preview-right">
+								<p>You can easily create links to other webpages.</p>
+								<p>This produces a <a href="http://www.example.com/">link</a> - how cool!</p>
+							</div>
+
+							<hr class="preview-break">
+
+							<h1 id="quotes" class="formatting-title">Quotes</h1>
+
+							<div class="col-sm-6 col-md-6 col-lg-6 preview-left">
+								<pre>Quotes may include other Markdown formatting like bold or italic.
+
+> this is a *quote*</pre>
+							</div>
+
+							<div class="col-sm-6 col-md-6 col-lg-6 preview-right">
+								<p>Quotes may include other Markdown formatting like bold or italic.</p>
+								<blockquote>this is a <em>quote</em></blockquote>
+							</div>
+
+							<hr class="preview-break">
+
+							<h1 id="images" class="formatting-title">Images</h1>
+
+							<div class="col-sm-6 col-md-6 col-lg-6 preview-left">
+								<pre>You can include images in your submission and when you submit your document, a copy of these images will be automatically made and stored on the Computer Science servers.
+
+![This is my image caption](http://placekitten.com/g/200/300)
+
+You should consider hosting your images on your University website address (you may also use a free online service such as [Imgur](http://imgur.com/)). Please note: **you must** own the copyright to the images, or have rights to redistribute or publish the image publicly.</pre>
+								</div>
+
+							<div class="col-sm-6 col-md-6 col-lg-6 preview-right">
+								<p>You can include images in your submission and when you submit your document, a copy of these images will be automatically made and stored on the Computer Science servers.</p>
+
+								<div style="text-align: center">
+									<img src="http://placekitten.com/g/200/300" alt="This is my image caption" style="max-width: 100%">
+									<p style="text-align: center"><strong>This is my image caption</strong></p>
+								</div>
+
+								<p>You should consider hosting your images on your University website address (you may also use a free online service such as <a href="http://imgur.com/" target="_blank">Imgur</a>). Please note: <strong>you must</strong> own the copyright to the images, or have rights to redistribute or publish the image publicly.</p>
+							</div>
+
+							<hr class="preview-break">
+
+							<h1 id="references" class="formatting-title">References</h1>
+
+							<div class="col-sm-12 col-md-12 col-lg-12">
+								<p>Please use the <em>numerical referencing system</em>.</p>
+
+								<p><strong>In your text</strong> you should include your citation as be a number surrounded by square brackets (e.g. <code>[3]</code>). Citations do not count to your word count if you follow this style.</p>
+
+								<p><strong>In the bibliography:</strong> use a markdown-style numbered list (see <em>Lists</em> above). The bibliography does not count to your word count.</p>
+							</div>
+
+							<hr class="preview-break">
+						</div>
+					<!-- END FORMATTING TIPS TAB -->
 
 				</div>
 
