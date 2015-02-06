@@ -271,7 +271,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	* 	array to merge into this one
 	* @return \RH\Model\AbstractModel this object
 	*/
-	public function merge (&$data) {
+	public function merge ($data) {
 		foreach ($data as $k => $v) {
 			$this->__set ($k, $v);
 		}
