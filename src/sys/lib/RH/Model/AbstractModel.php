@@ -234,7 +234,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	* @param mixed[][] Arrays to convert to array of AbstractModels
 	* @return \RH\Model\AbstractModel[] Array of data
 	*/
-	public static function fromArrays ($data) {
+	public static function fromArrays (&$data) {
 		$res = array ();
 		$class = static::className ();
 		foreach ($data as $k => $v) {
@@ -251,7 +251,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	* 	append into this one
 	* @return \RH\Model\AbstractModel thisßobject
 	*/
-	public function append ($data) {
+	public function append (&$data) {
 		if (is_array ($data) || $data instanceof AbstractModel) {
 			foreach ($data as $k => $v) {
 				$k = $this->count ();
@@ -271,7 +271,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	* 	array to merge into this one
 	* @return \RH\Model\AbstractModel this object
 	*/
-	public function merge ($data) {
+	public function merge (&$data) {
 		foreach ($data as $k => $v) {
 			$this->__set ($k, $v);
 		}
@@ -286,7 +286,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	* 	data property) and returns a boolean value.
 	* @return \RH\Model\AbstractModel
 	*/
-	public function filter ($filterFn) {
+	public function filter (&$filterFn) {
 		$unset = array (); $i = $this->count () - 1;
 
 		foreach ($this as $key => $value) {
