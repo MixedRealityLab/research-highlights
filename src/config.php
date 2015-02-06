@@ -2,7 +2,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -50,7 +50,7 @@
 \define ('MAIL_USER', '');
 \define ('MAIL_PASS', '');
 
-\define ('MAIL_ON_CHANGE_USRS', 'psxmp9');
+\define ('MAIL_ON_CHANGE_USRS', 'psxmp9,pszej');
 \define ('MAIL_ON_CHANGE_SUBJ', '[' . SITE_NAME . '] Submission Updated for <firstName> <surname>');
 
 \define ('CACHE_GENERAL', 86400);

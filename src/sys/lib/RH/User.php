@@ -2,7 +2,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -11,25 +11,25 @@ namespace RH;
 
 /**
  * Controller for submissions made by users.
- * 
+ *
  * @author Martin Porcheron <martin@porcheron.uk>
  */
 class User implements \RH\Singleton {
 
 	/** @var string File name for standard users who can log in */
-	const USER_FILE = '/login-users.txt';
+	const USER_FILE = '/login-users.csv';
 
 	/** @var string File name for administrative users who can log in */
-	const ADMIN_FILE = '/login-admins.txt';
+	const ADMIN_FILE = '/login-admins.csv';
 
 	/** @var string File name for funding statements */
-	const FUNDING_FILE = '/funding.txt';
+	const FUNDING_FILE = '/funding.csv';
 
 	/** @var string File name for word counts */
-	const WORD_COUNT_FILE = '/wordCount.txt';
+	const WORD_COUNT_FILE = '/wordCount.csv';
 
 	/** @var string File name for submission deadlines */
-	const DEADLINES_FILE = '/deadlines.txt';
+	const DEADLINES_FILE = '/deadlines.csv';
 
 	/** @var string Users model cache */
 	const USERS_CACHE = 'users.cache';
@@ -76,13 +76,13 @@ class User implements \RH\Singleton {
 
 	/**
 	 * Log a user into the system.
-	 * 
+	 *
 	 * @param string $mUsername Username to login with.
 	 * @param string $password Password to use to login with.
 	 * @param bool $requireAdmin if `true`, is an administrator account required
 	 * @return the \RH\Model\User object
 	 * @throws \RH\Error\NoUser if the account is disabled
-	 * @throws \RH\Error\NotAuthorised if an admin account is required and the 
+	 * @throws \RH\Error\NotAuthorised if an admin account is required and the
 	 * 	login request is for a non-admin account
 	 * @throws \RH\Error\AccountDisabled if the account is disabled
 	 */
@@ -113,10 +113,10 @@ class User implements \RH\Singleton {
 	/**
 	 * Allow a user to masquerade as another user (must be currently logged in
 	 * as an administrator).
-	 * 	
-	 * @param \RH\Model\User $mUser User of the person who we are going to 
+	 *
+	 * @param \RH\Model\User $mUser User of the person who we are going to
 	 * 	pretend to be.
-	 * @throws \RH\Error\NotAuthorised if an admin account is required and the 
+	 * @throws \RH\Error\NotAuthorised if an admin account is required and the
 	 * 	login request is for a non-admin account
 	 * @throws \RH\Error\NoUser if the account is disabled
 	 * @return \RH\Model\User new User object
@@ -137,8 +137,8 @@ class User implements \RH\Singleton {
 
 	/**
 	 * Retrieve the details of a user.
-	 * 
-	 * @param string|null $mUser User to retrieve full details for, or 
+	 *
+	 * @param string|null $mUser User to retrieve full details for, or
 	 * 	if `null`, retrieve the currently logged in user, or if a User object,
 	 * 	the function will return this object.
 	 * @return \RH\Model\User Details of the user
@@ -169,8 +169,8 @@ class User implements \RH\Singleton {
 
 	/**
 	 * Retrieve the details of all users.
-	 * 
-	 * @param function|null $sortFn How to sort the user list; if `null`, reverse 
+	 *
+	 * @param function|null $sortFn How to sort the user list; if `null`, reverse
 	 * 	sort by cohort, then sort by name
 	 * @param function|null $filterFn How to filter the user list; if `null`, all
 	 * 	users are included
@@ -237,7 +237,7 @@ class User implements \RH\Singleton {
 
 	/**
 	 * Retrieve the cohorts.
-	 * 
+	 *
 	 * @param function|null $sortFn How to sort the cohort list; if `null`,
 	 * 	reverse sort by cohort
 	 * @param function|null $filterFn How to filter the cohort list; if `null`, all
@@ -274,7 +274,7 @@ class User implements \RH\Singleton {
 
 				$mCohorts->saveCache ();
 			}
-			
+
 			$this->mCohorts = $mCohorts;
 		}
 
@@ -286,9 +286,9 @@ class User implements \RH\Singleton {
 
 	/**
 	 * Retrieve a user's data from a file, or all users.
-	 * 
+	 *
 	 * @param string $file File to get the user's data from.
-	 * @param string $username Username of the user to retrieve, or `null` to 
+	 * @param string $username Username of the user to retrieve, or `null` to
 	 * 	get all users in the file.
 	 * @return \RH\Model\Users|\RH\Model\User Details of the user (s).
 	 */
@@ -312,7 +312,7 @@ class User implements \RH\Singleton {
 
 		$oFileReader = \I::RH_File_Reader ();
 		$data = $oFileReader->read (DIR_USR . $file, 'username', $readRowFn, $calcValuesFn);
-	
+
 		if (!\is_null ($username) && !isSet ($data[$username])) {
 			return false;
 		}
@@ -324,8 +324,8 @@ class User implements \RH\Singleton {
 
 	/**
 	 * Retrieve the word count for a particular user.
-	 * 
-	 * @param \RH\Model\User $mUser User to retrieve the word count 
+	 *
+	 * @param \RH\Model\User $mUser User to retrieve the word count
 	 * 	for, if `null`, gets the currently logged in user
 	 * @return string Word count of the user
 	 */
@@ -341,7 +341,7 @@ class User implements \RH\Singleton {
 				$data = $oFileReader->read (DIR_USR . self::WORD_COUNT_FILE, 'cohort');
 				$mWordCounts->merge ($data)->saveCache ();
 			}
-			
+
 			$this->mWordCounts = $mWordCounts;
 		}
 
@@ -354,8 +354,8 @@ class User implements \RH\Singleton {
 
 	/**
 	 * Retrieve the funding statement for a particular user.
-	 * 
-	 * @param \RH\Model\User $mUser User to retrieve the funding statement for, if 
+	 *
+	 * @param \RH\Model\User $mUser User to retrieve the funding statement for, if
 	 * 	`null`, gets the currently logged in user
 	 * @return string Funding statement of the user
 	 */
@@ -371,7 +371,7 @@ class User implements \RH\Singleton {
 				$data = $oFileReader->read (DIR_USR . self::FUNDING_FILE, 'fundingStatementId');
 				$mFundingStatements->merge ($data)->saveCache ();
 			}
-			
+
 			$this->mFundingStatements = $mFundingStatements;
 		}
 
@@ -384,7 +384,7 @@ class User implements \RH\Singleton {
 
 	/**
 	 * Retrieve the deadline for a particular user.
-	 * 
+	 *
 	 * @param \RH\Model\User $mUser User to retrieve the deadline for, if `null`,
 	 * 	gets the currently logged in user
 	 * @return string Deadline of the user
@@ -401,7 +401,7 @@ class User implements \RH\Singleton {
 				$data = $oFileReader->read (DIR_USR . self::DEADLINES_FILE, 'cohort');
 				$mDeadlines->merge ($data)->saveCache ();
 			}
-			
+
 			$this->mDeadlines = $mDeadlines;
 		}
 
