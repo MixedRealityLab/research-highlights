@@ -2,14 +2,14 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
 
 $cTemplate = I::RH_Template ();
 
-$cTemplate->startCapture ();   
+$cTemplate->startCapture ();
 
 ?>
 		<div class="visible-xs visible-sm">
@@ -60,7 +60,7 @@ $cTemplate->startCapture ();
 				<div class="col-sm-12 col-md-12 col-lg-12">
 					<ul class="nav nav-tabs" role="tablist">
 						<li role="presentation" class="active"><a href="#summary" role="tab" data-toggle="tab">Summary</a></li>
-						<li role="presentation"><a href="#content" role="tab" data-toggle="tab">Abstract</a></li>
+						<li role="presentation"><a href="#content" role="tab" data-toggle="tab">Research</a></li>
 						<li role="presentation"><a href="#about" role="tab" data-toggle="tab">Personal</a></li>
 					</ul>
 				</div>
@@ -92,8 +92,8 @@ $cTemplate->startCapture ();
 									</div>
 								</div>
 							</div>
-						</div>  
-						
+						</div>
+
 						<div class="hidden-xs hidden-sm container">
 							<div class="row">
 								<div class="col-sm-12 col-md-6 col-lg-6">
@@ -120,7 +120,7 @@ $cTemplate->startCapture ();
 										<input type="text" class="form-control input input-large" name="industryName" autocomplete="off" id="industryName" placeholder="Industry Partner Ltd." spellcheck="false">
 										<br>
 										<label for="industryUrl">External Partner Website</label>
-										<input type="url" class="form-control input input-large" name="industryUrl" autocomplete="off" id="industryUrl" placeholder="http://" spellcheck="false"> 
+										<input type="url" class="form-control input input-large" name="industryUrl" autocomplete="off" id="industryUrl" placeholder="http://" spellcheck="false">
 									</div>
 								</div>
 							</div>
@@ -132,36 +132,79 @@ $cTemplate->startCapture ();
 					<div role="tabpanel" class="tab-pane fade" id="content">
 						<div class="col-sm-12 col-md-12 col-lg-12">
 							<p><strong>Formatting</strong>: You can use the <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a> syntax to format your submission. Markdown syntax is excluded from your word count, but please try to adhere to the <strong class="wordlimit">***</strong> word limit.</p>
-							
+
 							<p><strong>Referencing</strong>: Please use the numerical referencing system. In your abstract, your citation should be a number surrounded by square brackets (e.g. <em>[3]</em>). Place the full reference in the separate text box at the bottom of this page using an ordered list in markdown syntax. If you don't do this, you may be asked to do it later. Your references are excluded from the word count. If you don't want to include any references, leave the references textbox empty.</p>
-							
+
 							<p><strong>Images</strong>: You can include images in your submission and when you submit your document, a copy of these images will be automatically made. You should consider hosting your images on your University website address (you may also use a free online service such as <a href="http://imgur.com/" target="_blank">Imgur</a>). Use uncompressed or high-quality images where possible. Please note: <strong>you must</strong> own the copyright to the images, or have rights to redistribute or publish the image publicly.</p>
 							<hr>
 							<p>You should only include content in your submission that is publishable at the time of submission.</p>
 							<hr>
 						</div>
 
-						<div class="col-sm-12 col-md-6 col-lg-6">
-							<div class="form-group">
-								<label for="text">Abstract</label>
-								<textarea name="text" id="text" rows="25" class="form-control input input-large" spellcheck="true" lang="gb"></textarea>
-								<p class="small">You have <strong class="text-rem">0</strong> words remaining.</p>
-							</div>
-							<div class="form-group">
-								<label for="references">References</label>
-								<textarea name="references" id="references" rows="25" class="form-control input input-large" placeholder="1. Smith, J.P. Studying certainty. Science and Culture 9 (1989) 442." spellcheck="false"></textarea>
+
+						<div class="container">
+							<div class="row">
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<div class="form-group">
+										<label for="text">Abstract</label>
+										<textarea name="text" id="text" rows="25" class="form-control input input-large" spellcheck="true" lang="gb"></textarea>
+										<p class="small">You have <strong class="text-rem">0</strong> words remaining.</p>
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-6 preview hidden-xs hidden-sm">
+									<div class="preview-text"></div>
+								</div>
 							</div>
 						</div>
-					
-						<div class="col-sm-12 col-md-6 col-lg-6">
-							<div class="panel panel-info">
-								<div class="panel-heading">
-									<h3 class="panel-title preview-title">Preview</h3>
-								</div>
-								<div class="panel-body">
-									<div class="preview-input"></div>
+
+						<div class="hidden-xs hidden-sm container">
+							<div class="row">
+								<div class="col-sm-12 col-md-6 col-lg-6">
 									<hr>
-									<div class="preview-supported"></div>
+								</div>
+								<div class="col-md-6 col-lg-6">
+									<hr>
+								 </div>
+							</div>
+						</div>
+
+						<div class="container">
+							<div class="row">
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<div class="form-group">
+										<label for="references">References</label>
+										<textarea name="references" id="references" rows="25" class="form-control input input-large" placeholder="1. Smith, J.P. Studying certainty. Science and Culture 9 (1989) 442." spellcheck="false"></textarea>
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-6 preview hidden-xs hidden-sm">
+									<div class="preview-references"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="hidden-xs hidden-sm container">
+							<div class="row">
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<hr>
+								</div>
+								<div class="col-md-6 col-lg-6">
+									<hr>
+								 </div>
+							</div>
+						</div>
+
+						<div class="container">
+							<div class="row">
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<div class="form-group">
+										<label for="publications">Publications in the last year</label>
+										<p>Include links to blog posts, newspaper articles and full citations for conferences papers/journal articles that have been published in the last twelve months for which you have been an author. Format this list as a <a href="http://daringfireball.net/projects/markdown/syntax#list">Mardown numbered list</a> with correct <a href="http://daringfireball.net/projects/markdown/syntax#link">Markdown web links</a>.</p>
+										<textarea name="publications" id="publications" rows="25" class="form-control input input-large"></textarea>
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-6 preview hidden-xs hidden-sm">
+									<div class="preview-publications"></div>
+									<small class="preview-funding"></small>
 								</div>
 							</div>
 						</div>
@@ -174,11 +217,11 @@ $cTemplate->startCapture ();
 							<p>These details have been taken from the University system. If your University email address is different to the one below, please <a href="mailto:<?php print EMAIL; ?>">send me an email</a>. Details included here will be printed alongside your submission - do not include your website or twitter account if you do not wish for these to be published.</p>
 							<hr>
 						</div>
-			
+
 						<input type="hidden" name="saveAs" id="saveAs">
 						<input type="hidden" name="username" id="editor-user">
 						<input type="hidden" name="password" id="editor-pass">
-			
+
 						<div class="container">
 							<div class="row">
 								<div class="col-sm-12 col-md-6 col-lg-6">
@@ -213,14 +256,6 @@ $cTemplate->startCapture ();
 									<div class="form-group">
 										<label for="twitter">Twitter Username</label>
 										<input type="text" class="form-control" name="twitter" id="twitter" autocomplete="off" placeholder="@SuperHumanMooseReseacher" spellcheck="false">
-									</div>
-									<div class="hidden-xs hidden-sm">
-										<hr>	
-									</div>
-									<div class="form-group">
-										<label for="text">Publications in the last year</label>
-										<p>Include links to blog posts, newspaper articles and full citations for conferences papers/journal articles that have been published in the last twelve months for which you have been an author. Format this list as a <a href="http://daringfireball.net/projects/markdown/syntax#list">Mardown numbered list</a> with correct <a href="http://daringfireball.net/projects/markdown/syntax#link">Markdown web links</a>.</p>
-										<textarea name="publications" id="publications" rows="25" class="form-control input input-large"></textarea>
 									</div>
 								</div>
 							</div>

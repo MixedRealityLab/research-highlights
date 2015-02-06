@@ -1,7 +1,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -43,7 +43,7 @@
 }
 
 .jumbotron + .alert {
-	
+
 }
 
 .alert {
@@ -69,16 +69,16 @@ textarea + p {
 	padding-right: 1em;
 }
 
-.preview-input { text-align: justify; }
+.preview-text { text-align: justify; }
 
-.preview-input h1 { font-size: 1.4em;}
-.preview-input h2 { font-size: 1.2em;}
-.preview-input h3 { font-size: 1.1em;}
-.preview-input h4 { font-size: 1em;}
-.preview-input h5 { font-size: 1em;}
-.preview-input h6 { font-size: 1em;}
+.preview-text h1 { font-size: 1.4em;}
+.preview-text h2 { font-size: 1.2em;}
+.preview-text h3 { font-size: 1.1em;}
+.preview-text h4 { font-size: 1em;}
+.preview-text h5 { font-size: 1em;}
+.preview-text h6 { font-size: 1em;}
 
-.preview-input img {max-width: 100%}
+.preview-text img {max-width: 100%}
 
 footer {
 	font-size: .8em;

@@ -77,7 +77,7 @@
 		<script src="<?php print URI_SYS; ?>/js/bootstrap-tagsinput<?php print EXT_JS; ?>"></script>
 		<script src="<?php print URI_SYS; ?>/js/jquery-ui<?php print EXT_JS; ?>"></script>
 		<script src="<?php print URI_SYS; ?>/js/jquery.scrollTo<?php print EXT_JS; ?>"></script>
-		<!--<script src="<?php print URI_SYS; ?>/js/jquery.autosize<?php print EXT_JS; ?>"></script>-->
+		<script src="<?php print URI_SYS; ?>/js/jquery.autosize<?php print EXT_JS; ?>"></script>
 
 		<?php if ($javascript): ?>
 		<?php foreach ($javascript as $file): ?>

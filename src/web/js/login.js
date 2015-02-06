@@ -11,7 +11,7 @@ var year = 1;
 var changesMade = false;
 
 function autoResize () {
-//	siteTimeout(1000, function() {$('.stage-editor textarea').each (function () {$(this).trigger ('autosize.resize'); })});
+	$('.stage-editor textarea').each (function () {$(this).trigger ('autosize.resize'); });
 }
 
 var loginPrefill = function (response, textStatus, jqXHR) {
@@ -29,20 +29,20 @@ var loginPrefill = function (response, textStatus, jqXHR) {
 
 	$('.name').text (response.firstName + ' ' + response.surname);
 
-	$('#cohort').attr ('value', response.cohort);
-	$('#name').attr ('value', response.firstName + ' ' + response.surname);
-	$('#email').attr ('value', response.email);
+	$('#cohort').val (response.cohort);
+	$('#name').val (response.firstName + ' ' + response.surname);
+	$('#email').val (response.email);
 
 	$('#tweet').val (response.tweet);
 	$('#tweet').triggerHandler ('keyup');
 
 	$('#twitter').val (response.twitter);
-	$('#website').attr ('value', response.website);
+	$('#website').val (response.website);
 	$('#keywords').tagsinput ('removeAll');
 	$.each (response.keywords.split (','), function (k,v) {$('#keywords').tagsinput ('add', v)});
 
-	$('#industryName').attr ('value', response.industryName);
-	$('#industryUrl').attr ('value', response.industryUrl);
+	$('#industryName').val (response.industryName);
+	$('#industryUrl').val (response.industryUrl);
 
 	$('#title').val (response.title);
 	$('#text').val (response.text);
@@ -51,11 +51,9 @@ var loginPrefill = function (response, textStatus, jqXHR) {
 	$('#references').val (response.references);
 	$('#references').triggerHandler ('keyup');
 
-	$('.preview-supported').data ('fundingStatement', response.fundingStatement);
-
 	$('#publications').val (response.publications);
 	$('#publications').triggerHandler ('keyup');
-	$('.stage-login').fadeOut ({complete : function () {$('.stage-editor').fadeIn (); $('.stage-editor input').triggerHandler ('change'); autoResize (); }});
+	$('.stage-login').fadeOut ({complete : function () {$('.stage-editor').fadeIn (); autoResize (); }});
 };
 
 $(function () {
@@ -80,11 +78,11 @@ $(function () {
 	ReHi.regSubForm ($('form.stage-login'), '@@@URI_ROOT@@@/do/login', function (response, textStatus, jqXHR) {
 		if (response.success == '1') {
 			ReHi.showSuccess ('Welcome!', 'Your login was successful. You can log back in any time to modify your submission before the deadline.');
-			$('#saveAs').attr ('value', $('#username').val ());
-			$('#admin-user').attr ('value', $('#username').val ());
-			$('#admin-pass').attr ('value', $('#password').val ());
-			$('#editor-user').attr ('value', $('#username').val ());
-			$('#editor-pass').attr ('value', $('#password').val ());
+			$('#saveAs').val ($('#username').val ());
+			$('#admin-user').val ($('#username').val ());
+			$('#admin-pass').val ($('#password').val ());
+			$('#editor-user').val ($('#username').val ());
+			$('#editor-pass').val ($('#password').val ());
 			loginPrefill (response, textStatus, jqXHR);
 			if (response.admin) {
 				$.getScript ("web/js/admin@@@EXT_JS@@@");
@@ -97,22 +95,28 @@ $(function () {
 	}, 'json');
 
 	ReHi.regAutoForm ($('form.stage-editor'), '@@@URI_ROOT@@@/do/preview', function (response, textStatus, jqXHR) {
-		var tVal = $('#title').val ();
-		$('.preview-title').html (tVal.length == 0 ? 'Preview' : tVal);
-
-		var iNVal = $('#industryName').val (); var iUVal = $('#industryUrl').val ();
-		var fundingStatement = '<small>' + $('.preview-supported').data ('fundingStatement');
-		if (iNVal == '') {
-			$('.preview-supported').html ($(fundingStatement + '.</small>'));
-		} else if (iUVal == '' || iUVal == 'http://') {
-			$('.preview-supported').html ($(fundingStatement  + ' and by <span>' + iNVal + '</span>.</small>'));
-		} else {
-			$('.preview-supported').html ($(fundingStatement  + ' and by <a href="' + iUVal + '" target="_blank">' + iNVal + '</a>.</small>'));
+		if (!response.text == undefined) {
+			ReHi.showError ('Humf!', 'An unknown error occurred generating your preview! <a href="mailto:@@@EMAIL@@@" class="alert-link">I need help!</a>');
+			return;
 		}
 
-		$('.preview-input').html (response);
+		$('.preview-text').html (response.text);
+		$('.preview-references').html (response.references);
+		$('.preview-publications').html (response.publications);
+
+		var iNVal = $('#industryName').val ();
+		var iUVal = $('#industryUrl').val ();
+
+		if (iNVal == '') {
+			$('.preview-fundingStatement').html (response.fundingStatement + '.');
+		} else if (iUVal == '' || iUVal == 'http://') {
+			$('.preview-fundingStatement').html (response.fundingStatement + ' and by <span>' + iNVal + '</span>.');
+		} else {
+			$('.preview-fundingStatement').html (response.fundingStatement + ' and by <a href="' + iUVal + '" target="_blank">' + iNVal + '</a>.');
+		}
+
 		changesMade = true;
-	});
+	}, 'json');
 
 	ReHi.regSubForm ($('form.stage-editor'), '@@@URI_ROOT@@@/do/submit', function (response, textStatus, jqXHR) {
 		if (response.success == '1') {
@@ -125,10 +129,10 @@ $(function () {
 	}, 'json');
 
 	$('a[href="#content"]').on ('shown.bs.tab', function (e) {
-	//	$('#text').show ().trigger ('autosize.resize');
+		autoResize ();
 	});
 
-//	$('textarea').autosize ();
+	$('textarea').autosize ();
 
 	$('#keywords').on ('beforeItemAdd', function (e) {
 		var ret = false;

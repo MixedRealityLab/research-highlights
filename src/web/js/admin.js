@@ -12,15 +12,14 @@
 		// 	return false;
 		// }
 
-		if (response == '-1') {
-			ReHi.showError ('Unknown Error', 'You don\'t seem to be logged in.');
-		} else if (response == '-4') {
-			ReHi.showError ('User Error', 'Could not find a valid user with the username <em>' + $('#profile').val ()  + '</em> - did you enter the correct username?');
-		} else {
-
+		if (response.success !== undefined) {
 			$('#saveAs').attr ('value', $('#profile').val ());
 			loginPrefill (response, textStatus, jqXHR);
 			ReHi.showSuccess ('Loaded submission from ' + response.firstName + ' ' + response.surname, 'Please make any changes necessary and click the Submit button.');
+		} else if (response.error !== undefined) {
+			ReHi.showError ('User Error', response.error);
+		} else {
+			ReHi.showError ('User Error', 'An unknown error occured!');
 		}
 	}, 'json');
 
