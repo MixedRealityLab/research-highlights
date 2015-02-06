@@ -209,6 +209,15 @@ span.keywords {
 	background-color: #000 !important;
 }
 
+.btn-offcanvas {
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	-webkit-border-top-right-radius: 4px;
+	-moz-border-radius-topright: 4px;
+	border-top-right-radius: 4px;
+}
+
 .home-img {
 	border: 5px solid black;
 	width: 150px;
@@ -238,13 +247,13 @@ span.keywords {
 .well.feature {
 	background-repeat: no-repeat;
 	background-position: center;
-	height: 300px;
+	height: 200px;
 }
 
 .well.feature a, .well.feature a:hover {
 	color: #FFFFFF;
 	display: block;
-	height: 300px;
+	height: 200px;
 	margin: -20px;
 	text-decoration: none;
 }
@@ -269,14 +278,26 @@ span.keywords {
 	position: absolute;
 	right: 16px;
 	text-align: center;
-	-webkit-transition-propery: height, background;
-	-webkit-transition-duration: 1s;
+	-webkit-transition-propery: height, background, border-radius;
+	-webkit-transition-duration: .5s;
 	-webkit-transition-timing-function: ease-out;
-	-moz-transition-propery: height, background;
-	-moz-transition-duration: 1s;
+	-moz-transition-propery: height, background, border-radius;
+	-moz-transition-duration: .5s;
 	-moz-transition-timing-function: ease-out;
-	transition-propery: height, background;
-	transition-duration: 1s;
+	transition-propery: height, background, border-radius;
+	transition-duration: .5s;
+	transition-timing-function: ease-out;
+}
+
+.well.feature span {
+	-webkit-transition-propery: padding;
+	-webkit-transition-duration: .5s;
+	-webkit-transition-timing-function: ease-out;
+	-moz-transition-propery: padding;
+	-moz-transition-duration: .5s;
+	-moz-transition-timing-function: ease-out;
+	transition-propery: padding;
+	transition-duration: .5s;
 	transition-timing-function: ease-out;
 }
 
@@ -294,7 +315,7 @@ span.keywords {
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
-	height: 300px;
+	height: 200px;
 }
 
 @media screen and (max-width: 768px) {
@@ -302,7 +323,10 @@ span.keywords {
 		-webkit-border-radius: 4px;
 		-moz-border-radius: 4px;
 		border-radius: 4px;
-		height: 300px;
+		height: 200px;
+	}
+	.well.feature span {
+		padding-top: 75px;
 	}
 }
 
@@ -331,9 +355,6 @@ footer {
 
 /* Based on http://www.bootply.com/80586 */
 @media screen and (max-width: 768px) {
-	div.container.main {
-		overflow: hidden;
-	}
 
 	.row-offcanvas {
 		position: relative;

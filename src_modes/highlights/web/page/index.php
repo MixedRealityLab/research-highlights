@@ -47,15 +47,14 @@ $cTemplate->startCapture ();
 
 			<div class="col-xs-12 col-sm-9 printArea">
 				<p class="pull-right visible-xs collapse">
-					<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">View Submissions</button>
+					<button type="button" class="btn btn-primary btn-offcanvas" data-toggle="offcanvas">View Submissions</button>
 				</p>
 
 				<div class="jumbotron primary collapse">
 					<div class="container">
 						<h2>Research Highlights <?php print SITE_YEAR; ?></h2>
 						<img class="pull-right home-img img-circle" alt="Prof. Steve Benford, Centre Director" src="<?php print URI_WEB; ?>/img/sdb.jpg">
-						<p>Welcome to the <?php print SITE_YEAR; ?> edition of the Horizon CDT Research Highlights. Every year, all students within the centre join together to highlight their research to other academics, our industry partners, and the wider public.</p>
-						<p>Use the menu to the left of this website to read highlights from this year's edition.</p>
+						<p>Welcome to the <?php print SITE_YEAR; ?> edition of the Horizon CDT Research Highlights. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vel nibh vitae leo gravida mattis. Nulla bibendum diam nisl, sit amet pulvinar magna malesuada vehicula. Nunc dignissim gravida nulla ac interdum. Quisque a ultricies augue. Curabitur sagittis vel nunc eget cursus. Quisque vitae velit lectus. </p>
 						<p><small>Prof. Steve Benford,<br>Centre Director</small></p>
 					</div>
 				</div>

@@ -383,4 +383,8 @@ $(function () {
 	$(window).hashchange ( function (){
 		firstResponder (window.location.hash);
 	});
+
+	$('button[data-toggle="offcanvas"]').click(function() {
+			$('footer').toggleClass('collapse');
+	});
 });
