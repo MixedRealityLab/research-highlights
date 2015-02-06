@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Research Highlights engine
- * 
- * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
- * See LICENCE for legal information.
- */
+* Research Highlights engine
+*
+* Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
+* See LICENCE for legal information.
+*/
 
 namespace RH;
 
 /**
- * Controller for submissions made by users.
- * 
- * @author Martin Porcheron <martin@porcheron.uk>
- */
+* Controller for submissions made by users.
+*
+* @author Martin Porcheron <martin@porcheron.uk>
+*/
 class Submission implements \RH\Singleton {
 
 	/** @var string Data file name suffix */
@@ -38,8 +38,8 @@ class Submission implements \RH\Singleton {
 	private $mSubmissions;
 
 	/**
-	 * @return \RH\Model\Submission Default submission template
-	 */
+	* @return \RH\Model\Submission Default submission template
+	*/
 	public function getDefaultData () {
 		if (\is_null ($this->mDefaultData)) {
 			$mDefaultData = new \RH\Model\Submission ();
@@ -53,7 +53,7 @@ class Submission implements \RH\Singleton {
 				$sufLen = \strlen (self::DEF_FILE_SUF);
 				$readFileFn = function ($fileName) use ($sufLen) {
 					return \strpos ($fileName, self::DEF_FILE_PRE) === 0 &&
-					    \strlen ($fileName) - \strrpos ($fileName, self::DEF_FILE_SUF) === $sufLen;
+						\strlen ($fileName) - \strrpos ($fileName, self::DEF_FILE_SUF) === $sufLen;
 				};
 
 				$preLen = \strlen (self::DEF_FILE_PRE);
@@ -73,15 +73,15 @@ class Submission implements \RH\Singleton {
 	}
 
 	/**
-	 * Retrieve a user's submission
-	 * 
-	 * @param \RH\Model\User $mUser User's submission to retrieve
-	 * @param bool $includeDefaults Use the submission template if the user has
-	 * 	not submitted
-	 * @return \RH\Model\Submission
-	 * @throws \RH\Error\NoUser if there is no user to retrieve submission for
-	 * @throws \RH\Error\NoSubmission if there is no submission
-	 */
+	* Retrieve a user's submission
+	*
+	* @param \RH\Model\User $mUser User's submission to retrieve
+	* @param bool $includeDefaults Use the submission template if the user has
+	* 	not submitted
+	* @return \RH\Model\Submission
+	* @throws \RH\Error\NoUser if there is no user to retrieve submission for
+	* @throws \RH\Error\NoSubmission if there is no submission
+	*/
 	public function get (\RH\Model\User $mUser, $includeDefaults = true) {
 		if (\is_null ($this->mSubmissions)) {
 			$this->mSubmissions = new \RH\Model\Submissions ();
@@ -135,12 +135,18 @@ class Submission implements \RH\Singleton {
 	}
 
 	/**
-	 * Convert Markdown syntax to HTML
-	 * 
-	 * @param string $markdown Markdown-formatted text
-	 * @return string HTML formatted text
-	 */
+	* Convert Markdown syntax to HTML
+	*
+	* @param string $markdown Markdown-formatted text
+	* @return string HTML formatted text
+	*/
 	public static function markdownToHtml ($markdown) {
+		$pattern = '/!\[(.+)\]\((.+)\)/USu';
+		$i = 1;
+		$markdown = \preg_replace_callback ($pattern, function ($matches) use (&$i) {
+			return '<div class="img"><img src="' . $matches[2] . '" alt="' . $matches[1] . '"><p><strong>Figure ' . $i++ . ': ' . $matches[1] . '</strong></p></div>';
+		}, $markdown);
+
 		return \Michelf\Markdown::defaultTransform ($markdown);
 	}
 

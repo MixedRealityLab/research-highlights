@@ -62,7 +62,7 @@ $cTemplate->startCapture ();
 						<li role="presentation" class="active"><a href="#summary" role="tab" data-toggle="tab">Summary</a></li>
 						<li role="presentation"><a href="#content" role="tab" data-toggle="tab">Research</a></li>
 						<li role="presentation"><a href="#about" role="tab" data-toggle="tab">Personal</a></li>
-						<li role="presentation" class="pull-right"><a href="#formatting" role="tab" data-toggle="tab">Formatting Tips</a></li>
+						<li role="presentation" class="pull-right"><a href="#formatting" role="tab" data-toggle="tab">Formatting</a></li>
 					</ul>
 				</div>
 				<!-- END TABS -->
@@ -267,7 +267,7 @@ $cTemplate->startCapture ();
 
 							<hr class="preview-break">
 
-							<h1 id="headers" class="formatting-title">Headers</h1>
+							<h1 id="headers" class="formatting-title">Titles</h1>
 
 							<div class="col-sm-6 col-md-6 col-lg-6 preview-left">
 								<pre>To insert a header, use a `#`` at the start of the line. The more `#`s you use, the smaller the header will be.

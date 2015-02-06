@@ -149,6 +149,16 @@ div.navbar-header {
 	padding-right: 15px;
 }
 
+.img {
+	text-align: center !important;
+	margin: 1em 0 1em 0;
+}
+
+.img p {
+	text-align: center !important;
+	margin-top: 1em;
+}
+
 
 @media screen {
 	body {
