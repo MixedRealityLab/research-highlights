@@ -51,7 +51,7 @@ $cTemplate->startCapture ();
 					<div class="col-sm-6 col-md-6 col-lg-8">
 						<h2>Making your Submission</h2>
 						<p>Only Horizon CDT students can make submissions to the Research Highlights website.</p>
-						<p>Firstly, we need to identify who you are. We emailed you the details that you need to login to the system. If you have lost this email, either send an email to <a href="mailto:<?php print EMAIL; ?>">Martin Porcheron or Kyle Arch</a> and we'll send out a password reminder.</p>
+						<p>Firstly, we need to identify who you are. We emailed you the details that you need to login to the system. If you have lost this email, please request a <a href="<?php print URI_HOME; ?>/forgotten" title="Password Reminder">reminder</a>.</p>
 						<p><strong>Hint:</strong> Your username is your university username (e.g. <em>psxmp9</em>) and your password is a long sequence of letters and numbers.</p>
 					</div>
 				</form>

@@ -37,6 +37,9 @@ class User implements \RH\Singleton {
 	/** @var string User model cache */
 	const USER_CACHE = 'user-%s.cache';
 
+	/** @var string User Email cache */
+	const USER_EMAILS_CACHE = 'userEmails.cache';
+
 	/** @var string Funding statements model cache */
 	const FUNDING_CACHE = 'fundingStatements.cache';
 
@@ -54,6 +57,9 @@ class User implements \RH\Singleton {
 
 	/** @var \RH\Model\Users Cache of user details */
 	private $mUsers;
+
+	/** @var \RH\Model\UserEmails Cache of user details */
+	private $mUserEmails;
 
 	/** @var bool Does `$mUsers` store all users? */
 	private $mUsersAll = false;
@@ -136,35 +142,58 @@ class User implements \RH\Singleton {
 	}
 
 	/**
-	 * Retrieve the details of a user.
-	 *
-	 * @param string|null $mUser User to retrieve full details for, or
-	 * 	if `null`, retrieve the currently logged in user, or if a User object,
-	 * 	the function will return this object.
-	 * @return \RH\Model\User Details of the user
-	 */
+	* Retrieve the details of a user.
+	*
+	* @param string|null $mUser User to retrieve full details for, or
+	* 	if `null`, retrieve the currently logged in user, or if a User object,
+	* 	the function will return this object.
+	* @return \RH\Model\User Details of the user
+	*/
 	public function get ($user = null) {
 		if (\is_null ($user)) {
 			return $this->mUser;
 		} else if ($user instanceof User) {
 			return $user;
-		} else if (!isSet ($this->mUsers->$user)) {
-			$file = \sprintf (self::USER_CACHE, $user);
+		} else {
+			$user = \strtolower ($user);
 
-			$mUser = new \RH\Model\User ();
-			$mUser->setCache (CACHE_USER, $file);
+			if (!isSet ($this->mUsers->$user)) {
+				$file = \sprintf (self::USER_CACHE, $user);
 
-			if ($mUser->hasCache ()) {
-				$this->mUsers->$user = $mUser->loadCache ();
-			} else {
-				$this->getAll ();
-				$this->mUsers->$user->setCache (CACHE_USER, $file);
-				$this->mUsers->$user->saveCache ();
+				$mUser = new \RH\Model\User ();
+				$mUser->setCache (CACHE_USER, $file);
+
+				if ($mUser->hasCache ()) {
+					$this->mUsers->$user = $mUser->loadCache ();
+				} else {
+					$this->getAll ();
+					$this->mUsers->$user->setCache (CACHE_USER, $file);
+					$this->mUsers->$user->saveCache ();
+				}
 			}
 
+			return $this->mUsers->$user;
+		}
+	}
+
+	/**
+	 * Retrieve the details of a user.
+	 *
+	 * @param string $email Email address of a user to get.
+	 * @return \RH\Model\User Details of the user
+	 */
+	public function getByEmail ($email) {
+		if (is_null ($this->mUserEmails)) {
+			$this->getAll ();
 		}
 
-		return $this->mUsers->$user;
+		$email = \strtolower ($email);
+
+		if (!isSet ($this->mUserEmails[$email])) {
+			throw new \RH\Error\NoUser ();
+		}
+
+		return $this->get ($this->mUserEmails[$email]);
 	}
 
 	/**
@@ -201,8 +230,12 @@ class User implements \RH\Singleton {
 			$mUsers = new \RH\Model\Users ();
 			$mUsers->setCache (CACHE_USER, self::USERS_CACHE);
 
-			if ($mUsers->hasCache ()) {
+			$mUserEmails = new \RH\Model\UserEmails ();
+			$mUserEmails->setCache (CACHE_USER, self::USER_EMAILS_CACHE);
+
+			if ($mUsers->hasCache () && $mUserEmails->hasCache ()) {
 				$mUsers->loadCache ();
+				$mUserEmails->loadCache ();
 			} else {
 				$adminUsers = $this->getData (self::ADMIN_FILE);
 				foreach ($adminUsers as $mUser) {
@@ -219,13 +252,20 @@ class User implements \RH\Singleton {
 					if (!isSet ($mUser->admin)) {
 						$mUser->admin = false;
 					}
+
+					$mUser->username = \strtolower ($mUser->username);
+
+					$email = \strtolower ($mUser->email);
+					$mUserEmails[$email] = $mUser->username;
 				}
 
 				$mUsers->saveCache ();
+				$mUserEmails->saveCache ();
 			}
 
 			$this->mUsers = $mUsers;
 			$this->mUsersAll = true;
+			$this->mUserEmails = $mUserEmails;
 		}
 
 		$mUsers = clone $this->mUsers;

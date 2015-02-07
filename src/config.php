@@ -52,8 +52,11 @@
 \define ('MAIL_USER', '');
 \define ('MAIL_PASS', '');
 
+\define ('MAIL_ADMIN', 'psxmp9');
 \define ('MAIL_ON_CHANGE_USRS', 'psxmp9,pszej');
 \define ('MAIL_ON_CHANGE_SUBJ', '[' . SITE_NAME . '] Submission Updated for <firstName> <surname>');
+\define ('MAIL_FORGOT_PASS_SUBJ', '[' . SITE_NAME . '] Password for for <firstName> <surname>');
+\define ('MAIL_FORGOT_PASS_MESG', "Hi <firstName>,\n\nSomeone requested the password for your account for the " . SITE_NAME . " website.\n\nThe submission system can be found at <a href=\"". URI_ROOT ."/login\" target=\"_blank\">" . URI_ROOT ."/login</a> and you need to use the following details to login:\n<strong>Username:</strong> <username>\n<strong>Password:</strong> <password>\n\nThanks,\nMartin Procheron");
 
 \define ('CACHE_GENERAL', 86400);
 \define ('CACHE_USER', CACHE_GENERAL);

@@ -7,4 +7,4 @@
  * See LICENCE for legal information.
  */
 
-\define ('VERSION', 'CDT-RH/3.5.1');
+\define ('VERSION', 'CDT-RH/3.6');

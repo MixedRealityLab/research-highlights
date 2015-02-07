@@ -1,7 +1,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -19,21 +19,21 @@ $(function () {
 		}
 	});
 
-	ReHi.showAlert ('Welcome!', 'Please enter your credentials to continue.', 'info'); 
+	ReHi.showAlert ('Welcome!', 'Please enter your credentials to continue.', 'info');
 
 	ReHi.regSubForm ($('form.stage-login'), '@@@URI_ROOT@@@/do/login', function (response, textStatus, jqXHR) {
-		if (response == '-3') {
-			ReHi.showError ('Humph!', 'Your account has been disabled. <a href="mailto:@@@EMAIL@@@" class="alert-link">I need help!</a>');
-		} else if (response == '-1') {
-			ReHi.showError ('Woops!', 'Looks like you\'ve entered an invalid username/password combination. <a href="mailto:@@@EMAIL@@@" class="alert-link">I need help!</a>'); 
-		} else if (response.success == '1') {
+		if (response.success != undefined) {
 			ReHi.showSuccess ('Welcome!', 'Your login was successful.');
 
 			$('#submit-user').attr ('value', $('#username').val ());
 			$('#submit-pass').attr ('value', $('#password').val ());
-			
+
 			$('.stage-login').fadeOut ({complete : function () {$('.stage-email').fadeIn (); $('.stage-email textarea').trigger ('autosize.resize');	}});
-		}
+		} else if (response.error != undefined) {
+			ReHi.showError ('Oh, snap!', response.error + ' <a href="mailto:@@@EMAIL@@@" class="alert-link">Email support</a> for help.');
+		} else {
+			ReHi.showError ('Oh, snap!', 'An unknown error occurred. <a href="mailto:@@@EMAIL@@@" class="alert-link">Email support</a> for help.');
+	}
 	}, 'json');
 
 	ReHi.regSubForm ($('form.stage-email'), '@@@URI_ROOT@@@/do/email', function (response, textStatus, jqXHR) {
@@ -42,7 +42,7 @@ $(function () {
 		} else {
 			ReHi.showSuccess ('Whoop! Whoop!', 'Your emails were sent!')
 		}
-	});	
+	});
 
 
 	ReHi.sendData ({
@@ -107,5 +107,5 @@ $(function () {
 		}
 	});
 
-	$('textarea').autosize (); 
+	$('textarea').autosize ();
 });

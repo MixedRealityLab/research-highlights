@@ -2,7 +2,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -15,12 +15,12 @@ namespace RH\Error;
  * @author Martin Porcheron <martin@porcheron.uk>
  */
 class NoUser extends UserError {
-	
+
 	/**
 	 * Throw the exception.
 	 */
 	public function __construct () {
-		parent::__construct ('No user could be found with that username/password combination.');
+		parent::__construct ('No matching user could be found, sorry.');
 	}
-	
+
 }
