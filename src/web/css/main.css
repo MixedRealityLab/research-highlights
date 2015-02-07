@@ -71,14 +71,14 @@ textarea + p {
 
 .preview-text { text-align: justify; }
 
-.preview-text h1 { font-size: 1.4em;}
-.preview-text h2 { font-size: 1.2em;}
-.preview-text h3 { font-size: 1.1em;}
-.preview-text h4 { font-size: 1em;}
-.preview-text h5 { font-size: 1em;}
-.preview-text h6 { font-size: 1em;}
+.preview h1 { font-size: 1.4em;}
+.preview h2 { font-size: 1.2em;}
+.preview h3 { font-size: 1.1em;}
+.preview h4 { font-size: 1em;}
+.preview h5 { font-size: 1em;}
+.preview h6 { font-size: 1em;}
 
-.preview-text img {max-width: 100%}
+.preview img {max-width: 100%}
 
 .preview-left {
 	border-right: 1px solid #CCCCCC;
@@ -106,6 +106,7 @@ textarea + p {
 footer {
 	clear: both;
 	font-size: .8em;
+	margin-top: 1em;
 	padding-bottom: 50px;
 }
 

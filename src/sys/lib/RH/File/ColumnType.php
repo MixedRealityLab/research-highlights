@@ -2,7 +2,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -11,7 +11,7 @@ namespace RH\File;
 
 /**
  * Column types for data files.
- * 
+ *
  * @author Martin Porcheron <martin@porcheron.uk>
  */
 abstract class ColumnType {
@@ -30,7 +30,7 @@ abstract class ColumnType {
 
 	/**
 	 * Convert a column type string into its correct flag.
-	 * 
+	 *
 	 * @param string $str String representation of the column type.
 	 * @return int Column type flag.
 	 */
@@ -46,14 +46,14 @@ abstract class ColumnType {
 			case 'str_rem':
 				return self::LONG_STRING;
 			default:
-				throw new \RH\Error\System ('Could not find type of ' . $str);
+				throw new \RH\Error\SystemError ('Could not find type of ' . $str .'.');
 		}
 	}
 
 
 	/**
 	 * Convert a value to its correct type, based on its column type.
-	 * 
+	 *
 	 * @param int $type Flag of the column type.
 	 * @param string $str String representation of the value
 	 * @return mixed Correctly typed value

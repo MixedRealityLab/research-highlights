@@ -136,14 +136,15 @@ $cTemplate->startCapture ();
 					<!-- BEGIN SUBMISSION TAB -->
 					<div role="tabpanel" class="tab-pane fade" id="content">
 						<div class="col-sm-12 col-md-12 col-lg-12">
-							<p>Information and examples on formatting your submission is available on the <em>Formatting tab</em>. <strong>Please note:</strong> you should only include content in your submission that is publishable at the time of submission, and that you have the legal right to publish.</p>
+							<p>Information and examples on formatting your submission is available on the <em>Formatting</em> tab. <strong>Please note:</strong> you should only include content in your submission that is publishable at the time of submission, and that you have the legal right to publish.</p>
 							<hr>
 						</div>
 						<div class="container">
 							<div class="row">
 								<div class="col-sm-12 col-md-6 col-lg-6">
 									<div class="form-group">
-										<label for="text">Abstract</label>
+										<label for="text">Main Text</label>
+										<p>Do not include the title of your PhD here.</p>
 										<textarea name="text" id="text" rows="25" class="form-control input input-large" spellcheck="true" lang="gb"></textarea>
 										<p class="small">You have <strong class="text-rem">0</strong> words remaining.</p>
 									</div>
@@ -170,6 +171,7 @@ $cTemplate->startCapture ();
 								<div class="col-sm-12 col-md-6 col-lg-6">
 									<div class="form-group">
 										<label for="references">References</label>
+										<p>Include your bibliography here. Please insert text as a numbered list in Markdown format (e.g. each line looks like <code>1. Reference Here</code>). Do not leave blank lines between references.</p>
 										<textarea name="references" id="references" rows="25" class="form-control input input-large" placeholder="1. Smith, J.P. Studying certainty. Science and Culture 9 (1989) 442." spellcheck="false"></textarea>
 									</div>
 								</div>
@@ -194,14 +196,35 @@ $cTemplate->startCapture ();
 							<div class="row">
 								<div class="col-sm-12 col-md-6 col-lg-6">
 									<div class="form-group">
-										<label for="publications">Publications in the last year</label>
-										<p>Include links to blog posts, newspaper articles and full citations for conferences papers/journal articles that have been published in the last twelve months for which you have been an author. Format this list as a <a href="http://daringfireball.net/projects/markdown/syntax#list">Mardown numbered list</a> with correct <a href="http://daringfireball.net/projects/markdown/syntax#link">Markdown web links</a>.</p>
+										<label for="publications">Publications in the Last Year</label>
+										<p>Include links to blog posts, newspaper articles and full citations for conferences papers/journal articles that have been published in the last twelve months for which you have been an author. Please insert these as a numbered list in Markdown format, in the same bibliographical format as above.
+										<p>For further formatting information (including links), check out the <em>Formatting</em> tab.</p>
 										<textarea name="publications" id="publications" rows="25" class="form-control input input-large"></textarea>
 									</div>
 								</div>
 								<div class="col-sm-12 col-md-6 col-lg-6 preview hidden-xs hidden-sm">
 									<div class="preview-publications"></div>
-									<small class="preview-funding"></small>
+								</div>
+							</div>
+						</div>
+
+						<div class="container">
+							<div class="row">
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<hr>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<hr>
+								</div>
+							</div>
+						</div>
+
+						<div class="hidden-xs hidden-sm container">
+							<div class="row">
+								<div class="col-sm-12 col-md-6 col-lg-6">
+								</div>
+								<div class="col-md-6 col-lg-6">
+									<small class="preview-fundingStatement"></small>
 								</div>
 							</div>
 						</div>

@@ -31,13 +31,15 @@ try {
 
 	$referencesMd = \trim ($mInput->references);
 	$mSubmission->references = !empty ($referencesMd)
-		?  \RH\Submission::markdownToHtml ($referencesMd)
+		?  \RH\Submission::markdownToHtml ("# References\n\n" . $referencesMd)
 		: '<em>No references.</em>';
 
 	$publicationsMd = \trim ($mInput->publications);
 	$mSubmission->publications = !empty ($publicationsMd)
-		? \RH\Submission::markdownToHtml ($publicationsMd)
+		? \RH\Submission::markdownToHtml ("# Publications in the Last Year\n\n" . $publicationsMd)
 		: '<em>No publications in the last year.</em>';
+
+	$mSubmission->fundingStatement = $mUser->fundingStatement;
 
 	print $mSubmission->toJson ();
 } catch (\RH\Error $e) {
