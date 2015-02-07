@@ -160,10 +160,18 @@ div.navbar-header {
 }
 
 .bar {
-	height: 18px;
-	background: green;
+	height: 20px;
+	background: #47a447;
 }
 
+#progress {
+	position: fixed;
+	bottom: 52px;
+	left: 0;
+	right: 0;
+	width: 100%;
+	z-index: 10000000;
+}
 
 @media screen {
 	body {

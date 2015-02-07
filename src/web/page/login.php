@@ -146,9 +146,6 @@ $cTemplate->startCapture ();
 										<label for="text">Abstract</label>
 										<textarea name="text" id="text" rows="25" class="form-control input input-large" spellcheck="true" lang="gb"></textarea>
 										<p class="small">You have <strong class="text-rem">0</strong> words remaining.</p>
-										<div id="progress">
-											<div class="bar" style="width: 0%;"></div>
-										</div>
 									</div>
 								</div>
 								<div class="col-sm-12 col-md-6 col-lg-6 preview hidden-xs hidden-sm">
@@ -347,7 +344,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.</pre>
 								<p>You can make text italic or bold with <code>*</code>s.</p>
 
 								<p><em>One asterisk makes it italic</em></p>
-								<p><strong>Two asterisks makes it bold</stong></p>
+								<p><strong>Two asterisks makes it bold</strong></p>
 							</div>
 
 							<hr class="preview-break">
@@ -436,11 +433,16 @@ Please note: **you must** own the copyright to the images, or have rights to red
 				<input type="text" class="form-control" id="profile" name="profile" placeholder="View a submission">
 			</form>
 			<div class="navbar navbar-right">
-			<div class="btn-group">
-				<button class="btn navbar-btn btn-danger" type="button" id="logout">Logout</button>
-				<button class="btn navbar-btn btn-success" type="button" id="submit">Submit &raquo;</button>
+				<div class="btn-group">
+					<button class="btn navbar-btn btn-danger" type="button" id="logout">Logout</button>
+					<button class="btn navbar-btn btn-success" type="button" id="submit">Submit &raquo;</button>
+				</div>
 			</div>
 		</nav>
+
+		<div id="progress">
+			<div class="bar" style="width: 0%;"></div>
+		</div>
 <?php
 
 $cTemplate->set ('header', true);

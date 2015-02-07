@@ -2,7 +2,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -147,6 +147,7 @@ if (!\is_file ($filePath) || (\is_file ($filePath) && \filemtime ($filePath) + C
 
 	$oWriterPPTx = IOFactory::createWriter ($oPowerpoint, 'PowerPoint2007');
 	$oWriterPPTx->save (DIR_CAC . '/' . $file);
+	@\chmod (DIR_CAC . '/' . $file, 0777);
 }
 
 \header ('Content-Disposition: attachment; filename="' . $file . '"');

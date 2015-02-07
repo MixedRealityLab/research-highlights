@@ -9,7 +9,13 @@
 
 // Fetch a list of users who have submitted
 
-\header ('Content-type: application/json');
+\header ('Vary: Accept');
+
+if (isSet ($_SERVER['HTTP_ACCEPT']) && (\strpos ($_SERVER['HTTP_ACCEPT'], 'application/json') !== false)) {
+    \header ('Content-type: application/json');
+} else {
+    \header ('Content-type: text/plain');
+}
 
 try {
     if ($names = I::RH_Model_Input ()->upload ('files', DIR_IMG)) {

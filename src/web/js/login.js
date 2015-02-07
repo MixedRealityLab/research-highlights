@@ -88,27 +88,33 @@ $(function () {
 				$.getScript ("web/js/admin@@@EXT_JS@@@");
 			}
 
+			$(document).bind('drop dragover', function (e) {
+				e.preventDefault();
+			});
+
 			$('#fileupload').fileupload({
         		dataType: 'json',
                 autoUpload: true,
-                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+				dropZone: $('#text'),
+				pasteZone: $('#text')
+			}).on('fileuploaddragover', function(e, data) {
+				$('#text').focus();
 			}).on('fileuploadprogressall', function (e, data) {
 				var progress = parseInt(data.loaded / data.total * 100, 10);
-				$('#progress .bar').css(
-					'width',
-					progress + '%'
-				);
+				$('#progress .bar').css('width',progress + '%');
 			}).on('fileuploaddone', function (e, data) {
-				console.log(data);
 				if (data.result.error != undefined) {
 					ReHi.showError ('Image Upload Error', data.result.error);
 				} else if (data.result.length > 0) {
 					$.each(data.result, function (index, file) {
 						$('#text').insertAtCaret ('![Figure Caption Here...](' + file + ')');
-						$('div.bar').css('width', '0%');
+						$('#progress').fadeOut(function () {$('#progress .bar').css('width','0%');});
 					});
 					$('#text').triggerHandler('keyup');
 				}
+			}).on('fileuploadstart', function (e, data) {
+				$('#progress').fadeIn();
 			});
 		} else if (response.error != undefined) {
 			ReHi.showError ('Oh, snap!', response.error + ' <a href="mailto:@@@EMAIL@@@" class="alert-link">Email support</a> for help.');
