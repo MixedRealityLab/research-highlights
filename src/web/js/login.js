@@ -73,11 +73,11 @@ $(function () {
 
 	$('.navbar-toggle').addClass ('stage-editor');
 
-	ReHi.showAlert ('Welcome!', 'Please enter your credentials to continue.', 'info');
+//	ReHi.showAlert ('Welcome!', 'Please enter your credentials to continue.', 'info');
 
 	ReHi.regSubForm ($('form.stage-login'), '@@@URI_ROOT@@@/do/login', function (response, textStatus, jqXHR) {
 		if (response.success == '1') {
-			ReHi.showSuccess ('Welcome!', 'Your login was successful. You can log back in any time to modify your submission before the deadline.');
+		//	ReHi.showSuccess ('Welcome!', 'Your login was successful. You can log back in any time to modify your submission before the deadline.');
 			$('#saveAs').val ($('#username').val ());
 			$('#admin-user').val ($('#username').val ());
 			$('#admin-pass').val ($('#password').val ());
