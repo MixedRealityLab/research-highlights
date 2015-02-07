@@ -346,8 +346,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.</pre>
 							<div class="col-sm-6 col-md-6 col-lg-6 preview-right">
 								<p>You can make text italic or bold with <code>*</code>s.</p>
 
-								<p><strong>One asterisk makes it italic</strong></p>
-								<p><em>Two asterisks makes it bold</em></p>
+								<p><em>One asterisk makes it italic</em></p>
+								<p><strong>Two asterisks makes it bold</stong></p>
 							</div>
 
 							<hr class="preview-break">
@@ -385,7 +385,7 @@ This produces a [link](http://www.example.com/) - how cool!</pre>
 							<h1 id="images" class="formatting-title">Images</h1>
 
 							<div class="col-sm-6 col-md-6 col-lg-6 preview-left">
-								<pre>You can include images in your submission.To insert an image, click in the abstract text area where you would like the image to appear and simply drag and drop the image from your computer into the text area.
+								<pre>You can include images in your submission. To insert an image, click in the abstract text area where you would like the image to appear and simply drag and drop the image from your computer into the text area.
 
 Images are given a caption in the order they appear in your submission.
 
@@ -395,7 +395,7 @@ Please note: **you must** own the copyright to the images, or have rights to red
 								</div>
 
 							<div class="col-sm-6 col-md-6 col-lg-6 preview-right">
-								<p>You can include images in your submission.To insert an image, click in the abstract text area where you would like the image to appear and simply drag and drop the image from your computer into the text area.</p>
+								<p>You can include images in your submission. To insert an image, click in the abstract text area where you would like the image to appear and simply drag and drop the image from your computer into the text area.</p>
 
 								<p>Images are given a caption in the order they appear in your submission.</p>
 
