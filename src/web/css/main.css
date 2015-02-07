@@ -159,6 +159,11 @@ div.navbar-header {
 	margin-top: 1em;
 }
 
+.bar {
+	height: 18px;
+	background: green;
+}
+
 
 @media screen {
 	body {

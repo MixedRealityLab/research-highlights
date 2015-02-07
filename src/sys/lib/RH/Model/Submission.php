@@ -2,7 +2,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -11,7 +11,7 @@ namespace RH\Model;
 
 /**
  * A user's submission.
- * 
+ *
  * @author Martin Porcheron <martin@porcheron.uk>
  */
 class Submission extends AbstractModel {
@@ -21,7 +21,7 @@ class Submission extends AbstractModel {
 
 	/**
 	 * Construct the data object, with initial data values, if any.
-	 * 
+	 *
 	 * @param mixed[] $data Data to construct initial object with
 	 * @return \RH\Model\Submission
 	 */
@@ -32,7 +32,7 @@ class Submission extends AbstractModel {
 
 	/**
 	 * Take this submission and make substitutes for the keywords.
-	 * 
+	 *
 	 * @param \RH\Model\User $mUser User to make modifications for.
 	 * @return \RH\Model\Submission
 	 */
@@ -46,7 +46,7 @@ class Submission extends AbstractModel {
 
 	/**
 	 * Add an image to be saved to disk.
-	 * 
+	 *
 	 * @param string $filename name of the image
 	 * @param string $url Image URL
 	 * @return void
@@ -58,7 +58,7 @@ class Submission extends AbstractModel {
 
 	/**
 	 * Save this submission to the file system.
-	 * 
+	 *
 	 * @return true
 	 * @throws \RH\Error\System if something went wrong
 	 */
@@ -78,9 +78,9 @@ class Submission extends AbstractModel {
 		}
 
 		foreach ($this as $key => $value) {
-			if (@\file_put_contents ($dir . $key . $ext, $value) === false) {
-				throw new \RH\Error\System ('Could not save ' . $key . ' to the system');
-			}
+		 	if (@\file_put_contents ($dir . $key . $ext, $value) === false) {
+		 		throw new \RH\Error\SystemError ('Could not save ' . $key . ' to the system');
+		 	}
 		}
 
 		if (CACHE_CLEAR_ON_SUBMIT) {
@@ -88,13 +88,13 @@ class Submission extends AbstractModel {
 			$cUser->getAll ()->clearCache ();
 			$cUser->get ($this->saveAs)->clearCache ();
 		}
-		
+
 		return true;
 	}
 
 	/**
 	 * Fetch the model for the keywords.
-	 * 
+	 *
 	 * @return \RH\Model\Keywords
 	 */
 	public function getKeywords () {

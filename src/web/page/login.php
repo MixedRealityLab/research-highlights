@@ -19,6 +19,10 @@ $cTemplate->startCapture ();
 		<div class="container main">
 			<div class="row main">
 
+				<div style="display: none;">
+					<input id="fileupload" type="file" name="files[]" data-url="<?php print URI_HOME; ?>/do/upload" multiple>
+				</div>
+
 				<!-- BEGIN LOGIN STAGE -->
 				<form class="stage stage-login collapse">
 					<div class="col-sm-6 col-md-6 col-lg-4">
@@ -135,8 +139,6 @@ $cTemplate->startCapture ();
 							<p>Information and examples on formatting your submission is available on the <em>Formatting tab</em>. <strong>Please note:</strong> you should only include content in your submission that is publishable at the time of submission, and that you have the legal right to publish.</p>
 							<hr>
 						</div>
-
-
 						<div class="container">
 							<div class="row">
 								<div class="col-sm-12 col-md-6 col-lg-6">
@@ -144,6 +146,9 @@ $cTemplate->startCapture ();
 										<label for="text">Abstract</label>
 										<textarea name="text" id="text" rows="25" class="form-control input input-large" spellcheck="true" lang="gb"></textarea>
 										<p class="small">You have <strong class="text-rem">0</strong> words remaining.</p>
+										<div id="progress">
+											<div class="bar" style="width: 0%;"></div>
+										</div>
 									</div>
 								</div>
 								<div class="col-sm-12 col-md-6 col-lg-6 preview hidden-xs hidden-sm">
@@ -380,22 +385,26 @@ This produces a [link](http://www.example.com/) - how cool!</pre>
 							<h1 id="images" class="formatting-title">Images</h1>
 
 							<div class="col-sm-6 col-md-6 col-lg-6 preview-left">
-								<pre>You can include images in your submission and when you submit your document, a copy of these images will be automatically made and stored on the Computer Science servers.
+								<pre>You can include images in your submission.To insert an image, click in the abstract text area where you would like the image to appear and simply drag and drop the image from your computer into the text area.
+
+Images are given a caption in the order they appear in your submission.
 
 ![This is my image caption](http://placekitten.com/g/200/300)
 
-You should consider hosting your images on your University website address (you may also use a free online service such as [Imgur](http://imgur.com/)). Please note: **you must** own the copyright to the images, or have rights to redistribute or publish the image publicly.</pre>
+Please note: **you must** own the copyright to the images, or have rights to redistribute or publish the image publicly.</pre>
 								</div>
 
 							<div class="col-sm-6 col-md-6 col-lg-6 preview-right">
-								<p>You can include images in your submission and when you submit your document, a copy of these images will be automatically made and stored on the Computer Science servers.</p>
+								<p>You can include images in your submission.To insert an image, click in the abstract text area where you would like the image to appear and simply drag and drop the image from your computer into the text area.</p>
+
+								<p>Images are given a caption in the order they appear in your submission.</p>
 
 								<div style="text-align: center">
 									<img src="http://placekitten.com/g/200/300" alt="This is my image caption" style="max-width: 100%">
-									<p style="text-align: center"><strong>This is my image caption</strong></p>
+									<p style="text-align: center"><strong>Figure 1: This is my image caption</strong></p>
 								</div>
 
-								<p>You should consider hosting your images on your University website address (you may also use a free online service such as <a href="http://imgur.com/" target="_blank">Imgur</a>). Please note: <strong>you must</strong> own the copyright to the images, or have rights to redistribute or publish the image publicly.</p>
+								<p>Please note: <strong>you must</strong> own the copyright to the images, or have rights to redistribute or publish the image publicly.</p>
 							</div>
 
 							<hr class="preview-break">
@@ -438,6 +447,9 @@ $cTemplate->set ('header', true);
 $cTemplate->set ('body', $cTemplate->endCapture ());
 
 $cTemplate->add ('css', URI_SYS . '/css/bootstrap-tagsinput' . EXT_CSS);
+$cTemplate->add ('javascript', URI_SYS . '/js/jquery.ui.widget' . EXT_JS);
+$cTemplate->add ('javascript', URI_SYS . '/js/jquery.iframe-transport' . EXT_JS);
+$cTemplate->add ('javascript', URI_SYS . '/js/jquery.fileupload' . EXT_JS);
 $cTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
 $cTemplate->add ('javascript', URI_WEB . '/js/login' . EXT_JS);
 

@@ -7,6 +7,6 @@ Your text *can* be easily **formatted** using the [markdown](http://daringfireba
 
 There are many different ways you can style your text [1].
 
-![Horizon CDT](https://www.porcheron.uk/wp-content/uploads/2014/03/84232-Horizon-CDT-Logos-1ups2-e1395063482640.jpg?897317)
+![This is my image caption](http://placekitten.com/g/200/300)
 
 > Please try to adhere to the formatting guidelines [2].

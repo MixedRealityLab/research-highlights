@@ -20,6 +20,7 @@
 
 \define ('DIR_DAT', \dirname (DIR) . '/submissions-' . SITE_YEAR);
 \define ('DIR_CAC', \dirname (DIR) . '/submissions-' . SITE_YEAR .'/cache');
+\define ('DIR_IMG', \dirname (DIR) . '/submissions-' . SITE_YEAR .'/images');
 
 \define ('DIR_SLB', DIR .  '/sys/lib');
 \define ('DIR_SCS', DIR . '/sys/css');
@@ -43,6 +44,7 @@
 \define ('URI_WEB', URI_HOME . '/web');
 \define ('URI_SYS', URI_HOME . '/sys');
 \define ('URI_DATA', \dirname (URI_HOME) . '/submissions-' . SITE_YEAR);
+\define ('URI_IMG', \dirname (URI_HOME) . '/submissions-' . SITE_YEAR .'/images');
 
 \define ('MAIL_HOST', 'ssl://mail.nottingham.ac.uk');
 \define ('MAIL_PORT', 465);

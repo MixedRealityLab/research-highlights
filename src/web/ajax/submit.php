@@ -2,7 +2,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -50,11 +50,12 @@ try {
 	\preg_match_all ('/(<img).*(src\s*=\s*("|\')([a-zA-Z0-9\.;:\/\?&=\-_|\r|\n]{1,})\3)/isxmU', $html, $images, PREG_PATTERN_ORDER);
 
 	$id = 0;
+
 	foreach ($images[4] as $url) {
 		$path_parts = \pathinfo ($url);
 		$ext = $path_parts['extension'];
 		if (\strpos ($ext, '?') !== false) {
-			$ext = \substr ($ext, 0, \strpos ($ext, '?'));	
+			$ext = \substr ($ext, 0, \strpos ($ext, '?'));
 		}
 
 		$filename = 'img-' . $id++ . '.' . $ext;
@@ -67,6 +68,8 @@ try {
 
 	$mSubmission->website = !\is_null ($mSubmission->website) && $mSubmission->website != 'http://' ? \trim ($mSubmission->website) : '';
 	$mSubmission->twitter = \strlen ($mSubmission->twitter) > 0 && $mSubmission->twitter[0] != '@' ? '@' . $mSubmission->twitter : $mSubmission->twitter;
+
+	unset ($mSubmission->files);
 
 	$mSubmission->save ();
 

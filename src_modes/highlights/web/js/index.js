@@ -270,8 +270,7 @@ function firstResponder (hash) {
 
 	if (hash.indexOf ('#cohort') == 0) {
 		curType = 'cohort';
-		$('.jumbotron').fadeOut ();
-		$('.featureWall').fadeOut ();
+		$('.home').fadeOut ();
 
 		changeListView ('cohort', function () {
 			$('.loadPage.selected').removeClass ('selected');
@@ -285,8 +284,7 @@ function firstResponder (hash) {
 		$('#q').val ('');
 	} else if (hash.indexOf ('#read') == 0) {
 		curType = 'read';
-		$('.jumbotron').fadeOut ();
-		$('.featureWall').fadeOut ();
+		$('.home').fadeOut ();
 
 		changeListView ('name', function () {
 			$('.loadPage.selected').removeClass ('selected');
@@ -302,8 +300,7 @@ function firstResponder (hash) {
 		$('#q').val ('');
 	} else if (hash.indexOf ('#keywords') >= 0) {
 		curType = 'keyword';
-		$('.jumbotron').fadeOut ();
-		$('.featureWall').fadeOut ();
+		$('.home').fadeOut ();
 
 		changeListView ('keyword', function () {
 			var keywords = hash.replace ('#keywords=', '');
@@ -332,8 +329,7 @@ function firstResponder (hash) {
 		$('#q').val ('');
 	} else if (hash.indexOf ('#q') >= 0) {
 		curType = 'search';
-		$('.jumbotron').fadeOut ();
-		$('.featureWall').fadeOut ();
+		$('.home').fadeOut ();
 
 		changeListView ('none', function () {
 			$('.loadPage.selected').removeClass ('selected');
@@ -346,16 +342,13 @@ function firstResponder (hash) {
 		});
 	} else {
 		changeListView ('name');
-		$('.jumbotron').fadeIn ();
-		$('.featureWall').fadeIn ();
+		$('.home').fadeIn ();
 		$('.read').fadeOut ();
 	}
 }
 
 
 $(function () {
-	ReHi.fadePageIn ();
-
 	$('[data-toggle=offcanvas]').click (function () {
 		$('.row-offcanvas').toggleClass ('active');
 	});
@@ -377,6 +370,7 @@ $(function () {
 		window.location.hash = '#q=' + $('#q').val ();
 	});
 
+	ReHi.fadePageIn ();
 	$('.loading').fadeOut ();
 
 	firstResponder (window.location.hash);

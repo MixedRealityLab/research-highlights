@@ -87,6 +87,29 @@ $(function () {
 			if (response.admin) {
 				$.getScript ("web/js/admin@@@EXT_JS@@@");
 			}
+
+			$('#fileupload').fileupload({
+        		dataType: 'json',
+                autoUpload: true,
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+			}).on('fileuploadprogressall', function (e, data) {
+				var progress = parseInt(data.loaded / data.total * 100, 10);
+				$('#progress .bar').css(
+					'width',
+					progress + '%'
+				);
+			}).on('fileuploaddone', function (e, data) {
+				console.log(data);
+				if (data.result.error != undefined) {
+					ReHi.showError ('Image Upload Error', data.result.error);
+				} else if (data.result.length > 0) {
+					$.each(data.result, function (index, file) {
+						$('#text').insertAtCaret ('![Figure Caption Here...](' + file + ')');
+						$('div.bar').css('width', '0%');
+					});
+					$('#text').triggerHandler('keyup');
+				}
+			});
 		} else if (response.error != undefined) {
 			ReHi.showError ('Oh, snap!', response.error + ' <a href="mailto:@@@EMAIL@@@" class="alert-link">Email support</a> for help.');
 		} else {

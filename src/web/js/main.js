@@ -1,7 +1,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -19,7 +19,7 @@
 
 	fadePageOut			: function (complete) {
 							$.fn.reverse = [].reverse;
-							var c = $('.collapse').length - 1; 
+							var c = $('.collapse').length - 1;
 							$('.collapse').reverse ().each (function (i, v) {
 								$(v).delay (200 * i).fadeOut ();
 								if (i == c) {
@@ -34,7 +34,7 @@
 								$output.text (limit);
 								return;
 							}
-							
+
 							if (len > limit) {
 								$field.val ($field.val ().substring (0, limit));
 								$output.text (0);
@@ -133,8 +133,8 @@
 
 	submitForm			: function ($form, url, successFn, dataType) {
 							var $allInputs = $form.find ('input, select, button, textarea');
-							var data = $form.serialize (); 
-							
+							var data = $form.serialize ();
+
 							ReHi.sendData ({
 								dataType: (dataType == undefined ? 'text' : dataType),
 								url: url,
@@ -150,3 +150,32 @@
 							});
 						}
 };
+
+// from http://stackoverflow.com/questions/946534/insert-text-into-textarea-with-jquery
+jQuery.fn.extend({
+insertAtCaret: function(myValue){
+  return this.each(function(i) {
+    if (document.selection) {
+      //For browsers like Internet Explorer
+      this.focus();
+      var sel = document.selection.createRange();
+      sel.text = myValue;
+      this.focus();
+    }
+    else if (this.selectionStart || this.selectionStart == '0') {
+      //For browsers like Firefox and Webkit based
+      var startPos = this.selectionStart;
+      var endPos = this.selectionEnd;
+      var scrollTop = this.scrollTop;
+      this.value = this.value.substring(0, startPos)+myValue+this.value.substring(endPos,this.value.length);
+      this.focus();
+      this.selectionStart = startPos + myValue.length;
+      this.selectionEnd = startPos + myValue.length;
+      this.scrollTop = scrollTop;
+    } else {
+      this.value += myValue;
+      this.focus();
+    }
+  });
+}
+});
