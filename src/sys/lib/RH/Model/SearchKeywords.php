@@ -134,7 +134,6 @@ class SearchKeywords extends AbstractModel {
 				                    $weights['use']['text'][$tag]);
 			}
 		}
-			print 'gg'; exit;
 
 		$this->appendIndex ($text, $mUser, $mSubmission,
 		                    $weights['imp']['text']['text'],

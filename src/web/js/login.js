@@ -53,7 +53,9 @@ var loginPrefill = function (response, textStatus, jqXHR) {
 
 	$('#publications').val (response.publications);
 	$('#publications').triggerHandler ('keyup');
-	$('.stage-login').fadeOut ({complete : function () {$('.stage-editor').fadeIn (); autoResize (); }});
+	$('.stage-login').fadeOut ({complete : function () {$('.stage-editor').fadeIn (); autoResize (); changesMade = false; }});
+
+	changesMade = false;
 };
 
 $(function () {
@@ -115,6 +117,15 @@ $(function () {
 				}
 			}).on('fileuploadstart', function (e, data) {
 				$('#progress').fadeIn();
+			});
+
+			$(window).keydown (function (e) {
+				if ((e.ctrlKey || e.metaKey) && e.which == 83) {
+					e.preventDefault();
+					$('form.stage-editor').trigger('submit');
+					return false;
+				}
+				return true;
 			});
 		} else if (response.error != undefined) {
 			ReHi.showError ('Oh, snap!', response.error + ' <a href="mailto:@@@EMAIL@@@" class="alert-link">Email support</a> for help.');

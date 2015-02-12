@@ -8,26 +8,23 @@
 
  $(function () {
 	ReHi.regSubForm ($('#profile-form'), '@@@URI_ROOT@@@/do/login', function (response, textStatus, jqXHR) {
-		// if (changesMade && !confirm ('Are you sure you want to change user?\nAny unsubmitted changes will be lost.')) {
-		// 	return false;
-		// }
-
 		if (response.success !== undefined) {
 			$('#saveAs').attr ('value', $('#profile').val ());
 			loginPrefill (response, textStatus, jqXHR);
 			ReHi.showSuccess ('Loaded submission from ' + response.firstName + ' ' + response.surname, 'Please make any changes necessary and click the Submit button.');
+            changesMade = false;
 		} else if (response.error !== undefined) {
 			ReHi.showError ('User Error', response.error);
 		} else {
 			ReHi.showError ('User Error', 'An unknown error occured!');
 		}
-	}, 'json');
-
-	// $('#profile').keyup (function (e){
-	// 	if (e.keyCode == 13) {
-	// 		//$('#profile-form').submit ();
-	// 	}
-	// });
+	}, 'json', function () {
+        // console.log ('ffff');
+        // if (changesMade && confirm ('Do you want to submit the changes made?')) {
+        //     $('form.stage-editor').triggerHandler ('submit');
+        // }
+        return true;
+    });
 
 	$('#profile-form').removeClass ('hidden');
 });

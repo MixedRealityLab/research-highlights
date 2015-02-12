@@ -124,16 +124,23 @@
 							});
 						},
 
-	regSubForm			: function ($form, url, success, dataType) {
+	regSubForm			: function ($form, url, success, dataType, confirmationFn) {
+                            if (confirmationFn == undefined) {
+                                confirmationFn = function () { return true; }
+                            }
 							$form.submit (function (e) {
 								e.preventDefault ();
-								ReHi.submitForm ($form, url, success, dataType);
+								ReHi.submitForm ($form, url, success, dataType, confirmationFn);
 							});
 						},
 
-	submitForm			: function ($form, url, successFn, dataType) {
+	submitForm			: function ($form, url, successFn, dataType, confirmationFn) {
 							var $allInputs = $form.find ('input, select, button, textarea');
 							var data = $form.serialize ();
+
+                            if (confirmationFn () == false) {
+                                return false;
+                            }
 
 							ReHi.sendData ({
 								dataType: (dataType == undefined ? 'text' : dataType),

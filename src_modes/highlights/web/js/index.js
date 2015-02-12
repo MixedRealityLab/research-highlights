@@ -203,8 +203,8 @@ function showSubmissions (response, title) {
 			var header = [];
 			header.push ($('<h1 class="' + linkedTitle + '"> ' + data.title + '</h1>'));
 
+			header.push ($('<span class="name"></span>').text (data.firstName + ' ' + data.surname + ' (' + data.cohort + ' cohort)'));
 			if (!headersOnly) {
-				header.push ($('<span class="name"></span>').text (data.firstName + ' ' + data.surname + ' (' + data.cohort + ' cohort)'));
 				if (data.twitter != '')
 					header.push ($('<span class="twitter"><span class="glyphicon glyphicon-user"></span><a href="https://twitter.com/' + data.twitter.substring (1) + '">' + data.twitter + '</a></span>'));
 				if (data.website != '') {
