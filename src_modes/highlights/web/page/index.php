@@ -54,7 +54,8 @@ $cTemplate->startCapture ();
 					<div class="container">
 						<h2>Research Highlights <?php print SITE_YEAR; ?></h2>
 						<img class="pull-right home-img img-circle" alt="Prof. Steve Benford, Centre Director" src="<?php print URI_WEB; ?>/img/sdb.jpg">
-						<p>Welcome to the <?php print SITE_YEAR; ?> edition of the Horizon CDT Research Highlights. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vel nibh vitae leo gravida mattis. Nulla bibendum diam nisl, sit amet pulvinar magna malesuada vehicula. Nunc dignissim gravida nulla ac interdum. Quisque a ultricies augue. Curabitur sagittis vel nunc eget cursus. Quisque vitae velit lectus. </p>
+						<p>Welcome to the <?php print SITE_YEAR; ?> edition of the Horizon Centre for Doctoral Training (CDT) Research Highlights. Every year, all PhD students within the centre come together to publicise the work, and document their progress over the last twelve months.</p>
+						<p>This website highlights the work of over seventy PhD students, from a range of different disciplines, and provides a comprehensive overview of the work undertaken through the CDT.</p>
 						<p><small>Prof. Steve Benford,<br>Centre Director</small></p>
 					</div>
 				</div>
