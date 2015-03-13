@@ -25,6 +25,7 @@
 \define ('DIR_SLB', DIR .  '/sys/lib');
 \define ('DIR_SCS', DIR . '/sys/css');
 \define ('DIR_SJS', DIR . '/sys/js');
+\define ('DIR_CRN', DIR . '/sys/cron');
 
 \define ('DIR_USR', DIR . '/usr');
 

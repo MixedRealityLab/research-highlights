@@ -31,11 +31,62 @@ class Search implements \RH\Singleton {
 	/** @var \RH\Model\SearchKeywords keyword model */
 	private $mSearchKeywords;
 
-	/**
-	 * Construct, or reload the search index from file.
+	/** 
+	 * Rebild the search index and replace the existing index.
+	 * 
+	 * @param \RH\Model\SearchKeywords &$mSearchKeywords Keywords index to 
+	 * 	populate, if `null`, one is created
+	 * @return \RH\Model\SearchKeywords
 	 */
-	public function __construct () {
+	public function rebuildIndex (&$mSearchKeywords = null) {
+		if (\is_null ($mSearchKeywords)) {
+			$mSearchKeywords = new \RH\Model\SearchKeywords ();
+			$mSearchKeywords->setCache (CACHE_SEARCH, self::SEARCH_CACHE);
+		}
 
+		$cUser = \I::RH_User ();
+		$cSubmission = \I::RH_Submission ();
+
+		$mUsers = $cUser->getAll (null, function ($user) {
+			return $user->countSubmission;
+		});
+
+		foreach ($mUsers as $mUser) {
+			try {
+				$mSubmission = $cSubmission->get ($mUser, false);
+				$mSearchKeywords->add ($mUser, $mSubmission);
+			}
+			catch (\RH\Error $e) {
+			}
+		}
+
+		$mSearchKeywords->saveCache ();
+		$this->mSearchKeywords = $mSearchKeywords;
+
+		return $mSearchKeywords;
+	}
+
+	/**
+	 * Retrieve the keyword index. If this is not generated or cached, it 
+	 * is built and cached at the same time.
+	 * 
+	 * @return \RH\Model\SearchKeywords
+	 */
+	public function getIndex () {
+		if (isSet ($this->mSearchKeywords)) {
+			return $this->mSearchKeywords;
+		}
+
+		$mSearchKeywords = new \RH\Model\SearchKeywords ();
+		$mSearchKeywords->setCache (CACHE_SEARCH, self::SEARCH_CACHE);
+
+		if ($mSearchKeywords->hasCache ()) {
+			$mSearchKeywords->loadCache ();
+		} else {
+			$this->rebuildIndex ($mSearchKeywords);
+		}
+
+		return $mSearchKeywords;
 	}
 
 	/**
@@ -53,30 +104,7 @@ class Search implements \RH\Singleton {
 		if ($mSearchResults->hasCache ()) {
 			$mSearchResults->loadCache ();
 		} else {
-			$mSearchKeywords = new \RH\Model\SearchKeywords ();
-			$mSearchKeywords->setCache (CACHE_SEARCH, self::SEARCH_CACHE);
-
-			if ($mSearchKeywords->hasCache ()) {
-				$mSearchKeywords->loadCache ();
-			} else {
-				$cUser = \I::RH_User ();
-				$cSubmission = \I::RH_Submission ();
-
-				$mUsers = $cUser->getAll (null, function ($user) {
-					return $user->countSubmission;
-				});
-
-				foreach ($mUsers as $mUser) {
-					try {
-						$mSubmission = $cSubmission->get ($mUser, false);
-						$mSearchKeywords->add ($mUser, $mSubmission);
-					}
-					catch (\RH\Error $e) {
-					}
-				}
-
-				$mSearchKeywords->saveCache ();
-			}
+			$mSearchKeywords = $this->getIndex ();
 
 			$terms = \strtolower ($terms);
 			$dbKeywords = \array_keys ($mSearchKeywords->getArrayCopy ());
