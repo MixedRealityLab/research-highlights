@@ -249,9 +249,9 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	*
 	* @param \RH\Model\AbstractModel|mixed Another AbstractModel object or array to
 	* 	append into this one
-	* @return \RH\Model\AbstractModel thisßobject
+	* @return \RH\Model\AbstractModel this object
 	*/
-	public function append (&$data) {
+	public function append ($data) {
 		if (is_array ($data) || $data instanceof AbstractModel) {
 			foreach ($data as $k => $v) {
 				$k = $this->count ();
