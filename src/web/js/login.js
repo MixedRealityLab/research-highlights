@@ -77,7 +77,7 @@ $(function () {
 
 //	ReHi.showAlert ('Welcome!', 'Please enter your credentials to continue.', 'info');
 
-	ReHi.regSubForm ($('form.stage-login'), '@@@URI_ROOT@@@/do/login', function (response, textStatus, jqXHR) {
+	ReHi.regSubForm ($('form.stage-login'), '@@@URI_ROOT@@@/login.do', function (response, textStatus, jqXHR) {
 		if (response.success == '1') {
 		//	ReHi.showSuccess ('Welcome!', 'Your login was successful. You can log back in any time to modify your submission before the deadline.');
 			$('#saveAs').val ($('#username').val ());
@@ -134,7 +134,7 @@ $(function () {
 		}
 	}, 'json');
 
-	ReHi.regAutoForm ($('form.stage-editor'), '@@@URI_ROOT@@@/do/preview', function (response, textStatus, jqXHR) {
+	ReHi.regAutoForm ($('form.stage-editor'), '@@@URI_ROOT@@@/preview.do', function (response, textStatus, jqXHR) {
 		if (!response.text == undefined) {
 			ReHi.showError ('Humf!', 'An unknown error occurred generating your preview! <a href="mailto:@@@EMAIL@@@" class="alert-link">I need help!</a>');
 			return;
@@ -158,7 +158,7 @@ $(function () {
 		changesMade = true;
 	}, 'json');
 
-	ReHi.regSubForm ($('form.stage-editor'), '@@@URI_ROOT@@@/do/submit', function (response, textStatus, jqXHR) {
+	ReHi.regSubForm ($('form.stage-editor'), '@@@URI_ROOT@@@/submit.do', function (response, textStatus, jqXHR) {
 		if (response.success == '1') {
 			ReHi.showSuccess ('Good News!', 'Your submission was saved, ' + $('#name').val () + '! It make take some time for your changes to propagate onto the website.');
 		} else if (response.error != undefined) {

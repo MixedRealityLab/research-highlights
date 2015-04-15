@@ -21,7 +21,7 @@ $(function () {
 
 	ReHi.showAlert ('Welcome!', 'Please enter your credentials to continue.', 'info');
 
-	ReHi.regSubForm ($('form.stage-login'), '@@@URI_ROOT@@@/do/login', function (response, textStatus, jqXHR) {
+	ReHi.regSubForm ($('form.stage-login'), '@@@URI_ROOT@@@/login.do', function (response, textStatus, jqXHR) {
 		if (response.success != undefined) {
 			ReHi.showSuccess ('Welcome!', 'Your login was successful.');
 
@@ -36,7 +36,7 @@ $(function () {
 	}
 	}, 'json');
 
-	ReHi.regSubForm ($('form.stage-email'), '@@@URI_ROOT@@@/do/email', function (response, textStatus, jqXHR) {
+	ReHi.regSubForm ($('form.stage-email'), '@@@URI_ROOT@@@/email.do', function (response, textStatus, jqXHR) {
 		if (response != '1') {
 			ReHi.showError ('Goshdarnit!', 'Something has gone wrong! (error: ' + response + ')');
 		} else {
@@ -47,7 +47,7 @@ $(function () {
 
 	ReHi.sendData ({
 		dataType: 'json',
-		url: '@@@URI_ROOT@@@/do/cohorts',
+		url: '@@@URI_ROOT@@@/cohorts.do',
 		type: 'post',
 		success: function (response, textStatus, jqXHR) {
 					var html = '';
@@ -77,7 +77,7 @@ $(function () {
 						ReHi.sendData ({
 							dataType: 'json',
 							data: data,
-							url: '@@@URI_ROOT@@@/do/users',
+							url: '@@@URI_ROOT@@@/users.do',
 							type: 'post',
 							beforeSend: function () {
 								$allInputs.prop ('disabled', true);

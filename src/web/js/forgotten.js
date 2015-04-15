@@ -9,7 +9,7 @@
 $(function () {
 	ReHi.fadePageIn();
 
-	ReHi.regSubForm ($('form.stage-forgotten'), '@@@URI_ROOT@@@/do/forgotten', function (response, textStatus, jqXHR) {
+	ReHi.regSubForm ($('form.stage-forgotten'), '@@@URI_ROOT@@@/forgotten.do', function (response, textStatus, jqXHR) {
 		if (response.success != undefined) {
 			ReHi.showSuccess ('Success!', 'Your password has been sent to your email address.');
 			setTimeout(function() {window.location="@@@URI_ROOT@@@/login"}, 2500);

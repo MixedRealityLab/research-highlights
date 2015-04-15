@@ -15,6 +15,7 @@
 \define ('DIR_WJS', DIR . '/web/js');
 \define ('DIR_WIM', DIR . '/web/img');
 \define ('DIR_WPG', DIR . '/web/page');
+\define ('DIR_WXM', DIR . '/web/xml');
 \define ('DIR_WGO', DIR . '/web/go');
 \define ('DIR_WTP', DIR . '/web/tpl');
 

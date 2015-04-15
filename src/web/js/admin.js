@@ -7,7 +7,7 @@
  */
 
  $(function () {
-	ReHi.regSubForm ($('#profile-form'), '@@@URI_ROOT@@@/do/login', function (response, textStatus, jqXHR) {
+	ReHi.regSubForm ($('#profile-form'), '@@@URI_ROOT@@@/login.do', function (response, textStatus, jqXHR) {
 		if (response.success !== undefined) {
 			$('#saveAs').attr ('value', $('#profile').val ());
 			loginPrefill (response, textStatus, jqXHR);

@@ -24,7 +24,7 @@ function loadPage (handler, hash, data, showErrorFn, title, showLoading) {
 	ReHi.sendData ({
 		dataType: 'json',
 		data: data,
-		url: '@@@URI_ROOT@@@/do/' + handler,
+		url: '@@@URI_ROOT@@@/' + handler + '.do',
 		type: 'post',
 		beforeSend: function () {
 			if (showLoading) {
@@ -102,7 +102,7 @@ function changeListView (list, onCompleteFn) {
 	if (list == 'cohort') {
 		ReHi.sendData ({
 			dataType: 'json',
-			url: '@@@URI_ROOT@@@/do/cohorts',
+			url: '@@@URI_ROOT@@@/cohorts.do',
 			type: 'post',
 			success: function (response, textStatus, jqXHR) {
 						var html = '<div class="panel-body"><ul class="list-group subgroup">';
@@ -117,7 +117,7 @@ function changeListView (list, onCompleteFn) {
 	} else if (list == 'name') {
 		ReHi.sendData ({
 			dataType: 'json',
-			url: '@@@URI_ROOT@@@/do/submitted',
+			url: '@@@URI_ROOT@@@/submitted.do',
 			type: 'post',
 			success: function (response, textStatus, jqXHR) {
 						$('#viewList').empty ();
@@ -143,7 +143,7 @@ function changeListView (list, onCompleteFn) {
 	} else if (list == 'keyword') {
 		ReHi.sendData ({
 			dataType: 'json',
-			url: '@@@URI_ROOT@@@/do/keywords',
+			url: '@@@URI_ROOT@@@/keywords.do',
 			type: 'post',
 			success: function (response, textStatus, jqXHR) {
 						var html = '<div class="keywordSidebar">';

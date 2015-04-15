@@ -20,7 +20,7 @@ $cTemplate->startCapture ();
 			<div class="row main">
 
 				<div style="display: none;">
-					<input id="fileupload" type="file" name="files[]" data-url="<?php print URI_HOME; ?>/do/upload" multiple>
+					<input id="fileupload" type="file" name="files[]" data-url="<?php print URI_HOME; ?>/upload.do" multiple>
 				</div>
 
 				<!-- BEGIN LOGIN STAGE -->
