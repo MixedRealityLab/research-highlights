@@ -172,6 +172,8 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	public function fromString ($str, $sep = ',') {
 		$data = \preg_split ("/$sep/", \trim ($str), null, PREG_SPLIT_NO_EMPTY);
 		foreach ($data as $k => $v) {
+			$k = \trim ($k);
+			$v = \trim ($v);
 			$this->$k = $v;
 		}
 	}
