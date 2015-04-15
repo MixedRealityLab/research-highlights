@@ -41,7 +41,7 @@ $cTemplate->startCapture ();
 							<button class="btn btn-lg btn-primary btn-block btn-success" type="submit" id="verify">Login</button>
 						</div>
 						<div class="card-trailer">
-							Have you <a href="<?php print URI_HOME; ?>/forgotten" title="Password Reminder">forgotten password</a>?
+							Have you <a href="<?php print URI_HOME; ?>/forgotten" title="Password Reminder">forgotten your password</a>?
 						</div>
 					</div>
 				</form>
