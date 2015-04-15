@@ -12,3 +12,7 @@ Options -Indexes
 	Order deny,allow
 	Deny from all
 </Files>
+
+<Files "robots.txt">
+	Allow from all
+</Files>
