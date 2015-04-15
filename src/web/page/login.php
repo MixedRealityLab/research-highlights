@@ -25,34 +25,24 @@ $cTemplate->startCapture ();
 
 				<!-- BEGIN LOGIN STAGE -->
 				<form class="stage stage-login collapse">
-					<div class="col-sm-6 col-md-6 col-lg-4">
-						<div class="panel panel-primary">
-							<div class="panel-heading">
-								<h3 class="panel-title">Authentication</h3>
+					<div class="card-container">
+						<div class="card">
+							<div class="card-title">Manage your Submission</div>
+							<div class="input-group">
+								<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+								<input type="text" class="form-control" name="username" id="username" placeholder="University username" spellcheck="false">
 							</div>
-							<div class="panel-body">
+							<br>
 								<div class="input-group">
-									<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-									<input type="text" class="form-control" name="username" id="username" placeholder="psxabc" spellcheck="false">
-								</div>
-								<br>
-									<div class="input-group">
-									<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-									<input type="password" class="form-control" name="password" id="password" placeholder="" spellcheck="false">
-								</div>
-								<br>
-								<div class="btn-group">
-									<button class="btn btn-primary" type="submit" id="verify">Login &raquo;</button>
-								</div>
+								<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+								<input type="password" class="form-control" name="password" id="password" placeholder="Password" spellcheck="false">
 							</div>
+							<br>
+							<button class="btn btn-lg btn-primary btn-block btn-success" type="submit" id="verify">Login</button>
 						</div>
-					</div>
-
-					<div class="col-sm-6 col-md-6 col-lg-8">
-						<h2>Making your Submission</h2>
-						<p>Only Horizon CDT students can make submissions to the Research Highlights website.</p>
-						<p>Firstly, we need to identify who you are. We emailed you the details that you need to login to the system. If you have lost this email, please request a <a href="<?php print URI_HOME; ?>/forgotten" title="Password Reminder">reminder</a>.</p>
-						<p><strong>Hint:</strong> Your username is your university username (e.g. <em>psxmp9</em>) and your password is a long sequence of letters and numbers.</p>
+						<div class="card-trailer">
+							Have you <a href="<?php print URI_HOME; ?>/forgotten" title="Password Reminder">forgotten password</a>?
+						</div>
 					</div>
 				</form>
 				<!-- END LOGIN STAGE -->

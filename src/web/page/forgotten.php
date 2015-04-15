@@ -18,33 +18,21 @@ $cTemplate->startCapture ();
 
 					<!-- BEGIN FORGOTTEN STAGE -->
 					<form class="stage stage-forgotten collapse">
-						<div class="col-sm-6 col-md-6 col-lg-4 input-panel">
-							<div class="panel panel-primary">
-								<div class="panel-heading">
-									<h3 class="panel-title">Enter Your Details</h3>
-								</div>
-								<div class="panel-body">
-									<div class="input-group">
-										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-										<input type="text" class="form-control" name="username" id="username" placeholder="e.g. zx12345 or psxab1">
-									</div>
-									<em>or</em>
-									<br>
-									<div class="input-group">
-										<span class="input-group-addon">@</span>
-										<input type="email" class="form-control" name="email" id="email" placeholder="...@nottingham.ac.uk">
-									</div>
-									<br>
-									<div class="btn-group">
-										<button class="btn btn-primary" type="submit" id="request">Request Password &raquo;</button>
-									</div>
-								</div>
+						<div class="card card-container">
+							<div class="card-title">Retrieve account details</div>
+							<div class="input-group">
+								<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+								<input type="text" class="form-control" name="username" id="username" placeholder="University username">
 							</div>
-						</div>
-						<div class="col-sm-6 col-md-6 col-lg-8">
-							<h2>Retrieve your Password</h2>
-							<p>Please enter either your username or your email addresses.</p>
-							<p>IDIC students who are now based in Ningbo should use their username beginning with <em>zx...</em>.</p>
+							<br>
+							<div class="card-center"><em>or</em></div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon">@</span>
+								<input type="email" class="form-control" name="email" id="email" placeholder="University email address">
+							</div>
+							<br>
+							<button class="btn btn-lg btn-primary btn-block" type="submit" id="verify">Request Password</button>
 						</div>
 					</form>
 					<!-- END FORGOTTEN STAGE -->
