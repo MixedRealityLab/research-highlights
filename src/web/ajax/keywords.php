@@ -24,7 +24,7 @@ try {
 		exit;
 	}
 
-	print \RH\Keywords::get ()->toJson ();
+	print \RH\Keywords::get ()->getKeys ()->toArrayJson ();
 } catch (\RH\Error $e) {
 	print $e->toJson ();
 }

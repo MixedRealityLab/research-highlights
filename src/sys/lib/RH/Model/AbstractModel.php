@@ -327,4 +327,38 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 		return \json_encode (\array_values ($this->toArray ()));
 	}
 
+	/**
+	 * Map an item to each key/value pair in the model.
+	 *
+	 * @param function $fn Function for mapping to the items in the model.
+	 * @param AbstractModel $result location for the results
+	 * @return AbstractModel a new model
+	 */
+	public function map ($fn, AbstractModel &$result) {
+		foreach ($this as $key => $value) {
+			$fn ($key, $value);
+			$result->offsetSet ($key, $value);
+		}
+		return $result;
+	}
+
+
+	/**
+	 * Fetch a list of the keys of the model.
+	 *
+	 * @param function $fn Function for mapping to the items in the model,
+	 * 	takes two arguments (the key and the value); by default this 
+	 * 	returns just the key
+	 * @return Keys a list of the keys
+	 */
+	public function getKeys ($fn = null) {
+		$newKey = 0;
+		$keyFn = function (&$key, &$value) use (&$newKey) {
+			$value = $key;
+			$key = $newKey++;
+		};
+
+		return $this->map ($keyFn, new Keys());
+	}
+
 }

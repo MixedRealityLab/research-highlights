@@ -150,8 +150,8 @@ function changeListView (list, onCompleteFn) {
 						var colours = ["primary", "success", "info", "warning", "danger"];
 						var i = 0;
 						$.each (response, function (k,v) {
-							var cleanVal = replaceAll (' ', '%20', k);
-							html += '<a href="" data-keyword="' + k + '" class="toggleKeyword label label-onlyHover label-' + colours[i++ % colours.length] + '"  id="keyword-' + cleanVal + '">' + k + '</a> ';
+							var cleanVal = replaceAll (' ', '%20', v);
+							html += '<a href="" data-keyword="' + v + '" class="toggleKeyword label label-onlyHover label-' + colours[i++ % colours.length] + '"  id="keyword-' + cleanVal + '">' + v + '</a> ';
 						});
 						$('#viewList').html (html + '</div>');
 						$('.toggleKeyword').click (function (e) { e.preventDefault (); toggleKeyword ( $(e.target).data ('keyword')) });
