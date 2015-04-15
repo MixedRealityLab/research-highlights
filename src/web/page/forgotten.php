@@ -38,6 +38,7 @@ $cTemplate->startCapture ();
 					<!-- END FORGOTTEN STAGE -->
 
 				</div>
+			</div>
 <?php
 
 $cTemplate->set ('header', true);

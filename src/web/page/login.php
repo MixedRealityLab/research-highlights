@@ -33,7 +33,7 @@ $cTemplate->startCapture ();
 								<input type="text" class="form-control" name="username" id="username" placeholder="University username" spellcheck="false">
 							</div>
 							<br>
-								<div class="input-group">
+							<div class="input-group">
 								<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
 								<input type="password" class="form-control" name="password" id="password" placeholder="Password" spellcheck="false">
 							</div>
