@@ -29,7 +29,7 @@
 
 \define ('DIR_USR', DIR . '/usr');
 
-\define ('EMAIL', 'martin.porcheron@nottingham.ac.uk');
+\define ('EMAIL', 'map@cs.nott.ac.uk');
 
 \define ('DOMAIN', '@@@DOMAIN@@@');
 \define ('PATH', '@@@PATH@@@');
@@ -47,7 +47,7 @@
 \define ('URI_DATA', \dirname (URI_HOME) . '/submissions-' . SITE_YEAR);
 \define ('URI_IMG', \dirname (URI_HOME) . '/submissions-' . SITE_YEAR .'/images');
 
-\define ('MAIL_HOST', 'ssl://mail.nottingham.ac.uk');
+\define ('MAIL_HOST', 'ssl://smtp.nottingham.ac.uk');
 \define ('MAIL_PORT', 465);
 \define ('MAIL_AUTH', false);
 \define ('MAIL_USER', '');

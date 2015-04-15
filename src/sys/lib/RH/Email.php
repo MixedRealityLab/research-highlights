@@ -96,6 +96,7 @@ class Email implements \RH\Singleton {
 		$mHeaders = $this->headers;
 		$mHeaders['To'] = $mAddress;
 		$mHeaders['Subject'] = $mSubject;
+		$mHeaders['Date'] = \date ('D, d M Y H:i:s O');
 
 		$mime = new \Mail_mime ($this->crlf);
 		$mime->setTXTBody ($mMessageText);
