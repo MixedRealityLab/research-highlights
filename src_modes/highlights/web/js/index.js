@@ -218,14 +218,14 @@ function showSubmissions (response, title) {
 
 			if (data.keywords != undefined) {
 				var colours = ["primary", "success", "info", "warning", "danger"]; var colK = 0;
-				var kwHtml = '<span class="keywords' + linkedTitle + '">';
+				var kwHtml = '<div class=" ' + linkedTitle + '">';
 				var keywords = data.keywords.split (',');
 				for (var k = 0; k < keywords.length; k++) {
 					colK = k % colours.length;
 					kwHtml += ' <span class="label label-noColour label-noHover ' + linkedTitle + '">' + keywords[k] + '</span>';
 				}
 			}
-			header.push ($(kwHtml + '</span>'));
+			header.push ($(kwHtml + '</div>'));
 			var $header = $('<div class="well ' + (headersOnly ? 'headerOnly ' + linkedTitle : '') + '"></div>').html (header);
 
 			// article
