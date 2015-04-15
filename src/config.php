@@ -29,7 +29,7 @@
 
 \define ('DIR_USR', DIR . '/usr');
 
-\define ('EMAIL', 'cdt-rh@lists.porcheron.uk');
+\define ('EMAIL', 'martin.porcheron@nottingham.ac.uk');
 
 \define ('DOMAIN', '@@@DOMAIN@@@');
 \define ('PATH', '@@@PATH@@@');
