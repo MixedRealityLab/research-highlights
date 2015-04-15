@@ -304,7 +304,7 @@ function firstResponder (hash) {
 
 		changeListView ('keyword', function () {
 			var keywords = hash.replace ('#keywords=', '');
-			if (keywords != '') {
+			//if (keywords != '') {
 				keywords = replaceAll ('%20', ' ', keywords).split (',');
 
 				$('.toggleKeyword').each (function (i,elem) {
@@ -324,7 +324,7 @@ function firstResponder (hash) {
 				loadPage ('read', hash, 'keywords=' + hash.replace ('#keywords=', ''), function () {
 					showError ('No results found :-(', 'Sorry, no submission were found for the keywords supplied.');
 				}, title);
-			}
+			//}
 		});
 		$('#q').val ('');
 	} else if (hash.indexOf ('#q') >= 0) {
