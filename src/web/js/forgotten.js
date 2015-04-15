@@ -12,8 +12,7 @@ $(function () {
 	ReHi.regSubForm ($('form.stage-forgotten'), '@@@URI_ROOT@@@/do/forgotten', function (response, textStatus, jqXHR) {
 		if (response.success != undefined) {
 			ReHi.showSuccess ('Success!', 'Your password has been sent to your email address.');
-			var $allInputs = $form.find ('input, select, button, textarea');
-			$allInputs.prop ('disabled', true);
+			setTimeout(function() {window.location="@@@URI_ROOT@@@/login"}, 2500);
 		} else if (response.error != undefined) {
 			ReHi.showError ('Humph!', response.error + ' <a href="mailto:@@@EMAIL@@@" class="alert-link">I need help!</a>');
 		} else {
