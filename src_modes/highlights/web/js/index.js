@@ -190,6 +190,7 @@ function showSubmissions (response, title) {
 	for (var i = 0; i < response.length; i++) {
 		var data = response[i];
 		if (data.length != 0) {
+
 			// header
 			var $submission = $('<section></section>');
 
@@ -230,6 +231,8 @@ function showSubmissions (response, title) {
 
 			// article
 			if (!headersOnly) {
+				document.title = data.firstName + ' ' + data.surname + '@@@TITLE_SEP@@@@@@TITLE@@@';
+
 				var $article = $('<article></article>');
 				var $body = $('<div></div>').addClass ('body').html (data.html);
 				var $fundingStatement = $('<small></small>').addClass ('body');

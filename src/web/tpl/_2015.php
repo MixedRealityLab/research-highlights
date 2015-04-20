@@ -8,6 +8,7 @@
  */
 
 $this->set ('header');
+$this->set ('title');
 $this->set ('css');
 $this->set ('nav');
 $this->set ('body');

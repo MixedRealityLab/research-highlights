@@ -152,7 +152,7 @@ class User implements \RH\Singleton {
 	public function get ($user = null) {
 		if (\is_null ($user)) {
 			return $this->mUser;
-		} else if ($user instanceof User) {
+		} else if ($user instanceof \RH\Model\User) {
 			return $user;
 		} else {
 			$user = \strtolower ($user);

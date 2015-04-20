@@ -48,6 +48,9 @@
 \define ('URI_DATA', \dirname (URI_HOME) . '/submissions-' . SITE_YEAR);
 \define ('URI_IMG', \dirname (URI_HOME) . '/submissions-' . SITE_YEAR .'/images');
 
+\define ('TITLE', '@@@SITE_NAME@@@ @@@SITE_YEAR@@@');
+\define ('TITLE_SEP', ' - ');
+
 \define ('MAIL_HOST', 'ssl://smtp.nottingham.ac.uk');
 \define ('MAIL_PORT', 465);
 \define ('MAIL_AUTH', false);

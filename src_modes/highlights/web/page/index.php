@@ -116,6 +116,10 @@ $cTemplate->set ('header', true);
 $cTemplate->set ('body', $cTemplate->endCapture ());
 
 if (isSet ($showSubmission)) {
+	$cUser = I::RH_User ();
+	$mUser = $cUser->get ($showSubmission);
+	$cTemplate->set ('title', $mUser->firstName . ' ' . $mUser->surname . TITLE_SEP . TITLE);
+
 	$cTemplate->startCapture ();
 ?><script type="text/javascript">
 changeListView ('name', function () {
