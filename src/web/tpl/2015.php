@@ -84,5 +84,8 @@
 			<script src="<?php print $file; ?>"></script>
 		<?php endforeach; ?>
 		<?php endif; ?>
+		<?php if ($footer): ?>
+			<?php print $footer; ?>
+		<?php endif; ?>
 	</body>
 </html>

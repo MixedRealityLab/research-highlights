@@ -33,7 +33,7 @@ print '<?xml version="1.0" encoding="UTF-8"?>';
 	</url>
 <?php foreach ($submissions as $submission): ?>
 	<url>
-		<loc><?php print \htmlspecialchars (URI_ROOT .'/#read=' . $submission->username); ?></loc>
+		<loc><?php print \htmlspecialchars (URI_ROOT .'/read/' . $submission->username); ?></loc>
 		<changefreq>yearly</changefreq>
 		<lastmod><?php $dt = new \DateTime(); $dt->setTimestamp ($submission->latestVersion); print $dt->format (\DateTime::W3C); ?></lastmod>
 	</url>

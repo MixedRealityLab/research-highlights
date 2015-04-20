@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 /**
  * Research Highlights engine
@@ -50,7 +50,7 @@ $cTemplate->startCapture ();
 					<button type="button" class="btn btn-primary btn-offcanvas" data-toggle="offcanvas">View Submissions</button>
 				</p>
 
-				<div class="jumbotron primary collapse home noAutoFadeIn">
+				<div class="jumbotron primary collapse home noAutoFadeIn <?php if (isSet ($showSubmission)): ?>hide<?php endif; ?>">
 					<div class="container">
 						<h2>Research Highlights <?php print SITE_YEAR; ?></h2>
 						<img class="pull-right home-img img-circle" alt="Prof. Steve Benford, Centre Director" src="<?php print URI_WEB; ?>/img/sdb.jpg">
@@ -60,7 +60,7 @@ $cTemplate->startCapture ();
 					</div>
 				</div>
 
-				<div class="featureWall home noAutoFadeIn">
+				<div class="featureWall home noAutoFadeIn <?php if (isSet ($showSubmission)): ?>hide<?php endif; ?>">
 					<h2 class="collapse">Highlighted PhD Topics</h2>
 					<br>
 
@@ -114,6 +114,18 @@ $cTemplate->startCapture ();
 
 $cTemplate->set ('header', true);
 $cTemplate->set ('body', $cTemplate->endCapture ());
+
+if (isSet ($showSubmission)) {
+	$cTemplate->startCapture ();
+?><script type="text/javascript">
+changeListView ('name', function () {
+	loadPage ('read', '...', 'user=<?php print $showSubmission; ?>', function () {
+		showError ('Unknown username', 'Sorry, no submission was found for that username.');
+	});
+});
+</script><?php
+	$cTemplate->set ('footer', $cTemplate->endCapture ());
+}
 
 $cTemplate->add ('css', URI_WEB . '/css/index' . EXT_CSS);
 
