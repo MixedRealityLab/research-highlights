@@ -172,6 +172,10 @@ class User implements \RH\Singleton {
 				}
 			}
 
+			if (!isSet ($this->mUsers->$user)) {
+				return null;
+			}
+
 			return $this->mUsers->$user;
 		}
 	}

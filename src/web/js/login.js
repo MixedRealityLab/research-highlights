@@ -80,10 +80,10 @@ $(function () {
 	ReHi.regSubForm ($('form.stage-login'), '@@@URI_ROOT@@@/login.do', function (response, textStatus, jqXHR) {
 		if (response.success == '1') {
 		//	ReHi.showSuccess ('Welcome!', 'Your login was successful. You can log back in any time to modify your submission before the deadline.');
-			$('#saveAs').val ($('#username').val ());
-			$('#admin-user').val ($('#username').val ());
+			$('#username').val ($('#editor').val ());
+			$('#admin-user').val ($('#editor').val ());
 			$('#admin-pass').val ($('#password').val ());
-			$('#editor-user').val ($('#username').val ());
+			$('#editor-user').val ($('#editor').val ());
 			$('#editor-pass').val ($('#password').val ());
 			loginPrefill (response, textStatus, jqXHR);
 			if (response.admin) {

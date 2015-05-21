@@ -15,9 +15,9 @@ try {
 	$cUser = I::RH_User ();
 	$mInput = I::RH_Model_Input ();
 
-	$mUser = $cUser->login ($mInput->username, $mInput->password);
+	$mUser = $cUser->login ($mInput->editor, $mInput->password);
 
-	if ($mInput->username !== $mInput->saveAs) {
+	if ($mInput->username !== $mInput->editor) {
 		$cUser->login ($mInput->username, $mInput->password, true);
 	}
 

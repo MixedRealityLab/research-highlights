@@ -9,7 +9,7 @@
  $(function () {
 	ReHi.regSubForm ($('#profile-form'), '@@@URI_ROOT@@@/login.do', function (response, textStatus, jqXHR) {
 		if (response.success !== undefined) {
-			$('#saveAs').attr ('value', $('#profile').val ());
+			$('#username').attr ('value', $('#profile').val ());
 			loginPrefill (response, textStatus, jqXHR);
 			ReHi.showSuccess ('Loaded submission from ' + response.firstName + ' ' + response.surname, 'Please make any changes necessary and click the Submit button.');
             changesMade = false;

@@ -65,15 +65,15 @@ class Submission extends AbstractModel {
 	public function save () {
 		$ext = \RH\Submission::DAT_FILE_SUF;
 		$version = date ('U');
-		$dir = DIR_DAT . '/' . $this->cohort . '/' . $this->saveAs  . '/' . $version .'/';
+		$dir = DIR_DAT . '/' . $this->cohort . '/' . $this->username  . '/' . $version .'/';
 
 		if (@mkdir ($dir, 0777, true) === false) {
-			throw new \RH\Error\System ('Could not create directory to save input to');
+			throw new \RH\Error\SystemError ('Could not create directory to save input to');
 		}
 
 		foreach ($this->images as $image) {
 			if (copy ($image->url, $dir . $image->filename) === false) {
-				throw new \RH\Error\System ('Could not save image ' . $image->url . ' to the system');
+				throw new \RH\Error\SystemError ('Could not save image ' . $image->url . ' to the system');
 			}
 		}
 
@@ -86,7 +86,7 @@ class Submission extends AbstractModel {
 		if (CACHE_CLEAR_ON_SUBMIT) {
 			$cUser = \I::RH_User ();
 			$cUser->getAll ()->clearCache ();
-			$cUser->get ($this->saveAs)->clearCache ();
+			$cUser->get ($this->username)->clearCache ();
 		}
 
 		return true;

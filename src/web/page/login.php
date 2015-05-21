@@ -30,7 +30,7 @@ $cTemplate->startCapture ();
 							<div class="card-title">Manage your Submission</div>
 							<div class="input-group">
 								<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-								<input type="text" class="form-control" name="username" id="username" placeholder="University username" spellcheck="false">
+								<input type="text" class="form-control" name="editor" id="editor" placeholder="University username" spellcheck="false">
 							</div>
 							<br>
 							<div class="input-group">
@@ -228,8 +228,8 @@ $cTemplate->startCapture ();
 							<hr>
 						</div>
 
-						<input type="hidden" name="saveAs" id="saveAs">
-						<input type="hidden" name="username" id="editor-user">
+						<input type="hidden" name="username" id="username">
+						<input type="hidden" name="editor" id="editor-user">
 						<input type="hidden" name="password" id="editor-pass">
 
 						<div class="container">
@@ -441,7 +441,7 @@ Please note: **you must** own the copyright to the images, or have rights to red
 
 		<nav class="navbar navbar-default navbar-fixed-bottom stage stage-editor collapse">
 			<form class="navbar-form navbar-left hidden" role="user" id="profile-form">
-				<input type="hidden" name="username" id="admin-user">
+				<input type="hidden" name="editor" id="admin-user">
 				<input type="hidden" name="password" id="admin-pass">
 				<input type="text" class="form-control" id="profile" name="profile" placeholder="View a submission">
 			</form>

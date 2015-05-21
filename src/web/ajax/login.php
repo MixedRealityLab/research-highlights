@@ -17,7 +17,7 @@ try {
 	$mInput = I::RH_Model_Input ();
 	$cUser = I::RH_User ();
 
-	$mUser = $cUser->login ($mInput->username, $mInput->password);
+	$mUser = $cUser->login ($mInput->editor, $mInput->password);
 
 	$cSubmission = I::RH_Submission ();
 
