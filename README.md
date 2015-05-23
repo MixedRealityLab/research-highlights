@@ -10,13 +10,11 @@ This is the repository for a PHP + flat-file DB system for publishing highlights
 * * To calculate your password, use something like [DuckDuckGo](https://duckduckgo.com/?q=sha1+SALT_HEREmyusername1&ia=answer)
 
 * A directory, _src\_private_, is not included here as it includes the live user database used for the [Horizon CDT Research Highlights](http://cdt.horizon.ac.uk/highlights/)
-* Various derivatives of the base website are found in _src\_modes/\*_
-	* The website is broken into two modes: a _submission_ website, and a public facing _highlights_ website
 
 ## Build Instructions
 Build using the `ant` command:
 
-* The basic build instruction is `ant quick -Dmode=submission` or  `ant quick -Dmode=highlights` 
+* The basic build instruction is `ant quick` 
 * You can override the _DOMAIN_ and _PATH_ php configuration variables with the ant flags `-Ddomain=...` and `-Dpath=...`
 * _TIP_: Non-PHP files can use `@@@DOMAIN@@@`, `@@@PATH@@@` and `@@@URI_ROOT@@@` for the respective values, these are substituted at build-time
 * There is also a `full` target for Ant, this compresses JS and CSS files using the YUI Compressor

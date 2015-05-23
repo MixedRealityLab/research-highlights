@@ -12,17 +12,12 @@
 	<property name="dist.sys.js.dir" location="dist/sys/js"/>
 	<property name="lib.dir" location="lib"/>
 	<property name="src.dir" location="src"/>
-	<property name="src_modes.dir" location="src_modes"/>
 	<property name="src_private.dir" location="src_private"/>
 
 	<!-- YUI COMPRESSOR JAR -->
 	<property name="yui-compressor.jar" location="${lib.dir}/yuicompressor-2.4.8.jar"/>
 
 	<!-- PARAMETERS REQUIRED FOR BUILD -->
-	<condition property="params.mode.set" else="false">
-		<isset property="mode"/>
-	</condition>
-
 	<condition property="params.addr.set" else="false">
 		<and>
 			<isset property="path"/>
@@ -38,17 +33,12 @@
 	</taskdef>
 
 	<!-- ANT TARGETS -->
-	<target name="check" description="Check build parameters have been passed" >
-		<fail unless="params.mode.set" message="Must provide the output mode: -Dmode=..."/>
-		<echo message="Supplied output mode!"/>
-	</target>
-
 	<target name="clean" description="Remove built and temporary files" >
 		<echo message="Removing previous build"/>
 		<delete dir="${dist.dir}"/>
 	</target>
 
-	<target name="build" depends="check,clean" description="Create the website">
+	<target name="build" depends="clean" description="Create the website">
 		<tstamp/>
 
 		<echo message="Creating ${dist.dir}"/>
@@ -57,11 +47,6 @@
 		<echo message="Copying sources from ${src.dir} to ${dist.dir}"/>
 		<copy todir="${dist.dir}" >  
 			<fileset dir="${src.dir}" includes="**"/>  
-		</copy>
-
-		<echo message="Copying sources from ${src_modes.dir}/${mode} to ${dist.dir}"/>
-		<copy todir="${dist.dir}" overwrite="true">  
-			<fileset dir="${src_modes.dir}/${mode}" includes="**"/>  
 		</copy>
 
 		<echo message="Copying sources from ${src_private.dir} to ${dist.dir}"/>
@@ -194,7 +179,7 @@
 		</antcall>
 	</target>
 
-	<target name="quick" depends="check,clean,build" description="Create the website">
+	<target name="quick" depends="clean,build" description="Create the website">
 		<antcall target="set-const">
 			<param name="const" value="EXT_JS"/>
 			<param name="val" value=".js"/>
@@ -211,7 +196,7 @@
 	</target>
 
 	<!-- COMPRESSION TASKS -->
-	<target name="full" depends="check,clean,build" description="Compress JavaScript and CSS files">
+	<target name="full" depends="clean,build" description="Compress JavaScript and CSS files">
 		<antcall target="compress-js">
 			<param name="dir" value="${dist.sys.js.dir}"/>
 		</antcall>
