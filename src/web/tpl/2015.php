@@ -66,11 +66,13 @@
 			<?php print $body; ?>
 		<?php endif; ?>
 
-		<div class="container collapse">
-			<footer class="row">
-				<p>&copy; The University of Nottingham <?php print SITE_YEAR; ?> &bull; Website built and <a href="https://github.com/mporcheron/ResearchHighlights" title="Research Highlights project on GitHub">open sourced</a> by <a href="https://www.porcheron.uk/" title="Martin Porcheron's website">Martin Porcheron</a> &bull; <a href="<?php print URI_HOME; ?>/login" title="<?php print SITE_NAME; ?> Submission Management">Manage your Submission</a></p>
-			</footer>
-		</div>
+		<?php if ($header): ?>
+			<div class="container collapse">
+				<footer class="row">
+					<p>&copy; The University of Nottingham <?php print SITE_YEAR; ?> &bull; Website built and <a href="https://github.com/mporcheron/ResearchHighlights" title="Research Highlights project on GitHub">open sourced</a> by <a href="https://www.porcheron.uk/" title="Martin Porcheron's website">Martin Porcheron</a> &bull; <a href="<?php print URI_HOME; ?>/login" title="<?php print SITE_NAME; ?> Submission Management">Manage your Submission</a></p>
+				</footer>
+			</div>
+		<?php endif; ?>
 
 		<script src="<?php print URI_SYS; ?>/js/jquery-1.11.1<?php print EXT_JS; ?>"></script>
 		<script src="<?php print URI_SYS; ?>/js/bootstrap<?php print EXT_JS; ?>"></script>

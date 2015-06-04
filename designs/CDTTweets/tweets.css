@@ -1,0 +1,106 @@
+
+html, body {
+	height: 100%;
+}
+
+body {
+	background: #0c2577;
+	background: -moz-linear-gradient(top,  #0c2577 0%, #4785c6 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0c2577), color-stop(100%,#4785c6));
+	background: -webkit-linear-gradient(top,  #0c2577 0%,#4785c6 100%);
+	background: -o-linear-gradient(top,  #0c2577 0%,#4785c6 100%);
+	background: -ms-linear-gradient(top,  #0c2577 0%,#4785c6 100%);
+	background: linear-gradient(to bottom,  #0c2577 0%,#4785c6 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0c2577', endColorstr='#4785c6',GradientType=0 );
+	background-position: fixed;
+	display: table;
+
+}
+
+
+.container {
+	display: table-cell;
+	height: 100%;
+	vertical-align: middle;
+	width: 100%;
+}
+
+header .motif {
+	display: none;
+	position: absolute;
+	top: 0em;
+	left: 0em;
+}
+header .motif > img {
+	height: 150px;
+}
+
+header .logo {
+	position: absolute;
+	top: 1em;
+	right: 1em;
+}
+header .logo > img {
+	height: 50px;
+}
+
+section {
+	background: #F3F3F3;
+	border-bottom: 0;
+	-webkit-border-radius: .5em;
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+	margin: 0 auto 0 auto;
+	max-width: 40em;
+}
+
+article {
+	background: #FFFFFF;
+	-webkit-border-radius: .5em;
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	line-height: 1.5;
+	margin: 0.5em 0.5em 0 0.5em;
+	padding: 1.5em;
+}
+
+h1 {
+	font-size: 1.5em;
+	margin: 0;
+	padding: 1em 1em 0.5em 1em;
+	text-transform: uppercase;
+}
+
+section .twitter {
+	margin: -2.5em 1.5em 1.5em 0;
+	text-align: right;
+}
+
+section .twitter img {
+	height: 1.5em;
+}
+
+.readmore, .readmore a {
+	color: #000000;
+	font-weight: bold;
+}
+
+.tailer {
+	background-color: #F3F3F3;
+	margin: 0 0.5em 0em 0.5em;
+}
+
+.tailer .about {
+	border-right: 0.25em solid #FFFFFF;
+	color: #333333;
+	float: left;
+	height: 100%;
+	padding: 1em 1.5em 1em 1.5em;
+}
+
+.tailer .clear {
+	clear: left;
+}
