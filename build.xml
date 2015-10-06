@@ -49,10 +49,15 @@
 			<fileset dir="${src.dir}" includes="**"/>  
 		</copy>
 
-		<echo message="Copying sources from ${src_private.dir} to ${dist.dir}"/>
-		<copy todir="${dist.dir}" overwrite="true">  
-			<fileset dir="${src_private.dir}" includes="**"/>  
-		</copy>
+		<if>
+  			<available file="${src_private.dir}" type="dir" />
+  			<then>
+				<echo message="Copying sources from ${src_private.dir} to ${dist.dir}"/>
+				<copy todir="${dist.dir}" overwrite="true">  
+					<fileset dir="${src_private.dir}" includes="**"/>  
+				</copy>
+			</then>
+		</if>
 
 		<if>
 			<and>
