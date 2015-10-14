@@ -70,17 +70,20 @@ class Submission extends AbstractModel {
 		if (@mkdir ($dir, 0777, true) === false) {
 			throw new \RH\Error\SystemError ('Could not create directory to save input to');
 		}
+		@\chmod ($dir, 0775)
 
 		foreach ($this->images as $image) {
 			if (copy ($image->url, $dir . $image->filename) === false) {
 				throw new \RH\Error\SystemError ('Could not save image ' . $image->url . ' to the system');
 			}
+			@\chmod ($dir . $image->filename, 0775)
 		}
 
 		foreach ($this as $key => $value) {
 		 	if (@\file_put_contents ($dir . $key . $ext, $value) === false) {
 		 		throw new \RH\Error\SystemError ('Could not save ' . $key . ' to the system');
 		 	}
+		 	@\chmod ($dir . $key . $ext, 0775)
 		}
 
 		if (CACHE_CLEAR_ON_SUBMIT) {
