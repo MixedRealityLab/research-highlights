@@ -25,7 +25,7 @@ $(function () {
 		if (response.success != undefined) {
 			ReHi.showSuccess ('Welcome!', 'Your login was successful.');
 
-			$('#submit-user').attr ('value', $('#username').val ());
+			$('#submit-user').attr ('value', $('#editor').val ());
 			$('#submit-pass').attr ('value', $('#password').val ());
 
 			$('.stage-login').fadeOut ({complete : function () {$('.stage-email').fadeIn (); $('.stage-email textarea').trigger ('autosize.resize');	}});

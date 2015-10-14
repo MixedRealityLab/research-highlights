@@ -21,31 +21,24 @@ $cTemplate->startCapture ();
 
 					<!-- BEGIN LOGIN STAGE -->
 					<form class="stage stage-login collapse">
-						<div class="col-sm-6 col-md-6 col-lg-4">
-							<div class="panel panel-primary">
-								<div class="panel-heading">
-									<h3 class="panel-title">Authentication</h3>
+						<div class="card-container">
+							<div class="card">
+								<div class="card-title">Email Users</div>
+								<div class="input-group">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+									<input type="text" class="form-control" name="editor" id="editor" placeholder="University username" spellcheck="false">
 								</div>
-								<div class="panel-body">
-									<div class="input-group">
-										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-										<input type="text" class="form-control" name="username" id="username" placeholder="Username">
-									</div>
-									<br>
-									<div class="input-group">
-										<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-										<input type="password" class="form-control" name="password" id="password" placeholder="Password">
-									</div>
-									<br>
-									<div class="btn-group">
-										<button class="btn btn-primary" type="submit" id="verify">Login &raquo;</button>
-									</div>
+								<br>
+								<div class="input-group">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+									<input type="password" class="form-control" name="password" id="password" placeholder="Password" spellcheck="false">
 								</div>
+								<br>
+								<button class="btn btn-lg btn-primary btn-block btn-success" type="submit" id="verify">Login</button>
 							</div>
-						</div>
-						<div class="col-sm-6 col-md-6 col-lg-8">
-								<h2>Email User Details</h2>
-								<p>Only system administrators can send out emails to users. Please enter a system administrator username and password.</p>
+							<div class="card-trailer">
+								Have you <a href="<?php print URI_HOME; ?>/forgotten" title="Password Reminder">forgotten your password</a>?
+							</div>
 						</div>
 					</form>
 					<!-- END LOGIN STAGE -->
