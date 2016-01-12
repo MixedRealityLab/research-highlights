@@ -157,7 +157,7 @@ class User implements \RH\Singleton {
 		} else {
 			$user = \strtolower ($user);
 
-			if (!isSet ($this->mUsers->$user)) {
+			if (!isSet ($this->mUsers->$user) || !$this->mUsers->$user->cacheIsSet()) {
 				$file = \sprintf (self::USER_CACHE, $user);
 
 				$mUser = new \RH\Model\User ();
