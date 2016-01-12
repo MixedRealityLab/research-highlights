@@ -7,10 +7,10 @@
  * See LICENCE for legal information.
  */
 
-$cTemplate = I::RH_Template ();
-$cUser = I::RH_User ();
+$cTemplate = I::RH_Template();
+$cUser = I::RH_User();
 
-$cTemplate->startCapture ();
+$cTemplate->startCapture();
 
 ?>
 			<div class="container main">
@@ -41,10 +41,10 @@ $cTemplate->startCapture ();
 			</div>
 <?php
 
-$cTemplate->set ('header', true);
-$cTemplate->set ('body', $cTemplate->endCapture ());
+$cTemplate->set('header', true);
+$cTemplate->set('body', $cTemplate->endCapture());
 
-$cTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
-$cTemplate->add ('javascript', URI_WEB . '/js/forgotten' . EXT_JS);
+$cTemplate->add('javascript', URI_WEB . '/js/main' . EXT_JS);
+$cTemplate->add('javascript', URI_WEB . '/js/forgotten' . EXT_JS);
 
-print $cTemplate->load ('2015');
+print $cTemplate->load('2015');

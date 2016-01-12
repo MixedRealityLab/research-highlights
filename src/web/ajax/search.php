@@ -9,15 +9,15 @@
 
 // Perform a search
 
-\header ('Content-type: application/json');
+\header('Content-type: application/json');
 
-$mInput = I::RH_Model_Input ();
-$cSearch = I::RH_Search ();
+$mInput = I::RH_Model_Input();
+$cSearch = I::RH_Search();
 
 // if no query, no results...
-if (!isSet ($mInput->q)) {
-	print '[]';
-	exit;
+if (!isset($mInput->q)) {
+    print '[]';
+    exit;
 }
 
-print $cSearch->search ($mInput->q)->toArrayJson ();
+print $cSearch->search($mInput->q)->toArrayJson();

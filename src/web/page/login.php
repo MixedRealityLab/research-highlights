@@ -7,9 +7,9 @@
  * See LICENCE for legal information.
  */
 
-$cTemplate = I::RH_Template ();
+$cTemplate = I::RH_Template();
 
-$cTemplate->startCapture ();
+$cTemplate->startCapture();
 
 ?>
 		<div class="visible-xs visible-sm">
@@ -458,14 +458,14 @@ Please note: **you must** own the copyright to the images, or have rights to red
 		</div>
 <?php
 
-$cTemplate->set ('header', true);
-$cTemplate->set ('body', $cTemplate->endCapture ());
+$cTemplate->set('header', true);
+$cTemplate->set('body', $cTemplate->endCapture());
 
-$cTemplate->add ('css', URI_SYS . '/css/bootstrap-tagsinput' . EXT_CSS);
-$cTemplate->add ('javascript', URI_SYS . '/js/jquery.ui.widget' . EXT_JS);
-$cTemplate->add ('javascript', URI_SYS . '/js/jquery.iframe-transport' . EXT_JS);
-$cTemplate->add ('javascript', URI_SYS . '/js/jquery.fileupload' . EXT_JS);
-$cTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
-$cTemplate->add ('javascript', URI_WEB . '/js/login' . EXT_JS);
+$cTemplate->add('css', URI_SYS . '/css/bootstrap-tagsinput' . EXT_CSS);
+$cTemplate->add('javascript', URI_SYS . '/js/jquery.ui.widget' . EXT_JS);
+$cTemplate->add('javascript', URI_SYS . '/js/jquery.iframe-transport' . EXT_JS);
+$cTemplate->add('javascript', URI_SYS . '/js/jquery.fileupload' . EXT_JS);
+$cTemplate->add('javascript', URI_WEB . '/js/main' . EXT_JS);
+$cTemplate->add('javascript', URI_WEB . '/js/login' . EXT_JS);
 
-print $cTemplate->load ('2015');
+print $cTemplate->load('2015');

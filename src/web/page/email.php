@@ -2,15 +2,15 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
 
-$cTemplate = I::RH_Template ();
-$cUser = I::RH_User ();
+$cTemplate = I::RH_Template();
+$cUser = I::RH_User();
 
-$cTemplate->startCapture ();   
+$cTemplate->startCapture();
 
 ?>
 			<div class="visible-xs visible-sm">
@@ -46,7 +46,12 @@ $cTemplate->startCapture ();
 					<!-- BEGIN EMAIL STAGE -->
 					<form class="stage stage-email collapse">
 						<div class="col-sm-12 col-md-12 col-lg-12">
-							<p>You can use any of the following codes, these are substituted per user at email time: <?php $keys = ''; foreach (\RH\Model\User::substsKeys () as $key): $keys .= (empty ($keys) ? '' : ', ') . '<code>'. \htmlentities ($key) .'</code>'; endforeach; print $keys; ?>.</p>
+							<p>You can use any of the following codes, these are substituted per user at email time: <?php $keys = '';
+                            foreach (\RH\Model\User::substsKeys() as $key) :
+                                $keys .= (empty($keys) ? '' : ', ') . '<code>'. \htmlentities($key) .'</code>';
+
+                            endforeach;
+                            print $keys; ?>.</p>
 							<hr>
 						</div>
 						<div class="col-sm-12 col-md-12 col-lg-12">
@@ -104,10 +109,10 @@ Many thanks and good luck!</textarea>
 				</div>
 <?php
 
-$cTemplate->set ('header', true);
-$cTemplate->set ('body', $cTemplate->endCapture ());
+$cTemplate->set('header', true);
+$cTemplate->set('body', $cTemplate->endCapture());
 
-$cTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
-$cTemplate->add ('javascript', URI_WEB . '/js/email' . EXT_JS);
+$cTemplate->add('javascript', URI_WEB . '/js/main' . EXT_JS);
+$cTemplate->add('javascript', URI_WEB . '/js/email' . EXT_JS);
 
-print $cTemplate->load ('2015');
+print $cTemplate->load('2015');

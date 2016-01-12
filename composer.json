@@ -1,0 +1,17 @@
+{
+	"name": "porcheron/ResearchHighlights",
+	"description": "Website to correlate research highlights from PhD students",
+	"license": "MIT",
+	"authors": [
+		{
+		"name": "Martin Porcheron",
+		"email": "martin@porcheron.uk"
+		}
+	],
+	"require": {
+		"php": ">=5.4.16"
+	},
+    "require-dev": {
+        "squizlabs/php_codesniffer": "2.*"
+    }
+}

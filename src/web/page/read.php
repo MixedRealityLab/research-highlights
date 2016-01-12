@@ -8,16 +8,16 @@
  */
 
 // first page argument should be a username
-if (isSet ($data[0])) {
-	$cUser = I::RH_User ();
-	if (!\is_null ($cUser->get ($data[0]))) {
-		\define ('READ_USER', $data[0]);
-	}
+if (isset($data[0])) {
+    $cUser = I::RH_User();
+    if (!\is_null($cUser->get($data[0]))) {
+        \define('READ_USER', $data[0]);
+    }
 }
 
-$cTemplate = I::RH_Template ();
+$cTemplate = I::RH_Template();
 
-$cTemplate->startCapture ();
+$cTemplate->startCapture();
 
 ?>
 	<div class="container main">
@@ -58,7 +58,9 @@ $cTemplate->startCapture ();
 					<button type="button" class="btn btn-primary btn-offcanvas" data-toggle="offcanvas">View Submissions</button>
 				</p>
 
-				<div class="jumbotron primary collapse home noAutoFadeIn <?php if (\defined ('READ_USER')): ?>hide<?php endif; ?>">
+				<div class="jumbotron primary collapse home noAutoFadeIn <?php if (\defined('READ_USER')) :
+?>hide<?php
+endif; ?>">
 					<div class="container">
 						<h2>Research Highlights <?php print SITE_YEAR; ?></h2>
 						<img class="pull-right home-img img-circle" alt="Prof. Steve Benford, Centre Director" src="<?php print URI_WEB; ?>/img/sdb.jpg">
@@ -68,7 +70,9 @@ $cTemplate->startCapture ();
 					</div>
 				</div>
 
-				<div class="featureWall home noAutoFadeIn <?php if (\defined ('READ_USER')): ?>hide<?php endif; ?>">
+				<div class="featureWall home noAutoFadeIn <?php if (\defined('READ_USER')) :
+?>hide<?php
+endif; ?>">
 					<h2 class="collapse">Highlighted PhD Topics</h2>
 					<br>
 
@@ -120,15 +124,15 @@ $cTemplate->startCapture ();
 	</div>
 <?php
 
-$cTemplate->set ('header', true);
-$cTemplate->set ('body', $cTemplate->endCapture ());
+$cTemplate->set('header', true);
+$cTemplate->set('body', $cTemplate->endCapture());
 
-if (\defined ('READ_USER')) {
-	$cUser = I::RH_User ();
-	$mUser = $cUser->get (READ_USER);
-	$cTemplate->set ('title', $mUser->firstName . ' ' . $mUser->surname . TITLE_SEP . TITLE);
+if (\defined('READ_USER')) {
+    $cUser = I::RH_User();
+    $mUser = $cUser->get(READ_USER);
+    $cTemplate->set('title', $mUser->firstName . ' ' . $mUser->surname . TITLE_SEP . TITLE);
 
-	$cTemplate->startCapture ();
+    $cTemplate->startCapture();
 ?><script type="text/javascript">
 changeListView ('name', function () {
 	loadPage ('read', '...', 'user=<?php print READ_USER; ?>', function () {
@@ -136,13 +140,13 @@ changeListView ('name', function () {
 	});
 });
 </script><?php
-	$cTemplate->set ('footer', $cTemplate->endCapture ());
+    $cTemplate->set('footer', $cTemplate->endCapture());
 }
 
-$cTemplate->add ('css', URI_WEB . '/css/index' . EXT_CSS);
+$cTemplate->add('css', URI_WEB . '/css/index' . EXT_CSS);
 
-$cTemplate->add ('javascript', URI_SYS . '/js/jquery.ba-hashchange' . EXT_JS);
-$cTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
-$cTemplate->add ('javascript', URI_WEB . '/js/index' . EXT_JS);
+$cTemplate->add('javascript', URI_SYS . '/js/jquery.ba-hashchange' . EXT_JS);
+$cTemplate->add('javascript', URI_WEB . '/js/main' . EXT_JS);
+$cTemplate->add('javascript', URI_WEB . '/js/index' . EXT_JS);
 
-print $cTemplate->load ('2015');
+print $cTemplate->load('2015');

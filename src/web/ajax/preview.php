@@ -9,40 +9,40 @@
 
 // Generate a submission preview from MD to HTML
 
-\header ('Content-type: application/json');
+\header('Content-type: application/json');
 
 try {
-	$cUser = I::RH_User ();
-	$mInput = I::RH_Model_Input ();
+    $cUser = I::RH_User();
+    $mInput = I::RH_Model_Input();
 
-	$mUser = $cUser->login ($mInput->editor, $mInput->password);
+    $mUser = $cUser->login($mInput->editor, $mInput->password);
 
-	if ($mUser->admin && isSet ($mInput->username)) {
-		$mUser = $cUser->get (\strtolower ($mInput->username));
-		$cUser->overrideLogin ($mUser);
-	}
+    if ($mUser->admin && isset($mInput->username)) {
+        $mUser = $cUser->get(\strtolower($mInput->username));
+        $cUser->overrideLogin($mUser);
+    }
 
-	$cSubmission = I::RH_Submission ();
-	$mSubmission = new \RH\Model\Submission ();
+    $cSubmission = I::RH_Submission();
+    $mSubmission = new \RH\Model\Submission();
 
-	$textMd = \trim ($mInput->text);
-	$mSubmission->text = !empty ($textMd)
-		? \RH\Submission::markdownToHtml ($textMd)
-		: '<em>No text.</em>';
+    $textMd = \trim($mInput->text);
+    $mSubmission->text = !empty($textMd)
+        ? \RH\Submission::markdownToHtml($textMd)
+        : '<em>No text.</em>';
 
-	$referencesMd = \trim ($mInput->references);
-	$mSubmission->references = !empty ($referencesMd)
-		?  \RH\Submission::markdownToHtml ("# References\n\n" . $referencesMd)
-		: '<em>No references.</em>';
+    $referencesMd = \trim($mInput->references);
+    $mSubmission->references = !empty($referencesMd)
+        ?  \RH\Submission::markdownToHtml("# References\n\n" . $referencesMd)
+        : '<em>No references.</em>';
 
-	$publicationsMd = \trim ($mInput->publications);
-	$mSubmission->publications = !empty ($publicationsMd)
-		? \RH\Submission::markdownToHtml ("# Publications in the Last Year\n\n" . $publicationsMd)
-		: '<em>No publications in the last year.</em>';
+    $publicationsMd = \trim($mInput->publications);
+    $mSubmission->publications = !empty($publicationsMd)
+        ? \RH\Submission::markdownToHtml("# Publications in the Last Year\n\n" . $publicationsMd)
+        : '<em>No publications in the last year.</em>';
 
-	$mSubmission->fundingStatement = $mUser->fundingStatement;
+    $mSubmission->fundingStatement = $mUser->fundingStatement;
 
-	print $mSubmission->toJson ();
+    print $mSubmission->toJson();
 } catch (\RH\Error $e) {
-	print $e->toJson ();
+    print $e->toJson();
 }

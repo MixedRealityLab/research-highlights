@@ -14,6 +14,7 @@ namespace RH\Model;
  *
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class UserEmails extends AbstractModel {
+class UserEmails extends AbstractModel
+{
 
 }

@@ -9,4 +9,4 @@
 
 // Rebuild the search index
 
-I::RH_Search ()->rebuildIndex ();
+I::RH_Search()->rebuildIndex();

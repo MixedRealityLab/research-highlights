@@ -2,7 +2,7 @@
 
 /**
  * Research Highlights engine
- * 
+ *
  * Copyright (c) 2015 Martin Porcheron <martin@porcheron.uk>
  * See LICENCE for legal information.
  */
@@ -14,13 +14,14 @@ namespace RH\Error;
  *
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class AccountDisabled extends UserError {
-	
-	/**
-	 * Throw the exception.
-	 */
-	public function __construct () {
-		parent::__construct ('This account has been disabled.');
-	}
-	
+class AccountDisabled extends UserError
+{
+    
+    /**
+     * Throw the exception.
+     */
+    public function __construct()
+    {
+        parent::__construct('This account has been disabled.');
+    }
 }

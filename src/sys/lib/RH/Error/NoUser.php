@@ -14,13 +14,14 @@ namespace RH\Error;
  *
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class NoUser extends UserError {
+class NoUser extends UserError
+{
 
-	/**
-	 * Throw the exception.
-	 */
-	public function __construct () {
-		parent::__construct ('No matching user could be found, sorry.');
-	}
-
+    /**
+     * Throw the exception.
+     */
+    public function __construct()
+    {
+        parent::__construct('No matching user could be found, sorry.');
+    }
 }

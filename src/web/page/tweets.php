@@ -8,16 +8,16 @@
  */
 
 // first page argument should be a username
-if (isSet ($data[0])) {
-	$cUser = I::RH_User ();
-	if (!\is_null ($cUser->get ($data[0]))) {
-		\define ('READ_USER', $data[0]);
-	}
+if (isset($data[0])) {
+    $cUser = I::RH_User();
+    if (!\is_null($cUser->get($data[0]))) {
+        \define('READ_USER', $data[0]);
+    }
 }
 
-$cTemplate = I::RH_Template ();
+$cTemplate = I::RH_Template();
 
-$cTemplate->startCapture ();
+$cTemplate->startCapture();
 
 ?>
 	<div class="centerpage">
@@ -49,12 +49,12 @@ $cTemplate->startCapture ();
 	</div>
 <?php
 
-$cTemplate->set ('header', true);
-$cTemplate->set ('body', $cTemplate->endCapture ());
+$cTemplate->set('header', true);
+$cTemplate->set('body', $cTemplate->endCapture());
 
-$cTemplate->add ('css', URI_WEB . '/css/tweets' . EXT_CSS);
+$cTemplate->add('css', URI_WEB . '/css/tweets' . EXT_CSS);
 
-$cTemplate->add ('javascript', URI_WEB . '/js/main' . EXT_JS);
-$cTemplate->add ('javascript', URI_WEB . '/js/tweets' . EXT_JS);
+$cTemplate->add('javascript', URI_WEB . '/js/main' . EXT_JS);
+$cTemplate->add('javascript', URI_WEB . '/js/tweets' . EXT_JS);
 
-print $cTemplate->load ('2015');
+print $cTemplate->load('2015');
