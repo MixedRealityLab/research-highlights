@@ -73,6 +73,15 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	}
 
 	/**
+	* Determines whether cache functionality has been set for this object
+	*
+	* @return boolean
+	*/
+	public function cacheIsSet () {
+		return $this->cacheTime > 0 && !\is_null($this->cacheFile);
+	}
+
+	/**
 	* Set the Cache properties for this model.
 	*
 	* @param int $time Cache expiry time (set to 0 to disable cache)
@@ -349,7 +358,7 @@ abstract class AbstractModel extends \RecursiveArrayObject {
 	 * Fetch a list of the keys of the model.
 	 *
 	 * @param function $fn Function for mapping to the items in the model,
-	 * 	takes two arguments (the key and the value); by default this 
+	 * 	takes two arguments (the key and the value); by default this
 	 * 	returns just the key
 	 * @return Keys a list of the keys
 	 */
