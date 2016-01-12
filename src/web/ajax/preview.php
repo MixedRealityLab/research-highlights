@@ -17,8 +17,9 @@ try {
 
 	$mUser = $cUser->login ($mInput->editor, $mInput->password);
 
-	if ($mInput->username !== $mInput->editor) {
-		$cUser->login ($mInput->username, $mInput->password, true);
+	if ($mUser->admin && isSet ($mInput->username)) {
+		$mUser = $cUser->get (\strtolower ($mInput->username));
+		$cUser->overrideLogin ($mUser);
 	}
 
 	$cSubmission = I::RH_Submission ();
