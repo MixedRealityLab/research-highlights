@@ -19,8 +19,8 @@ try {
 
 	$mUser = $cUser->login ($mInput->editor, $mInput->password);
 
-	if ($mUser->admin && isSet ($mInput->profile)) {
-		$mUser = $cUser->get (\strtolower ($mInput->profile));
+	if ($mUser->admin && isSet ($mInput->username)) {
+		$mUser = $cUser->get (\strtolower ($mInput->username));
 		$cUser->overrideLogin ($mUser);
 	}
 
