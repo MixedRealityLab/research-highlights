@@ -76,7 +76,7 @@ $cTemplate->startCapture ();
 									<div class="form-group">
 										<label for="title">PhD Title</label>
 										<p class="small">Your title should succinctly define your PhD research.</p>
-										<textarea name="title" id="title" rows="3" class="form-control input input-large" placeholder="An Integrated Approach to Unqiuotous Human-Mouse Enviornmental Interaction" spellcheck="true" lang="gb"></textarea>
+										<textarea name="title" id="title" rows="3" class="form-control input input-large" placeholder="An Integrated Approach to Unqiuotous Human-Moose Enviornmental Interaction" spellcheck="true" lang="gb"></textarea>
 									</div>
 								</div>
 								<div class="col-sm-12 col-md-6 col-lg-6">
