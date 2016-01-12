@@ -8,7 +8,7 @@
  */
 
 \define ('SITE_NAME', 'Horizon CDT Research Highlights');
-\define ('SITE_YEAR', '2015');
+\define ('SITE_YEAR', '2016');
 
 \define ('DIR_WAJ', DIR . '/web/ajax');
 \define ('DIR_WCS', DIR . '/web/css');
