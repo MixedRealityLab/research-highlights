@@ -65,10 +65,26 @@ class Submission extends AbstractModel {
 	public function save () {
 		$ext = \RH\Submission::DAT_FILE_SUF;
 		$version = date ('U');
-		$dir = DIR_DAT . '/' . $this->cohort . '/' . $this->username  . '/' . $version .'/';
 
-		if (@mkdir ($dir, 0777, true) === false) {
-			throw new \RH\Error\SystemError ('Could not create directory to save input to');
+		$dir = DIR_DAT . '/' . $this->cohort;
+		if (!is_dir($dir)) {
+			if (@mkdir ($dir, 0775, true) === false) {
+				throw new \RH\Error\SystemError ('Could not create cohort data directory');
+			}
+			@\chmod ($dir, 0775);
+		}
+
+		$dir = $dir . '/' . $this->username;
+		if (!is_dir($dir)) {
+			if (@mkdir ($dir, 0775, true) === false) {
+				throw new \RH\Error\SystemError ('Could not create user data directory');
+			}
+			@\chmod ($dir, 0775);
+		}
+
+		$dir = $dir  . '/' . $version .'/';
+		if (@mkdir ($dir, 0775, true) === false) {
+			throw new \RH\Error\SystemError ('Could not create submission data directory');
 		}
 		@\chmod ($dir, 0775);
 
