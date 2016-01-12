@@ -17,10 +17,11 @@ try {
 	$cUser = I::RH_User ();
 	$mInput = I::RH_Model_Input ();
 
-	if ($mInput->username !== $mInput->editor) {
-		$mUser = $cUser->login ($mInput->editor, $mInput->password, true);
-	} else {
-		$mUser = $cUser->login ($mInput->username, $mInput->password);
+	$mUser = $cUser->login ($mInput->editor, $mInput->password);
+
+	if ($mUser->admin && isSet ($mInput->profile)) {
+		$mUser = $cUser->get (\strtolower ($mInput->profile));
+		$cUser->overrideLogin ($mUser);
 	}
 
 	$cSubmission = I::RH_Submission ();
@@ -35,7 +36,6 @@ try {
 		throw new \RH\Error\InvalidInput ('Missing provide a cohort, title, keywords and your submission text.');
 	}
 
-	$mUser = $cUser->get ($mInput->editor);
 	$cohortDir = DIR_DAT . '/' . $mInput->cohort;
 	if ($mInput->cohort !== $mUser->cohort
 		|| !is_numeric ($mInput->cohort) || !is_dir ($cohortDir)) {
