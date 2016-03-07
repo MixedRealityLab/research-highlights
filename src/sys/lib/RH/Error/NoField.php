@@ -16,15 +16,16 @@ namespace RH\Error;
  */
 class NoField extends SystemError
 {
-    
+
     /**
      * Throw the exception.
      *
      * @param string $name Name of the field.
      * @param string $type Name of the data type.
+     * @param string $id ID of the object
      */
-    public function __construct($name, $type)
+    public function __construct($name, $type, $id = 'unknown')
     {
-        parent::__construct('No field `' . $name . '` in `' . $type . '`.');
+        parent::__construct('No field `' . $name . '` in `' . $type . '` with ID `'. $id .'`.');
     }
 }
