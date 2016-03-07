@@ -160,7 +160,11 @@ $(function () {
 
 	ReHi.regSubForm ($('form.stage-editor'), '@@@URI_ROOT@@@/submit.do', function (response, textStatus, jqXHR) {
 		if (response.success == '1') {
-			ReHi.showSuccess ('Good News!', 'Your submission was saved, ' + $('#name').val () + '! It make take some time for your changes to propagate onto the website.');
+			if ($('#username').val () == $('#editor').val ()){
+				ReHi.showSuccess ('Good News!', 'Your submission was saved, ' + $('#name').val () + '! It make take some time for your changes to propagate onto the website.');
+			} else {
+				ReHi.showSuccess ('Good News!', 'The submission for ' + $('#name').val () + ' was saved! It make take some time for your changes to propagate onto the website.');
+			}
 		} else if (response.error != undefined) {
 			ReHi.showError ('Goshdarnit!', response.error + ' <a href="mailto:@@@EMAIL@@@" class="alert-link">I need help!</a>');
 		} else  {
