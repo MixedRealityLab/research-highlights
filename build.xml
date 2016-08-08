@@ -99,7 +99,7 @@
 				<isset property="email"/>
 			</not>
 			<then>
-				<propertyregex property="email" input="${config.file}" regexp="\\define \('EMAIL', '([@a-zA-Z\:./_-]*)'" select="\1" />
+				<propertyregex property="email" input="${config.file}" regexp="\\define\('EMAIL', '([@a-zA-Z\:./_-]*)'" select="\1" />
 			</then>
 		</if>
 
@@ -109,28 +109,28 @@
 			<param name="files" value="**/*"/>
 		</antcall>
 
-		<propertyregex property="title" input="${config.file}" regexp="\\define \('TITLE', '(.*)'" select="\1" />
+		<propertyregex property="title" input="${config.file}" regexp="\\define\('TITLE', '(.*)'" select="\1" />
 		<antcall target="set-const">
 			<param name="const" value="TITLE"/>
 			<param name="val" value="${title}"/>
 			<param name="files" value="**/*"/>
 		</antcall>
 
-		<propertyregex property="title_sep" input="${config.file}" regexp="\\define \('TITLE_SEP', '(.*)'" select="\1" />
+		<propertyregex property="title_sep" input="${config.file}" regexp="\\define\('TITLE_SEP', '(.*)'" select="\1" />
 		<antcall target="set-const">
 			<param name="const" value="TITLE_SEP"/>
 			<param name="val" value="${title_sep}"/>
 			<param name="files" value="**/*"/>
 		</antcall>
 
-		<propertyregex property="site_name" input="${config.file}" regexp="\\define \('SITE_NAME', '(.*)'" select="\1" />
+		<propertyregex property="site_name" input="${config.file}" regexp="\\define\('SITE_NAME', '(.*)'" select="\1" />
 		<antcall target="set-const">
 			<param name="const" value="SITE_NAME"/>
 			<param name="val" value="${site_name}"/>
 			<param name="files" value="**/*"/>
 		</antcall>
 
-		<propertyregex property="site_year" input="${config.file}" regexp="\\define \('SITE_YEAR', '(.*)'" select="\1" />
+		<propertyregex property="site_year" input="${config.file}" regexp="\\define\('SITE_YEAR', '(.*)'" select="\1" />
 		<antcall target="set-const">
 			<param name="const" value="SITE_YEAR"/>
 			<param name="val" value="${site_year}"/>
@@ -142,7 +142,7 @@
 				<isset property="sysHtaccess"/>
 			</not>
 			<then>
-				<propertyregex property="sysHtaccess" input="${config.file}" regexp="\\define \('SYS_HTAC', ([@a-zA-Z\:./_-]*)" select="\1" />
+				<propertyregex property="sysHtaccess" input="${config.file}" regexp="\\define\('SYS_HTAC', ([@a-zA-Z\:./_-]*)" select="\1" />
 			</then>
 		</if>
 
@@ -297,8 +297,8 @@
 			<then>
 				<echo message="Apply change in ${dist.dir}/config.php"/>
 				<replaceregexp file="${dist.dir}/config.php" flags="gs">
-					<regexp pattern="\\define \('${const}', '([@a-zA-Z\:./_-]*)'"/>
-					<substitution expression="\\define \('${const}', '${val}'"/>
+					<regexp pattern="\\define\('${const}', '([@a-zA-Z\:./_-]*)'"/>
+					<substitution expression="\\define\('${const}', '${val}'"/>
 				</replaceregexp>
 			</then>
 		</if>
