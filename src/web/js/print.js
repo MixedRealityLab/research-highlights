@@ -14,7 +14,7 @@
 	ReHi.sendData ({
 	  dataType: 'json',
 	  data: d,
-	  url: '@@@URI_ROOT@@@/read.do',
+	  url: $('html').data('uri_root') + '/read.do',
 	  type: 'post',
 	  success: function (response, textStatus, jqXHR) {
 					for (var i = 0; i < response.length; i++) {

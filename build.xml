@@ -149,6 +149,7 @@
 		<antcall target="set-const">
 			<param name="const" value="SYS_HTAC"/>
 			<param name="val" value="${sysHtaccess}"/>
+			<param name="files" value="**/*"/>
 			<param name="config" value="true"/>
 		</antcall>
 

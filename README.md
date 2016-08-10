@@ -16,7 +16,6 @@ Build using the `ant` command:
 
 * The basic build instruction is `ant quick` 
 * You can override the _DOMAIN_ and _PATH_ php configuration variables with the ant flags `-Ddomain=...` and `-Dpath=...`
-* _TIP_: Non-PHP files can use `@@@DOMAIN@@@`, `@@@PATH@@@` and `@@@URI_ROOT@@@` for the respective values, these are substituted at build-time
 * There is also a `full` target for Ant, this compresses JS and CSS files using the YUI Compressor
 
 ## Legal

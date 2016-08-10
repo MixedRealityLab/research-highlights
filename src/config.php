@@ -19,9 +19,9 @@
 \define('DIR_WGO', DIR . '/web/go');
 \define('DIR_WTP', DIR . '/web/tpl');
 
-\define('DIR_DAT', \dirname(DIR) . '/submissions-' . SITE_YEAR);
-\define('DIR_CAC', \dirname(DIR) . '/submissions-' . SITE_YEAR .'/cache');
-\define('DIR_IMG', \dirname(DIR) . '/submissions-' . SITE_YEAR .'/images');
+\define('DIR_DAT', DIR . '/submissions-' . SITE_YEAR);
+\define('DIR_CAC', DIR . '/submissions-' . SITE_YEAR .'/cache');
+\define('DIR_IMG', DIR . '/submissions-' . SITE_YEAR .'/images');
 
 \define('DIR_SLB', DIR .  '/sys/lib');
 \define('DIR_SCS', DIR . '/sys/css');
@@ -43,10 +43,10 @@
 
 \define('URI_HOME', '@@@DOMAIN@@@@@@PATH@@@');
 \define('URI_ROOT', '@@@URI_ROOT@@@');
-\define('URI_WEB', URI_HOME . '/web');
-\define('URI_SYS', URI_HOME . '/sys');
-\define('URI_DATA', \dirname(URI_HOME) . '/submissions-' . SITE_YEAR);
-\define('URI_IMG', \dirname(URI_HOME) . '/submissions-' . SITE_YEAR .'/images');
+\define('URI_WEB', URI_ROOT . '/web');
+\define('URI_SYS', URI_ROOT . '/sys');
+\define('URI_DATA', URI_ROOT . '/submissions-' . SITE_YEAR);
+\define('URI_IMG', URI_ROOT . '/submissions-' . SITE_YEAR .'/images');
 
 \define('TITLE', '@@@SITE_NAME@@@ @@@SITE_YEAR@@@');
 \define('TITLE_SEP', ' - ');

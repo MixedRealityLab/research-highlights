@@ -399,7 +399,7 @@ This produces a [link](http://www.example.com/) - how cool!</pre>
 
 Images are given a caption in the order they appear in your submission.
 
-![This is my image caption](http://cdt.horizon.ac.uk/kitten.jpg)
+![This is my image caption](<?php print URI_WEB; ?>/web/img/kitten.jpg)
 
 Please note: **you must** own the copyright to the images, or have rights to redistribute or publish the image publicly.</pre>
 								</div>

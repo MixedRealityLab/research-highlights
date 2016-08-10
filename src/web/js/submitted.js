@@ -12,7 +12,7 @@
 
 	ReHi.sendData ({
 	  dataType: 'json',
-	  url: '@@@URI_ROOT@@@/submitted.do',
+	  url: $('html').data('uri_root') + '/submitted.do',
 	  type: 'post',
 	  success: function (response, textStatus, jqXHR) {
 					$('.loading').fadeOut ({complete: function () { }});
