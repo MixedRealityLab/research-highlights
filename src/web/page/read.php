@@ -36,7 +36,7 @@ $cTemplate->startCapture();
 					<p class="view-by collapse">
 						List submissions by
 						<br>
-						<a href="#" class="listMode" data-listmode="cohort">Title</a> &bull; <a href="#" class="listMode" data-listmode="name">Name</a> &bull; <a href="#" class="listMode" data-listmode="keyword">Keyword</a>
+						<a href="#" class="listMode" data-listmode="cohort">Title</a> &bull; <a href="#" class="listMode" data-listmode="name">Name</a>
 					</p>
 
 					<div class="panel-group nav collapse" id="viewList" role="tablist" aria-multiselectable="true"></div>
