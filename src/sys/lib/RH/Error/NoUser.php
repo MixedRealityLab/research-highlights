@@ -22,6 +22,6 @@ class NoUser extends UserError
      */
     public function __construct()
     {
-        parent::__construct('No matching user could be found, sorry.');
+        parent::__construct('No matching user or password combination. Maybe your password is wrong?');
     }
 }
