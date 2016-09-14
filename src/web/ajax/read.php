@@ -19,6 +19,9 @@ try {
     // Get the users for which we want to return their submission
     if (isset($mInput->user)) {
         $mUsers = array ($cUser->get($mInput->user));
+        if (!$mUsers[0]->countSubmission) {
+            $mUsers = array ();
+        }
 
     } elseif (isset($mInput->cohort)) {
         $cohort = $mInput->cohort;
@@ -64,6 +67,7 @@ try {
 
             $output[] = \array_merge($mSubmission->toArray(), $mUser->toArray());
         } catch (\RH\Error\NoSubmission $e) {
+        } catch (\RH\Error\NoField $e) {
         }
     }
 

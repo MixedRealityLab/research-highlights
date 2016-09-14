@@ -3,3 +3,5 @@ dist/*
 lib/yuicompressor-*
 src_private/*
 *.scpt
+
+.DS_Store

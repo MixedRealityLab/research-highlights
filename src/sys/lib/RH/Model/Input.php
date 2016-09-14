@@ -16,6 +16,10 @@ namespace RH\Model;
 */
 class Input extends AbstractModel implements \RH\Singleton
 {
+    /**
+     * Do not recurse on input.
+     */
+    protected $recurse = false;
 
     /**
     * Construct the `Input` handler by importing the superglobals, and then

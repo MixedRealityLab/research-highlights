@@ -69,6 +69,11 @@ function toggleKeyword (keyword) {
 	firstResponder ('#keywords=' + curKeywords);
 }
 
+// change url
+function goTo (actor, value) {
+	window.location="#" + actor + "=" + value;
+}
+
 // change the sidebar list view
 function changeListView (list, onCompleteFn) {
 	if (list == curListView) {

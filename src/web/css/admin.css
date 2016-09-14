@@ -1,0 +1,13 @@
+.tabularInput-table tbody tr.disabledRow input {
+	color: #ccc;
+}
+
+.tabularInput-table tbody tr.errorRow input {
+	background: #d9534f;
+	color: #fff;
+	opacity: 0.5;
+}
+
+.tabularInput-table tbody tr.errorRow input.errorCell {
+	opacity: 1;
+}

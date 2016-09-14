@@ -7,7 +7,6 @@
  */
 
 var wordCount = 1500;
-var year = 1;
 var changesMade = false;
 
 function autoResize () {
@@ -87,7 +86,7 @@ $(function () {
 			$('#editor-pass').val ($('#password').val ());
 			loginPrefill (response, textStatus, jqXHR);
 			if (response.admin) {
-				$.getScript ('web/js/admin' + $('html').data('ext_js'));
+				$.getScript ('web/js/manage-admin' + $('html').data('ext_js'));
 			}
 
 			$(document).bind('drop dragover', function (e) {

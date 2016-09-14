@@ -20,6 +20,9 @@ class Header
     /** @var mixed[] Columns within the header */
     private $columns = array ();
 
+    /** @var mixed[] Columns within the header */
+    private $assocColumns = array ();
+
     /** @var int Which column was `str_rem`, and thus gobbles remaining cols */
     private $gobbleFrom = -1;
 
@@ -37,7 +40,7 @@ class Header
         foreach ($cols as $i => $col) {
             $data = \preg_split('/:/U', \trim($col), null, PREG_SPLIT_NO_EMPTY);
             if (\count($data) !== 2) {
-                throw new \RH\Error\SystemError('File has incorrect number of parameters per column (has ' .
+                throw new \RH\Error\Configuration('File has incorrect number of parameters per column (has ' .
                   count($data) .') in ' . $col);
             }
             $this->add($data[0], $data[1]);
@@ -55,7 +58,9 @@ class Header
     private function add($column, $type)
     {
         $type = \RH\File\ColumnType::fromString($type);
-        $this->columns[] = new \RH\File\Column($column, $type);
+        $col = new \RH\File\Column($column, $type);
+        $this->columns[] = $col;
+        $this->assocColumns[$column] = $col;
 
         if ($type == \RH\File\ColumnType::LONG_STRING) {
             $this->gobbleFrom = \count($this->columns) - 1;
@@ -63,18 +68,34 @@ class Header
     }
 
     /**
+    * Get all columns' information
+    *
+    * @return Column[] associate array of columns.
+    */
+    public function getAssocArray()
+    {
+        return $this->assocColumns;
+    }
+
+    /**
     * Get a column's information
     *
-    * @param int $id Index of the column (starting from 0)
+    * @param int $id Index of the column (starting from 0), or the name.
     * @return \RH\File\Column
     */
     public function get($id)
     {
-        if ($this->gobbleFrom >= 0 && $this->gobbleFrom < $id) {
-            return $this->columns[$this->gobbleFrom];
+        if (is_int($id)) {
+            if ($this->gobbleFrom >= 0 && $this->gobbleFrom < $id) {
+                return $this->columns[$this->gobbleFrom];
+            }
+            
+            return count($this->columns) < $id ? null : $this->columns[$id];
+        } else if (isset($this->assocColumns[$id])) {
+            return $this->assocColumns[$id];
+        }  else {
+            return null;
         }
-
-        return count($this->columns) < $id ? null : $this->columns[$id];
     }
 
     /**

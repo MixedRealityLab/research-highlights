@@ -124,13 +124,15 @@
 							});
 						},
 
-	regSubForm			: function ($form, url, success, dataType, confirmationFn) {
+	regSubForm			: function ($form, url, success, dataType, confirmationFn, validateFn) {
                             if (confirmationFn == undefined) {
                                 confirmationFn = function () { return true; }
                             }
 							$form.submit (function (e) {
 								e.preventDefault ();
-								ReHi.submitForm ($form, url, success, dataType, confirmationFn);
+								if(validateFn == undefined || validateFn($form)) {
+									ReHi.submitForm ($form, url, success, dataType, confirmationFn);
+								}
 							});
 						},
 
@@ -153,6 +155,15 @@
 									$allInputs.prop ('disabled', false);
 								},
 								data: data,
+								success: successFn
+							});
+						},
+
+	getData				: function (url, successFn, dataType) {
+							$.ajax ({
+								dataType: (dataType == undefined ? 'text' : dataType),
+								url: url,
+								type: 'post',
 								success: successFn
 							});
 						}

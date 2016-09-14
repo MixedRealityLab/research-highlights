@@ -232,7 +232,7 @@ class User implements \RH\Singleton
         }
 
         if (\is_null($filterFn)) {
-            $filterFn = function ($cUser) {
+            $filterFn = function ($mUser) {
                 return true;
             };
         }
@@ -257,14 +257,7 @@ class User implements \RH\Singleton
                 $mUsers->merge($this->getData(self::USER_FILE));
 
                 foreach ($mUsers as $mUser) {
-                    $mUser->deadline = $this->getDeadline($mUser);
-                    $mUser->wordCount = $this->getWordCount($mUser);
-                    $mUser->fundingStatement = $this->getFunding($mUser);
-                    if (!isset($mUser->admin)) {
-                        $mUser->admin = false;
-                    }
-
-                    $mUser->username = \strtolower($mUser->username);
+                    $this->completeUserModel($mUser);
 
                     $email = \strtolower($mUser->email);
                     $mUserEmails[$email] = $mUser->username;
@@ -284,6 +277,26 @@ class User implements \RH\Singleton
         $mUsers->filter($filterFn);
 
         return $mUsers;
+    }
+
+    /**
+     * Retrieve additional dynamic user model information.
+     * 
+     * @param \RH\Model\User $mUser User model to complete.
+     * @return \RH\Model\User User model embued with additional information.
+     */
+    private function completeUserModel(\RH\Model\User $mUser)
+    {
+        $mUser->deadline = $this->getDeadline($mUser);
+        $mUser->wordCount = $this->getWordCount($mUser);
+        $mUser->fundingStatement = $this->getFunding($mUser);
+        if (!isset($mUser->admin)) {
+            $mUser->admin = false;
+        }
+
+        $mUser->username = \strtolower($mUser->username);
+
+        return $mUser;
     }
 
     /**
@@ -337,6 +350,25 @@ class User implements \RH\Singleton
     }
 
     /**
+     * Retrieve the user's newest submission.
+     * 
+     * @param string $cohort Cohort of rhe user.
+     * @param string $username Username of the user
+     * @return mixed Latest version ID as a string or `false`.
+     */
+    private function getUsersLatestVersion($cohort, $username)
+    {
+        $dir = DIR_DAT . '/'. $cohort . '/' . $username;
+        $versions = \glob($dir . '/*', GLOB_ONLYDIR);
+
+        if (empty($versions)) {
+            return false;
+        } else {
+            return \str_replace($dir . '/', '', \end($versions));
+        }
+    }
+
+    /**
      * Retrieve a user's data from a file, or all users.
      *
      * @param string $file File to get the user's data from.
@@ -350,17 +382,11 @@ class User implements \RH\Singleton
             return \is_null($username) || $cols[2] === $username || $cols[5] === $username;
         };
         $calcValuesFn = function (&$data, $cols) {
-            // get the latest version
-            $dir = DIR_DAT . '/'. $cols[1] . '/' . $cols[2];
-            $data['dir'] = $dir;
-            $versions = \glob($dir . '/*', GLOB_ONLYDIR);
+            $version = $this->getUsersLatestVersion($cols[0], $cols[1]);
 
-            if (empty($versions)) {
-                $data['latestVersion'] = false;
-            } else {
-                $data['latestVersion'] = \str_replace($dir . '/', '', \end($versions));
-                $data['latestSubmission'] = $dir . '/' . $data['latestVersion'];
-            }
+            $data['dir'] = DIR_DAT . '/'. $cols[0] . '/' . $cols[1];
+            $data['latestVersion'] = $version;
+            $data['latestSubmission'] =  $data['dir'] . '/' . $version;
         };
 
         $oFileReader = \I::RH_File_Reader();
@@ -382,7 +408,33 @@ class User implements \RH\Singleton
      *  for, if `null`, gets the currently logged in user
      * @return string Word count of the user
      */
-    private function getWordCount(\RH\Model\User $mUser = null)
+    public function getWordCount(\RH\Model\User $mUser = null)
+    {
+        $cohort = \is_null($mUser)
+            ? $this->user->cohort
+            : $mUser->cohort;
+
+        return $this->getWordCountByCohort($cohort);
+    }
+
+    /**
+     * Retrieve the word count for a particular user.
+     *
+     * @param stirng Cohort identifer.
+     * @return string Word count of the cohort.
+     */
+    public function getWordCountByCohort($cohort)
+    {
+        $elem = $this->getAllWordCounts()->$cohort;
+        return \is_null($elem) ? null : $elem->wordCount;
+    }
+
+    /**
+     * Retrieve the word count for all cohorts.
+     *
+     * @return \RH\Model\WordCounts Word counts of the user, by cohort
+     */
+    public function getAllWordCounts()
     {
         if (\is_null($this->mWordCounts)) {
             $mWordCounts = new \RH\Model\WordCounts();
@@ -399,11 +451,32 @@ class User implements \RH\Singleton
             $this->mWordCounts = $mWordCounts;
         }
 
-        $cohort = \is_null($mUser)
-            ? $this->user->cohort
-            : $mUser->cohort;
+        return $this->mWordCounts;
+    }
 
-        return $this->mWordCounts->$cohort->wordCount;
+    /**
+     * Update the underlying model with the new word counts and update cache.
+     *
+     * @param \RH\Model\WordCounts Updated word counts model, if null uses 
+     * internal store of word counts.
+     * @throws \RH\Error\Configuration if the table could not be saved.
+     * @return boolean `true` if saved successfully.
+     */
+    public function updateWordCounts(\RH\Model\WordCounts $wordCounts = null)
+    {
+        if (\is_null($wordCounts)) {
+            $wordCounts = $this->getAllWordCounts();
+        }
+
+        $oFileWriter = \I::RH_File_Writer();
+        if (!$oFileWriter->write(DIR_USR . self::WORD_COUNT_FILE, 'cohort', $wordCounts)) {
+            throw new \RH\Error\Configuration('Could not save deadlines table');
+        }
+
+        $mWordCounts->setCache(CACHE_USER, self::WORD_COUNT_CACHE);
+        $wordCounts->saveCache();
+        $this->mWordCounts = $wordCounts;
+        return true;
     }
 
     /**
@@ -413,7 +486,33 @@ class User implements \RH\Singleton
      *  `null`, gets the currently logged in user
      * @return string Funding statement of the user
      */
-    private function getFunding(\RH\Model\User $mUser = null)
+    public function getFunding(\RH\Model\User $mUser = null)
+    {
+        $id = \is_null($mUser)
+            ? $this->user->fundingStatementId
+            : $mUser->fundingStatementId;
+
+        return $this->getFundingById($id);
+    }
+
+    /**
+     * Retrieve the funding statement, by its unique ID..
+     *
+     * @param string $id Unique funding statment ID.
+     * @return string Funding statement of the user
+     */
+    public function getFundingById($id)
+    {
+        $elem = $this->getAllFunding()->$id;
+        return \is_null($elem) ? null : $elem->fundingStatement;
+    }
+
+    /**
+     * Retrieve all funding statements, indexed by id.
+     *
+     * @return \RH\Model\FundingStatements Funding statements by id
+     */
+    public function getAllFunding()
     {
         if (\is_null($this->mFundingStatements)) {
             $mFundingStatements = new \RH\Model\FundingStatements();
@@ -430,11 +529,32 @@ class User implements \RH\Singleton
             $this->mFundingStatements = $mFundingStatements;
         }
 
-        $id = \is_null($mUser)
-            ? $this->user->fundingStatementId
-            : $mUser->fundingStatementId;
+        return $this->mFundingStatements;
+    }
 
-        return $this->mFundingStatements->$id->fundingStatement;
+    /**
+     * Update the underlying model with the new funding statements and update cache.
+     *
+     * @param \RH\Model\FundingStatements Updated funding statements model, if 
+     *  null, uses internal store of deadlines.
+     * @throws \RH\Error\Configuration if the table could not be saved.
+     * @return boolean `true` if saved successfully.
+     */
+    public function updateFunding(\RH\Model\FundingStatements $fundingStatements = null)
+    {
+        if (\is_null($fundingStatements)) {
+            $fundingStatements = $this->getAllFunding();
+        }
+
+        $oFileWriter = \I::RH_File_Writer();
+        if (!$oFileWriter->write(DIR_USR . self::FUNDING_FILE, 'cohort', $fundingStatements)) {
+            throw new \RH\Error\Configuration('Could not save deadlines table');
+        }
+
+        $mFundingStatements->setCache(CACHE_USER, self::FUNDING_CACHE);
+        $fundingStatements->saveCache();
+        $this->mFundingStatements = $fundingStatements;
+        return true;
     }
 
     /**
@@ -444,7 +564,33 @@ class User implements \RH\Singleton
      *  gets the currently logged in user
      * @return string Deadline of the user
      */
-    private function getDeadline(\RH\Model\User $mUser = null)
+    public function getDeadline(\RH\Model\User $mUser = null)
+    {
+        $cohort = \is_null($mUser)
+            ? $this->user->cohort
+            : $mUser->cohort;
+
+        return $this->getDeadlineByCohort($cohort);
+    }
+
+    /**
+     * Retrieve the deadline for a cohort.
+     *
+     * @param stirng Cohort identifer.
+     * @return string Deadline of the cohort.
+     */
+    public function getDeadlineByCohort($cohort)
+    {
+        $elem = $this->getAllDeadlines()->$cohort;
+        return \is_null($elem) ? null : $elem->deadline;
+    }
+
+    /**
+     * Retrieve tall deadlines, indexed by cohbort.
+     *
+     * @return \RH\Model\Deadlines Deadlines of all cohorts.
+     */
+    public function getAllDeadlines()
     {
         if (\is_null($this->mDeadlines)) {
             $mDeadlines = new \RH\Model\Deadlines();
@@ -461,10 +607,92 @@ class User implements \RH\Singleton
             $this->mDeadlines = $mDeadlines;
         }
 
-        $cohort = \is_null($mUser)
-            ? $this->user->cohort
-            : $mUser->cohort;
-
-        return $this->mDeadlines->$cohort->deadline;
+        return $this->mDeadlines;
     }
+
+    /**
+     * Update the underlying model with the new deadlines and update cache.
+     *
+     * @param \RH\Model\Deadlines Updated deadlines model, if null uses 
+     * internal store of deadlines.
+     * @throws \RH\Error\Configuration if the table could not be saved.
+     * @return boolean `true` if saved successfully.
+     */
+    public function updateDeadlines(\RH\Model\Deadlines $deadlines = null)
+    {
+        if (\is_null($deadlines)) {
+            $deadlines = $this->getAllDeadlines();
+        }
+
+        $oFileWriter = \I::RH_File_Writer();
+        if (!$oFileWriter->write(DIR_USR . self::DEADLINES_FILE, 'cohort', $deadlines)) {
+            throw new \RH\Error\Configuration('Could not save deadlines table');
+        }
+
+        $mDeadlines->setCache(CACHE_USER, self::DEADLINE_CACHE);
+        $deadlines->saveCache();
+        $this->mDeadlines = $deadlines;
+
+        return true;
+    }
+
+    /**
+     * Update the underlying user/admin table. This goes through the model and 
+     * repopulates the dynamically calculated values.
+     * 
+     * @param \RH\Model\Users Updated user model, if null uses 
+     *  internal store of word counts.
+     * @param boolean $admin If `true`, will update administrators, if `false`, 
+     *  students.
+     * @throws \RH\Error\Configuration if the table could not be saved.
+     * @return boolean `true` if saved successfully.
+     */
+    public function updateUsers(\RH\Model\Users $mUsers = null, $admin = false)
+    {
+        if (\is_null($users)) {
+            $users = $this->getAll();
+        }
+
+        $file = self::USER_FILE;
+        if ($admin) {
+            $file = self::ADMIN_FILE;
+        }
+
+        $oFileWriter = \I::RH_File_Writer();
+        if (!$oFileWriter->write(DIR_USR . $file, 'username', $mUsers)) {
+            throw new \RH\Error\Configuration('Could not save users table');
+        }
+
+        $mUserEmails = new \RH\Model\UserEmails();
+
+        foreach ($mUsers as $mUser) {
+            if (!$mUser->cacheIsSet()) {
+                $file = \sprintf(self::USER_CACHE, $user);
+                $mUser->setCache(CACHE_USER, $file);
+            }
+
+            $this->completeUserModel($mUser);
+
+            $version = $this->getUsersLatestVersion($mUser->cohort, $mUser->username);
+
+            $mUser->dir = DIR_DAT . '/'. $mUser->cohort . '/' . $mUser->username;
+            $mUser->latestVersion = $version;
+            $mUser->latestSubmission = $mUser->dir . '/' . $version;
+
+            $email = \strtolower($mUser->email);
+            $mUserEmails[$email] = $mUser->username;
+        }
+
+        $mUsers->setCache(CACHE_USER, self::USERS_CACHE);
+        $mUserEmails->setCache(CACHE_USER, self::USER_EMAILS_CACHE);
+
+        $mUsers->saveCache();
+        $mUserEmails->saveCache();
+
+        // $this->mUsers = $mUsers;
+        // $this->mUserEmails = $mUserEmails;
+
+        return true;
+    }
+
 }

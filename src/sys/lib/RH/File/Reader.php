@@ -40,7 +40,7 @@ class Reader implements \RH\Singleton
 
         $handle = @\fopen($file, 'r');
         if ($handle === false) {
-            throw new \Exception('Could not open ' . $file);
+            throw new \RH\Error\Configuration('Could not open ' . $file);
         }
 
         $fileHeader = new \RH\File\Header(\fgets($handle));
@@ -68,14 +68,14 @@ class Reader implements \RH\Singleton
     * @param string $key The column name that should be used as an index in the
     *   returned data array, if `null`, a numerical array is returned
     * @param function|null $readRowFn A function that determines whether a row
-    *   should, or not; the function is provided an array of the columns in a
+    *   should be read, or not; the function is provided an array of the columns in a
     *   row as a parameter and should return a `bool` value.
     * @param function|null $calcValuesFn Function that generates additional
     *   columns to include, on a per row-basis. This function takes two
     *   parameters: an associate array of the row's data and all columns for
     *   the current row. The associate array should be passed-by-reference and
     *   modified.
-    * @throws CDT\Error\Data if the file does not exist
+    * @throws \RH\Error\Configuration if the file does not exist
     * @return string[] All data read in from the file.
     */
     public function read($file, $key = null, $readRowFn = null, $calcValuesFn = null)
@@ -84,7 +84,7 @@ class Reader implements \RH\Singleton
 
         $handle = @\fopen($file, 'r');
         if ($handle === false) {
-            throw new \Exception('Could not open ' . $file);
+            throw new \RH\Error\Configuration('Could not open ' . $file);
         }
 
         $fileHeader = new \RH\File\Header(self::readLine($handle));

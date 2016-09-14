@@ -410,7 +410,7 @@ Please note: **you must** own the copyright to the images, or have rights to red
 								<p>Images are given a caption in the order they appear in your submission.</p>
 
 								<div style="text-align: center">
-									<img src="http://cdt.horizon.ac.uk/kitten.jpg" alt="This is my image caption" style="max-width: 100%">
+									<img src="<?php print URI_WEB; ?>/img/kitten.jpg" alt="This is my image caption" style="max-width: 100%">
 									<p style="text-align: center"><strong>Figure 1: This is my image caption</strong></p>
 								</div>
 

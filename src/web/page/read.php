@@ -46,8 +46,8 @@ $cTemplate->startCapture();
 					<div class="panel panel-info">
 						<div class="panel-heading">About the Centre</div>
 						<div class="panel-body">
-							<p>The Horizon Centre for Doctoral Training is based at The University of Nottingham and is supported by a £6 million investment from...</p>
-							<p><a class="btn btn-default" href="http://www.horizon.ac.uk/About-the-CDT" role="button">Learn More &raquo;</a></p>
+							<p>The Horizon Centre for Doctoral Training is based at The University of Nottingham and is supported by a £9.3 million investment from...</p>
+							<p><a class="btn btn-default" href="http://cdt.horizon.ac.uk/" role="button">Learn More &raquo;</a></p>
 						</div>
 					</div>
 				</div>

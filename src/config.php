@@ -30,7 +30,7 @@
 
 \define('DIR_USR', DIR . '/usr');
 
-\define('EMAIL', 'map@cs.nott.ac.uk');
+\define('EMAIL', 'emma.juggins@nottingham.ac.uk');
 
 \define('DOMAIN', '@@@DOMAIN@@@');
 \define('PATH', '@@@PATH@@@');
