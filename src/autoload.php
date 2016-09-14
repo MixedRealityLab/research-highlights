@@ -48,3 +48,5 @@ $classPaths = array ();
         throw new \Exception('No file for '. $class .' exists');
     }
 });
+
+\header('X-Powered-By: '. VERSION);
