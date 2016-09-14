@@ -68,7 +68,6 @@ class Input extends AbstractModel implements \RH\Singleton
         $files = $this->files[$name];
 
         for ($i = 0; $i < $num; $i++) {
-
             if (!isset($files['error'][$i])  || \is_array($files['error'][$i])) {
                 throw new \RH\Error\InvalidInput('Invalid parameters.');
             }

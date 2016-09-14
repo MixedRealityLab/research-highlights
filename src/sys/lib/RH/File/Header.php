@@ -91,9 +91,9 @@ class Header
             }
             
             return count($this->columns) < $id ? null : $this->columns[$id];
-        } else if (isset($this->assocColumns[$id])) {
+        } elseif (isset($this->assocColumns[$id])) {
             return $this->assocColumns[$id];
-        }  else {
+        } else {
             return null;
         }
     }

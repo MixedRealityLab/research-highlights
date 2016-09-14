@@ -21,7 +21,6 @@ try {
     if ($names = I::RH_Model_Input()->upload('files', DIR_IMG)) {
         \array_walk($names, function (&$value, $key) {
             $value = URI_IMG .'/'. $value;
-
         });
         print \json_encode($names);
     }

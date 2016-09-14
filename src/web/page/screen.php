@@ -20,7 +20,6 @@ $filePath = DIR_CAC . '/' . $file;
 
 \clearstatcache(true, $filePath);
 if (!\is_file($filePath) || (\is_file($filePath) && \filemtime($filePath) + CACHE_SCREEN > \date('U'))) {
-
     $cSubmission = I::RH_Submission();
     $mInput = I::RH_Model_Input();
     $cUser = I::RH_User();

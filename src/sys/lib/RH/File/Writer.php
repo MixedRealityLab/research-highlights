@@ -32,7 +32,7 @@ class Writer implements \RH\Singleton
     public function write($file, $key = null, \RH\Model\AbstractModel $model)
     {
         $contents = @file_get_contents($file);
-        if($contents === false) {
+        if ($contents === false) {
             throw new \RH\Error\Configuration('Could not read ' . $file);
         }
 
@@ -52,7 +52,7 @@ class Writer implements \RH\Singleton
         @\fclose($handle);
 
         $write = $headerLine ."\n";
-        foreach($model->toArray() as $data) {
+        foreach ($model->toArray() as $data) {
             $addCommma = false;
             
             foreach ($fileHeader->getAssocArray() as $colName => $colData) {
@@ -81,14 +81,14 @@ class Writer implements \RH\Singleton
 
     /**
      * Convert the internal type to the CSV-expected format.
-     * 
+     *
      * @param int $colType Column type to convert to
      * @param mixed $value Value to convert
      * @return string Converted value
      */
     private static function valToStr($colType, $value)
     {
-        if($colType === \RH\File\ColumnType::BOOL) {
+        if ($colType === \RH\File\ColumnType::BOOL) {
             return $value === true ? '1' : '0';
         } else {
             return $value;
@@ -109,5 +109,4 @@ class Writer implements \RH\Singleton
         }
         return false;
     }
-
 }

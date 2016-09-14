@@ -22,13 +22,11 @@ try {
         if (!$mUsers[0]->countSubmission) {
             $mUsers = array ();
         }
-
     } elseif (isset($mInput->cohort)) {
         $cohort = $mInput->cohort;
         $mUsers = $cUser->getAll(null, function ($mUser) use ($cohort) {
             return $mUser->countSubmission && $mUser->cohort === $cohort;
         });
-
     } elseif (isset($mInput->keywords)) {
         $keywords = \preg_split('/,/', \trim($mInput->keywords), null, PREG_SPLIT_NO_EMPTY);
         $mKeywords = \RH\Keywords::get();
@@ -39,7 +37,6 @@ try {
                 $mUsers->merge($mKeywords->$keyword);
             }
         }
-
     } else {
         $mUsers = $cUser->getAll(null, function ($mUser) {
             return $mUser->countSubmission;

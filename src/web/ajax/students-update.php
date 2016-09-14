@@ -18,7 +18,7 @@ try {
 
     $mUser = $cUser->login($mInput->username, $mInput->password, true);
 
-    foreach($mInput->student[0] as $key => $cohort) {
+    foreach ($mInput->student[0] as $key => $cohort) {
         $mUser = new \RH\Model\User();
         $mUser->cohort = $cohort;
         $mUser->username = $mInput->student[1][$key];
@@ -38,21 +38,21 @@ try {
 
         if (empty($mUser->cohort) || !is_numeric($mUser->cohort)) {
             throw new \RH\Error\InvalidInput('Cohort value "'. $cohort .'" is not numeric');
-        } else if (empty($mUser->username)) {
+        } elseif (empty($mUser->username)) {
             throw new \RH\Error\InvalidInput('Cannot have a blank username');
-        } else if (empty($mUser->firstName)) {
+        } elseif (empty($mUser->firstName)) {
             throw new \RH\Error\InvalidInput('Cannot have a blank first name for "'. $mUser->username .'"');
-        } else if (empty($mUser->surname)) {
+        } elseif (empty($mUser->surname)) {
             throw new \RH\Error\InvalidInput('Cannot have a blank surname for "'. $mUser->username .'"');
-        } else if (empty($mUser->email)) {
+        } elseif (empty($mUser->email)) {
             throw new \RH\Error\InvalidInput('Cannot have a blank email address for "'. $mUser->username .'"');
-        } else if (empty($mUser->fundingStatementId) || \is_null($cUser->getFundingById($mUser->fundingStatementId))) {
+        } elseif (empty($mUser->fundingStatementId) || \is_null($cUser->getFundingById($mUser->fundingStatementId))) {
             throw new \RH\Error\InvalidInput('No funding statement "'. $fundingStatementId .'" - create this first.');
-        } else if ($mUser->enabled === -1) {
+        } elseif ($mUser->enabled === -1) {
             throw new \RH\Error\InvalidInput('Invalid value for Login Enabled for "'. $mUser->username .'" - must be true or false (value is "' . $emailOnChange . '")');
-        } else if ($mUser->countSubmission === -1) {
+        } elseif ($mUser->countSubmission === -1) {
             throw new \RH\Error\InvalidInput('Invalid value for Show Submission for "'. $mUser->username .'" - must be true  or false (value is "' . $countSubmission . '")');
-        } else if ($mUser->emailOnChange === -1) {
+        } elseif ($mUser->emailOnChange === -1) {
             throw new \RH\Error\InvalidInput('Invalid value for Notify for "'. $mUser->username .'" - must be true or false (value is "' . $emailOnChange . '")');
         } else {
             $mUsers->__set($mUser->username, $mUser);
