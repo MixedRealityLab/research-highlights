@@ -28,6 +28,6 @@ class SystemError extends \RH\Error
      */
     public function __construct($message)
     {
-        parent::__construct('A system error occurred: ' . $message);
+        parent::__construct('[System Error] ' . $message);
     }
 }
