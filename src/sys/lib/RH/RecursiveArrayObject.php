@@ -57,14 +57,58 @@ class RecursiveArrayObject extends \ArrayObject
      * Retrieve the value of a property.
      *
      * @param string $key Name of the property to retrieve
+     * @return mixed Value of the property
      * @throws \InvalidArgumentException if the property not found
      */
     public function __get($key)
     {
-        if ($this->offsetExists($key)) {
-            return $this->offsetGet($key);
-        } elseif (\array_key_exists($key, $this)) {
-            return $this[$key];
+        if ($recurse) {
+            if ($this->offsetExists($key)) {
+                return $this->offsetGet($key);
+            } elseif (\array_key_exists($key, $this)) {
+                return $this[$key];
+            }
+        } else {
+            $pos = \strpos($key, '[');
+
+            if($pos !== false) {
+                $newkey = \substr($key, 0, $pos);
+                $temp = \substr($key, $pos + 1);
+                $posclose = \strpos($temp, ']');
+
+                $elem = null;
+                if ($this->offsetExists($newkey)) {
+                    $elem = $this->offsetGet($newkey);
+                } elseif (\array_key_exists($newkey, $this)) {
+                    $elem = $this[$newkey];
+                }
+
+                $key = \substr($temp, 0, $posclose) . \substr($temp, $posclose + 1);
+
+                if (!\is_null($elem)) {
+                    $parent = $elem;
+                    $pos = \strpos($key, '[');
+
+                    while ($pos !== false) {
+                        $newparent = \substr($key, 0, $pos);
+                        $temp = \substr($key, $pos + 1);
+                        $posclose = \strpos($temp, ']');
+                        $newkey = \substr($temp, 0, $posclose) . \substr($temp, $posclose + 1);
+
+                        if (\array_key_exists($newparent, $parent)) {
+                            $parent = $parent[$newparent];
+                            $key = $newkey;
+                            $pos = \strpos($subkey, '[');
+                        } else {
+                            break;
+                        }
+                    }
+                }
+
+                return $parent[$key];
+            } elseif (\array_key_exists($key, $this)) {
+                return $this[$key];
+            }
         }
 
         throw new \InvalidArgumentException(\sprintf('No property `%s` in `%s`', $key, static::className()));
@@ -76,7 +120,28 @@ class RecursiveArrayObject extends \ArrayObject
      */
     public function __isset($key)
     {
-        return \array_key_exists($key, $this);
+        $parent = $this;
+        $pos = \strpos($key, '[');
+
+        while ($pos !== false) {
+            $newkey = \substr($key, 0, $pos);
+            $temp = \substr($key, $pos + 1);
+            $posclose = \strpos($temp, ']');
+            $subkey = \substr($temp, 0, $posclose) . \substr($temp, $posclose + 1);
+
+            if (\array_key_exists($newkey, $parent)) {
+                if($recurse) {
+                    $parent = $parent->__get($newkey);
+                } else {
+                    $parent = $parent[$newkey];
+                }
+                $key = $subkey;
+            }
+
+            $pos = \strpos($key, '[');
+        }
+        
+        return \array_key_exists($key, $parent);
     }
 
     /**
