@@ -23,13 +23,11 @@ class Writer implements \RH\Singleton
     * See {@see #RH\File\Writer::read()} for information on header structure.
     *
     * @param string $file Path to file to open
-    * @param string $key The column name that should be used as an index in the
-    *   returned data array, if `null`, a numerical array is returned
     * @param \RH\AbstractModel $model Data to write back to the permanent model.
     * @throws \RH\Error\Configuration if the file does not exist
     * @return boolean `true` if all data written in from the file.
     */
-    public function write($file, $key = null, \RH\Model\AbstractModel $model)
+    public function write($file, \RH\Model\AbstractModel $model)
     {
         $contents = @file_get_contents($file);
         if ($contents === false) {

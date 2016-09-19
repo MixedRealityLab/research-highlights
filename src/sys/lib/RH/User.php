@@ -469,7 +469,7 @@ class User implements \RH\Singleton
         }
 
         $oFileWriter = \I::RH_File_Writer();
-        if (!$oFileWriter->write(DIR_USR . self::WORD_COUNT_FILE, 'cohort', $wordCounts)) {
+        if (!$oFileWriter->write(DIR_USR . self::WORD_COUNT_FILE, $wordCounts)) {
             throw new \RH\Error\Configuration('Could not save deadlines table');
         }
 
@@ -547,7 +547,7 @@ class User implements \RH\Singleton
         }
 
         $oFileWriter = \I::RH_File_Writer();
-        if (!$oFileWriter->write(DIR_USR . self::FUNDING_FILE, 'cohort', $fundingStatements)) {
+        if (!$oFileWriter->write(DIR_USR . self::FUNDING_FILE, $fundingStatements)) {
             throw new \RH\Error\Configuration('Could not save deadlines table');
         }
 
@@ -625,7 +625,7 @@ class User implements \RH\Singleton
         }
 
         $oFileWriter = \I::RH_File_Writer();
-        if (!$oFileWriter->write(DIR_USR . self::DEADLINES_FILE, 'cohort', $deadlines)) {
+        if (!$oFileWriter->write(DIR_USR . self::DEADLINES_FILE, $deadlines)) {
             throw new \RH\Error\Configuration('Could not save deadlines table');
         }
 
@@ -659,7 +659,7 @@ class User implements \RH\Singleton
         }
 
         $oFileWriter = \I::RH_File_Writer();
-        if (!$oFileWriter->write(DIR_USR . $file, 'username', $mUsers)) {
+        if (!$oFileWriter->write(DIR_USR . $file, $mUsers)) {
             throw new \RH\Error\Configuration('Could not save users table');
         }
 
