@@ -9,6 +9,8 @@
 
 // Update the wordcounts for each cohort.
 
+use \RH\Validator as V;
+
 \header('Content-type: application/json');
 
 try {
@@ -20,42 +22,24 @@ try {
 
     foreach ($mInput->admin[0] as $key => $cohort) {
         $mUser = new \RH\Model\User();
-        $mUser->cohort = $cohort;
-        $mUser->username = $mInput->admin[1][$key];
-        $mUser->firstName = $mInput->admin[2][$key];
-        $mUser->surname = $mInput->admin[3][$key];
-        $mUser->email = $mInput->admin[4][$key];
-        $mUser->fundingStatementId = $mInput->admin[5][$key];
-        $mUser->admin = true;
+        $cValidator = new \RH\Validator($mInput, $mUser);
 
-        $enabled = \trim($mInput->admin[6][$key]);
-        $mUser->enabled = $enabled == 'true' ? true : ($enabled == 'false' ? false : -1);
+        $identKey = 'admin[1]['. $key .']';
 
-        $countSubmission = \trim($mInput->admin[7][$key]);
-        $mUser->countSubmission = $countSubmission == 'true' ? true : ($countSubmission == 'false' ? false : -1);
-
-        $emailOnChange = \trim($mInput->admin[8][$key]);
-        $mUser->emailOnChange = $emailOnChange == 'true' ? true : ($emailOnChange == 'false' ? false : -1);
-
-        if (empty($mUser->cohort) || !is_numeric($mUser->cohort)) {
-            throw new \RH\Error\InvalidInput('Cohort value "'. $cohort .'" is not numeric');
-        } elseif (empty($mUser->username)) {
-            throw new \RH\Error\InvalidInput('Cannot have a blank username');
-        } elseif (empty($mUser->firstName)) {
-            throw new \RH\Error\InvalidInput('Cannot have a blank first name for "'. $mUser->username .'"');
-        } elseif (empty($mUser->surname)) {
-            throw new \RH\Error\InvalidInput('Cannot have a blank surname for "'. $mUser->username .'"');
-        } elseif (empty($mUser->email)) {
-            throw new \RH\Error\InvalidInput('Cannot have a blank email address for "'. $mUser->username .'"');
-        } elseif (empty($mUser->fundingStatementId) || \is_null($cUser->getFundingById($mUser->fundingStatementId))) {
-            throw new \RH\Error\InvalidInput('No funding statement "'. $fundingStatementId .'" - create this first.');
-        } elseif ($mUser->enabled === -1) {
-            throw new \RH\Error\InvalidInput('Invalid value for Login Enabled for "'. $mUser->username .'" - must be true or false (value is "' . $emailOnChange . '")');
-        } elseif ($mUser->countSubmission === -1) {
-            throw new \RH\Error\InvalidInput('Invalid value for Show Submission for "'. $mUser->username .'" - must be true  or false (value is "' . $countSubmission . '")');
-        } elseif ($mUser->emailOnChange === -1) {
-            throw new \RH\Error\InvalidInput('Invalid value for Notify for "'. $mUser->username .'" - must be true or false (value is "' . $emailOnChange . '")');
-        } else {
+        $data = [
+            ['Cohort', 'admin[0]['. $key .']', 'cohort', true, V::NON_EMPTY|V::T_INT, null],
+            ['Username', 'admin[1]['. $key .']', 'username', true, V::NON_EMPTY, null],
+            ['First Name', 'admin[2]['. $key .']', 'firstName', true, V::NON_EMPTY, null],
+            ['Surname', 'admin[3]['. $key .']', 'surname', true, V::NON_EMPTY, null],
+            ['Email address', 'admin[4]['. $key .']', 'email', true, V::NON_EMPTY|V::T_STR_EMAIL, null],
+            ['Funding Statement ID', 'admin[5]['. $key .']', 'fundingStatementId', true, V::NON_EMPTY, null],
+            ['Login Enabled', 'admin[6]['. $key .']', 'enabled', true, V::NON_EMPTY|V::T_BOOL_STR, null],
+            ['Show Submission', 'admin[7]['. $key .']', 'countSubmission', true, V::NON_EMPTY|V::T_BOOL_STR, null],
+            ['Notify', 'admin[8]['. $key .']', 'emailOnChange', true, V::NON_EMPTY|V::T_BOOL_STR, null]
+        ];
+        
+        if ($cValidator->testAndSetAll($data, true, $identKey)) {
+            $mUser->admin = true;
             $mUsers->__set($mUser->username, $mUser);
         }
     }
