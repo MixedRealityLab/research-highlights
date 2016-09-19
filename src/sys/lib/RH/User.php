@@ -281,7 +281,7 @@ class User implements \RH\Singleton
 
     /**
      * Retrieve additional dynamic user model information.
-     * 
+     *
      * @param \RH\Model\User $mUser User model to complete.
      * @return \RH\Model\User User model embued with additional information.
      */
@@ -351,7 +351,7 @@ class User implements \RH\Singleton
 
     /**
      * Retrieve the user's newest submission.
-     * 
+     *
      * @param string $cohort Cohort of rhe user.
      * @param string $username Username of the user
      * @return mixed Latest version ID as a string or `false`.
@@ -457,7 +457,7 @@ class User implements \RH\Singleton
     /**
      * Update the underlying model with the new word counts and update cache.
      *
-     * @param \RH\Model\WordCounts Updated word counts model, if null uses 
+     * @param \RH\Model\WordCounts Updated word counts model, if null uses
      * internal store of word counts.
      * @throws \RH\Error\Configuration if the table could not be saved.
      * @return boolean `true` if saved successfully.
@@ -535,7 +535,7 @@ class User implements \RH\Singleton
     /**
      * Update the underlying model with the new funding statements and update cache.
      *
-     * @param \RH\Model\FundingStatements Updated funding statements model, if 
+     * @param \RH\Model\FundingStatements Updated funding statements model, if
      *  null, uses internal store of deadlines.
      * @throws \RH\Error\Configuration if the table could not be saved.
      * @return boolean `true` if saved successfully.
@@ -613,7 +613,7 @@ class User implements \RH\Singleton
     /**
      * Update the underlying model with the new deadlines and update cache.
      *
-     * @param \RH\Model\Deadlines Updated deadlines model, if null uses 
+     * @param \RH\Model\Deadlines Updated deadlines model, if null uses
      * internal store of deadlines.
      * @throws \RH\Error\Configuration if the table could not be saved.
      * @return boolean `true` if saved successfully.
@@ -637,12 +637,12 @@ class User implements \RH\Singleton
     }
 
     /**
-     * Update the underlying user/admin table. This goes through the model and 
+     * Update the underlying user/admin table. This goes through the model and
      * repopulates the dynamically calculated values.
-     * 
-     * @param \RH\Model\Users Updated user model, if null uses 
+     *
+     * @param \RH\Model\Users Updated user model, if null uses
      *  internal store of word counts.
-     * @param boolean $admin If `true`, will update administrators, if `false`, 
+     * @param boolean $admin If `true`, will update administrators, if `false`,
      *  students.
      * @throws \RH\Error\Configuration if the table could not be saved.
      * @return boolean `true` if saved successfully.
@@ -694,5 +694,4 @@ class User implements \RH\Singleton
 
         return true;
     }
-
 }

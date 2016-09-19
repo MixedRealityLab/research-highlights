@@ -87,7 +87,8 @@ class SearchKeywords extends AbstractModel
             }
 
             $this->offsetGet($keyword)->addUser($mUser->username);
-            $this->offsetGet($keyword)->importance += $importance * \pow($use, $this->offsetGet($keyword)->countUsers());
+            $this->offsetGet($keyword)->importance +=
+                $importance * \pow($use, $this->offsetGet($keyword)->countUsers());
         }
     }
 
