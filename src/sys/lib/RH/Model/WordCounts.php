@@ -17,4 +17,15 @@ namespace RH\Model;
 class WordCounts extends AbstractModel
 {
 
+    /**
+     * Create a new word count within this list.
+     *
+     * @param mixed $value Value of the word count data.
+     * @return \RH\Model\WordCount New WordCount object.
+     */
+    protected function newChild($value)
+    {
+        return new WordCount($value);
+    }
+
 }

@@ -17,4 +17,15 @@ namespace RH\Model;
 class Deadlines extends AbstractModel
 {
 
+    /**
+     * Create a new deadline within this list.
+     *
+     * @param mixed $value Value of the data data
+     * @return \RH\Model\Deadline New Deadline object.
+     */
+    protected function newChild($value)
+    {
+        return new Deadline($value);
+    }
+
 }

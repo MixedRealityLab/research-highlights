@@ -17,4 +17,15 @@ namespace RH\Model;
 class FundingStatements extends AbstractModel
 {
 
+    /**
+     * Create a funding statement.
+     *
+     * @param mixed $value Value of the funding statement.
+     * @return \RH\Model\FundingStatement New funding statement object.
+     */
+    protected function newChild($value)
+    {
+        return new FundingStatement($value);
+    }
+
 }

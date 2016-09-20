@@ -9,6 +9,8 @@
 
 // Update the funding statements
 
+use \RH\Validator as V;
+
 \header('Content-type: application/json');
 
 try {
@@ -19,9 +21,18 @@ try {
     $mUser = $cUser->login($mInput->username, $mInput->password, true);
 
     foreach ($mInput->funding[0] as $key => $id) {
-        $fundingStatement = $mInput->funding[1][$key];
-        if (!empty($id) && !empty($fundingStatement)) {
-            $mFundingStatements->__set($id, array ('fundingStatementId' => $id, 'fundingStatement' => $fundingStatement));
+        $mFundingStatement = new \RH\Model\FundingStatement();
+        $cValidator = new \RH\Validator($mInput, $mFundingStatement);
+
+        $identKey = 'funding[0]['. $key .']';
+
+        $data = [
+            ['Funding Statement ID', 'funding[0]['. $key .']', 'fundingStatementId', true, V::NON_EMPTY, null],
+            ['Funding Statement', 'funding[1]['. $key .']', 'fundingStatement', true, V::NON_EMPTY, null]
+        ];
+        
+        if ($cValidator->testAndSetAll($data, true, $identKey)) {
+            $mFundingStatements->__set($mFundingStatement->fundingStatementId, $mFundingStatement);
         }
     }
 

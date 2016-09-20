@@ -9,6 +9,8 @@
 
 // Update the wordcounts for each cohort.
 
+use \RH\Validator as V;
+
 \header('Content-type: application/json');
 
 try {
@@ -19,15 +21,18 @@ try {
     $mUser = $cUser->login($mInput->username, $mInput->password, true);
 
     foreach ($mInput->wordcount[0] as $key => $cohort) {
-        $wordcount = $mInput->wordcount[1][$key];
-        if (!empty($cohort) && !empty($wordcount)) {
-            if (!is_numeric($cohort)) {
-                throw new \RH\Error\InvalidInput('Cohort value "'. $cohort .'" is not numeric');
-            } elseif (!is_numeric($wordcount)) {
-                throw new \RH\Error\InvalidInput('Word count value "'. $wordcount .'" is not numeric');
-            } else {
-                $mWordCounts->__set($id, array ('cohort' => $cohort, 'wordCount' => $wordcount));
-            }
+        $mWordCount = new \RH\Model\WordCount();
+        $cValidator = new \RH\Validator($mInput, $mWordCount);
+
+        $identKey = 'wordcount[0]['. $key .']';
+
+        $data = [
+            ['Cohort', 'wordcount[0]['. $key .']', 'cohort', true, V::NON_EMPTY|V::T_INT, null],
+            ['Word Count', 'wordcount[1]['. $key .']', 'wordCount', true, V::NON_EMPTY|V::T_INT, null]
+        ];
+        
+        if ($cValidator->testAndSetAll($data, true, $identKey)) {
+            $mWordCounts->__set($mWordCount->cohort, $mWordCount);
         }
     }
 
