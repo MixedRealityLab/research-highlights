@@ -6,7 +6,9 @@
  * See LICENCE for legal information.
  */
 
-
+function autoResize () {
+	$('.stage-admin textarea').each (function () {$(this).trigger ('autosize.resize'); });
+}
 
 var adminTabular = {
 	STATE_OK				: 0,
@@ -30,7 +32,6 @@ var adminTabular = {
 										} else {
 											$row.data('countErrors', $row.data('countErrors') - 1);
 										}
-										console.log('countErrors = '+ $row.data('countErrors'));
 									}
 
 									if ($cell.hasClass('disabledCell')) {
@@ -53,10 +54,19 @@ var adminTabular = {
 									}
 								} else {
 									$row.data('countErrors', $row.data('countErrors') + 1);
-									console.log('countErrors = '+ $row.data('countErrors'));
 									$cell.addClass('errorCell');
 									$row.addClass('errorRow');
 								}
+							},
+
+	enableRow				: function($row) {
+								if($row.data('countErrors') == undefined) {
+									$row.data('countErrors', 0);
+								}
+
+								$row.removeClass('errorRow');
+								$row.find('input').removeClass('errorCell');
+								$row.data('countErrors', 0);
 							},
 
 	validateCell			: function($cell, posValid, negValid) {
@@ -70,16 +80,41 @@ var adminTabular = {
 							},
 
 	validateCellFn			: function($cell, validateFn) {
-								if(validateFn($cell.val())) {
+								var result = validateFn($cell.val());
+								if(result == 0) { // set cell to positive
 									adminTabular.setCell($cell, adminTabular.STATE_OK);
-								} else {
+								} else if(result == 1) { // set row to positive
+									adminTabular.enableRow($cell.parent().parent());
+								} else { // fail on this crll
 									adminTabular.setCell($cell, adminTabular.STATE_ERROR);
 								}
 							},
 
-	regSubForm				: function(formClass, ajaxFile, label) {
+	rowIsEmpty				: function(input) {
+								var $siblings = $(input).parent().parent().find('input');
+								var $emptySiblings = $siblings.filter(function() {
+									return $.trim(this.value) === "";
+								});
+
+								return $emptySiblings.length > 0 && $siblings.length == $emptySiblings.length;
+							},
+
+	regSubForm				: function(formClass, ajaxFile, label, cellName, cellIndexCol) {
 								ReHi.regSubForm ($(formClass), $('html').data('uri_root') + '/' + ajaxFile + '.do', function (response, textStatus, jqXHR) {
 									if (response.success == 1) {
+										if(cellName != undefined && cellIndexCol != undefined) {
+											var i = 1;
+											while(i < 25) {
+												var $cell = $(formClass + ' input[name="' + cellName + '[' + cellIndexCol + '][' + i + ']"]');
+												if ($cell.length == 1) {
+													adminData.deadlines[i-1] = $cell.val();
+												} else {
+													break;
+												}
+												i++;
+											}
+										}
+										
 										ReHi.showSuccess ('Configuration Saved', 'The ' + label + ' were updated.');
 									} else if (response.error != undefined) {
 										ReHi.showError ('Oh, snap!', response.error + ' <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
@@ -109,13 +144,13 @@ var adminValidate = {
 	users 						: function(rowSelector) {
 									$(rowSelector + ':nth-child(1) input').change(function() {
 										adminTabular.validateCellFn($(this), function(val) {
-											return Math.floor(val) == val && $.isNumeric(val);
+											return (Math.floor(val) == val && $.isNumeric(val) ? 0 : -1);
 										});
 									});
 
 									$(rowSelector + ':nth-child(n+2):nth-child(-n+6) input').change(function() {
 										adminTabular.validateCellFn($(this), function(val) {
-											return val.length > 0;
+											return (val.length > 0 ? 0 : -1);
 										});
 									});
 
@@ -136,14 +171,19 @@ var adminValidate = {
 
 	deadlines 					: function(rowSelector) {
 									$(rowSelector + ':nth-child(1) input').change(function() {
+										var input = this;
+
 										adminTabular.validateCellFn($(this), function(val) {
-											return val.length > 0 && Math.floor(val) == val && $.isNumeric(val);
+											return adminTabular.rowIsEmpty(input) ? 1 : ((val.length > 0 && Math.floor(val) == val && $.isNumeric(val)) ? 0 : -1);
 										});
 									});
 
 									$(rowSelector + ':nth-child(2) input').change(function() {
+										console.log('cell changed');
+										var input = this;
+
 										adminTabular.validateCellFn($(this), function(val) {
-											return val.length > 0;
+											return adminTabular.rowIsEmpty(input) ? 1 : (val.length > 0 ? 0 : -1);
 										});
 									});
 
@@ -152,14 +192,18 @@ var adminValidate = {
 
 	wordcounts 					: function(rowSelector) {
 									$('#wordcounts tbody tr td:nth-child(1) input').change(function() {
+										var input = this;
+
 										adminTabular.validateCellFn($(this), function(val) {
-											return val.length > 0 && Math.floor(val) == val && $.isNumeric(val);
+											return adminTabular.rowIsEmpty(input) ? 1 : ((val.length > 0 && Math.floor(val) == val && $.isNumeric(val)) ? 0 : -1);
 										});
 									});
 
 									$('#wordcounts tbody tr td:nth-child(2) input').change(function() {
+										var input = this;
+
 										adminTabular.validateCellFn($(this), function(val) {
-											return val.length > 0 && Math.floor(val) == val && $.isNumeric(val);
+											return adminTabular.rowIsEmpty(input) ? 1 : ((val.length > 0 && Math.floor(val) == val && $.isNumeric(val)) ? 0 : -1);
 										});
 									});
 
@@ -168,13 +212,23 @@ var adminValidate = {
 
 	fundingStatements 			: function(rowSelector) {
 									$(rowSelector + ' input').change(function() {
+										var input = this;
+
 										adminTabular.validateCellFn($(this), function(val) {
-											return val.length > 0;
+											return adminTabular.rowIsEmpty(input) ? 1 : (val.length > 0 ? 0 : -1);
 										});
 									});
 
 									adminValidate.revalidate(rowSelector, 2, adminValidate.fundingStatements);
 								},
+};
+
+var adminData = {
+
+	fundingStatements 			: [],
+	deadlines 					: [],
+	wordCounts 					: [] 
+
 };
 
 var loadUserTable = function(ajaxFile, fieldId, inputName) {
@@ -265,6 +319,7 @@ $(function () {
 					var row = data[i-1];
 					$('[name="deadline[0][' + i + ']"]').val(row.cohort);
 					$('[name="deadline[1][' + i + ']"]').val(row.deadline);
+					adminData.deadlines[i-1] = row.cohort;
 				};
 			}, 'json');
 
@@ -293,6 +348,7 @@ $(function () {
 					var row = data[i-1];
 					$('[name="wordcount[0][' + i + ']"]').val(row.cohort);
 					$('[name="wordcount[1][' + i + ']"]').val(row.wordCount);
+					adminData.wordCounts[i-1] = row.cohort;
 				};
 			}, 'json');
 
@@ -321,6 +377,7 @@ $(function () {
 					var row = data[i-1];
 					$('[name="funding[0][' + i + ']"]').val(row.fundingStatementId);
 					$('[name="funding[1][' + i + ']"]').val(row.fundingStatement);
+					adminData.fundingStatements[i-1] = row.fundingStatementId;
 				};
 			}, 'json');
 
@@ -338,7 +395,7 @@ $(function () {
 			});
 
 			// Load Cohorts
-			$('.form-email textarea').trigger ('autosize.resize');
+			autoResize();
 			ReHi.getData($('html').data('uri_root') + '/cohorts.do', function(response) {
 				var html = '';
 				for (var i = 0; i < response.length; i++) {
@@ -376,6 +433,13 @@ $(function () {
 					});
 				});
 			}, 'json');
+
+			$('.btn-deleteRow').click(function() {
+				var id = $(this).data('deletetabularrow');
+				if(id != undefined) {
+					$('#' + id).tabularInput("deleteRow");
+				}
+			});
 		} else if (response.error != undefined) {
 			ReHi.showError ('Oh, snap!', response.error + ' <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
 		} else {
@@ -384,9 +448,9 @@ $(function () {
 	}, 'json');
 
 	adminTabular.regSubForm('form.form-students', 'students-update', 'students');
-	adminTabular.regSubForm('form.form-deadlines', 'deadlines-update', 'deadlines');
-	adminTabular.regSubForm('form.form-wordcounts', 'wordcounts-update', 'word count limits');
-	adminTabular.regSubForm('form.form-funding', 'fundingstatements-update', 'funding statements');
+	adminTabular.regSubForm('form.form-deadlines', 'deadlines-update', 'deadlines', 'deadline', 0);
+	adminTabular.regSubForm('form.form-wordcounts', 'wordcounts-update', 'word count limits', 'wordcount', 0);
+	adminTabular.regSubForm('form.form-funding', 'fundingstatements-update', 'funding statements', 'funding', 0);
 	adminTabular.regSubForm('form.form-admins', 'admins-update', 'list of administrators');
 
 	ReHi.regSubForm ($('form.form-email'), $('html').data('uri_root') + '/email.do', function (response, textStatus, jqXHR) {
@@ -397,6 +461,9 @@ $(function () {
 		}
 	});
 
+	$('a[href="#tab-email"]').on ('shown.bs.tab', function (e) {
+		autoResize ();
+	});
 
 	$('#logout').click (function (e) {
 		if (confirm ('If you logout, any unsubmitted changes will be lost!')) {

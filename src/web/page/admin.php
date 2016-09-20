@@ -79,6 +79,9 @@ $cTemplate->startCapture();
                                         <div class="panel-body">
                                             <div id="students"></div>
                                             <br>
+                                            <div class="btn-group">
+                                                <button class="btn navbar-btn btn-warning btn-deleteRow" type="button" data-deleteTabularRow="deadlines">Delete Last Row</button>
+                                            </div>
                                             <div class="pull-right">
                                                 <div class="btn-group">
                                                     <button class="btn navbar-btn btn-success" type="submit" class="submit">Save Students &raquo;</button>
@@ -108,6 +111,9 @@ $cTemplate->startCapture();
                                         <div class="panel-body">
                                             <div id="deadlines"></div>
                                             <br>
+                                            <div class="btn-group">
+                                                <button class="btn navbar-btn btn-warning btn-deleteRow" type="button" data-deleteTabularRow="deadlines">Delete Last Row</button>
+                                            </div>
                                             <div class="pull-right">
                                                 <div class="btn-group">
                                                     <button class="btn navbar-btn btn-success" type="submit" class="submit">Save Deadlines &raquo;</button>
@@ -137,6 +143,9 @@ $cTemplate->startCapture();
                                         <div class="panel-body">
                                             <div id="wordcounts"></div>
                                             <br>
+                                            <div class="btn-group">
+                                                <button class="btn navbar-btn btn-warning btn-deleteRow" type="button" data-deleteTabularRow="deadlines">Delete Last Row</button>
+                                            </div>
                                             <div class="pull-right">
                                                 <div class="btn-group">
                                                     <button class="btn navbar-btn btn-success" type="submit" class="submit">Save Word Counts &raquo;</button>
@@ -166,6 +175,9 @@ $cTemplate->startCapture();
                                         <div class="panel-body">
                                             <div id="funding"></div>
                                             <br>
+                                            <div class="btn-group">
+                                                <button class="btn navbar-btn btn-warning btn-deleteRow" type="button" data-deleteTabularRow="deadlines">Delete Last Row</button>
+                                            </div>
                                             <div class="pull-right">
                                                 <div class="btn-group">
                                                     <button class="btn navbar-btn btn-success" type="submit" class="submit">Save Funding Statements &raquo;</button>
@@ -197,6 +209,9 @@ $cTemplate->startCapture();
                                         <div class="panel-body">
                                             <div id="admins"></div>
                                             <br>
+                                            <div class="btn-group">
+                                                <button class="btn navbar-btn btn-warning btn-deleteRow" type="button" data-deleteTabularRow="deadlines">Delete Last Row</button>
+                                            </div>
                                             <div class="pull-right">
                                                 <div class="btn-group">
                                                     <button class="btn navbar-btn btn-success" type="submit" class="submit">Save Administrators &raquo;</button>
