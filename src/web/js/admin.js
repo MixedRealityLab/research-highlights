@@ -70,6 +70,11 @@ var adminTabular = {
 							},
 
 	validateCell			: function($cell, posValid, negValid) {
+								if(adminTabular.rowIsEmpty($cell.parent().parent())) {
+									adminTabular.enableRow($cell);
+									return;
+								}
+
 								if($.inArray($cell.val(), posValid) >= 0) {
 									adminTabular.setCell($cell, adminTabular.STATE_OK);
 								} else if($.inArray($cell.val(), negValid) >= 0) {
@@ -143,14 +148,26 @@ var adminValidate = {
 
 	users 						: function(rowSelector) {
 									$(rowSelector + ':nth-child(1) input').change(function() {
+										var input = this;
+
 										adminTabular.validateCellFn($(this), function(val) {
-											return (Math.floor(val) == val && $.isNumeric(val) ? 0 : -1);
+											return adminTabular.rowIsEmpty(input) ? 1 : ((Math.floor(val) == val && $.isNumeric(val) && $.inArray(val, adminData.deadlines) > -1 && $.inArray(val, adminData.wordCounts) > -1) ? 0 : -1);
+										}); 
+									});
+
+									$(rowSelector + ':nth-child(n+2):nth-child(-n+5) input').change(function() {
+										var input = this;
+
+										adminTabular.validateCellFn($(this), function(val) {
+											return adminTabular.rowIsEmpty(input) ? 1 : (val.length > 0 ? 0 : -1);
 										});
 									});
 
-									$(rowSelector + ':nth-child(n+2):nth-child(-n+6) input').change(function() {
+									$(rowSelector + ':nth-child(6) input').change(function() {
+										var input = this;
+
 										adminTabular.validateCellFn($(this), function(val) {
-											return (val.length > 0 ? 0 : -1);
+											return adminTabular.rowIsEmpty(input) ? 1 : ((val.length > 0 && $.inArray(val, adminData.fundingStatements) > -1) ? 0 : -1);
 										});
 									});
 
