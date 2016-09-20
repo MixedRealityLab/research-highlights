@@ -27,5 +27,4 @@ class Deadlines extends AbstractModel
     {
         return new Deadline($value);
     }
-
 }

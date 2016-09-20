@@ -71,7 +71,7 @@ class RecursiveArrayObject extends \ArrayObject
         } else {
             $pos = \strpos($key, '[');
 
-            if($pos !== false) {
+            if ($pos !== false) {
                 $newkey = \substr($key, 0, $pos);
                 $temp = \substr($key, $pos + 1);
                 $posclose = \strpos($temp, ']');
@@ -130,7 +130,7 @@ class RecursiveArrayObject extends \ArrayObject
             $subkey = \substr($temp, 0, $posclose) . \substr($temp, $posclose + 1);
 
             if (\array_key_exists($newkey, $parent)) {
-                if($recurse) {
+                if ($recurse) {
                     $parent = $parent->__get($newkey);
                 } else {
                     $parent = $parent[$newkey];

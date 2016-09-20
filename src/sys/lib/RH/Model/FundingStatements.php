@@ -27,5 +27,4 @@ class FundingStatements extends AbstractModel
     {
         return new FundingStatement($value);
     }
-
 }

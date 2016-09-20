@@ -27,5 +27,4 @@ class WordCounts extends AbstractModel
     {
         return new WordCount($value);
     }
-
 }
