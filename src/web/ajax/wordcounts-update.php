@@ -35,7 +35,7 @@ try {
             $mWordCounts->__set($mWordCount->cohort, $mWordCount);
         }
     }
-
+    
     print \json_encode(array ('success' => $cUser->updateWordCounts($mWordCounts) ? 1 : 0));
 } catch (\RH\Error $e) {
     print $e->toJson();
