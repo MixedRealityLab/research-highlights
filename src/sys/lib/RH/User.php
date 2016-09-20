@@ -420,7 +420,7 @@ class User implements \RH\Singleton
     /**
      * Retrieve the word count for a particular user.
      *
-     * @param stirng Cohort identifer.
+     * @param stirng $cohort Cohort identifer.
      * @return string Word count of the cohort.
      */
     public function getWordCountByCohort($cohort)
@@ -457,24 +457,23 @@ class User implements \RH\Singleton
     /**
      * Update the underlying model with the new word counts and update cache.
      *
-     * @param \RH\Model\WordCounts Updated word counts model, if null uses
-     * internal store of word counts.
+     * @param \RH\Model\WordCounts $mWordCounts Updated word counts model, if `null` uses internal store of word counts.
      * @throws \RH\Error\Configuration if the table could not be saved.
      * @return boolean `true` if saved successfully.
      */
-    public function updateWordCounts(\RH\Model\WordCounts $wordCounts = null)
+    public function updateWordCounts(\RH\Model\WordCounts $mWordCounts = null)
     {
-        if (\is_null($wordCounts)) {
+        if (\is_null($mWordCounts)) {
             $wordCounts = $this->getAllWordCounts();
         }
 
         $oFileWriter = \I::RH_File_Writer();
-        if (!$oFileWriter->write(DIR_USR . self::WORD_COUNT_FILE, $wordCounts)) {
+        if (!$oFileWriter->write(DIR_USR . self::WORD_COUNT_FILE, $mWordCounts)) {
             throw new \RH\Error\Configuration('Could not save deadlines table');
         }
 
         $mWordCounts->setCache(CACHE_USER, self::WORD_COUNT_CACHE);
-        $wordCounts->saveCache();
+        $mWordCounts->saveCache();
         $this->mWordCounts = $wordCounts;
         return true;
     }
@@ -535,24 +534,24 @@ class User implements \RH\Singleton
     /**
      * Update the underlying model with the new funding statements and update cache.
      *
-     * @param \RH\Model\FundingStatements Updated funding statements model, if
-     *  null, uses internal store of deadlines.
+     * @param \RH\Model\FundingStatements $mDundingStatements
+     *  Updated funding statements model, if null, uses internal store of deadlines.
      * @throws \RH\Error\Configuration if the table could not be saved.
      * @return boolean `true` if saved successfully.
      */
-    public function updateFunding(\RH\Model\FundingStatements $fundingStatements = null)
+    public function updateFunding(\RH\Model\FundingStatements $mDundingStatements = null)
     {
-        if (\is_null($fundingStatements)) {
-            $fundingStatements = $this->getAllFunding();
+        if (\is_null($mDundingStatements)) {
+            $mDundingStatements = $this->getAllFunding();
         }
 
         $oFileWriter = \I::RH_File_Writer();
-        if (!$oFileWriter->write(DIR_USR . self::FUNDING_FILE, $fundingStatements)) {
+        if (!$oFileWriter->write(DIR_USR . self::FUNDING_FILE, $mDundingStatements)) {
             throw new \RH\Error\Configuration('Could not save deadlines table');
         }
 
-        $mFundingStatements->setCache(CACHE_USER, self::FUNDING_CACHE);
-        $fundingStatements->saveCache();
+        $mDundingStatements->setCache(CACHE_USER, self::FUNDING_CACHE);
+        $mDundingStatements->saveCache();
         $this->mFundingStatements = $fundingStatements;
         return true;
     }
@@ -576,7 +575,7 @@ class User implements \RH\Singleton
     /**
      * Retrieve the deadline for a cohort.
      *
-     * @param stirng Cohort identifer.
+     * @param stirng $cohort Cohort identifer.
      * @return string Deadline of the cohort.
      */
     public function getDeadlineByCohort($cohort)
@@ -613,24 +612,23 @@ class User implements \RH\Singleton
     /**
      * Update the underlying model with the new deadlines and update cache.
      *
-     * @param \RH\Model\Deadlines Updated deadlines model, if null uses
-     * internal store of deadlines.
+     * @param \RH\Model\Deadlines $mDeadlines Updated deadlines model, if `null` uses internal store of deadlines.
      * @throws \RH\Error\Configuration if the table could not be saved.
      * @return boolean `true` if saved successfully.
      */
-    public function updateDeadlines(\RH\Model\Deadlines $deadlines = null)
+    public function updateDeadlines(\RH\Model\Deadlines $mDeadlines = null)
     {
-        if (\is_null($deadlines)) {
-            $deadlines = $this->getAllDeadlines();
+        if (\is_null($mDeadlines)) {
+            $mDeadlines = $this->getAllDeadlines();
         }
 
         $oFileWriter = \I::RH_File_Writer();
-        if (!$oFileWriter->write(DIR_USR . self::DEADLINES_FILE, $deadlines)) {
+        if (!$oFileWriter->write(DIR_USR . self::DEADLINES_FILE, $mDeadlines)) {
             throw new \RH\Error\Configuration('Could not save deadlines table');
         }
 
         $mDeadlines->setCache(CACHE_USER, self::DEADLINE_CACHE);
-        $deadlines->saveCache();
+        $mDeadlines->saveCache();
         $this->mDeadlines = $deadlines;
 
         return true;
@@ -640,10 +638,8 @@ class User implements \RH\Singleton
      * Update the underlying user/admin table. This goes through the model and
      * repopulates the dynamically calculated values.
      *
-     * @param \RH\Model\Users Updated user model, if null uses
-     *  internal store of word counts.
-     * @param boolean $admin If `true`, will update administrators, if `false`,
-     *  students.
+     * @param \RH\Model\Users $mUsers Updated user model, if `null` uses internal store of word counts.
+     * @param boolean $admin If `true`, will update administrators, if `false`, students.
      * @throws \RH\Error\Configuration if the table could not be saved.
      * @return boolean `true` if saved successfully.
      */
