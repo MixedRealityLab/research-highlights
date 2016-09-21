@@ -66,7 +66,7 @@ $cTemplate->startCapture();
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <p>Most values are self-explanatory, but a few are more complex. The <strong>Funding Statement</strong> value relates to <em>ID</em> on the <em>Funding Statements</em> tab. <strong>Login Enabled</strong> can be <code>true</code> or <code>false</code> only. <strong>Show Submission</strong> decides whether a user's submission should be shown on the website, and can be <code>true</code> or <code>false</code> only. <strong>Notify</strong> emails administrators when a submission is altered, and can be <code>true</code> or <code>false</code> only. </p>
                                     <hr>
-                                    <p><strong>Always create deadlines and funding statements before referencing them in the user table.</strong></p>
+                                    <p><strong>Always create deadlines, word count limits, and funding statements before referencing them in the user table.</strong></p>
                                     <hr>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12">
@@ -196,7 +196,7 @@ $cTemplate->startCapture();
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <p>Most values are self-explanatory, but a few are more complex. The <strong>Funding Statement</strong> value relates to <em>ID</em> on the <em>Funding Statements</em> tab. <strong>Login Enabled</strong> can be <code>true</code> or <code>false</code> only. <strong>Show Submission</strong> decides whether a user's submission should be shown on the website, and can be <code>true</code> or <code>false</code> only. <strong>Notify</strong> emails administrators when a submission is altered, and can be <code>true</code> or <code>false</code> only. </p>
                                     <hr>
-                                    <p><strong>Always create deadlines and funding statements before referencing them in the user table.</strong></p>
+                                    <p><strong>Always create deadlines, word count limits, and funding statements before referencing them in the user table.</strong></p>
                                     <hr>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12">
