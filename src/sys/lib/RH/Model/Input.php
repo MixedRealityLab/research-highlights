@@ -118,4 +118,15 @@ class Input extends AbstractModel implements \RH\Singleton
 
         return $names;
     }
+
+    /**
+     * Retrieve a validator for a particular model.
+     *
+     * @param \RH\Model\AbstractModel $model Model to be populated.
+     * @return \RH\Model\InputValidator Validator for the input.
+     */
+    public function getValidator(\RH\Model\AbstractModel $model)
+    {
+        return new \RH\Model\InputValidator($this, $model);
+    }
 }

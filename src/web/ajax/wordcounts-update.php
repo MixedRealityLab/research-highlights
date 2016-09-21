@@ -22,7 +22,7 @@ try {
 
     foreach ($mInput->wordcount[0] as $key => $cohort) {
         $mWordCount = new \RH\Model\WordCount();
-        $cValidator = new \RH\Validator($mInput, $mWordCount);
+        $oValidator = $mInput->getValidator($mWordCount);
 
         $identKey = 'wordcount[0]['. $key .']';
 
@@ -31,7 +31,7 @@ try {
             ['Word Count', 'wordcount[1]['. $key .']', 'wordCount', true, V::NON_EMPTY|V::T_INT, null]
         ];
         
-        if ($cValidator->testAndSetAll($data, true, $identKey)) {
+        if ($oValidator->testAndSetAll($data, true, $identKey)) {
             $mWordCounts->__set($mWordCount->cohort, $mWordCount);
         }
     }

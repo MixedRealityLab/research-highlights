@@ -22,7 +22,7 @@ try {
 
     foreach ($mInput->funding[0] as $key => $id) {
         $mFundingStatement = new \RH\Model\FundingStatement();
-        $cValidator = new \RH\Validator($mInput, $mFundingStatement);
+        $oValidator = $mInput->getValidator($mFundingStatement);
 
         $identKey = 'funding[0]['. $key .']';
 
@@ -31,7 +31,7 @@ try {
             ['Funding Statement', 'funding[1]['. $key .']', 'fundingStatement', true, V::NON_EMPTY, null]
         ];
         
-        if ($cValidator->testAndSetAll($data, true, $identKey)) {
+        if ($oValidator->testAndSetAll($data, true, $identKey)) {
             $mFundingStatements->__set($mFundingStatement->fundingStatementId, $mFundingStatement);
         }
     }

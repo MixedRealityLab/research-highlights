@@ -22,7 +22,7 @@ try {
 
     foreach ($mInput->admin[0] as $key => $cohort) {
         $mUser = new \RH\Model\User();
-        $cValidator = new \RH\Validator($mInput, $mUser);
+        $oValidator = $mInput->getValidator($mUser);
 
         $identKey = 'admin[1]['. $key .']';
 
@@ -38,7 +38,7 @@ try {
             ['Notify', 'admin[8]['. $key .']', 'emailOnChange', true, V::NON_EMPTY|V::T_BOOL_STR, null]
         ];
         
-        if ($cValidator->testAndSetAll($data, true, $identKey)) {
+        if ($oValidator->testAndSetAll($data, true, $identKey)) {
             $mUser->admin = true;
             $mUsers->__set($mUser->username, $mUser);
         }

@@ -7,14 +7,14 @@
  * See LICENCE for legal information.
  */
 
-namespace RH;
+namespace RH\Model;
 
 /**
  * Utilities for validating the values from \RH\Model\Input to put into another model.
  *
  * @author Martin Porcheron <martin@porcheron.uk>
  */
-class Validator
+class InputValidator
 {
 
     /** @var int Flag to denote that a value cannot be empty. */

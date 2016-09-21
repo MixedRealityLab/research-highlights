@@ -22,7 +22,7 @@ try {
 
     foreach ($mInput->deadline[0] as $key => $cohort) {
         $mDeadline = new \RH\Model\Deadline();
-        $cValidator = new \RH\Validator($mInput, $mDeadline);
+        $oValidator = $mInput->getValidator($mDeadline);
 
         $identKey = 'deadline[0]['. $key .']';
 
@@ -31,7 +31,7 @@ try {
             ['Deadline', 'deadline[1]['. $key .']', 'deadline', true, V::NON_EMPTY, null]
         ];
         
-        if ($cValidator->testAndSetAll($data, true, $identKey)) {
+        if ($oValidator->testAndSetAll($data, true, $identKey)) {
             $mDeadlines->__set($mDeadline->cohort, $mDeadline);
         }
     }
