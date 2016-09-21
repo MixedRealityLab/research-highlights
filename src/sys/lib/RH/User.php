@@ -296,6 +296,9 @@ class User implements \RH\Singleton
 
         $mUser->username = \strtolower($mUser->username);
 
+        $file = \sprintf(self::USER_CACHE, $mUser->username);
+        $mUser->setCache(CACHE_USER, $file);
+
         return $mUser;
     }
 
@@ -645,8 +648,8 @@ class User implements \RH\Singleton
      */
     public function updateUsers(\RH\Model\Users $mUsers = null, $admin = false)
     {
-        if (\is_null($users)) {
-            $users = $this->getAll();
+        if (\is_null($mUsers)) {
+            $mUsers = $this->getAll();
         }
 
         $file = self::USER_FILE;
@@ -660,14 +663,14 @@ class User implements \RH\Singleton
         }
 
         foreach ($mUsers as $mUser) {
-            $file = \sprintf(self::USER_CACHE, $user);
+            $file = \sprintf(self::USER_CACHE, $mUser->username);
             $mUser->setCache(CACHE_USER, $file);
             $mUser->clearCache();
         }
 
+        $this->mUsersAll = false;
         $this->mUsers->clearCache();
         $this->mUserEmails->clearCache();
-        $this->mUsersAll = false;
         $this->getAll();
 
         return true;

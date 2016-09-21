@@ -36,7 +36,6 @@ class Users extends AbstractModel
     public function clearCache()
     {
         foreach ($this as $mUser) {
-            print "clear cache of " . $mUser->username;
             $mUser->clearCache();
         }
 

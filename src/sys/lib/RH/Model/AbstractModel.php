@@ -174,8 +174,10 @@ abstract class AbstractModel extends \RH\RecursiveArrayObject
     {
         if (!\is_null($this->cacheFile)) {
             $file = DIR_CAC . '/' . $this->cacheFile;
-            @\chmod($file, 0777);
-            @\unlink($file);
+            if (\is_file($file)) {
+                @\chmod($file, 0777);
+                @\unlink($file);
+            }
         }
 
         return $this;
