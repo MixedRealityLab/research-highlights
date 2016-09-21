@@ -87,12 +87,25 @@ var adminTabular = {
 	validateCellFn			: function($cell, validateFn) {
 								var result = validateFn($cell.val());
 								if(result == 0) { // set cell to positive
-									adminTabular.setCell($cell, adminTabular.STATE_OK);
+									if(adminTabular.rowIsErrorFree($cell)) {
+										adminTabular.enableRow($cell.parent().parent());
+									} else {
+										adminTabular.setCell($cell, adminTabular.STATE_OK);
+									}
 								} else if(result == 1) { // set row to positive
 									adminTabular.enableRow($cell.parent().parent());
 								} else { // fail on this crll
 									adminTabular.setCell($cell, adminTabular.STATE_ERROR);
 								}
+							},
+
+	rowIsErrorFree			: function($cell) {
+								var $siblings = $cell.parent().parent().find('input');
+								var $errorFreeSiblings = $siblings.filter(function() {
+									return !$(this).hasClass('errorCell');
+								});
+
+								return $errorFreeSiblings.length > 0 && $siblings.length == $errorFreeSiblings.length;
 							},
 
 	rowIsEmpty				: function(input) {
