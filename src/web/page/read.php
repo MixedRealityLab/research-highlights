@@ -134,11 +134,11 @@ if (\defined('READ_USER')) {
 
     $cTemplate->startCapture();
 ?><script type="text/javascript">
-changeListView ('name', function () {
+$(function() {changeListView ('name', function () {
     loadPage ('read', '...', 'user=<?php print READ_USER; ?>', function () {
         showError ('Unknown username', 'Sorry, no submission was found for that username.');
     });
-});
+})});;
 </script><?php
     $cTemplate->set('footer', $cTemplate->endCapture());
 }
