@@ -17,64 +17,64 @@ namespace RH;
 class User implements \RH\Singleton
 {
 
-    /** @var string File name for standard users who can log in */
+    /** @var string File name for standard users who can log in. */
     const USER_FILE = '/login-users.csv';
 
-    /** @var string File name for administrative users who can log in */
+    /** @var string File name for administrative users who can log in. */
     const ADMIN_FILE = '/login-admins.csv';
 
-    /** @var string File name for funding statements */
+    /** @var string File name for funding statements. */
     const FUNDING_FILE = '/funding.csv';
 
-    /** @var string File name for word counts */
+    /** @var string File name for word counts. */
     const WORD_COUNT_FILE = '/wordCount.csv';
 
-    /** @var string File name for submission deadlines */
+    /** @var string File name for submission deadlines. */
     const DEADLINES_FILE = '/deadlines.csv';
 
-    /** @var string Users model cache */
+    /** @var string Users model cache. */
     const USERS_CACHE = 'users.cache';
 
     /** @var string User model cache */
     const USER_CACHE = 'user-%s.cache';
 
-    /** @var string User Email cache */
+    /** @var string User Email cache. */
     const USER_EMAILS_CACHE = 'userEmails.cache';
 
-    /** @var string Funding statements model cache */
+    /** @var string Funding statements model cache. */
     const FUNDING_CACHE = 'fundingStatements.cache';
 
-    /** @var string Deadlines model cache */
+    /** @var string Deadlines model cache. */
     const DEADLINE_CACHE = 'deadline.cache';
 
-    /** @var string Word Count model cache */
+    /** @var string Word Count model cache. */
     const WORD_COUNT_CACHE = 'wordCount.cache';
 
-    /** @var string Cohorts model cache */
+    /** @var string Cohorts model cache. */
     const COHORT_CACHE = 'cohorts.cache';
 
-    /** @var \RH\Model\User Currently logged in user */
+    /** @var \RH\Model\User Currently logged in user. */
     private $mUser = null;
 
-    /** @var \RH\Model\Users Cache of user details */
+    /** @var \RH\Model\Users Cache of user details. */
     private $mUsers;
 
-    /** @var \RH\Model\UserEmails Cache of user details */
+    /** @var \RH\Model\UserEmails Cache of user details. */
     private $mUserEmails;
 
     /** @var bool Does `$mUsers` store all users? */
     private $mUsersAll = false;
 
-    /** @var \RH\Model\FundingStatements Cache of funding statements */
+    /** @var \RH\Model\FundingStatements Cache of funding statements. */
     private $mFundingStatements;
 
-    /** @var \RH\Model\Deadlines Cache of deadline statements */
+    /** @var \RH\Model\Deadlines Cache of deadline statements. */
     private $mDeadlines;
 
-    /** @var \RH\Model\WordCounts Cache of word counts */
+    /** @var \RH\Model\WordCounts Cache of word counts. */
     private $mWordCounts;
 
-    /** @var \RH\Model\Cohorts Cache of cohorts */
+    /** @var \RH\Model\Cohorts Cache of cohorts. */
     private $mCohorts;
 
     public function __construct()
@@ -87,12 +87,11 @@ class User implements \RH\Singleton
      *
      * @param string $mUsername Username to login with.
      * @param string $password Password to use to login with.
-     * @param bool $requireAdmin if `true`, is an administrator account required
+     * @param bool $requireAdmin if `true`, is an administrator account required.
      * @return the \RH\Model\User object
-     * @throws \RH\Error\NoUser if the account is disabled
-     * @throws \RH\Error\NotAuthorised if an admin account is required and the
-     *  login request is for a non-admin account
-     * @throws \RH\Error\AccountDisabled if the account is disabled
+     * @throws \RH\Error\NoUser If the account is non-existant.
+     * @throws \RH\Error\NotAuthorised If an admin account is required and the login request is for a non-admin account.
+     * @throws \RH\Error\AccountDisabled If the account is disabled.
      */
     public function login($mUsername, $password, $requireAdmin = false)
     {
@@ -123,12 +122,10 @@ class User implements \RH\Singleton
      * Allow a user to masquerade as another user (must be currently logged in
      * as an administrator).
      *
-     * @param \RH\Model\User $mUser User of the person who we are going to
-     *  pretend to be.
-     * @throws \RH\Error\NotAuthorised if an admin account is required and the
-     *  login request is for a non-admin account
-     * @throws \RH\Error\NoUser if the account is disabled
-     * @return \RH\Model\User new User object
+     * @param \RH\Model\User $mUser User of the person who we are going to  pretend to be.
+     * @throws \RH\Error\NotAuthorised if an admin account is required and the login request is for a non-admin account.
+     * @throws \RH\Error\NoUser if the account is disabled.
+     * @return \RH\Model\User new User object.
      */
     public function overrideLogin(\RH\Model\User $mUser)
     {
@@ -148,10 +145,9 @@ class User implements \RH\Singleton
     /**
     * Retrieve the details of a user.
     *
-    * @param string|null $mUser User to retrieve full details for, or
-    *   if `null`, retrieve the currently logged in user, or if a User object,
-    *   the function will return this object.
-    * @return \RH\Model\User Details of the user
+    * @param string|null $mUser User to retrieve full details for, or if `null`, retrieve the currently logged in user, 
+    *   or if a User object, the function will return this object.
+    * @return \RH\Model\User Details of the user.
     */
     public function get($user = null)
     {
@@ -189,7 +185,7 @@ class User implements \RH\Singleton
      * Retrieve the details of a user.
      *
      * @param string $email Email address of a user to get.
-     * @return \RH\Model\User Details of the user
+     * @return \RH\Model\User Details of the user.
      */
     public function getByEmail($email)
     {
@@ -209,10 +205,8 @@ class User implements \RH\Singleton
     /**
      * Retrieve the details of all users.
      *
-     * @param function|null $sortFn How to sort the user list; if `null`, reverse
-     *  sort by cohort, then sort by name
-     * @param function|null $filterFn How to filter the user list; if `null`, all
-     *  users are included
+     * @param function|null $sortFn How to sort the user list; if `null`, reverse sort by cohort, then sort by name.
+     * @param function|null $filterFn How to filter the user list; if `null`, all users are included.
      * @return \RH\Model\Users Data on all requested users.
      */
     public function getAll($sortFn = null, $filterFn = null)
@@ -303,13 +297,50 @@ class User implements \RH\Singleton
     }
 
     /**
+     * Update the underlying user/admin table. This goes through the model and repopulates the dynamically calculated 
+     * values.
+     *
+     * @param \RH\Model\Users $mUsers Updated user model, if `null` uses internal store of word counts.
+     * @param boolean $admin If `true`, will update administrators, if `false`, students.
+     * @throws \RH\Error\Configuration If the table could not be saved.
+     * @return boolean `true` if saved successfully.
+     */
+    public function updateUsers(\RH\Model\Users $mUsers = null, $admin = false)
+    {
+        if (\is_null($mUsers)) {
+            $mUsers = $this->getAll();
+        }
+
+        $file = self::USER_FILE;
+        if ($admin) {
+            $file = self::ADMIN_FILE;
+        }
+
+        $oFileWriter = \I::RH_File_Writer();
+        if (!$oFileWriter->write(DIR_USR . $file, $mUsers)) {
+            throw new \RH\Error\Configuration('Could not save users table');
+        }
+
+        foreach ($mUsers as $mUser) {
+            $file = \sprintf(self::USER_CACHE, $mUser->username);
+            $mUser->setCache(CACHE_USER, $file);
+            $mUser->clearCache();
+        }
+
+        $this->mUsersAll = false;
+        $this->mUsers->clearCache();
+        $this->mUserEmails->clearCache();
+        $this->getAll();
+
+        return true;
+    }
+
+    /**
      * Retrieve the cohorts.
      *
-     * @param function|null $sortFn How to sort the cohort list; if `null`,
-     *  reverse sort by cohort
-     * @param function|null $filterFn How to filter the cohort list; if `null`, all
-     *  cohort are included
-     * @return string[] Array of details of the cohorts
+     * @param function|null $sortFn How to sort the cohort list; if `null`, reverse sort by cohort.
+     * @param function|null $filterFn How to filter the cohort list; if `null`, all cohort are included.
+     * @return string[] Array of details of the cohorts.
      */
     public function getCohorts($sortFn = null, $filterFn = null)
     {
@@ -356,7 +387,7 @@ class User implements \RH\Singleton
      * Retrieve the user's newest submission.
      *
      * @param string $cohort Cohort of rhe user.
-     * @param string $username Username of the user
+     * @param string $username Username of the user.
      * @return mixed Latest version ID as a string or `false`.
      */
     private function getUsersLatestVersion($cohort, $username)
@@ -375,8 +406,7 @@ class User implements \RH\Singleton
      * Retrieve a user's data from a file, or all users.
      *
      * @param string $file File to get the user's data from.
-     * @param string $username Username of the user to retrieve, or `null` to
-     *  get all users in the file.
+     * @param string $username Username of the user to retrieve, or `null` to get all users in the file.
      * @return \RH\Model\Users|\RH\Model\User Details of the user (s).
      */
     private function getData($file, $username = null)
@@ -407,9 +437,8 @@ class User implements \RH\Singleton
     /**
      * Retrieve the word count for a particular user.
      *
-     * @param \RH\Model\User $mUser User to retrieve the word count
-     *  for, if `null`, gets the currently logged in user
-     * @return string Word count of the user
+     * @param \RH\Model\User $mUser User to retrieve the word count for, if `null`, gets the currently logged in user.
+     * @return string Word count of the user.
      */
     public function getWordCount(\RH\Model\User $mUser = null)
     {
@@ -435,10 +464,28 @@ class User implements \RH\Singleton
     /**
      * Retrieve the word count for all cohorts.
      *
-     * @return \RH\Model\WordCounts Word counts of the user, by cohort
+     * @param function|null $sortFn How to sort the word count list; if `null`, reverse sort by cohort.
+     * @param function|null $filterFn How to filter the word count list; if `null`, all cohorts are included.
+     * @return \RH\Model\WordCounts Word counts, listed by by cohort.
      */
-    public function getAllWordCounts()
+    public function getAllWordCounts($sortFn = null, $filterFn = null)
     {
+        if (\is_null($sortFn)) {
+            $sortFn = function ($a, $b) {
+                if ($a->cohort === $b->cohort) {
+                    return \strcmp($a->wordCount, $b->wordCount);
+                } else {
+                    return \strcmp($b->cohort, $a->cohort);
+                }
+            };
+        }
+
+        if (\is_null($filterFn)) {
+            $filterFn = function ($mUser) {
+                return true;
+            };
+        }
+
         if (\is_null($this->mWordCounts)) {
             $mWordCounts = new \RH\Model\WordCounts();
             $mWordCounts->setCache(CACHE_USER, self::WORD_COUNT_CACHE);
@@ -454,14 +501,18 @@ class User implements \RH\Singleton
             $this->mWordCounts = $mWordCounts;
         }
 
-        return $this->mWordCounts;
+        $mWordCounts = clone $this->mWordCounts;
+        $mWordCounts->uasort($sortFn);
+        $mWordCounts->filter($filterFn);
+
+        return $mWordCounts;
     }
 
     /**
      * Update the underlying model with the new word counts and update cache.
      *
      * @param \RH\Model\WordCounts $mWordCounts Updated word counts model, if `null` uses internal store of word counts.
-     * @throws \RH\Error\Configuration if the table could not be saved.
+     * @throws \RH\Error\Configuration If the table could not be saved.
      * @return boolean `true` if saved successfully.
      */
     public function updateWordCounts(\RH\Model\WordCounts $mWordCounts = null)
@@ -484,9 +535,9 @@ class User implements \RH\Singleton
     /**
      * Retrieve the funding statement for a particular user.
      *
-     * @param \RH\Model\User $mUser User to retrieve the funding statement for, if
-     *  `null`, gets the currently logged in user
-     * @return string Funding statement of the user
+     * @param \RH\Model\User $mUser
+     *  User to retrieve the funding statement for, if  `null`, gets the currently logged in user.
+     * @return string Funding statement for the user.
      */
     public function getFunding(\RH\Model\User $mUser = null)
     {
@@ -501,7 +552,7 @@ class User implements \RH\Singleton
      * Retrieve the funding statement, by its unique ID..
      *
      * @param string $id Unique funding statment ID.
-     * @return string Funding statement of the user
+     * @return string Funding statement with the specified ID.
      */
     public function getFundingById($id)
     {
@@ -510,12 +561,30 @@ class User implements \RH\Singleton
     }
 
     /**
-     * Retrieve all funding statements, indexed by id.
+     * Retrieve all funding statements, seperated by a unique identifier.
      *
-     * @return \RH\Model\FundingStatements Funding statements by id
+     * @param function|null $sortFn How to sort the funding statements; if `null`, alphabetical sort by ID.
+     * @param function|null $filterFn How to filter funding statements; if `null`, all statements are included.
+     * @return \RH\Model\FundingStatements List of funding statements.
      */
-    public function getAllFunding()
+    public function getAllFunding($sortFn = null, $filterFn = null)
     {
+        if (\is_null($sortFn)) {
+            $sortFn = function ($a, $b) {
+                if ($a->fundingStatementId === $b->fundingStatementId) {
+                    return \strcmp($a->fundingStatement, $b->fundingStatement);
+                } else {
+                    return \strcmp($a->fundingStatementId, $b->fundingStatementId);
+                }
+            };
+        }
+
+        if (\is_null($filterFn)) {
+            $filterFn = function ($mUser) {
+                return true;
+            };
+        }
+
         if (\is_null($this->mFundingStatements)) {
             $mFundingStatements = new \RH\Model\FundingStatements();
             $mFundingStatements->setCache(CACHE_USER, self::FUNDING_CACHE);
@@ -531,7 +600,11 @@ class User implements \RH\Singleton
             $this->mFundingStatements = $mFundingStatements;
         }
 
-        return $this->mFundingStatements;
+        $mFundingStatements = clone $this->mFundingStatements;
+        $mFundingStatements->uasort($sortFn);
+        $mFundingStatements->filter($filterFn);
+
+        return $mFundingStatements;
     }
 
     /**
@@ -539,7 +612,7 @@ class User implements \RH\Singleton
      *
      * @param \RH\Model\FundingStatements $mDundingStatements
      *  Updated funding statements model, if null, uses internal store of deadlines.
-     * @throws \RH\Error\Configuration if the table could not be saved.
+     * @throws \RH\Error\Configuration If the table could not be saved.
      * @return boolean `true` if saved successfully.
      */
     public function updateFunding(\RH\Model\FundingStatements $mDundingStatements = null)
@@ -562,9 +635,8 @@ class User implements \RH\Singleton
     /**
      * Retrieve the deadline for a particular user.
      *
-     * @param \RH\Model\User $mUser User to retrieve the deadline for, if `null`,
-     *  gets the currently logged in user
-     * @return string Deadline of the user
+     * @param \RH\Model\User $mUser User to retrieve the deadline for, if `null`,  gets the currently logged in user.
+     * @return string Deadline for the user.
      */
     public function getDeadline(\RH\Model\User $mUser = null)
     {
@@ -578,8 +650,8 @@ class User implements \RH\Singleton
     /**
      * Retrieve the deadline for a cohort.
      *
-     * @param stirng $cohort Cohort identifer.
-     * @return string Deadline of the cohort.
+     * @param stirng $cohort Cohort.
+     * @return string Deadline for the cohort.
      */
     public function getDeadlineByCohort($cohort)
     {
@@ -588,12 +660,30 @@ class User implements \RH\Singleton
     }
 
     /**
-     * Retrieve tall deadlines, indexed by cohbort.
+     * Retrieve tall deadlines, indexed by cohort.
      *
-     * @return \RH\Model\Deadlines Deadlines of all cohorts.
+     * @param function|null $sortFn How to sort the deadline list; if `null`, reverse sort by cohort.
+     * @param function|null $filterFn How to filter the deadline list; if `null`, all cohorts are included.
+     * @return \RH\Model\Deadlines Deadlines for all cohorts.
      */
-    public function getAllDeadlines()
+    public function getAllDeadlines($sortFn = null, $filterFn = null)
     {
+        if (\is_null($sortFn)) {
+            $sortFn = function ($a, $b) {
+                if ($a->cohort === $b->cohort) {
+                    return \strcmp($a->deadline, $b->deadline);
+                } else {
+                    return \strcmp($b->cohort, $a->cohort);
+                }
+            };
+        }
+
+        if (\is_null($filterFn)) {
+            $filterFn = function ($mUser) {
+                return true;
+            };
+        }
+
         if (\is_null($this->mDeadlines)) {
             $mDeadlines = new \RH\Model\Deadlines();
             $mDeadlines->setCache(CACHE_USER, self::DEADLINE_CACHE);
@@ -609,7 +699,11 @@ class User implements \RH\Singleton
             $this->mDeadlines = $mDeadlines;
         }
 
-        return $this->mDeadlines;
+        $mDeadlines = clone $this->mDeadlines;
+        $mDeadlines->uasort($sortFn);
+        $mDeadlines->filter($filterFn);
+
+        return $mDeadlines;
     }
 
     /**
@@ -633,45 +727,6 @@ class User implements \RH\Singleton
         $mDeadlines->setCache(CACHE_USER, self::DEADLINE_CACHE);
         $mDeadlines->saveCache();
         $this->mDeadlines = $deadlines;
-
-        return true;
-    }
-
-    /**
-     * Update the underlying user/admin table. This goes through the model and
-     * repopulates the dynamically calculated values.
-     *
-     * @param \RH\Model\Users $mUsers Updated user model, if `null` uses internal store of word counts.
-     * @param boolean $admin If `true`, will update administrators, if `false`, students.
-     * @throws \RH\Error\Configuration if the table could not be saved.
-     * @return boolean `true` if saved successfully.
-     */
-    public function updateUsers(\RH\Model\Users $mUsers = null, $admin = false)
-    {
-        if (\is_null($mUsers)) {
-            $mUsers = $this->getAll();
-        }
-
-        $file = self::USER_FILE;
-        if ($admin) {
-            $file = self::ADMIN_FILE;
-        }
-
-        $oFileWriter = \I::RH_File_Writer();
-        if (!$oFileWriter->write(DIR_USR . $file, $mUsers)) {
-            throw new \RH\Error\Configuration('Could not save users table');
-        }
-
-        foreach ($mUsers as $mUser) {
-            $file = \sprintf(self::USER_CACHE, $mUser->username);
-            $mUser->setCache(CACHE_USER, $file);
-            $mUser->clearCache();
-        }
-
-        $this->mUsersAll = false;
-        $this->mUsers->clearCache();
-        $this->mUserEmails->clearCache();
-        $this->getAll();
 
         return true;
     }
