@@ -9,7 +9,7 @@
 
 require 'autoload.php';
 
-$path = \trim(\str_replace(PATH . '/', '', $_SERVER['REQUEST_URI']));
+$path = \preg_replace('/'. \preg_quote(PATH . '/', '/') .'/', '', $_SERVER['REQUEST_URI'], 1);
 if (SYS_HTAC && \strpos($_SERVER['REQUEST_URI'], 'index.php/') !== false) {
     header('Location: ' . \str_replace('index.php/', '', $_SERVER['REQUEST_URI']));
     exit;
@@ -41,6 +41,8 @@ if (\strpos($file, '..') !== false) {
     exit;
 }
 
+$file = \str_replace('/./', '/', $file);
+
 $data = array ();
 while (true) {
     if (\is_file($file)) {
@@ -55,6 +57,6 @@ while (true) {
 }
 
 if ('http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] != URI_HOME) {
-    die('a Location: ' . URI_HOME . '/');
+    die('Location: ' . URI_HOME . '/');
     exit;
 }
