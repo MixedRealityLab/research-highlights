@@ -72,13 +72,21 @@
 							//}
 						},
 
-	rqst				: 0,
+	activeRequest		: 0,
+
+	requestQueue		: [],
 
 	sendData			: function (data) {
-							if (ReHi.rqst) {
-								ReHi.rqst.abort ();
+							if (ReHi.activeRequest == 0) {
+								ReHi.activeRequest = $.ajax(data).always(function() {
+									ReHi.activeRequest = 0;
+									if(ReHi.requestQueue[0] != undefined) {
+										ReHi.sendData(ReHi.requestQueue.pop());
+									}
+								});
+							} else {
+								ReHi.requestQueue.push(data);
 							}
-							ReHi.rqst = $.ajax (data);
 						},
 
 	showAlert2			: function (title, mesg, className) {
@@ -151,7 +159,7 @@
 								beforeSend: function () {
 									$allInputs.prop ('disabled', true);
 								},
-								complete: function () {
+								always: function () {
 									$allInputs.prop ('disabled', false);
 								},
 								data: data,
