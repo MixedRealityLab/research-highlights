@@ -27,4 +27,20 @@ class Users extends AbstractModel
     {
         return new User($value);
     }
+
+    /**
+    * Clear the cache for this user and all child users.
+    *
+    * @return \RH\Model\AbstractModel
+    */
+    public function clearCache()
+    {
+        foreach ($this as $mUser) {
+            print "clear cache of " . $mUser->username;
+            $mUser->clearCache();
+        }
+
+        return parent::clearCache();
+    }
+
 }

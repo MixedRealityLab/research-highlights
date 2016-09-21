@@ -166,7 +166,7 @@ abstract class AbstractModel extends \RH\RecursiveArrayObject
     }
 
     /**
-    * Clear the cache for this model;
+    * Clear the cache for this model.
     *
     * @return \RH\Model\AbstractModel
     */
@@ -174,6 +174,7 @@ abstract class AbstractModel extends \RH\RecursiveArrayObject
     {
         if (!\is_null($this->cacheFile)) {
             $file = DIR_CAC . '/' . $this->cacheFile;
+            @\chmod($file, 0777);
             @\unlink($file);
         }
 

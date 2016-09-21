@@ -58,11 +58,16 @@ class Email implements \RH\Singleton
      *
      * @param string $from From header
      * @param string $replyTo Reply-To header
+     * @param string $envelope Email sender as an address only (no name!)
      */
-    public function setHeaders($from, $replyTo)
+    public function setHeaders($from, $replyTo, $envelope = null)
     {
         $this->headers['From'] = $from;
         $this->headers['Reply-To'] = $replyTo;
+
+        if (!\is_null($envelope)) {
+            $this->headers['Return-Path'] = $envelope;
+        }
     }
 
     /**
@@ -70,37 +75,38 @@ class Email implements \RH\Singleton
      *
      * @see \RH\User\Model::makeSubsts ()
      * @param string $username Username to whom the email should be sent
-     * @param string $subject Subject of the email, substitutions are made for
-     *  user keywords.
-     * @param string $messageText Text representation of the email,
-     *  substitutions are made for system keywords.
-     * @param string $messageHtml HTML representation of the email,
-     *  substitutions are made for system keywords.
+     * @param string $subject Subject of the email, substitutions are made for  user keywords.
+     * @param string $messageHtml HTML representation of the email, substitutions are made for system keywords.
      * @return bool `true` if the message was successfully sent
+     * @throws \RH\Error\InvalidInput if the user does not exist or they don't have an email address
+     * @throws \RH\Error\SystemError if there was an error sending the email.
      */
-    public function send($username, $subject, $messageText, $messageHtml)
+    public function send($username, $subject, $messageHtml)
     {
         $cUser = \I::RH_User();
 
         try {
             $mUser = $cUser->get($username);
         } catch (\RH\Error\NoUser $e) {
-            return false;
+            throw new \RH\Error\InvalidInput('Could not find user with username "'. $username .'".');
         }
 
         try {
             $mAddress = $mUser->email;
         } catch (\RH\Error\NoField $e) {
-            return false;
+            throw new \RH\Error\InvalidInput('Could not find email address for user "'. $username .'".');
         }
         $mSubject = $mUser->makeSubsts($subject);
-        $mMessageText = $mUser->makeSubsts($messageText, true);
         $mMessageHtml = $mUser->makeSubsts($messageHtml, true);
+        $mMessageText = \strip_tags($mMessageHtml);
 
         $mHeaders = $this->headers;
         $mHeaders['To'] = $mAddress;
         $mHeaders['Subject'] = $mSubject;
-        $mHeaders['Date'] = \date('D, d M Y H:i:s O');
+        $mHeaders['Date'] = date('r');
+
+        $messageId = \preg_replace('#^https?://#', '', \rtrim(URI_ROOT,'/'));
+        $mHeaders['Message-ID'] = '<'. \uniqid() .'@'. $messageId . '>';
 
         $mime = new \Mail_mime($this->crlf);
         $mime->setTXTBody($mMessageText);
@@ -109,7 +115,12 @@ class Email implements \RH\Singleton
         $mBody = $mime->get();
 
         $mail = $this->smtp->send($mAddress, $mHeaders, $mBody);
-        return !\PEAR::isError($mail);
+        if (\PEAR::isError($mail)) {
+            throw new \RH\Error\SystemError('Could not send email to "'. $mAddress .
+                '" because: "'. $mail->getMessage() .'"');
+        }
+
+        return true;
     }
 
     /**
@@ -117,24 +128,20 @@ class Email implements \RH\Singleton
      *
      * @see \RH\User\Model::makeSubsts ()
      * @param string[] $usernames Usernames to whom the email should be sent
-     * @param string $subject Subject of the email, substitutions are made for
-     *  system keywords, per user.
-     * @param string $messageText Text representation of the email,
-     *  substitutions are made for system keywords, per user.
-     * @param string $messageHtml HTML representation of the email,
-     *  substitutions are made for system keywords, per user.
+     * @param string $subject Subject of the email, substitutions are made for keywords, per user.
+     * @param string $messageHtml HTML representation of the email, substitutions are made for keywords, per user.
      * @return bool `true` if all messages was successfully sent
      */
-    public function sendAll($usernames, $subject, $messageText, $messageHtml)
+    public function sendAll($usernames, $subject, $messageHtml)
     {
         $ret = true;
 
         if (!count($usernames)) {
-            return false;
+            throw new \RH\Error\InvalidInput('No usernames submitted!');
         }
 
         foreach ($usernames as $username) {
-            $ret &= $this->send($username, $subject, $messageText, $messageHtml);
+            $ret &= $this->send($username, $subject, $messageHtml);
         }
 
         return $ret;

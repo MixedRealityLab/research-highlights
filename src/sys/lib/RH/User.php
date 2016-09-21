@@ -659,34 +659,16 @@ class User implements \RH\Singleton
             throw new \RH\Error\Configuration('Could not save users table');
         }
 
-        $mUserEmails = new \RH\Model\UserEmails();
-
         foreach ($mUsers as $mUser) {
-            if (!$mUser->cacheIsSet()) {
-                $file = \sprintf(self::USER_CACHE, $user);
-                $mUser->setCache(CACHE_USER, $file);
-            }
-
-            $this->completeUserModel($mUser);
-
-            $version = $this->getUsersLatestVersion($mUser->cohort, $mUser->username);
-
-            $mUser->dir = DIR_DAT . '/'. $mUser->cohort . '/' . $mUser->username;
-            $mUser->latestVersion = $version;
-            $mUser->latestSubmission = $mUser->dir . '/' . $version;
-
-            $email = \strtolower($mUser->email);
-            $mUserEmails[$email] = $mUser->username;
+            $file = \sprintf(self::USER_CACHE, $user);
+            $mUser->setCache(CACHE_USER, $file);
+            $mUser->clearCache();
         }
 
-        $mUsers->setCache(CACHE_USER, self::USERS_CACHE);
-        $mUserEmails->setCache(CACHE_USER, self::USER_EMAILS_CACHE);
-
-        $mUsers->saveCache();
-        $mUserEmails->saveCache();
-
-        // $this->mUsers = $mUsers;
-        // $this->mUserEmails = $mUserEmails;
+        $this->mUsers->clearCache();
+        $this->mUserEmails->clearCache();
+        $this->mUsersAll = false;
+        $this->getAll();
 
         return true;
     }

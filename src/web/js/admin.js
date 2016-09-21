@@ -471,12 +471,14 @@ $(function () {
 	adminTabular.regSubForm('form.form-admins', 'admins-update', 'list of administrators');
 
 	ReHi.regSubForm ($('form.form-email'), $('html').data('uri_root') + '/email.do', function (response, textStatus, jqXHR) {
-		if (response != '1') {
-			ReHi.showError ('Goshdarnit!', 'Something has gone wrong! (error: ' + response + ')');
-		} else {
+		if (response.success == '1') {
 			ReHi.showSuccess ('Whoop! Whoop!', 'Your emails were sent!')
+		} else if (response.error != undefined) {
+			ReHi.showError ('Goshdarnit!', response.error + ' <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
+		} else {
+			ReHi.showError ('Oh, snap!', 'An unknown error occurred. <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
 		}
-	});
+	}, 'json');
 
 	$('a[href="#tab-email"]').on ('shown.bs.tab', function (e) {
 		autoResize ();
