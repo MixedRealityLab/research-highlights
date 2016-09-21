@@ -59,7 +59,6 @@
                 <?php endif; ?>
             </div>
         </nav>
-        <img src="<?php print URI_WEB; ?>/img/motif.png" alt="Horizon motif" class="motif">
         <?php endif; ?>
 
         <?php if ($body) : ?>
