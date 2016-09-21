@@ -2,6 +2,10 @@
 	color: #ccc;
 }
 
+.tabularInput-table tbody tr.strikedRow input {
+	text-decoration: line-through;
+}
+
 .tabularInput-table tbody tr.errorRow input {
 	background: #d9534f;
 	color: #fff;

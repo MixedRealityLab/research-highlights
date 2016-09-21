@@ -13,7 +13,8 @@ function autoResize () {
 var adminTabular = {
 	STATE_OK				: 0,
 	STATE_ERROR				: 1,
-	STATE_DISABLED			: 2,
+	STATE_GREY_OUT			: 2,
+	STATE_STRIKETHROUGH		: 3,
 
 	setCell					: function($cell, state) {
 								var $row = $cell.parent().parent();
@@ -38,9 +39,28 @@ var adminTabular = {
 										$cell.removeClass('disabledCell');
 										$row.removeClass('disabledRow');
 									}
-								} else if(state == adminTabular.STATE_DISABLED) {
+
+									if ($cell.hasClass('strikedCell')) {
+										$cell.removeClass('strikedCell');
+										$row.removeClass('strikedRow');
+									}
+								} else if(state == adminTabular.STATE_GREY_OUT) {
 									$cell.addClass('disabledCell');
 									$row.addClass('disabledRow');
+
+									if($cell.hasClass('errorCell')) {
+										$cell.removeClass('errorCell');
+										
+										if($row.data('countErrors') == 1) {
+											$row.removeClass('errorRow');
+											$row.data('countErrors', 0);
+										} else {
+											$row.data('countErrors', $row.data('countErrors') - 1);
+										}
+									}
+								} else if(state == adminTabular.STATE_STRIKETHROUGH) {
+									$cell.addClass('strikedCell');
+									$row.addClass('strikedRow');
 
 									if($cell.hasClass('errorCell')) {
 										$cell.removeClass('errorCell');
@@ -59,7 +79,7 @@ var adminTabular = {
 								}
 							},
 
-	enableRow				: function($row) {
+	clearErrorsOnRow		: function($row) {
 								if($row.data('countErrors') == undefined) {
 									$row.data('countErrors', 0);
 								}
@@ -69,17 +89,26 @@ var adminTabular = {
 								$row.data('countErrors', 0);
 							},
 
-	validateCell			: function($cell, posValid, negValid) {
+	validateCell			: function($cell, okValues, greyOutValues, strikethroughValues) {
 								if(adminTabular.rowIsEmpty($cell.parent().parent())) {
-									adminTabular.enableRow($cell);
+									adminTabular.clearErrorsOnRow($cell);
 									return;
 								}
 
-								if($.inArray($cell.val(), posValid) >= 0) {
+								var stateSet = false;
+								if(okValues != undefined && $.inArray($cell.val(), okValues) >= 0) {
 									adminTabular.setCell($cell, adminTabular.STATE_OK);
-								} else if($.inArray($cell.val(), negValid) >= 0) {
-									adminTabular.setCell($cell, adminTabular.STATE_DISABLED);
-								} else {
+									stateSet = true;
+								}
+								if(greyOutValues != undefined && $.inArray($cell.val(), greyOutValues) >= 0) {
+									adminTabular.setCell($cell, adminTabular.STATE_GREY_OUT);
+									stateSet = true;
+								}
+								if(strikethroughValues != undefined && $.inArray($cell.val(), strikethroughValues) >= 0) {
+									adminTabular.setCell($cell, adminTabular.STATE_STRIKETHROUGH);
+									stateSet = true;
+								}
+								if(!stateSet) {
 									adminTabular.setCell($cell, adminTabular.STATE_ERROR);
 								}
 							},
@@ -88,12 +117,12 @@ var adminTabular = {
 								var result = validateFn($cell.val());
 								if(result == 0) { // set cell to positive
 									if(adminTabular.rowIsErrorFree($cell)) {
-										adminTabular.enableRow($cell.parent().parent());
+										adminTabular.clearErrorsOnRow($cell.parent().parent());
 									} else {
 										adminTabular.setCell($cell, adminTabular.STATE_OK);
 									}
 								} else if(result == 1) { // set row to positive
-									adminTabular.enableRow($cell.parent().parent());
+									adminTabular.clearErrorsOnRow($cell.parent().parent());
 								} else { // fail on this crll
 									adminTabular.setCell($cell, adminTabular.STATE_ERROR);
 								}
@@ -189,11 +218,11 @@ var adminValidate = {
 									});
 
 									$(rowSelector + ':nth-child(8) input').change(function() {
-										adminTabular.validateCell($(this), ['true', 'false'], []);
+										adminTabular.validateCell($(this), ['true'], undefined, ['false']);
 									});
 
 									$(rowSelector + ':nth-child(9) input').change(function() {
-										adminTabular.validateCell($(this), ['true', 'false'], []);
+										adminTabular.validateCell($(this), ['true', 'false']);
 									});
 
 									adminValidate.revalidate(rowSelector, 9, adminValidate.users);
@@ -295,7 +324,10 @@ var loadUserTable = function(ajaxFile, fieldId, inputName) {
 			$('[name="' + inputName + '[8][' + i + ']"]').val(row.emailOnChange);
 
 			if(!row.enabled) {
-				adminTabular.setCell($('[name="' + inputName + '[6][' + i + ']"]'), adminTabular.STATE_DISABLED);
+				adminTabular.setCell($('[name="' + inputName + '[6][' + i + ']"]'), adminTabular.STATE_GREY_OUT);
+			}
+			if(!row.countSubmission) {
+				adminTabular.setCell($('[name="' + inputName + '[7][' + i + ']"]'), adminTabular.STATE_STRIKETHROUGH);
 			}
 		}
 	}, 'json');
