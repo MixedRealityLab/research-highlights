@@ -88,15 +88,18 @@ try {
             }
         }
 
-        $message = '<strong>Tasks</strong><br>';
-        $message .= '&bull; <a href="' . URI_ROOT . '/#read=<username>" target="_blank">Read submission</a><br>';
-        $message .= '&bull; <a href="' . URI_ROOT . '/login" target="_blank">Edit submission</a> (login and then enter the username <em><username></em> in the bottom left)';
-        $message = $mUser->makeSubsts($message);
-        $subject = $mUser->makeSubsts(MAIL_ON_CHANGE_SUBJ);
 
-        $message .= '<br><br><strong>Account Details</strong><br>Username: <em><username></em><br>Password: <em><password></em>';
+        if (\count($unamesMail) > 0) {
+            $message = '<strong>Tasks</strong><br>';
+            $message .= '&bull; <a href="' . URI_ROOT . '/read/<username>" target="_blank">Read submission</a><br>';
+            $message .= '&bull; <a href="' . URI_ROOT . '/login" target="_blank">Edit submission</a> (login and then enter the username <em><username></em> in the bottom left)';
+            $message = $mUser->makeSubsts($message);
+            $subject = $mUser->makeSubsts(MAIL_ON_CHANGE_SUBJ);
 
-        $oEmail->sendAll($unamesMail, $subject, \strip_tags($message), $message) ? '1' : '-1';
+            $message .= '<br><br><strong>Account Details</strong><br>Username: <em><username></em><br>Password: <em><password></em>';
+
+            $oEmail->sendAll($unamesMail, $subject, \strip_tags($message), $message) ? '1' : '-1';
+        }
     }
 
     print \json_encode(array ('success' => '1'));

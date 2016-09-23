@@ -136,7 +136,7 @@ class Email implements \RH\Singleton
     {
         $ret = true;
 
-        if (!count($usernames)) {
+        if (\count($usernames) == 0) {
             throw new \RH\Error\InvalidInput('No usernames submitted!');
         }
 
