@@ -7,41 +7,33 @@
  * See LICENCE for legal information.
  */
 
-// first page argument should be a username
-if (isset($data[0])) {
-    $cUser = I::RH_User();
-    if (!\is_null($cUser->get($data[0]))) {
-        \define('READ_USER', $data[0]);
-    }
-}
-
 $cTemplate = I::RH_Template();
 
 $cTemplate->startCapture();
 
 ?>
-    <div class="centerpage">
+    <div id="dialog" class="centerpage collapse">
         <section>
-            <h1>
+            <h1 id="title">
                 My Research in a Tweet:
             </h1>
             <div class="twitter">
                 <img src="<?php print URI_WEB; ?>/img/twitter.png" alt="Twitter">
             </div>
             <article>
-                <p>
+                <p id="tweet">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sodales nec neque ac hendrerit. Nullam porttitor tortor sem, ac sodales purus auctor quis. Nam leo urna, sodales non luctus quis, consectetur ut dui. Phasellus ultrices feugiat pellentesque
                 </p>
                 <span class="readmore">
-                    Read more at <a rel="fulltext"><?php print URI_HOME; ?>/</a>
+                    Read more at <a rel="fulltext"><?php print URI_HOME; ?>/read/<span id="username">username</span></a>
                 </span>
             </article>
             <div class="tailer">
                 <div class="about" rel="author">
-                    <em>by</em> Alpha Beta
+                    <em>by</em> <span id="author">Alpha Beta</span>
                 </div>
                 <div class="about">
-                    2013 cohort
+                    <span id="cohort">2013</span> Cohort
                 </div>
                 <div class="clear"></div>
             </div>

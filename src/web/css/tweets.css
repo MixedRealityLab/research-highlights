@@ -56,7 +56,7 @@ article {
 h1 {
 	font-size: 1.5em;
 	margin: 0;
-	padding: 1em 1em 0.5em 1em;
+	padding: 1em 2em 0.5em 1em;
 	text-transform: uppercase;
 }
 
@@ -89,4 +89,8 @@ section .twitter img {
 
 .tailer .clear {
 	clear: left;
+}
+
+.centerpage {
+	padding-bottom: 45px;
 }

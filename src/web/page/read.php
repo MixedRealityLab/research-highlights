@@ -50,9 +50,7 @@ $cTemplate->startCapture();
                     <button type="button" class="btn btn-primary btn-offcanvas" data-toggle="offcanvas">View Submissions</button>
                 </p>
 
-                <div class="jumbotron primary collapse home noAutoFadeIn <?php if (\defined('READ_USER')) :
-?>hide<?php
-endif; ?>">
+                <div class="jumbotron primary collapse home noAutoFadeIn">
                     <div class="container">
                         <h2>Research Highlights <?php print SITE_YEAR; ?></h2>
                         <img class="pull-right home-img img-circle" alt="Prof. Steve Benford, Centre Director" src="<?php print URI_WEB; ?>/img/sdb.jpg">
@@ -62,9 +60,7 @@ endif; ?>">
                     </div>
                 </div>
 
-                <div class="featureWall home noAutoFadeIn <?php if (\defined('READ_USER')) :
-?>hide<?php
-endif; ?>">
+                <div class="featureWall collapse home noAutoFadeIn">
                     <h2 class="collapse">Highlighted PhD Topics</h2>
                     <br>
 

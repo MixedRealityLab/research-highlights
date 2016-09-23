@@ -9,16 +9,35 @@
 
 // Fetch all tweets
 
+\header('Content-type: application/json');
+
 $cSubmission = I::RH_Submission();
 $cUser = I::RH_User();
 
-\header('Content-Type: text/csv');
+try {
+    $mUsers = $cUser->getAll(null, function ($mUser) {
+        return $mUser->countSubmission;
+    });
 
-$mUsers = $cUser->getAll();
-foreach ($mUsers as $mUser) {
-    try {
-        $tweet = $cSubmission->get($mUser, false)->tweet;
-        print $mUser->firstName . ',' . $mUser->surname . ',' . $mUser->email . ',' . $tweet . "\n";
-    } catch (\RH\Error\NoSubmission $e) {
+    $data = array();
+    foreach ($mUsers as $mUser) {
+    	try {
+        $mSubmission = $cSubmission->get($mUser, false);
+
+    	$data[] = array(
+    		'username' => $mUser->username,
+    		'author' => $mUser->firstName .' '. $mUser->surname,
+    		'cohort' => $mUser->cohort,
+    		'title' => $mSubmission->title,
+    		'tweet' => $mSubmission->tweet);
+        } catch (\RH\Error\NoSubmission $e) {
+        } catch (\RH\Error\NoField $e) {
+        }
     }
+
+    \shuffle($data);
+    
+    print \json_encode($data);
+} catch (\RH\Error $e) {
+    print $e->toJson();
 }
