@@ -7,6 +7,10 @@
  */
 
  var RH = {
+	autoResize			: function(selector) {
+	$(selector + ' textarea').each(function() {$(this).trigger('autosize.resize'); });
+},
+
  	// from http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
  	replaceAll			: function(find, replace, str) {
 							return str.replace (new RegExp (find, 'g'), replace);
@@ -164,7 +168,7 @@
 								beforeSend: function () {
 									$allInputs.prop ('disabled', true);
 								},
-								always: function () {
+								complete: function () {
 									$allInputs.prop ('disabled', false);
 								},
 								data: data,
