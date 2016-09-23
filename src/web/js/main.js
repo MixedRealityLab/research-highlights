@@ -6,7 +6,7 @@
  * See LICENCE for legal information.
  */
 
- var ReHi = {
+ var RH = {
  	// from http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
  	_replaceAll			: function(find, replace, str) {
 							return str.replace (new RegExp (find, 'g'), replace);
@@ -82,15 +82,15 @@
 	requestQueue		: [],
 
 	sendData			: function (data) {
-							if (ReHi.activeRequest == 0) {
-								ReHi.activeRequest = $.ajax(data).always(function() {
-									ReHi.activeRequest = 0;
-									if(ReHi.requestQueue[0] != undefined) {
-										ReHi.sendData(ReHi.requestQueue.shift());
+							if (RH.activeRequest == 0) {
+								RH.activeRequest = $.ajax(data).always(function() {
+									RH.activeRequest = 0;
+									if(RH.requestQueue[0] != undefined) {
+										RH.sendData(RH.requestQueue.shift());
 									}
 								});
 							} else {
-								ReHi.requestQueue.push(data);
+								RH.requestQueue.push(data);
 							}
 						},
 
@@ -101,24 +101,24 @@
 
 	showAlert			: function (title, mesg, className) {
 							if ($('.alert-dismissable').length == 0) {
-								ReHi.showAlert2 (title, mesg, className);
+								RH.showAlert2 (title, mesg, className);
 							} else {
-								$('.alert-dismissable').fadeOut ({complete: function () {$('.alert-dismissable').remove (); ReHi.showAlert2 (title, mesg, className);}});
+								$('.alert-dismissable').fadeOut ({complete: function () {$('.alert-dismissable').remove (); RH.showAlert2 (title, mesg, className);}});
 							}
 							$('html, body').animate ({ scrollTop: 0 }, 600);
 						},
 
 	showError			: function (title, mesg) {
-							ReHi.showAlert (title, mesg, 'danger');
+							RH.showAlert (title, mesg, 'danger');
 						},
 
 	showSuccess			: function (title, mesg) {
-							ReHi.showAlert (title, mesg, 'success');
+							RH.showAlert (title, mesg, 'success');
 						},
 
 	regAutoForm			: function ($form, url, handler) {
 							$form.find ('input, textarea, select').change (function (e) {
-								ReHi.sendData ({
+								RH.sendData ({
 									url: url,
 									type: "post",
 									data: $form.serialize (),
@@ -127,7 +127,7 @@
 								return true;
 							});
 							$form.find ('input, textarea').keyup (function (e) {
-								ReHi.sendData ({
+								RH.sendData ({
 									url: url,
 									type: "post",
 									data: $form.serialize (),
@@ -144,7 +144,7 @@
 							$form.submit (function (e) {
 								e.preventDefault ();
 								if(validateFn == undefined || validateFn($form)) {
-									ReHi.submitForm ($form, url, success, dataType, confirmationFn);
+									RH.submitForm ($form, url, success, dataType, confirmationFn);
 								}
 							});
 						},
@@ -157,7 +157,7 @@
                                 return false;
                             }
 
-							ReHi.sendData ({
+							RH.sendData ({
 								dataType: (dataType == undefined ? 'text' : dataType),
 								url: url,
 								type: 'post',

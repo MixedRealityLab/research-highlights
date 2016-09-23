@@ -147,7 +147,7 @@ var adminTabular = {
 							},
 
 	regSubForm				: function(formClass, ajaxFile, label, cellName, cellIndexCol) {
-								ReHi.regSubForm ($(formClass), $('html').data('uri_root') + '/' + ajaxFile + '.do', function (response, textStatus, jqXHR) {
+								RH.regSubForm ($(formClass), $('html').data('uri_root') + '/' + ajaxFile + '.do', function (response, textStatus, jqXHR) {
 									if (response.success == 1) {
 										if(cellName != undefined && cellIndexCol != undefined) {
 											var i = 1;
@@ -162,11 +162,11 @@ var adminTabular = {
 											}
 										}
 										
-										ReHi.showSuccess ('Configuration Saved', 'The ' + label + ' were updated.');
+										RH.showSuccess ('Configuration Saved', 'The ' + label + ' were updated.');
 									} else if (response.error != undefined) {
-										ReHi.showError ('Oh, snap!', response.error + ' <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
+										RH.showError ('Oh, snap!', response.error + ' <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
 									} else {
-										ReHi.showError ('Oh, snap!', 'An unknown error occurred. <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
+										RH.showError ('Oh, snap!', 'An unknown error occurred. <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
 									}
 								}, 'json', null, function() {
 									if ($(formClass + ' input.errorCell').length > 0) {
@@ -291,7 +291,7 @@ var adminData = {
 };
 
 var loadUserTable = function(ajaxFile, fieldId, inputName) {
-	ReHi.getData($('html').data('uri_root') + '/' + ajaxFile + '.do', function(response) {
+	RH.getData($('html').data('uri_root') + '/' + ajaxFile + '.do', function(response) {
 		var data = [];
 		var index = 0;
 
@@ -346,7 +346,7 @@ $(function () {
 
 	$('.navbar-toggle').addClass ('stage-admin');
 
-	ReHi.regSubForm ($('form.stage-login'), $('html').data('uri_root') + '/login.do', function (response, textStatus, jqXHR) {
+	RH.regSubForm ($('form.stage-login'), $('html').data('uri_root') + '/login.do', function (response, textStatus, jqXHR) {
 		if (response.success == 1 && response.admin) {
 			$('.stage-login').fadeOut ({complete : function () {$('.stage-admin').fadeIn (); }});
 			
@@ -357,7 +357,7 @@ $(function () {
 			loadUserTable('students', 'students', 'student');
 
 			// Load Deadlines
-			ReHi.getData($('html').data('uri_root') + '/deadlines.do', function(response) {
+			RH.getData($('html').data('uri_root') + '/deadlines.do', function(response) {
 				var data = [];
 				var index = 0;
 
@@ -386,7 +386,7 @@ $(function () {
 			}, 'json');
 
 			// Load Word Counts
-			ReHi.getData($('html').data('uri_root') + '/wordcounts.do', function(response) {
+			RH.getData($('html').data('uri_root') + '/wordcounts.do', function(response) {
 				var data = [];
 				var index = 0;
 
@@ -415,7 +415,7 @@ $(function () {
 			}, 'json');
 
 			// Load Funding Statements
-			ReHi.getData($('html').data('uri_root') + '/fundingstatements.do', function(response) {
+			RH.getData($('html').data('uri_root') + '/fundingstatements.do', function(response) {
 				var data = [];
 				var index = 0;
 
@@ -458,7 +458,7 @@ $(function () {
 
 			// Load Cohorts
 			autoResize();
-			ReHi.getData($('html').data('uri_root') + '/cohorts.do', function(response) {
+			RH.getData($('html').data('uri_root') + '/cohorts.do', function(response) {
 				var html = '';
 				for (var i = 0; i < response.length; i++) {
 					var cohort = response[i];
@@ -475,7 +475,7 @@ $(function () {
 
 					var data = 'cohort=' + $(this).text();
 
-					ReHi.sendData ({
+					RH.sendData ({
 						dataType: 'json',
 						data: data,
 						url: $('html').data('uri_root') + '/users.do',
@@ -503,9 +503,9 @@ $(function () {
 				}
 			});
 		} else if (response.error != undefined) {
-			ReHi.showError ('Oh, snap!', response.error + ' <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
+			RH.showError ('Oh, snap!', response.error + ' <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
 		} else {
-			ReHi.showError ('Oh, snap!', 'An unknown error occurred. <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
+			RH.showError ('Oh, snap!', 'An unknown error occurred. <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
 		}
 	}, 'json');
 
@@ -515,13 +515,13 @@ $(function () {
 	adminTabular.regSubForm('form.form-funding', 'fundingstatements-update', 'funding statements', 'funding', 0);
 	adminTabular.regSubForm('form.form-admins', 'admins-update', 'list of administrators');
 
-	ReHi.regSubForm ($('form.form-email'), $('html').data('uri_root') + '/email.do', function (response, textStatus, jqXHR) {
+	RH.regSubForm ($('form.form-email'), $('html').data('uri_root') + '/email.do', function (response, textStatus, jqXHR) {
 		if (response.success == '1') {
-			ReHi.showSuccess ('Whoop! Whoop!', 'Your emails were sent!')
+			RH.showSuccess ('Whoop! Whoop!', 'Your emails were sent!')
 		} else if (response.error != undefined) {
-			ReHi.showError ('Goshdarnit!', response.error + ' <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
+			RH.showError ('Goshdarnit!', response.error + ' <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
 		} else {
-			ReHi.showError ('Oh, snap!', 'An unknown error occurred. <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
+			RH.showError ('Oh, snap!', 'An unknown error occurred. <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
 		}
 	}, 'json');
 

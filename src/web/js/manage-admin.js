@@ -7,16 +7,16 @@
  */
 
  $(function () {
-	ReHi.regSubForm ($('#profile-form'), $('html').data('uri_root') + '/login.do', function (response, textStatus, jqXHR) {
+	RH.regSubForm ($('#profile-form'), $('html').data('uri_root') + '/login.do', function (response, textStatus, jqXHR) {
 		if (response.success !== undefined) {
 			$('#username').attr ('value', $('#profile').val ());
 			loginPrefill (response, textStatus, jqXHR);
-			ReHi.showSuccess ('Loaded submission from ' + response.firstName + ' ' + response.surname, 'Please make any changes necessary and click the Submit button.');
+			RH.showSuccess ('Loaded submission from ' + response.firstName + ' ' + response.surname, 'Please make any changes necessary and click the Submit button.');
             changesMade = false;
 		} else if (response.error !== undefined) {
-			ReHi.showError ('User Error', response.error);
+			RH.showError ('User Error', response.error);
 		} else {
-			ReHi.showError ('User Error', 'An unknown error occured!');
+			RH.showError ('User Error', 'An unknown error occured!');
 		}
 	}, 'json', function () {
         // console.log ('ffff');

@@ -11,7 +11,7 @@
 	$('.loading').fadeIn ();
 	var d = (window.location.hash != '' ? 'user=' + window.location.hash.substr (1) : '');
 
-	ReHi.sendData ({
+	RH.sendData ({
 	  dataType: 'json',
 	  data: d,
 	  url: $('html').data('uri_root') + '/read.do',

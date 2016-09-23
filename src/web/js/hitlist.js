@@ -10,7 +10,7 @@
 	$('.container').empty ();
 	$('.loading').fadeIn ();
 
-	ReHi.sendData ({
+	RH.sendData ({
 	  dataType: 'json',
 	  url: $('html').data('uri_root') + '/hitlist.do',
 	  type: 'post',

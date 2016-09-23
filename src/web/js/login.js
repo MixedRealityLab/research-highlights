@@ -20,10 +20,10 @@ var loginPrefill = function (response, textStatus, jqXHR) {
 	$('.wordlimit').text (response.wordCount);
 
 	$('#tweet').bind ('keyup.count', function (e) {
-		ReHi.charCount ($(this), $('.tweet-rem'), 125);
+		RH.charCount ($(this), $('.tweet-rem'), 125);
 	});
 	$('#text').bind ('keyup.count', function (e) {
-		ReHi.wordCount ($(this), $('.text-rem'), response.wordCount);
+		RH.wordCount ($(this), $('.text-rem'), response.wordCount);
 	});
 
 	$('.name').text (response.firstName + ' ' + response.surname);
@@ -74,11 +74,11 @@ $(function () {
 
 	$('.navbar-toggle').addClass ('stage-editor');
 
-//	ReHi.showAlert ('Welcome!', 'Please enter your credentials to continue.', 'info');
+//	RH.showAlert ('Welcome!', 'Please enter your credentials to continue.', 'info');
 
-	ReHi.regSubForm ($('form.stage-login'), $('html').data('uri_root') + '/login.do', function (response, textStatus, jqXHR) {
+	RH.regSubForm ($('form.stage-login'), $('html').data('uri_root') + '/login.do', function (response, textStatus, jqXHR) {
 		if (response.success == '1') {
-		//	ReHi.showSuccess ('Welcome!', 'Your login was successful. You can log back in any time to modify your submission before the deadline.');
+		//	RH.showSuccess ('Welcome!', 'Your login was successful. You can log back in any time to modify your submission before the deadline.');
 			$('#username').val ($('#editor').val ());
 			$('#admin-user').val ($('#editor').val ());
 			$('#admin-pass').val ($('#password').val ());
@@ -106,7 +106,7 @@ $(function () {
 				$('#progress .bar').css('width',progress + '%');
 			}).on('fileuploaddone', function (e, data) {
 				if (data.result.error != undefined) {
-					ReHi.showError ('Image Upload Error', data.result.error);
+					RH.showError ('Image Upload Error', data.result.error);
 				} else if (data.result.length > 0) {
 					$.each(data.result, function (index, file) {
 						$('#text').insertAtCaret ('![Figure Caption Here...](' + file + ')');
@@ -127,15 +127,15 @@ $(function () {
 				return true;
 			});
 		} else if (response.error != undefined) {
-			ReHi.showError ('Oh, snap!', response.error + ' <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
+			RH.showError ('Oh, snap!', response.error + ' <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
 		} else {
-			ReHi.showError ('Oh, snap!', 'An unknown error occurred. <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
+			RH.showError ('Oh, snap!', 'An unknown error occurred. <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
 		}
 	}, 'json');
 
-	ReHi.regAutoForm ($('form.stage-editor'), $('html').data('uri_root') + '/preview.do', function (response, textStatus, jqXHR) {
+	RH.regAutoForm ($('form.stage-editor'), $('html').data('uri_root') + '/preview.do', function (response, textStatus, jqXHR) {
 		if (!response.text == undefined) {
-			ReHi.showError ('Humf!', 'An unknown error occurred generating your preview! <a href="mailto:' + $('html').data('email') + '" class="alert-link">I need help!</a>');
+			RH.showError ('Humf!', 'An unknown error occurred generating your preview! <a href="mailto:' + $('html').data('email') + '" class="alert-link">I need help!</a>');
 			return;
 		}
 
@@ -157,17 +157,17 @@ $(function () {
 		changesMade = true;
 	}, 'json');
 
-	ReHi.regSubForm ($('form.stage-editor'), $('html').data('uri_root') + '/submit.do', function (response, textStatus, jqXHR) {
+	RH.regSubForm ($('form.stage-editor'), $('html').data('uri_root') + '/submit.do', function (response, textStatus, jqXHR) {
 		if (response.success == '1') {
 			if ($('#username').val () == $('#editor').val ()){
-				ReHi.showSuccess ('Good News!', 'Your submission was saved, ' + $('#name').val () + '! It make take some time for your changes to propagate onto the website.');
+				RH.showSuccess ('Good News!', 'Your submission was saved, ' + $('#name').val () + '! It make take some time for your changes to propagate onto the website.');
 			} else {
-				ReHi.showSuccess ('Good News!', 'The submission for ' + $('#name').val () + ' was saved! It make take some time for your changes to propagate onto the website.');
+				RH.showSuccess ('Good News!', 'The submission for ' + $('#name').val () + ' was saved! It make take some time for your changes to propagate onto the website.');
 			}
 		} else if (response.error != undefined) {
-			ReHi.showError ('Goshdarnit!', response.error + ' <a href="mailto:' + $('html').data('email') + '" class="alert-link">I need help!</a>');
+			RH.showError ('Goshdarnit!', response.error + ' <a href="mailto:' + $('html').data('email') + '" class="alert-link">I need help!</a>');
 		} else  {
-			ReHi.showError ('Fiddlesticks!', 'An unknown error occurred! <a href="mailto:' + $('html').data('email') + '" class="alert-link">I need help!</a>');
+			RH.showError ('Fiddlesticks!', 'An unknown error occurred! <a href="mailto:' + $('html').data('email') + '" class="alert-link">I need help!</a>');
 		}
 	}, 'json');
 
@@ -207,17 +207,17 @@ $(function () {
 		changedMade = false;
 		e.preventDefault ();
 		if ($('#title').val ().length == 0) {
-			ReHi.showError ('Whoopsie!', 'You need to give your submission a title!');
+			RH.showError ('Whoopsie!', 'You need to give your submission a title!');
 		} else if ($('#keywords').tagsinput ('items').length == 0) {
-			ReHi.showError ('Oh dear!', 'You need to enter at least <strong>five</strong> keywords!');
+			RH.showError ('Oh dear!', 'You need to enter at least <strong>five</strong> keywords!');
 		} else if ($('#keywords').tagsinput ('items').length < 5) {
-			ReHi.showError ('Oh dear!', 'You need to enter <strong>' + (5 - $('#keywords').tagsinput ('items').length) + '</strong> more keywords');
+			RH.showError ('Oh dear!', 'You need to enter <strong>' + (5 - $('#keywords').tagsinput ('items').length) + '</strong> more keywords');
 		} else if ($('#tweet').val ().length < 25) {
-			ReHi.showError ('Oh dear!', 'You should enter a better 140-character summary of your PhD');
+			RH.showError ('Oh dear!', 'You should enter a better 140-character summary of your PhD');
 		} else if ($('#tweet').val ().length > 125) {
-			ReHi.showError ('Oh dear!', 'Your tweet-like summary is too long!');
+			RH.showError ('Oh dear!', 'Your tweet-like summary is too long!');
 		} else {
-			ReHi.showAlert ('Just a moment!', 'Saving your submission. Please don\'t leave or refresh this page until a success message appears (resubmit if need be).', 'info');
+			RH.showAlert ('Just a moment!', 'Saving your submission. Please don\'t leave or refresh this page until a success message appears (resubmit if need be).', 'info');
 			setTimeout (function () {$('form.stage-editor').triggerHandler ('submit')}, 500);
 		}
 	});

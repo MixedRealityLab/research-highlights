@@ -177,7 +177,7 @@ var RHReadSidebar = {
 								}
 
 								if(view == RHReadSidebar.VIEW_TITLE) {
-									ReHi.sendData({
+									RH.sendData({
 										dataType: 'json',
 										url: $('html').data('uri_root') + '/cohorts.do',
 										type: 'post',
@@ -192,7 +192,7 @@ var RHReadSidebar = {
 												}
 									});
 								} else if(view == RHReadSidebar.VIEW_NAME) {
-									ReHi.sendData({
+									RH.sendData({
 										dataType: 'json',
 										url: $('html').data('uri_root') + '/submitted.do',
 										type: 'post',
@@ -350,7 +350,7 @@ var RHReadContent = {
 							},
 
 	_load					: function(handler, data, successFn, failureFn) {
-								ReHi.sendData({
+								RH.sendData({
 									dataType: 'json',
 									data: data,
 									url: $('html').data('uri_root') + '/' + handler + '.do',
@@ -437,6 +437,6 @@ $(function() {
 	RHRead._register();
 	RHReadContent.activateSearch('.search-form', '#q');
 
-	ReHi.fadePageIn();
+	RH.fadePageIn();
 	$('.loading').fadeOut();
 });
