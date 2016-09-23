@@ -131,7 +131,7 @@ var RHAdmin = {
 										}, 'json');
 
 										// Load Administrators
-										loadUserTable('admins', 'admins', 'admin');
+										RHAdmin.loadUserTable('admins', 'admins', 'admin');
 
 										// Catch Key presses for submitting
 										$(window).keydown(function(e) {
