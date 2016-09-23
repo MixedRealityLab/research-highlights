@@ -81,7 +81,7 @@
 								ReHi.activeRequest = $.ajax(data).always(function() {
 									ReHi.activeRequest = 0;
 									if(ReHi.requestQueue[0] != undefined) {
-										ReHi.sendData(ReHi.requestQueue.pop());
+										ReHi.sendData(ReHi.requestQueue.shift());
 									}
 								});
 							} else {
