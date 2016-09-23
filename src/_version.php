@@ -7,4 +7,4 @@
  * See LICENCE for legal information.
  */
 
-\define('VERSION', 'ResearchHighlights/3.8');
+\define('VERSION', 'ResearchHighlights/3.9');
