@@ -7,14 +7,6 @@
  * See LICENCE for legal information.
  */
 
-// first page argument should be a username
-if (isset($data[0])) {
-    $cUser = I::RH_User();
-    if (!\is_null($cUser->get($data[0]))) {
-        \define('READ_USER', $data[0]);
-    }
-}
-
 $cTemplate = I::RH_Template();
 
 $cTemplate->startCapture();
@@ -36,7 +28,7 @@ $cTemplate->startCapture();
                     <p class="view-by collapse">
                         List submissions by
                         <br>
-                        <a href="#" class="listMode" data-listmode="cohort">Title</a> &bull; <a href="#" class="listMode" data-listmode="name">Name</a>
+                        <a href="#" class="listMode sidebarMode" data-mode="title" data-listmode="cohort">Title</a> &bull; <a href="#" class="listMode sidebarMode" data-mode="name" data-listmode="name">Name</a>
                     </p>
 
                     <div class="panel-group nav collapse" id="viewList" role="tablist" aria-multiselectable="true"></div>
@@ -127,26 +119,10 @@ endif; ?>">
 $cTemplate->set('header', true);
 $cTemplate->set('body', $cTemplate->endCapture());
 
-if (\defined('READ_USER')) {
-    $cUser = I::RH_User();
-    $mUser = $cUser->get(READ_USER);
-    $cTemplate->set('title', $mUser->firstName . ' ' . $mUser->surname . TITLE_SEP . TITLE);
-
-    $cTemplate->startCapture();
-?><script type="text/javascript">
-$(function() {changeListView ('name', function () {
-    loadPage ('read', '...', 'user=<?php print READ_USER; ?>', function () {
-        showError ('Unknown username', 'Sorry, no submission was found for that username.');
-    });
-})});;
-</script><?php
-    $cTemplate->set('footer', $cTemplate->endCapture());
-}
-
 $cTemplate->add('css', URI_WEB . '/css/index' . EXT_CSS);
 
 $cTemplate->add('javascript', URI_SYS . '/js/jquery.ba-hashchange' . EXT_JS);
 $cTemplate->add('javascript', URI_WEB . '/js/main' . EXT_JS);
-$cTemplate->add('javascript', URI_WEB . '/js/index' . EXT_JS);
+$cTemplate->add('javascript', URI_WEB . '/js/read' . EXT_JS);
 
 print $cTemplate->load('2015');
