@@ -72,7 +72,7 @@ endif; ?>">
 
                         <div class="col-md-4 collapse">
                             <div class="well feature" style="background-image: url(<?php print URI_HOME; ?>/web/img/home-psxpb2.png)">
-                                <a href="#read=psxpb2" title="Neighbourhoods: Identifying the Places that People Talk About on the Web">
+                                <a href="#" data-user="psxpb2" title="Neighbourhoods: Identifying the Places that People Talk About on the Web">
                                     <p>
                                         <span>Mapping UK urban neighbourhoods from postal address data automatically extracted from the internet</span>
                                         <small>Paul Brindley (2011 Cohort)</small>
@@ -83,7 +83,7 @@ endif; ?>">
 
                         <div class="col-md-4 collapse">
                             <div class="well feature" style="background-image: url(<?php print URI_HOME; ?>/web/img/home-psxkga.jpg)">
-                                <a href="#read=psxkga" title="Understanding Teamwork In Online Games">
+                                <a href="#" data-user="psxkga" title="Understanding Teamwork In Online Games">
                                     <p>
                                         <span>Is talking to the rest of your team in Call of Duty actually worth it?</span>
                                         <small>Kyle Arch (2013 Cohort)</small>
@@ -94,7 +94,7 @@ endif; ?>">
 
                         <div class="col-md-4 collapse">
                             <div class="well feature" style="background-image: url(<?php print URI_HOME; ?>/web/img/home-psxhama.jpg)">
-                                <a href="#read=psxhama" title="Real-time Mental Workload Feedback using fNIRS">
+                                <a href="#" data-user="psxhama" title="Real-time Mental Workload Feedback using fNIRS">
                                     <p>
                                         <span>Real-time Mental Workload Feedback using fNIRs</span>
                                         <small>Horia Maior (2012 Cohort)</small>
