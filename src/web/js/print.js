@@ -7,7 +7,7 @@
  */
 
 var RHPrint = {
-	_register				: function() {
+	register				: function() {
 								$('.container').empty();
 								$('.loading').fadeIn();
 
@@ -94,4 +94,4 @@ var RHPrint = {
 							}
 };
 
-$(RHPrint._register);
+$(RHPrint.register);

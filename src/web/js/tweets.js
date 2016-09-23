@@ -19,7 +19,7 @@ var RHTweets = {
 	DISPLAY_FOR				: 15000,
 	NEXT_INDEX				: 0,
 
-	_register				: function(dialogSelector, titleSelector, tweetSelector, usernameSelector, authorSelector, cohortSelector) {
+	register				: function(dialogSelector, titleSelector, tweetSelector, usernameSelector, authorSelector, cohortSelector) {
 								RHTweets.SELECTORS[RHTweets.SELECTOR_DIALOG] = dialogSelector;
 								RHTweets.SELECTORS[RHTweets.SELECTOR_TITLE] = titleSelector;
 								RHTweets.SELECTORS[RHTweets.SELECTOR_TWEET] = tweetSelector;
@@ -60,5 +60,5 @@ var RHTweets = {
 
 
 $(function() {
-	RHTweets._register('#dialog', '#title', '#tweet', '#username', '#author', '#cohort');
+	RHTweets.register('#dialog', '#title', '#tweet', '#username', '#author', '#cohort');
 });

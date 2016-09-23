@@ -12,7 +12,7 @@ var RHRead = {
 	CONTENT_HANDLERS		: {},
 	INITIAL_LOAD			: 1,
 
-	_register				: function() {
+	register				: function() {
 								RHRead.HISTORY_ENABLED = !!(window.history && history.pushState);
 
 								// Legacy
@@ -128,20 +128,20 @@ var RHReadSidebar = {
 	CURRENT_VIEW			: -1,
 	SELECT_ON_LOAD			: -1,
 
-	_register				: function() {
-								$('.sidebarMode').click(RHReadSidebar._onClick);
+	register				: function() {
+								$('.sidebarMode').click(RHReadSidebar.onClick);
 								RHReadSidebar.VIEWS = [RHReadSidebar.VIEW_TITLE, RHReadSidebar.VIEW_NAME];
 								$('[data-toggle=offcanvas]').click (function () {
 									$('.row-offcanvas').toggleClass ('active');
 								});
 							},
 
-	_onClick				: function(e) {
+	onClick					: function(e) {
 								e.preventDefault();
 								RHReadSidebar.setView($(this).data('mode'));
 							},
 
-	_selectLink				: function(elem) {
+	selectLink				: function(elem) {
 								if(RHReadSidebar.CURRENT_VIEW == -1) {
 									RHReadSidebar.SELECT_ON_LOAD = elem;
 									return;
@@ -228,27 +228,27 @@ var RHReadSidebar = {
 								$('.sidebarMode:not([data-mode='+ view + '])').removeClass('selected');
 								$('.sidebarMode[data-mode='+ view + ']').addClass('selected');
 								RHReadSidebar.CURRENT_VIEW = id;
-								RHReadContent.activateLinks('#viewList', function() {RHReadSidebar._selectLink(this)});
+								RHReadContent.activateLinks('#viewList', function() {RHReadSidebar.selectLink(this)});
 
 								if(RHReadSidebar.SELECT_ON_LOAD != -1) {
-									RHReadSidebar._selectLink(RHReadSidebar.SELECT_ON_LOAD);
+									RHReadSidebar.selectLink(RHReadSidebar.SELECT_ON_LOAD);
 									RHReadSidebar.SELECT_ON_LOAD = -1;
 								}
 							},
 
 	selectUser				: function(user) {
-								RHReadSidebar._selectLink('#viewList [data-user=' + user + ']');
+								RHReadSidebar.selectLink('#viewList [data-user=' + user + ']');
 							},
 
 	selectCohort			: function(cohort) {
-								RHReadSidebar._selectLink('#viewList [data-cohort=' + cohort + ']');
+								RHReadSidebar.selectLink('#viewList [data-cohort=' + cohort + ']');
 							},
 
 };
 
 var RHReadContent = {
 
-	_showError				: function(title, text) {
+	showError				: function(title, text) {
 								$('.home').hide();
 								$('.read').empty();
 								$('.headerOnly').unbind('click.headerOnly');
@@ -260,7 +260,7 @@ var RHReadContent = {
 								$('.row-offcanvas').toggleClass('active');
 							},
 
-	_showSubmissions		: function(response, title) {
+	showSubmissions			: function(response, title) {
 								$('.home').hide();
 								$('.read').empty();
 								$('.headerOnly').unbind('click.headerOnly');
@@ -342,17 +342,17 @@ var RHReadContent = {
 								};
 							},
 
-	_onClickUser			: function(e) {
+	onClickUser				: function(e) {
 								e.preventDefault();
 								RHRead.loadPath('read/' + $(this).data('user'));
 							},
 
-	_onClickCohort			: function(e) {
+	onClickCohort			: function(e) {
 								e.preventDefault();
 								RHRead.loadPath('cohort/' + $(this).data('cohort'));
 							},
 
-	_load					: function(handler, data, successFn, failureFn) {
+	load					: function(handler, data, successFn, failureFn) {
 								RH.sendData({
 									dataType: 'json',
 									data: data,
@@ -385,8 +385,8 @@ var RHReadContent = {
 							},
 
 	activateLinks			: function(selector, customFn) {
-								RHReadContent._activateLinks(selector + ' [data-user]', [RHReadContent._onClickUser, customFn]);
-								RHReadContent._activateLinks(selector + ' [data-cohort]', [RHReadContent._onClickCohort, customFn]);
+								RHReadContent._activateLinks(selector + ' [data-user]', [RHReadContent.onClickUser, customFn]);
+								RHReadContent._activateLinks(selector + ' [data-cohort]', [RHReadContent.onClickCohort, customFn]);
 							},
 
 	activateSearch			: function(formSelector, querySelector) {
@@ -404,18 +404,18 @@ var RHReadContent = {
 
 	search					: function(path) {
 								RHRead.setTitle('Search results for ' + path);
-								RHReadContent._load('search', 'q=' + path, function(response) {
+								RHReadContent.load('search', 'q=' + path, function(response) {
 										var title = 'Search results for <em>' + path + '</em>';
-										RHReadContent._showSubmissions(response, title);
+										RHReadContent.showSubmissions(response, title);
 									}, function(response) {
 										var title = 'No results found :-(';
 										var message = 'Sorry, no submission were found for the keywords supplied.';
-										RHReadContent._showError(title, message);
+										RHReadContent.showError(title, message);
 									});
 							},
 
 	cohort					: function(path) {
-								RHReadContent._load('read', 'cohort=' + path, RHReadContent._showSubmissions);
+								RHReadContent.load('read', 'cohort=' + path, RHReadContent.showSubmissions);
 								RHRead.setTitle(path + ' Cohort');
 								if(RHRead.INITIAL_LOAD) {
 									RHRead.INITIAL_LOAD = 0;
@@ -425,7 +425,7 @@ var RHReadContent = {
 							},
 
 	user					: function(path) {
-								RHReadContent._load('read', 'user=' + path, RHReadContent._showSubmissions);
+								RHReadContent.load('read', 'user=' + path, RHReadContent.showSubmissions);
 								if(RHRead.INITIAL_LOAD) {
 									RHRead.INITIAL_LOAD = 0;
 									RHReadSidebar.setView(RHReadSidebar.VIEW_NAME);
@@ -436,8 +436,8 @@ var RHReadContent = {
 };
 
 $(function() {
-	RHReadSidebar._register();
-	RHRead._register();
+	RHReadSidebar.register();
+	RHRead.register();
 	RHReadContent.activateSearch('.search-form', '#q');
 
 	RH.fadePageIn();

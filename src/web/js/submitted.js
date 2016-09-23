@@ -7,7 +7,7 @@
  */
 
 var RHSubmitted = {
-	_register				: function() {
+	register				: function() {
 								RH.sendData({
 									dataType: 'json',
 									url: $('html').data('uri_root') + '/submitted.do',
@@ -48,4 +48,4 @@ var RHSubmitted = {
 							},
 };
 
-$(RHSubmitted._register);
+$(RHSubmitted.register);

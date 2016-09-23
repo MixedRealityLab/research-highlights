@@ -8,7 +8,7 @@
 
  var RH = {
  	// from http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
- 	_replaceAll			: function(find, replace, str) {
+ 	replaceAll			: function(find, replace, str) {
 							return str.replace (new RegExp (find, 'g'), replace);
 						},
 
