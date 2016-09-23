@@ -27,7 +27,7 @@ $dir = $types[$type];
 $page = $page === '/' ? PAG_HOME : $page;
 
 if (\strpos($page, 'do/') === 0) {
-    $file = DIR_WAJ . '/' . \substr($page, 3) . '.php';
+    $file = $types['do'] . '/' . \substr($page, 3) . '.php';
 } elseif (\strpos($page, 'go/') === 0) {
     $end = \strpos($page, '/') + 2;
     $end = $end === false ? strlen($page) : $end;
@@ -45,10 +45,14 @@ $file = \str_replace('/./', '/', $file);
 
 $data = array ();
 while (true) {
-    if (\is_file($file)) {
+    if(strpos($file, $dir .'/') === false) {
+        break;
+    } elseif (\is_file($file)) {
+        \array_reverse($data);
         require $file;
         exit;
     } elseif (\strpos($file, '/') !== false) {
+        $pathinfo = \pathinfo($file);
         $data[] = $pathinfo['filename'];
         $file = \dirname($file) . '.php';
     } else {
@@ -56,7 +60,16 @@ while (true) {
     }
 }
 
-if ('http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] != URI_HOME) {
-    die('Location: ' . URI_HOME . '/');
+\array_reverse($data);
+$home = DIR_WPG .'/'. PAG_HOME .'.php';
+if (\is_file($home)) {
+    require $home;
     exit;
 }
+
+if ('http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] != URI_HOME) {
+    header('Location: '. URI_HOME);
+    exit;
+}
+
+die('Could not load page.');
