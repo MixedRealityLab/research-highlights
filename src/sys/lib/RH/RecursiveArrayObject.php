@@ -62,7 +62,7 @@ class RecursiveArrayObject extends \ArrayObject
      */
     public function __get($key)
     {
-        if ($recurse) {
+        if ($this->recurse) {
             if ($this->offsetExists($key)) {
                 return $this->offsetGet($key);
             } elseif (\array_key_exists($key, $this)) {
