@@ -22,7 +22,12 @@ $page = $pathinfo['dirname'] . '/' . $pathinfo['filename'];
 $type = $pathinfo['extension'];
 
 $types = ['xml' => DIR_WXM, 'go' => DIR_WGO, 'do' => DIR_WAJ, '' => DIR_WPG];
-$dir = $types[$type];
+if (isset($types[$type])) {
+    $dir = $types[$type];
+} else {
+    $dir = $types[''];
+    $page .= '.' . $type;
+}
 
 $page = $page === '/' ? PAG_HOME : $page;
 
