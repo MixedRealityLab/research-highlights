@@ -49,7 +49,13 @@ var RHTweets = {
 									$(RHTweets.SELECTORS[RHTweets.SELECTOR_USERNAME]).text(RHTweets.DATA[RHTweets.NEXT_INDEX].username);
 									$(RHTweets.SELECTORS[RHTweets.SELECTOR_AUTHOR]).text(RHTweets.DATA[RHTweets.NEXT_INDEX].author);
 									$(RHTweets.SELECTORS[RHTweets.SELECTOR_COHORT]).text(RHTweets.DATA[RHTweets.NEXT_INDEX].cohort);
+									
+									if(RHTweets.NEXT_INDEX == 0) {
+										$(RHTweets.SELECTORS[RHTweets.SELECTOR_DIALOG]).removeClass('hide')
+									}
+									
 									RHTweets.NEXT_INDEX++;
+
 									$(RHTweets.SELECTORS[RHTweets.SELECTOR_DIALOG]).fadeIn(function() {
 										setTimeout(RHTweets.showNextSubmission, RHTweets.DISPLAY_FOR);
 									});
