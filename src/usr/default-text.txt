@@ -10,10 +10,10 @@ Your text *can* be easily **formatted** using the Markdown syntax.
 2. You do not need to include your PhD title in your text.
 3. Leave blank lines for new paragraphs
 
-![This is my image caption](http://cdt.horizon.ac.uk/kitten.jpg)
+![This is my image caption](http://highlights.cdt.horizon.ac.uk/web/img/kitten.jpg)
 
 > Please try to adhere to the formatting guidelines [2].
 
-![Look at this kitten](http://cdt.horizon.ac.uk/kitten.jpg)
+![Look at this kitten](http://highlights.cdt.horizon.ac.uk/web/img/kitten.jpg)
 
 - I like [kittens](http://placekitten.com/).
