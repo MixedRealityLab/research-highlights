@@ -35,7 +35,7 @@
 \define('DOMAIN', '@@@DOMAIN@@@');
 \define('PATH', '@@@PATH@@@');
 
-\define('PAG_HOME', 'index');
+\define('PAG_HOME', 'read');
 \define('SYS_HTAC', true);
 
 \define('EXT_CSS', '.css');
