@@ -33,7 +33,7 @@ $cTemplate->startCapture();
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sodales nec neque ac hendrerit. Nullam porttitor tortor sem, ac sodales purus auctor quis. Nam leo urna, sodales non luctus quis, consectetur ut dui. Phasellus ultrices feugiat pellentesque
                 </p>
                 <span class="readmore">
-                    Read more at <a rel="fulltext">http://cdt.horizon.ac.uk/highlights/</a>
+                    Read more at <a rel="fulltext"><?php print URI_HOME; ?>/</a>
                 </span>
             </article>
             <div class="tailer">
