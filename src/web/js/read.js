@@ -131,6 +131,9 @@ var RHReadSidebar = {
 	_register				: function() {
 								$('.sidebarMode').click(RHReadSidebar._onClick);
 								RHReadSidebar.VIEWS = [RHReadSidebar.VIEW_TITLE, RHReadSidebar.VIEW_NAME];
+								$('[data-toggle=offcanvas]').click (function () {
+									$('.row-offcanvas').toggleClass ('active');
+								});
 							},
 
 	_onClick				: function(e) {
