@@ -5,3 +5,5 @@ src_private/*
 *.scpt
 
 .DS_Store
+
+composer.phar
