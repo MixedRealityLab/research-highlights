@@ -12,7 +12,7 @@ $cTemplate = I::RH_Template();
 $cTemplate->startCapture();
 
 ?>
-    <div id="dialog" class="centerpage collapse">
+    <div id="dialog" class="centerpage hide collapse">
         <section>
             <h1 id="title">
                 My Research in a Tweet:
