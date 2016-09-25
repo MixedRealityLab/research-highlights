@@ -44,9 +44,9 @@ var RHTweets = {
 
 	showNextSubmission		: function() {
 								$(RHTweets.SELECTORS[RHTweets.SELECTOR_DIALOG]).fadeOut(function() {
-									$(RHTweets.SELECTORS[RHTweets.SELECTOR_TITLE]).text(RHTweets.DATA[RHTweets.NEXT_INDEX].title);
+									//$(RHTweets.SELECTORS[RHTweets.SELECTOR_TITLE]).text(RHTweets.DATA[RHTweets.NEXT_INDEX].title);
 									$(RHTweets.SELECTORS[RHTweets.SELECTOR_TWEET]).text(RHTweets.DATA[RHTweets.NEXT_INDEX].tweet);
-									$(RHTweets.SELECTORS[RHTweets.SELECTOR_USERNAME]).text(RHTweets.DATA[RHTweets.NEXT_INDEX].username);
+									//$(RHTweets.SELECTORS[RHTweets.SELECTOR_USERNAME]).text(RHTweets.DATA[RHTweets.NEXT_INDEX].username);
 									$(RHTweets.SELECTORS[RHTweets.SELECTOR_AUTHOR]).text(RHTweets.DATA[RHTweets.NEXT_INDEX].author);
 									$(RHTweets.SELECTORS[RHTweets.SELECTOR_COHORT]).text(RHTweets.DATA[RHTweets.NEXT_INDEX].cohort);
 									

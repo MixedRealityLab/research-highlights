@@ -25,7 +25,7 @@ $cTemplate->startCapture();
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sodales nec neque ac hendrerit. Nullam porttitor tortor sem, ac sodales purus auctor quis. Nam leo urna, sodales non luctus quis, consectetur ut dui. Phasellus ultrices feugiat pellentesque
                 </p>
                 <span class="readmore">
-                    Read more at <a rel="fulltext"><?php print URI_HOME; ?>/read/<span id="username">username</span></a>
+                    Read more at <a rel="fulltext"><?php print URI_NICE; ?></a>
                 </span>
             </article>
             <div class="tailer">

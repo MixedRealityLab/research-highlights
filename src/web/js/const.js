@@ -4,6 +4,7 @@ $(function () {
 	$('html').data('path', '@@@PATH@@@');
 	$('html').data('home', '@@@HOME@@@');
 	$('html').data('uri_root', '@@@URI_ROOT@@@');
+	$('html').data('uri_nice', '@@@URI_NICE@@@');
 	$('html').data('sys_htac', '@@@SYS_HTAC@@@');
 
 	$('html').data('ext_js', '@@@EXT_JS@@@');

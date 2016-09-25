@@ -43,6 +43,7 @@
 
 \define('URI_HOME', '@@@DOMAIN@@@@@@PATH@@@');
 \define('URI_ROOT', '@@@URI_ROOT@@@');
+\define('URI_NICE', '@@@URI_NICE@@@');
 \define('URI_WEB', URI_ROOT . '/web');
 \define('URI_SYS', URI_ROOT . '/sys');
 \define('URI_DATA', URI_ROOT . '/submissions-' . SITE_YEAR);

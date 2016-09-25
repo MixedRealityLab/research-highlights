@@ -71,6 +71,17 @@
 			</then>
 		</if>
 
+		<if>
+			<isset property="niceUri"/>
+			<then>
+				<echo message="Setting the NICE_URI in configuration file"/>
+				<replace file="${dist.dir}/config.php" token="@@@URI_NICE@@@" value="${niceUri}"/>
+			</then>
+			<else>
+				<replace file="${dist.dir}/config.php" token="@@@URI_NICE@@@" value="${domain}${path}"/>
+			</else>
+		</if>
+
 		<echo message="Replacing constants in all files, based on configuration"/>
 		<loadfile property="config.file" srcfile="${dist.dir}/config.php"/>
 		<if>
@@ -134,6 +145,13 @@
 		<antcall target="set-const">
 			<param name="const" value="SITE_YEAR"/>
 			<param name="val" value="${site_year}"/>
+			<param name="files" value="**/*"/>
+		</antcall>
+
+		<propertyregex property="uri_nice" input="${config.file}" regexp="\\define\('URI_NICE', '(.*)'" select="\1" />
+		<antcall target="set-const">
+			<param name="const" value="URI_NICE"/>
+			<param name="val" value="${uri_nice}"/>
 			<param name="files" value="**/*"/>
 		</antcall>
 
