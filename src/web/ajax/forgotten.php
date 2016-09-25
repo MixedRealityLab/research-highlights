@@ -41,7 +41,7 @@ try {
     $subject = MAIL_FORGOT_PASS_SUBJ;
     $message = \nl2br(MAIL_FORGOT_PASS_MESG);
 
-    if ($oEmail->send($mUser->username, $subject, \strip_tags($message), $message)) {
+    if ($oEmail->send($mUser->username, $subject, $message)) {
         print \json_encode(array ('success' => 1));
     } else {
         print \json_encode(array ('error' => 'The emails were not sent.'));
