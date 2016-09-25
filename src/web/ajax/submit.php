@@ -98,7 +98,7 @@ try {
 
             $message .= '<br><br><strong>Account Details</strong><br>Username: <em><username></em><br>Password: <em><password></em>';
 
-            $oEmail->sendAll($unamesMail, $subject, \strip_tags($message), $message) ? '1' : '-1';
+            $oEmail->sendAll($unamesMail, $subject, $message) ? '1' : '-1';
         }
     }
 
