@@ -13,7 +13,6 @@ $(function () {
 	$('html').data('title', '@@@TITLE@@@');
 	$('html').data('title_sep', '@@@TITLE_SEP@@@');
 	$('html').data('site_name', '@@@SITE_NAME@@@');
-	$('html').data('site_year', '@@@SITE_YEAR@@@');
 
 	$('html').data('email', '@@@EMAIL@@@');
 });

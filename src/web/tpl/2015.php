@@ -68,7 +68,7 @@
         <?php if ($header) : ?>
             <div class="container collapse">
                 <footer class="row">
-                    <p>&copy; The University of Nottingham <?php print SITE_YEAR; ?> &bull; Website built and <a href="https://github.com/mporcheron/ResearchHighlights" title="Research Highlights project on GitHub">open sourced</a> by <a href="https://www.porcheron.uk/" title="Martin Porcheron's website">Martin Porcheron</a> &bull; <a href="<?php print URI_HOME; ?>/login" title="<?php print SITE_NAME; ?> Submission Management">Manage your Submission</a></p>
+                    <p>&copy; The University of Nottingham 2014 &ndash; <?php print date('Y'); ?> &bull; Website built and <a href="https://github.com/mporcheron/ResearchHighlights" title="Research Highlights project on GitHub">open sourced</a> by <a href="https://www.porcheron.uk/" title="Martin Porcheron's website">Martin Porcheron</a> &bull; <a href="<?php print URI_HOME; ?>/login" title="<?php print SITE_NAME; ?> Submission Management">Manage your Submission</a></p>
                 </footer>
             </div>
         <?php endif; ?>

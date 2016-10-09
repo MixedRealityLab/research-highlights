@@ -253,7 +253,7 @@ $cTemplate->startCapture();
                                                 <label for="title">Message</label>
                                                 <textarea name="message" id="message" rows="15" class="form-control input input-large" placeholder="Message to email users">Dear <firstName>,
 
-For the <?php print SITE_NAME . ' ' . SITE_YEAR; ?> you need to produce a <wordCount>-word maximum summary of your PhD. This summary will be published online, along with all other current CDT students in an online catalogue. It is hoped that highlights from this catalogue will be included in a published leaflet advertising the centre's work.
+For the <?php print SITE_NAME; ?> you need to produce a <wordCount>-word maximum summary of your PhD. This summary will be published online, along with all other current CDT students in an online catalogue. It is hoped that highlights from this catalogue will be included in a published leaflet advertising the centre's work.
 
 <strong>IMPORTANT: This process requires you to make your submission by the <deadline>!</strong>
 

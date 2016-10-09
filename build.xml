@@ -141,13 +141,6 @@
 			<param name="files" value="**/*"/>
 		</antcall>
 
-		<propertyregex property="site_year" input="${config.file}" regexp="\\define\('SITE_YEAR', '(.*)'" select="\1" />
-		<antcall target="set-const">
-			<param name="const" value="SITE_YEAR"/>
-			<param name="val" value="${site_year}"/>
-			<param name="files" value="**/*"/>
-		</antcall>
-
 		<propertyregex property="uri_nice" input="${config.file}" regexp="\\define\('URI_NICE', '(.*)'" select="\1" />
 		<antcall target="set-const">
 			<param name="const" value="URI_NICE"/>
