@@ -9,7 +9,7 @@
 
 // Update the wordcounts for each cohort.
 
-use \RH\Validator as V;
+use \RH\Model\InputValidator as V;
 
 \header('Content-type: application/json');
 

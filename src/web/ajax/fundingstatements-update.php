@@ -9,7 +9,7 @@
 
 // Update the funding statements
 
-use \RH\Validator as V;
+use \RH\Model\InputValidator as V;
 
 \header('Content-type: application/json');
 
