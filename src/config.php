@@ -18,9 +18,9 @@
 \define('DIR_WGO', DIR . '/web/go');
 \define('DIR_WTP', DIR . '/web/tpl');
 
-\define('DIR_DAT', DIR . '/submissions-2016');
-\define('DIR_CAC', DIR . '/submissions-2016/cache');
-\define('DIR_IMG', DIR . '/submissions-2016/images');
+\define('DIR_DAT', DIR . '/submissions');
+\define('DIR_CAC', DIR . '/submissions/cache');
+\define('DIR_IMG', DIR . '/submissions/images');
 
 \define('DIR_SLB', DIR .  '/sys/lib');
 \define('DIR_SCS', DIR . '/sys/css');
@@ -45,8 +45,8 @@
 \define('URI_NICE', 'http://cdt.horizon.ac.uk/highlights');
 \define('URI_WEB', URI_ROOT . '/web');
 \define('URI_SYS', URI_ROOT . '/sys');
-\define('URI_DATA', URI_ROOT . '/submissions-2016');
-\define('URI_IMG', URI_ROOT . '/submissions-2016/images');
+\define('URI_DATA', URI_ROOT . '/submissions');
+\define('URI_IMG', URI_ROOT . '/submissions/images');
 
 \define('TITLE', '@@@SITE_NAME@@@');
 \define('TITLE_SEP', ' - ');
