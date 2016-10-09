@@ -40,100 +40,17 @@ var RHAdmin = {
 										$('.submit-user').each(function() { $(this).val($('#editor').val())});
 										$('.submit-pass').each(function() { $(this).val($('#password').val())});
 
-										// Load Students
-										RHAdmin.loadUserTable('students', 'students', 'student');
+										$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+											var fnName = $(this).attr('href').replace('#tab-', '');
+											var fn = RHAdminLoadTabData[fnName];
+											if(typeof fn === 'function') {
+												fn();
+											}
+										});
 
-										// Load Deadlines
-										RH.getData($('html').data('uri_root') + '/deadlines.do', function(response) {
-											var data = [];
-											var index = 0;
+										RHAdminLoadTabData.students();
 
-											response.forEach(function(item) {
-												data[index++] = item;
-											});	
-
-											jQuery('#deadlines').tabularInput({
-												'rows': index,
-												'columns': 2,
-												'newRowOnTab': true,
-												'maxRows': 15,
-												'animate': true,
-												'name': 'deadline',
-												'columnHeads': ['Cohort', 'Deadline']
-											});
-
-											RHAdminTabularValidate.deadlines('#deadlines tbody tr td');
-
-											for(var i = 1; i <= index; i++) {
-												var row = data[i-1];
-												$('[name="deadline[0][' + i + ']"]').val(row.cohort);
-												$('[name="deadline[1][' + i + ']"]').val(row.deadline);
-												RHAdmin.DEADLINES[i-1] = row.cohort;
-											};
-										}, 'json');
-
-										// Load Word Counts
-										RH.getData($('html').data('uri_root') + '/wordcounts.do', function(response) {
-											var data = [];
-											var index = 0;
-
-											response.forEach(function(item) {
-												data[index++] = item;
-											});	
-
-											jQuery('#wordcounts').tabularInput({
-												'rows': index,
-												'columns': 2,
-												'newRowOnTab': true,
-												'maxRows': 15,
-												'animate': true,
-												'name': 'wordcount',
-												'columnHeads': ['Cohort', 'Word Count']
-											});
-
-											RHAdminTabularValidate.wordcounts('#wordcounts tbody tr td');
-
-											for(var i = 1; i <= index; i++) {
-												var row = data[i-1];
-												$('[name="wordcount[0][' + i + ']"]').val(row.cohort);
-												$('[name="wordcount[1][' + i + ']"]').val(row.wordCount);
-												RHAdmin.WORD_COUNTS[i-1] = row.cohort;
-											};
-										}, 'json');
-
-										// Load Funding Statements
-										RH.getData($('html').data('uri_root') + '/fundingstatements.do', function(response) {
-											var data = [];
-											var index = 0;
-
-											response.forEach(function(item) {
-												data[index++] = item;
-											});	
-
-											jQuery('#funding').tabularInput({
-												'rows': index,
-												'columns': 2,
-												'newRowOnTab': true,
-												'maxRows': 15,
-												'animate': true,
-												'name': 'funding',
-												'columnHeads': ['Unique Funding Statement ID', 'Funding Statement']
-											});
-
-											RHAdminTabularValidate.wordcounts('#funding tbody tr td');
-
-											for(var i = 1; i <= index; i++) {
-												var row = data[i-1];
-												$('[name="funding[0][' + i + ']"]').val(row.fundingStatementId);
-												$('[name="funding[1][' + i + ']"]').val(row.fundingStatement);
-												RHAdmin.FUNDING_STATEMENTS[i-1] = row.fundingStatementId;
-											};
-										}, 'json');
-
-										// Load Administrators
-										RHAdmin.loadUserTable('admins', 'admins', 'admin');
-
-										// Catch Key presses for submitting
+										// Catch button presses
 										$(window).keydown(function(e) {
 											if((e.ctrlKey || e.metaKey) && e.which == 83) {
 												e.preventDefault();
@@ -142,53 +59,13 @@ var RHAdmin = {
 											}
 											return true;
 										});
-
-										// Load Cohorts
-										RH.autoResize('.stage-admin');
-										RH.getData($('html').data('uri_root') + '/cohorts.do', function(response) {
-											var html = '';
-											for(var i = 0; i < response.length; i++) {
-												var cohort = response[i];
-												if(html != '') {
-													html += ', ';
-												}
-												html += '<a href="javascript:;" class="addUsers">' + cohort + '</a>';
-											}
-											$('#cohortLinks').html(html);
-
-											$('.addUsers').click(function(e) {
-												e.preventDefault();
-												var $allInputs = $('form.form-email').find('input, select, button, textarea');
-
-												var data = 'cohort=' + $(this).text();
-
-												RH.sendData({
-													dataType: 'json',
-													data: data,
-													url: $('html').data('uri_root') + '/users.do',
-													type: 'post',
-													beforeSend: function() {
-														$allInputs.prop('disabled', true);
-													},
-													complete: function() {
-														$allInputs.prop('disabled', false);
-													},
-													success: function(response, textStatus, jqXHR) {
-														$.each(response, function(i, v) {
-															$('#usernames').append(v.username + "\n");
-														});
-														$('#usernames').trigger('autosize.resize');
-													}
-												});
-											});
-										}, 'json');
-
 										$('.btn-deleteRow').click(function() {
 											var id = $(this).data('deletetabularrow');
 											if(id != undefined) {
 												$('#' + id).tabularInput("deleteRow");
 											}
 										});
+
 									} else if(response.error != undefined) {
 										RH.showError('Oh, snap!', response.error + ' <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
 									} else {
@@ -227,8 +104,18 @@ var RHAdmin = {
 									}
 								});
 							},
+};
 
-	loadUserTable			: function(ajaxFile, fieldId, inputName) {
+var RHAdminLoadTabData= {
+	students				: function() {
+								RHAdminLoadTabData._users('students', 'students', 'student');
+							},
+
+	admins					: function() {
+								RHAdminLoadTabData._users('admins', 'admins', 'admin');
+							},
+
+	_users					: function(ajaxFile, fieldId, inputName) {
 								RH.getData($('html').data('uri_root') + '/' + ajaxFile + '.do', function(response) {
 									var data = [];
 									var index = 0;
@@ -268,6 +155,137 @@ var RHAdmin = {
 											RHAdminTableInput.setCell($('[name="' + inputName + '[7][' + i + ']"]'), RHAdminTableInput.STATE_STRIKETHROUGH);
 										}
 									}
+								}, 'json');
+							},
+
+	deadlines				: function() {
+								RH.getData($('html').data('uri_root') + '/deadlines.do', function(response) {
+									var data = [];
+									var index = 0;
+
+									response.forEach(function(item) {
+										data[index++] = item;
+									});	
+
+									jQuery('#deadlines').tabularInput({
+										'rows': index,
+										'columns': 2,
+										'newRowOnTab': true,
+										'maxRows': 15,
+										'animate': true,
+										'name': 'deadline',
+										'columnHeads': ['Cohort', 'Deadline']
+									});
+
+									RHAdminTabularValidate.deadlines('#deadlines tbody tr td');
+
+									for(var i = 1; i <= index; i++) {
+										var row = data[i-1];
+										$('[name="deadline[0][' + i + ']"]').val(row.cohort);
+										$('[name="deadline[1][' + i + ']"]').val(row.deadline);
+										RHAdmin.DEADLINES[i-1] = row.cohort;
+									};
+								}, 'json');
+							},
+
+	wordcounts				: function() {
+								RH.getData($('html').data('uri_root') + '/wordcounts.do', function(response) {
+									var data = [];
+									var index = 0;
+
+									response.forEach(function(item) {
+										data[index++] = item;
+									});	
+
+									jQuery('#wordcounts').tabularInput({
+										'rows': index,
+										'columns': 2,
+										'newRowOnTab': true,
+										'maxRows': 15,
+										'animate': true,
+										'name': 'wordcount',
+										'columnHeads': ['Cohort', 'Word Count']
+									});
+
+									RHAdminTabularValidate.wordcounts('#wordcounts tbody tr td');
+
+									for(var i = 1; i <= index; i++) {
+										var row = data[i-1];
+										$('[name="wordcount[0][' + i + ']"]').val(row.cohort);
+										$('[name="wordcount[1][' + i + ']"]').val(row.wordCount);
+										RHAdmin.WORD_COUNTS[i-1] = row.cohort;
+									};
+								}, 'json');
+							},
+
+	funding					: function() {
+								RH.getData($('html').data('uri_root') + '/fundingstatements.do', function(response) {
+									var data = [];
+									var index = 0;
+
+									response.forEach(function(item) {
+										data[index++] = item;
+									});	
+
+									jQuery('#funding').tabularInput({
+										'rows': index,
+										'columns': 2,
+										'newRowOnTab': true,
+										'maxRows': 15,
+										'animate': true,
+										'name': 'funding',
+										'columnHeads': ['Unique Funding Statement ID', 'Funding Statement']
+									});
+
+									RHAdminTabularValidate.wordcounts('#funding tbody tr td');
+
+									for(var i = 1; i <= index; i++) {
+										var row = data[i-1];
+										$('[name="funding[0][' + i + ']"]').val(row.fundingStatementId);
+										$('[name="funding[1][' + i + ']"]').val(row.fundingStatement);
+										RHAdmin.FUNDING_STATEMENTS[i-1] = row.fundingStatementId;
+									};
+								}, 'json');
+							},
+
+	email					: function() {
+								RH.autoResize('.stage-admin');
+								RH.getData($('html').data('uri_root') + '/cohorts.do', function(response) {
+									var html = '';
+									for(var i = 0; i < response.length; i++) {
+										var cohort = response[i];
+										if(html != '') {
+											html += ', ';
+										}
+										html += '<a href="javascript:;" class="addUsers">' + cohort + '</a>';
+									}
+									$('#cohortLinks').html(html);
+
+									$('.addUsers').click(function(e) {
+										e.preventDefault();
+										var $allInputs = $('form.form-email').find('input, select, button, textarea');
+
+										var data = 'cohort=' + $(this).text();
+
+										RH.sendData({
+											dataType: 'json',
+											data: data,
+											url: $('html').data('uri_root') + '/users.do',
+											type: 'post',
+											beforeSend: function() {
+												$allInputs.prop('disabled', true);
+											},
+											complete: function() {
+												$allInputs.prop('disabled', false);
+											},
+											success: function(response, textStatus, jqXHR) {
+												$.each(response, function(i, v) {
+													$('#usernames').append(v.username + "\n");
+												});
+												$('#usernames').trigger('autosize.resize');
+											}
+										});
+									});
 								}, 'json');
 							},
 };
