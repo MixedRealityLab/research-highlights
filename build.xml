@@ -59,18 +59,37 @@
 			</then>
 		</if>
 
+		<echo message="Replacing constants in all files, based on configuration"/>
+		<loadfile property="config.file" srcfile="${dist.dir}/config.php"/>
+
 		<if>
 			<and>
-				<isset property="path"/>
 				<isset property="domain"/>
+				<isset property="path"/>
 			</and>
 			<then>
 				<echo message="Setting the DOMAIN and PATH in configuration file"/>
 				<replace file="${dist.dir}/config.php" token="@@@DOMAIN@@@" value="${domain}"/>
 				<replace file="${dist.dir}/config.php" token="@@@PATH@@@" value="${path}"/>
 			</then>
+			<else>
+				<propertyregex property="domain" input="${config.file}" regexp="\\define\('DOMAIN', '([@a-zA-Z\:./_-]*)'" select="\1" />
+				<antcall target="set-const">
+					<param name="const" value="DOMAIN"/>
+					<param name="val" value="${domain}"/>
+					<param name="config" value="true"/>
+				</antcall>
+
+				<propertyregex property="path" input="${config.file}" regexp="\\define\('PATH', '([@a-zA-Z\:./_-]*)'" select="\1" />
+				<antcall target="set-const">
+					<param name="const" value="PATH"/>
+					<param name="val" value="${path}"/>
+					<param name="config" value="true"/>
+				</antcall>
+			</else>
 		</if>
 
+		<!-- SET URI_NICE -->
 		<if>
 			<isset property="niceUri"/>
 			<then>
@@ -82,65 +101,6 @@
 			</else>
 		</if>
 
-		<echo message="Replacing constants in all files, based on configuration"/>
-		<loadfile property="config.file" srcfile="${dist.dir}/config.php"/>
-		<if>
-			<not>
-				<and>
-					<isset property="path"/>
-					<isset property="domain"/>
-				</and>
-			</not>
-			<then>
-				<antcall target="set-const">
-					<param name="const" value="DOMAIN"/>
-					<param name="val" value="${domain}"/>
-					<param name="config" value="true"/>
-				</antcall>
-				<antcall target="set-const">
-					<param name="const" value="PATH"/>
-					<param name="val" value="${path}"/>
-					<param name="config" value="true"/>
-				</antcall>
-			</then>
-		</if>
-
-		<if>
-			<not>
-				<isset property="email"/>
-			</not>
-			<then>
-				<propertyregex property="email" input="${config.file}" regexp="\\define\('EMAIL', '([@a-zA-Z\:./_-]*)'" select="\1" />
-			</then>
-		</if>
-
-		<antcall target="set-const">
-			<param name="const" value="EMAIL"/>
-			<param name="val" value="${email}"/>
-			<param name="files" value="**/*"/>
-		</antcall>
-
-		<propertyregex property="title" input="${config.file}" regexp="\\define\('TITLE', '(.*)'" select="\1" />
-		<antcall target="set-const">
-			<param name="const" value="TITLE"/>
-			<param name="val" value="${title}"/>
-			<param name="files" value="**/*"/>
-		</antcall>
-
-		<propertyregex property="title_sep" input="${config.file}" regexp="\\define\('TITLE_SEP', '(.*)'" select="\1" />
-		<antcall target="set-const">
-			<param name="const" value="TITLE_SEP"/>
-			<param name="val" value="${title_sep}"/>
-			<param name="files" value="**/*"/>
-		</antcall>
-
-		<propertyregex property="site_name" input="${config.file}" regexp="\\define\('SITE_NAME', '(.*)'" select="\1" />
-		<antcall target="set-const">
-			<param name="const" value="SITE_NAME"/>
-			<param name="val" value="${site_name}"/>
-			<param name="files" value="**/*"/>
-		</antcall>
-
 		<propertyregex property="uri_nice" input="${config.file}" regexp="\\define\('URI_NICE', '(.*)'" select="\1" />
 		<antcall target="set-const">
 			<param name="const" value="URI_NICE"/>
@@ -148,6 +108,7 @@
 			<param name="files" value="**/*"/>
 		</antcall>
 
+		<!-- SET SYS_HTAC -->
 		<if>
 			<not>
 				<isset property="sysHtaccess"/>
@@ -163,7 +124,8 @@
 			<param name="files" value="**/*"/>
 			<param name="config" value="true"/>
 		</antcall>
-
+		
+		<!-- SET URI_ROOT -->
 		<if>
 			<equals arg1="${sysHtaccess}" arg2="true"/>
 			<then>
@@ -174,6 +136,47 @@
 			</else>
 		</if>
 
+		<!-- SET EMAIL -->
+		<if>
+			<not>
+				<isset property="email"/>
+			</not>
+			<then>
+				<propertyregex property="email" input="${config.file}" regexp="\\define\('EMAIL', '([@a-zA-Z\:./_-]*)'" select="\1" />
+			</then>
+		</if>
+
+		<antcall target="set-const">
+			<param name="const" value="EMAIL"/>
+			<param name="val" value="${email}"/>
+			<param name="files" value="**/*"/>
+		</antcall>
+
+		<!-- SET SITE_NAME -->
+		<propertyregex property="site_name" input="${config.file}" regexp="\\define\('SITE_NAME', '(.*)'" select="\1" />
+		<antcall target="set-const">
+			<param name="const" value="SITE_NAME"/>
+			<param name="val" value="${site_name}"/>
+			<param name="files" value="**/*"/>
+		</antcall>
+
+		<!-- SET TITLE -->
+		<propertyregex property="title" input="${config.file}" regexp="\\define\('TITLE', '(.*)'" select="\1" />
+		<antcall target="set-const">
+			<param name="const" value="TITLE"/>
+			<param name="val" value="${title}"/>
+			<param name="files" value="**/*"/>
+		</antcall>
+
+		<!-- SET TITLE_SEP -->
+		<propertyregex property="title_sep" input="${config.file}" regexp="\\define\('TITLE_SEP', '(.*)'" select="\1" />
+		<antcall target="set-const">
+			<param name="const" value="TITLE_SEP"/>
+			<param name="val" value="${title_sep}"/>
+			<param name="files" value="**/*"/>
+		</antcall>
+
+		<!-- RECURSIVELY APPLY CHANGES THROUGH STATIC FILES -->
 		<antcall target="set-const">
 			<param name="const" value="DOMAIN"/>
 			<param name="val" value="${domain}"/>

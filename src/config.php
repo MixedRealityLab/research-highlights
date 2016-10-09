@@ -31,8 +31,8 @@
 
 \define('EMAIL', 'emma.juggins@nottingham.ac.uk');
 
-\define('DOMAIN', '@@@DOMAIN@@@');
-\define('PATH', '@@@PATH@@@');
+\define('DOMAIN', 'http://highlights.cdt.horizon.ac.uk');
+\define('PATH', '');
 
 \define('PAG_HOME', 'read');
 \define('SYS_HTAC', true);
@@ -42,7 +42,7 @@
 
 \define('URI_HOME', '@@@DOMAIN@@@@@@PATH@@@');
 \define('URI_ROOT', '@@@URI_ROOT@@@');
-\define('URI_NICE', '@@@URI_NICE@@@');
+\define('URI_NICE', 'http://cdt.horizon.ac.uk/highlights');
 \define('URI_WEB', URI_ROOT . '/web');
 \define('URI_SYS', URI_ROOT . '/sys');
 \define('URI_DATA', URI_ROOT . '/submissions-2016');
