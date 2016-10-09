@@ -353,7 +353,7 @@ var RHAdminTableInput = {
 							},
 
 	validateCell			: function($cell, okValues, greyOutValues, strikethroughValues) {
-								if(RHAdminTableInput.rowIsEmpty($cell.parent().parent())) {
+								if(RHAdminTableInput.rowIsEmpty($cell)) {
 									RHAdminTableInput.clearErrorsOnRow($cell);
 									return;
 								}
@@ -400,8 +400,8 @@ var RHAdminTableInput = {
 								return $errorFreeSiblings.length > 0 && $siblings.length == $errorFreeSiblings.length;
 							},
 
-	rowIsEmpty				: function(input) {
-								var $siblings = $(input).parent().parent().find('input');
+	rowIsEmpty				: function($cell) {
+								var $siblings = $cell.parent().parent().find('input');
 								var $emptySiblings = $siblings.filter(function() {
 									return $.trim(this.value) === "";
 								});
@@ -456,7 +456,7 @@ var RHAdminTabularValidate = {
 									var input = this;
 
 									RHAdminTableInput.validateCellFn($(this), function(val) {
-										return RHAdminTableInput.rowIsEmpty(input) ? 1 : ((Math.floor(val) == val && $.isNumeric(val) && $.inArray(val, RHAdmin.DEADLINES) > -1 && $.inArray(val, RHAdmin.WORD_COUNTS) > -1) ? 0 : -1);
+										return RHAdminTableInput.rowIsEmpty($(input)) ? 1 : ((Math.floor(val) == val && $.isNumeric(val) && $.inArray(val, RHAdmin.DEADLINES) > -1 && $.inArray(val, RHAdmin.WORD_COUNTS) > -1) ? 0 : -1);
 									}); 
 								});
 
@@ -464,7 +464,7 @@ var RHAdminTabularValidate = {
 									var input = this;
 
 									RHAdminTableInput.validateCellFn($(this), function(val) {
-										return RHAdminTableInput.rowIsEmpty(input) ? 1 : (val.length > 0 ? 0 : -1);
+										return RHAdminTableInput.rowIsEmpty($(input)) ? 1 : (val.length > 0 ? 0 : -1);
 									});
 								});
 
@@ -472,7 +472,7 @@ var RHAdminTabularValidate = {
 									var input = this;
 
 									RHAdminTableInput.validateCellFn($(this), function(val) {
-										return RHAdminTableInput.rowIsEmpty(input) ? 1 : ((val.length > 0 && $.inArray(val, RHAdmin.FUNDING_STATEMENTS) > -1) ? 0 : -1);
+										return RHAdminTableInput.rowIsEmpty($(input)) ? 1 : ((val.length > 0 && $.inArray(val, RHAdmin.FUNDING_STATEMENTS) > -1) ? 0 : -1);
 									});
 								});
 
@@ -496,7 +496,7 @@ var RHAdminTabularValidate = {
 									var input = this;
 
 									RHAdminTableInput.validateCellFn($(this), function(val) {
-										return RHAdminTableInput.rowIsEmpty(input) ? 1 : ((val.length > 0 && Math.floor(val) == val && $.isNumeric(val)) ? 0 : -1);
+										return RHAdminTableInput.rowIsEmpty($(input)) ? 1 : ((val.length > 0 && Math.floor(val) == val && $.isNumeric(val)) ? 0 : -1);
 									});
 								});
 
@@ -505,7 +505,7 @@ var RHAdminTabularValidate = {
 									var input = this;
 
 									RHAdminTableInput.validateCellFn($(this), function(val) {
-										return RHAdminTableInput.rowIsEmpty(input) ? 1 : (val.length > 0 ? 0 : -1);
+										return RHAdminTableInput.rowIsEmpty($(input)) ? 1 : (val.length > 0 ? 0 : -1);
 									});
 								});
 
@@ -517,7 +517,7 @@ var RHAdminTabularValidate = {
 									var input = this;
 
 									RHAdminTableInput.validateCellFn($(this), function(val) {
-										return RHAdminTableInput.rowIsEmpty(input) ? 1 : ((val.length > 0 && Math.floor(val) == val && $.isNumeric(val)) ? 0 : -1);
+										return RHAdminTableInput.rowIsEmpty($(input)) ? 1 : ((val.length > 0 && Math.floor(val) == val && $.isNumeric(val)) ? 0 : -1);
 									});
 								});
 
@@ -525,7 +525,7 @@ var RHAdminTabularValidate = {
 									var input = this;
 
 									RHAdminTableInput.validateCellFn($(this), function(val) {
-										return RHAdminTableInput.rowIsEmpty(input) ? 1 : ((val.length > 0 && Math.floor(val) == val && $.isNumeric(val)) ? 0 : -1);
+										return RHAdminTableInput.rowIsEmpty($(input)) ? 1 : ((val.length > 0 && Math.floor(val) == val && $.isNumeric(val)) ? 0 : -1);
 									});
 								});
 
@@ -537,7 +537,7 @@ var RHAdminTabularValidate = {
 									var input = this;
 
 									RHAdminTableInput.validateCellFn($(this), function(val) {
-										return RHAdminTableInput.rowIsEmpty(input) ? 1 : (val.length > 0 ? 0 : -1);
+										return RHAdminTableInput.rowIsEmpty($(input)) ? 1 : (val.length > 0 ? 0 : -1);
 									});
 								});
 
