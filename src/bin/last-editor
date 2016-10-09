@@ -1,0 +1,49 @@
+#!/bin/sh
+
+DIR='/www/cdt.horizon.ac.uk/html/submissions'
+DIR_L="${#DIR}"
+
+function title {
+	read t
+	printf "\n"
+        printf "%b %s %b" "\033[30m\033[42m" "$t" "\033[0m\033[49m\033[39m"
+	printf "\n"
+}
+
+currtime=`date +%s`
+
+printf "\nSubmissions (and thier last editors)\n"
+
+for c in $DIR/*; do
+	if [ "$c" ==  "$DIR/cache" ] || [ "$c" == "$DIR/images" ]; then
+		continue;
+	fi
+	
+	printf "%s" `basename $c` | title
+
+	for f in $c/*; do
+		submissions=($(ls -d $f/* | sort -r))
+		
+		if [ ! -f $submissions/username.txt ] ; then
+			continue
+		elif [ -f $submissions/editor.txt ] ; then
+			username=`cat $submissions/editor.txt`
+		else
+			username=`cat $submissions/username.txt`
+		fi
+
+		U=`cat $submissions/username.txt`;
+		
+		saveAs=`echo ${f:$DIR_L} | sed -E 's/^\/([0-9]+)\/([a-zA-Z0-9]*)(.*)/\2/g'`
+		days=$(( (currtime - `stat -c %Y $submissions/username.txt`) / 86400))
+		if [ $days -eq 1 ]; then
+			days="$days day"
+		else
+			days="$days days"
+		fi
+
+		printf "%s last edited by %s %s ago\n" "$saveAs" "$username" "$days"
+	done
+done
+
+printf "\n"

@@ -1,0 +1,56 @@
+#!/bin/sh
+
+DIR='/www/cdt.horizon.ac.uk/html/submissions'
+DIR_L="${#DIR}"
+
+if [ $# -eq 0 ] ; then
+        printf "Usage: last-diff [username]\n"
+        exit
+fi
+
+function title {
+	read t
+	printf "\n"
+        printf "%b %s %b" "\033[30m\033[42m" "$t" "\033[0m\033[49m\033[39m"
+	printf "\n"
+}
+
+currtime=`date +%s`
+
+printf "Diff between last edit for %s" $1 | title
+
+for c in $DIR/*; do
+	if [ "$c" ==  "$DIR/cache" ] || [ "$c" == "$DIR/images" ]; then
+		continue;
+	fi
+	
+	for f in $c/*; do
+		if [ `basename $f` != $1 ] ; then
+			continue;
+		fi
+
+		submissions=($(ls -d $f/* | sort -r))
+		
+		if [ ! -f $submissions/username.txt ] ; then
+			continue
+		fi
+
+		U=`cat $submissions/username.txt`;
+		
+		saveAs=`echo ${f:$DIR_L} | sed -E 's/^\/([0-9]+)\/([a-zA-Z0-9]*)(.*)/\2/g'`
+		username=`cat $submissions/username.txt`
+		days=$(( (currtime - `stat -c %Y $submissions/username.txt`) / 86400))
+		if [ $days -eq 1 ]; then
+			days="$days day"
+		else
+			days="$days days"
+		fi
+
+		printf "> Last edited by %s %s ago\n\n"  "$username" "$days"
+
+		second_to_last="${submissions[1]}"
+		diff $submissions/text.txt $second_to_last/text.txt
+	done
+done
+
+printf "\n"

@@ -1,0 +1,38 @@
+#!/bin/php
+<?php if ($argc < 2 || in_array($argv[1], array('--help', '-help', '-h', '-?'))): ?>
+This fixes permissions in a particular directory, recursively.
+
+  Usage:
+    <?php echo $argv[0]; ?> <directory> [[dir-perms] [file-perms]]
+
+  Options:
+    directory         Directory to recursively set permissions in
+    dir-perms         Directory permissions to set, 0755 by default
+    file-perms        File permissions to set, 0755 by default
+
+  Arguments:
+    --help OR -h      This message.
+
+<?php exit; endif; ?>
+function chmod_r($dir, $dirPermissions, $filePermissions) {
+      $dp = opendir($dir);
+       while($file = readdir($dp)) {
+         if (($file == ".") || ($file == ".."))
+            continue;
+
+        $fullPath = $dir."/".$file;
+
+         if(is_dir($fullPath)) {
+            echo('DIR:' . $fullPath . "\n");
+            chmod($fullPath, $dirPermissions);
+            chmod_r($fullPath, $dirPermissions, $filePermissions);
+         } else {
+            echo('FILE:' . $fullPath . "\n");
+            chmod($fullPath, $filePermissions);
+         }
+
+       }
+     closedir($dp);
+  }
+
+chmod_r($argv[1], isset($argv[2]) ? $argv[1] : 0775, isset($argv[3]) ? $argv[1] : );
