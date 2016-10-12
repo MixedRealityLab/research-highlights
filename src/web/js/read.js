@@ -397,7 +397,7 @@ var RHReadContent = {
 							},
 
 	home					: function() {
-								RHReadSidebar.setView(RHReadSidebar.VIEW_NAME);
+								RHReadSidebar.setView(RHReadSidebar.VIEW_TITLE);
 								$('.home').fadeIn();
 								$('.read').fadeOut();
 							},
