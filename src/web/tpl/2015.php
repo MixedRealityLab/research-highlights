@@ -51,6 +51,9 @@
         <?php if ($header) : ?>
         <nav class="navbar navbar-fixed-top navbar-inverse">
             <div class="container">
+                <div class="hidden-xs  navbar-title pull-left">
+                    Research Highlights
+                </div>
                 <div class="navbar-header pull-right">
                     <a class="navbar-brand" href="<?php print URI_HOME; ?>"><img src="<?php print URI_WEB; ?>/img/logo.png" alt="Horizon Centre for Doctoral Training" class="logo"></a>
                 </div>
