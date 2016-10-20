@@ -51,6 +51,7 @@
 \define('TITLE', '@@@SITE_NAME@@@');
 \define('TITLE_SEP', ' - ');
 
+\define('AUTH', 'Hash');
 
 \define('MAIL_HOST', 'ssl://smtp.test.ac.uk');
 \define('MAIL_PORT', 465);

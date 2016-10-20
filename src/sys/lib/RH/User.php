@@ -88,7 +88,7 @@ class User implements \RH\Singleton
      * @param string $mUsername Username to login with.
      * @param string $password Password to use to login with.
      * @param bool $requireAdmin if `true`, is an administrator account required.
-     * @return the \RH\Model\User object
+     * @return \RH\Model\User object
      * @throws \RH\Error\NoUser If the account is non-existant.
      * @throws \RH\Error\NotAuthorised If an admin account is required and the login request is for a non-admin account.
      * @throws \RH\Error\AccountDisabled If the account is disabled.
@@ -98,7 +98,7 @@ class User implements \RH\Singleton
         try {
             $temp = $this->get(\strtolower($mUsername));
 
-            if ($password !== $temp->getPassword()) {
+            if (!$temp->authenticate($password)) {
                 throw new \RH\Error\NoUser();
             }
 
