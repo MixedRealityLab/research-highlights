@@ -7,7 +7,7 @@
  * See LICENCE for legal information.
  */
 
-\define('SITE_NAME', 'Horizon CDT Research Highlights');
+\define('SITE_NAME', 'Test University Research Highlights');
 
 \define('DIR_WAJ', DIR . '/web/ajax');
 \define('DIR_WCS', DIR . '/web/css');
@@ -29,9 +29,9 @@
 
 \define('DIR_USR', DIR . '/usr');
 
-\define('EMAIL', 'emma.juggins@nottingham.ac.uk');
+\define('EMAIL', 'first.last@test.ac.uk');
 
-\define('DOMAIN', 'http://highlights.cdt.horizon.ac.uk');
+\define('DOMAIN', 'http://highlights.test.ac.uk');
 \define('PATH', '');
 
 \define('PAG_HOME', 'read');
@@ -42,7 +42,7 @@
 
 \define('URI_HOME', '@@@DOMAIN@@@@@@PATH@@@');
 \define('URI_ROOT', '@@@URI_ROOT@@@');
-\define('URI_NICE', 'http://cdt.horizon.ac.uk/highlights');
+\define('URI_NICE', 'http://test.ac.uk/highlights');
 \define('URI_WEB', URI_ROOT . '/web');
 \define('URI_SYS', URI_ROOT . '/sys');
 \define('URI_DATA', URI_ROOT . '/submissions');
@@ -51,14 +51,15 @@
 \define('TITLE', '@@@SITE_NAME@@@');
 \define('TITLE_SEP', ' - ');
 
-\define('MAIL_HOST', 'ssl://smtp.nottingham.ac.uk');
+
+\define('MAIL_HOST', 'ssl://smtp.test.ac.uk');
 \define('MAIL_PORT', 465);
 \define('MAIL_AUTH', false);
 \define('MAIL_USER', '');
 \define('MAIL_PASS', '');
 
-\define('MAIL_ADMIN', 'psxmp9');
-\define('MAIL_ON_CHANGE_USRS', 'psxmp9,pszej');
+\define('MAIL_ADMIN', 'abc01u');
+\define('MAIL_ON_CHANGE_USRS', 'abc01u');
 \define('MAIL_ON_CHANGE_SUBJ', '[' . SITE_NAME . '] Submission Updated for <firstName> <surname>');
 \define('MAIL_FORGOT_PASS_SUBJ', '[' . SITE_NAME . '] Password for for <firstName> <surname>');
 \define('MAIL_FORGOT_PASS_MESG', "Hi <firstName>,\n\nSomeone requested the password for your account for the " . SITE_NAME . " website.\n\nThe submission system can be found at <a href=\"". URI_ROOT ."/login\" target=\"_blank\">" . URI_ROOT ."/login</a> and you need to use the following details to login:\n<strong>Username:</strong> <username>\n<strong>Password:</strong> <password>\n\nThanks,\nMartin Procheron");
