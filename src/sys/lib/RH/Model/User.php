@@ -46,6 +46,18 @@ class User extends AbstractModel
     }
 
     /**
+     * Get a field from the authentication model. If the authentication model does not provide the information, `null` 
+     * is returned. 
+     *
+     * @param string $key Value to retrieve from the authentication model.
+     * @return string Value from the authentiation model, or `null`.
+     */
+    public function getFromAuthModel($key)
+    {
+        return $this->getAuthenticationModel()->get($key, [$this->username]);
+    }
+
+    /**
      * Get the user's password
      *
      * @param string $password Password to test.

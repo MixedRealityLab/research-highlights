@@ -52,6 +52,19 @@
 \define('TITLE_SEP', ' - ');
 
 \define('AUTH', 'Hash');
+\define('LDAP_HOST', 'ldap://ldap.test.ac.uk');
+\define('LDAP_PORT', 389);
+\define('LDAP_VERSION', 3);
+\define('LDAP_TLS', true);
+\define('LDAP_BASE', '...');
+\define('LDAP_BINDDN', 'uid=%s');
+\define('LDAP_SEARCH', 'uid=%s');
+\define('LDAP_FIELD_SURNAME', 'sn');
+\define('LDAP_FIELD_GIVENNAME', 'givenName');
+\define('LDAP_FIELD_EMAIL', 'email');
+\define('LDAP_BACKUP_HASH', true);
+
+\define('PASSWORD_STATEMENT', 'Your University password');
 
 \define('MAIL_HOST', 'ssl://smtp.test.ac.uk');
 \define('MAIL_PORT', 465);
