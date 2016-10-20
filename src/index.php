@@ -18,8 +18,8 @@ if (SYS_HTAC && \strpos($_SERVER['REQUEST_URI'], 'index.php/') !== false) {
 }
 
 $pathinfo = \pathinfo($path);
-$page = $pathinfo['dirname'] . '/' . $pathinfo['filename'];
-$type = $pathinfo['extension'];
+$page = isset($pathinfo['dirname']) ? $pathinfo['dirname'] . '/' . $pathinfo['filename'] : '';
+$type = isset($pathinfo['extension']) ? $pathinfo['extension'] : '';
 
 $types = ['xml' => DIR_WXM, 'go' => DIR_WGO, 'do' => DIR_WAJ, '' => DIR_WPG];
 if (isset($types[$type])) {
