@@ -197,6 +197,16 @@
 			<param name="val" value="${uriRoot}"/>
 			<param name="files" value="**/*"/>
 		</antcall>
+
+		<!-- SET PUBLIC_KEY -->
+		<loadfile property="publicKeySource" srcFile="${dist.dir}/publickey.php"/>
+		<propertyregex property="publicKey" input="${publicKeySource}" regexp="\n" replace="'+'" global="true"/>
+		<antcall target="set-const">
+			<param name="const" value="PUBLIC_KEY"/>
+			<param name="val" value="${publicKey}"/>
+			<param name="files" value="**/*"/>
+			<param name="config" value="false"/>
+		</antcall>
 	</target>
 
 	<target name="quick" depends="clean,build" description="Create the website">

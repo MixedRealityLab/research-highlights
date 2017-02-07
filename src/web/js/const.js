@@ -15,4 +15,6 @@ $(function () {
 	$('html').data('site_name', '@@@SITE_NAME@@@');
 
 	$('html').data('email', '@@@EMAIL@@@');
+
+	$('html').data('public_key', '@@@PUBLIC_KEY@@@');
 });

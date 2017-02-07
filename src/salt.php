@@ -8,3 +8,5 @@
  */
 
 \define('SALT', 'YOUR_STRING_HERE');
+\define('PUBLIC_KEY', 'GPG_PUBLIC_KEY');
+\define('PRIVATE_KEY', 'GPG_PRIVATE_KEY');
