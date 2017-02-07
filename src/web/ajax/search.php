@@ -20,4 +20,5 @@ if (!isset($mInput->q)) {
     exit;
 }
 
-print $cSearch->search($mInput->q)->toArrayJson();
+$query = $mInput->q;
+print $cSearch->search($query)->toArrayJson();
