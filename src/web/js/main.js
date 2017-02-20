@@ -103,6 +103,10 @@
 							$('.alert-dismissable').fadeIn ();
 						},
 
+	hideAlert			: function () {
+							$('.alert-dismissable').fadeOut ({complete: function () {$('.alert-dismissable').remove (); }});
+						},
+
 	showAlert			: function (title, mesg, className) {
 							if ($('.alert-dismissable').length == 0) {
 								RH.showAlert2 (title, mesg, className);

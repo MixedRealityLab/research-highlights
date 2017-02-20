@@ -78,6 +78,7 @@ $(function () {
 
 	RH.regSubForm ($('form.stage-login'), $('html').data('uri_root') + '/login.do', function (response, textStatus, jqXHR) {
 		if (response.success == '1') {
+			RH.hideAlert();
 		//	RH.showSuccess ('Welcome!', 'Your login was successful. You can log back in any time to modify your submission before the deadline.');
 			$('#username').val ($('#editor').val ());
 			$('#admin-user').val ($('#editor').val ());
