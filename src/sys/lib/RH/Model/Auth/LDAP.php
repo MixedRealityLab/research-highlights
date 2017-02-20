@@ -106,7 +106,7 @@ class LDAP extends AbstractAuth implements \RH\Singleton
             }
 
             $fEmail = strtolower(LDAP_FIELD_EMAIL);
-            if (!empty($fEmail) && $entries[0][$fEmail]['count'] > 0) {
+            if (!empty($fEmail) && isset($entries[0][$fEmail]) && $entries[0][$fEmail]['count'] > 0) {
                 $cache->email = $entries[0][$fEmail][0];
             }
 
