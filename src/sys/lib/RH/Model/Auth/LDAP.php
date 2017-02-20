@@ -89,8 +89,8 @@ class LDAP extends AbstractAuth implements \RH\Singleton
         if ($entries['count'] == 0) {
             if (LDAP_BACKUP_HASH) {
                 $cache->hash = true;
-                $this->cache[$username] = $cache;
                 $cache->saveCache();
+                $this->cache[$username] = $cache;
             } else {
                 return false;
             }
@@ -114,8 +114,8 @@ class LDAP extends AbstractAuth implements \RH\Singleton
             $cache->dn = $entries[0]['dn'];
             $dn = $entries[0]['dn'];
 
-            $this->cache[$username] = $cache;
             $cache->saveCache();
+            $this->cache[$username] = $cache;
         }
 
         return $cache;
@@ -137,7 +137,11 @@ class LDAP extends AbstractAuth implements \RH\Singleton
             $mAuth = \I::RH_Model_Auth_Hash();
             return $mAuth->test($username, $password);
         } else {
-            return \ldap_bind($this->ldap, $cache->dn, $password);
+            if (empty($password)) {
+                $password = '_';
+            }
+
+            return @\ldap_bind($this->ldap, $cache->dn, $password);
         }
     }
 
