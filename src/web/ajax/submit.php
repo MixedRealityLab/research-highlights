@@ -38,7 +38,7 @@ try {
 
     $cohortDir = DIR_DAT . '/' . $mInput->cohort;
     if ($mInput->cohort !== $mUser->cohort
-        || !is_numeric($mInput->cohort) || !is_dir($cohortDir)) {
+        || !is_numeric($mInput->cohort)) {
         throw new \RH\Error\InvalidInput('Invalid cohort supplied');
     }
 
