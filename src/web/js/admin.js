@@ -134,7 +134,7 @@ var RHAdminLoadTabData= {
 										'columnHeads': ['Cohort', 'Username', 'First Name', 'Surname', 'Email', 'Funding Statement', 'Login Enabled', 'Show Submission', 'Notify']
 									});
 
-									RHAdminTabularValidate.users('#' + fieldId + ' tbody tr td');
+									//RHAdminTabularValidate.users('#' + fieldId + ' tbody tr td');
 
 									for(var i = 1; i <= index; i++) {
 										var row = data[i-1];
