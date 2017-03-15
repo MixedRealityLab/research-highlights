@@ -58,7 +58,7 @@ try {
             $refHtml = !empty($textMd) && !empty($refMd) ?  '<h1>References</h1>' . \RH\Submission::markdownToHtml($refMd) : '';
             
             $pubMd = \trim($mSubmission->publications);
-            $pubHtml = !empty($pubMd) ? '<h1>Publications in the Last Year</h1>' . \RH\Submission::markdownToHtml($pubMd) : '';
+            $pubHtml = !empty($pubMd) ? '<h1>Publications</h1>' . \RH\Submission::markdownToHtml($pubMd) : '';
 
             $mSubmission->html = $textHtml . $refHtml . $pubHtml;
 

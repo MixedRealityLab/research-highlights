@@ -186,8 +186,8 @@ $cTemplate->startCapture();
                             <div class="row">
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <label for="publications">Publications in the Last Year</label>
-                                        <p>Include links to blog posts, newspaper articles and full citations for conferences papers/journal articles that have been published in the last twelve months for which you have been an author. Please insert these as a numbered list in Markdown format, in the same bibliographical format as above.
+                                        <label for="publications">Publications</label>
+                                        <p>Include links to blog posts, newspaper articles and full citations for conferences papers/journal articles that have been published iny your PhD for which you have been an author. Please insert these as a numbered list in Markdown format, in the same bibliographical format as above.
                                         <p>For further formatting information (including links), check out the <em>Formatting</em> tab.</p>
                                         <textarea name="publications" id="publications" rows="25" class="form-control input input-large"></textarea>
                                     </div>
