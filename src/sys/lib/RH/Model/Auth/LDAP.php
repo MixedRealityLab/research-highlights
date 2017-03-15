@@ -76,6 +76,7 @@ class LDAP extends AbstractAuth implements \RH\Singleton
         }
 
         $cache->username = $username;
+        $cache->hash = false;
 
         $filter = \sprintf(LDAP_SEARCH, $username);
         $fetch = [LDAP_FIELD_SURNAME, LDAP_FIELD_GIVENNAME, LDAP_FIELD_EMAIL, 'dn'];
@@ -182,13 +183,12 @@ class LDAP extends AbstractAuth implements \RH\Singleton
      */
     public function get($key, array $data)
     {
-        $cache = $this->getUser($username);
-
         switch ($key) {
             case 'password':
+                $cache = $this->getUser($data[0]);
                 if ($cache->hash) {
                     $mAuthHash = \I::RH_Model_Auth_Hash();
-                    return $mAuthHash->test($username, $password);
+                    return $mAuthHash->get($key, $data);
                 } else {
                     return PASSWORD_STATEMENT;
                 }
@@ -202,6 +202,5 @@ class LDAP extends AbstractAuth implements \RH\Singleton
                 return null;
         }
     }
-
 
 }
