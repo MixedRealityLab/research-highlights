@@ -125,24 +125,26 @@
 						},
 
 	regAutoForm			: function ($form, url, handler) {
+							var preview = false;
+								console.log('preview?');
 							$form.find ('input, textarea, select').change (function (e) {
-								RH.sendData ({
-									url: url,
-									type: "post",
-									data: $form.serialize (),
-									success: handler
-								});
+								preview = $form.serialize ();
 								return true;
 							});
 							$form.find ('input, textarea').keyup (function (e) {
+								preview = $form.serialize ();
+								return true;
+							});
+
+							if (preview != false) {
 								RH.sendData ({
 									url: url,
 									type: "post",
-									data: $form.serialize (),
+									data: $preview,
 									success: handler
 								});
 								return true;
-							});
+							}
 						},
 
 	regSubForm			: function ($form, url, success, dataType, confirmationFn, validateFn) {

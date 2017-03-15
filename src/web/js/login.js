@@ -132,94 +132,94 @@ $(function () {
 		} else {
 			RH.showError ('Oh, snap!', 'An unknown error occurred. <a href="mailto:' + $('html').data('email') + '" class="alert-link">Email support</a> for help.');
 		}
-	}, 'json');
 
-	RH.regAutoForm ($('form.stage-editor'), $('html').data('uri_root') + '/preview.do', function (response, textStatus, jqXHR) {
-		if (!response.text == undefined) {
-			RH.showError ('Humf!', 'An unknown error occurred generating your preview! <a href="mailto:' + $('html').data('email') + '" class="alert-link">I need help!</a>');
-			return;
-		}
-
-		$('.preview-text').html (response.text);
-		$('.preview-references').html (response.references);
-		$('.preview-publications').html (response.publications);
-
-		var iNVal = $('#industryName').val ();
-		var iUVal = $('#industryUrl').val ();
-
-		if (iNVal == '') {
-			$('.preview-fundingStatement').html (response.fundingStatement + '.');
-		} else if (iUVal == '' || iUVal == 'http://') {
-			$('.preview-fundingStatement').html (response.fundingStatement + ' and by <span>' + iNVal + '</span>.');
-		} else {
-			$('.preview-fundingStatement').html (response.fundingStatement + ' and by <a href="' + iUVal + '" target="_blank">' + iNVal + '</a>.');
-		}
-
-		changesMade = true;
-	}, 'json');
-
-	RH.regSubForm ($('form.stage-editor'), $('html').data('uri_root') + '/submit.do', function (response, textStatus, jqXHR) {
-		if (response.success == '1') {
-			if ($('#username').val () == $('#editor').val ()){
-				RH.showSuccess ('Good News!', 'Your submission was saved, ' + $('#name').val () + '! It make take some time for your changes to propagate onto the website.');
-			} else {
-				RH.showSuccess ('Good News!', 'The submission for ' + $('#name').val () + ' was saved! It make take some time for your changes to propagate onto the website.');
+		RH.regAutoForm ($('form.stage-editor'), $('html').data('uri_root') + '/preview.do', function (response, textStatus, jqXHR) {
+			if (!response.text == undefined) {
+				RH.showError ('Humf!', 'An unknown error occurred generating your preview! <a href="mailto:' + $('html').data('email') + '" class="alert-link">I need help!</a>');
+				return;
 			}
-		} else if (response.error != undefined) {
-			RH.showError ('Goshdarnit!', response.error + ' <a href="mailto:' + $('html').data('email') + '" class="alert-link">I need help!</a>');
-		} else  {
-			RH.showError ('Fiddlesticks!', 'An unknown error occurred! <a href="mailto:' + $('html').data('email') + '" class="alert-link">I need help!</a>');
-		}
-	}, 'json');
 
-	$('a[href="#content"]').on ('shown.bs.tab', function (e) {
-		autoResize ();
-	});
+			$('.preview-text').html (response.text);
+			$('.preview-references').html (response.references);
+			$('.preview-publications').html (response.publications);
 
-	$('textarea').autosize ();
+			var iNVal = $('#industryName').val ();
+			var iUVal = $('#industryUrl').val ();
 
-	$('#keywords').on ('beforeItemAdd', function (e) {
-		var ret = false;
-		$.each ($('#keywords').tagsinput ('items'), function (k, v) {
-			if (!ret && v.toLowerCase () == e.item.toLowerCase ()) {
-				ret = true;
+			if (iNVal == '') {
+				$('.preview-fundingStatement').html (response.fundingStatement + '.');
+			} else if (iUVal == '' || iUVal == 'http://') {
+				$('.preview-fundingStatement').html (response.fundingStatement + ' and by <span>' + iNVal + '</span>.');
+			} else {
+				$('.preview-fundingStatement').html (response.fundingStatement + ' and by <a href="' + iUVal + '" target="_blank">' + iNVal + '</a>.');
+			}
+
+			changesMade = true;
+		}, 'json');
+
+		RH.regSubForm ($('form.stage-editor'), $('html').data('uri_root') + '/submit.do', function (response, textStatus, jqXHR) {
+			if (response.success == '1') {
+				if ($('#username').val () == $('#editor').val ()){
+					RH.showSuccess ('Good News!', 'Your submission was saved, ' + $('#name').val () + '! It make take some time for your changes to propagate onto the website.');
+				} else {
+					RH.showSuccess ('Good News!', 'The submission for ' + $('#name').val () + ' was saved! It make take some time for your changes to propagate onto the website.');
+				}
+			} else if (response.error != undefined) {
+				RH.showError ('Goshdarnit!', response.error + ' <a href="mailto:' + $('html').data('email') + '" class="alert-link">I need help!</a>');
+			} else  {
+				RH.showError ('Fiddlesticks!', 'An unknown error occurred! <a href="mailto:' + $('html').data('email') + '" class="alert-link">I need help!</a>');
+			}
+		}, 'json');
+
+		$('a[href="#content"]').on ('shown.bs.tab', function (e) {
+			autoResize ();
+		});
+
+		$('textarea').autosize ();
+
+		$('#keywords').on ('beforeItemAdd', function (e) {
+			var ret = false;
+			$.each ($('#keywords').tagsinput ('items'), function (k, v) {
+				if (!ret && v.toLowerCase () == e.item.toLowerCase ()) {
+					ret = true;
+				}
+			});
+			e.cancel = ret;
+		});
+
+		$('a').click (function (e) {
+			var href = $(this).attr ('href');
+			if (href.substring (0, 1) != '#' && $('.stage-editor').is (':visible')) {
+				if (!confirm ('If you continue, any unsubmitted changes may be lost')) {
+					e.preventDefault ();
+					return false;
+				}
 			}
 		});
-		e.cancel = ret;
-	});
 
-	$('a').click (function (e) {
-		var href = $(this).attr ('href');
-		if (href.substring (0, 1) != '#' && $('.stage-editor').is (':visible')) {
-			if (!confirm ('If you continue, any unsubmitted changes may be lost')) {
-				e.preventDefault ();
-				return false;
+		$('#logout').click (function (e) {
+			if (confirm ('If you logout, any unsubmitted changes will be lost!')) {
+				window.location.reload ();
 			}
-		}
-	});
+		});
 
-	$('#logout').click (function (e) {
-		if (confirm ('If you logout, any unsubmitted changes will be lost!')) {
-			window.location.reload ();
-		}
-	});
-
-	$('#submit').click (function (e) {
-		changedMade = false;
-		e.preventDefault ();
-		if ($('#title').val ().length == 0) {
-			RH.showError ('Whoopsie!', 'You need to give your submission a title!');
-		} else if ($('#keywords').tagsinput ('items').length == 0) {
-			RH.showError ('Oh dear!', 'You need to enter at least <strong>five</strong> keywords!');
-		} else if ($('#keywords').tagsinput ('items').length < 5) {
-			RH.showError ('Oh dear!', 'You need to enter <strong>' + (5 - $('#keywords').tagsinput ('items').length) + '</strong> more keywords');
-		} else if ($('#tweet').val ().length < 25) {
-			RH.showError ('Oh dear!', 'You should enter a better 140-character summary of your PhD');
-		} else if ($('#tweet').val ().length > 125) {
-			RH.showError ('Oh dear!', 'Your tweet-like summary is too long!');
-		} else {
-			RH.showAlert ('Just a moment!', 'Saving your submission. Please don\'t leave or refresh this page until a success message appears (resubmit if need be).', 'info');
-			setTimeout (function () {$('form.stage-editor').triggerHandler ('submit')}, 500);
-		}
-	});
+		$('#submit').click (function (e) {
+			changedMade = false;
+			e.preventDefault ();
+			if ($('#title').val ().length == 0) {
+				RH.showError ('Whoopsie!', 'You need to give your submission a title!');
+			} else if ($('#keywords').tagsinput ('items').length == 0) {
+				RH.showError ('Oh dear!', 'You need to enter at least <strong>five</strong> keywords!');
+			} else if ($('#keywords').tagsinput ('items').length < 5) {
+				RH.showError ('Oh dear!', 'You need to enter <strong>' + (5 - $('#keywords').tagsinput ('items').length) + '</strong> more keywords');
+			} else if ($('#tweet').val ().length < 25) {
+				RH.showError ('Oh dear!', 'You should enter a better 140-character summary of your PhD');
+			} else if ($('#tweet').val ().length > 125) {
+				RH.showError ('Oh dear!', 'Your tweet-like summary is too long!');
+			} else {
+				RH.showAlert ('Just a moment!', 'Saving your submission. Please don\'t leave or refresh this page until a success message appears (resubmit if need be).', 'info');
+				setTimeout (function () {$('form.stage-editor').triggerHandler ('submit')}, 500);
+			}
+		});
+	}, 'json');
 });
