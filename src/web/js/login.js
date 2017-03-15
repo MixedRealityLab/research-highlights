@@ -155,7 +155,7 @@ $(function () {
 			}
 
 			changesMade = true;
-		}, 'json');
+		}, true);
 
 		RH.regSubForm ($('form.stage-editor'), $('html').data('uri_root') + '/submit.do', function (response, textStatus, jqXHR) {
 			if (response.success == '1') {

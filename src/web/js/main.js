@@ -124,26 +124,29 @@
 							RH.showAlert (title, mesg, 'success');
 						},
 
-	regAutoForm			: function ($form, url, handler) {
-							var preview = false;
-								console.log('preview?');
-							$form.find ('input, textarea, select').change (function (e) {
-								preview = $form.serialize ();
-								return true;
+	doAutoFormRun		: function($form, url, handler) {
+							RH.sendData ({
+								url: url,
+								type: "post",
+								data: $form.serialize(),
+								success: handler
 							});
-							$form.find ('input, textarea').keyup (function (e) {
-								preview = $form.serialize ();
+							return true;
+						},
+
+	regAutoForm			: function ($form, url, handler, runNow) {
+							$form.find ('input, textarea, select').change (function (e) {
+								RH.doAutoFormRun($form, url, handler);
 								return true;
 							});
 
-							if (preview != false) {
-								RH.sendData ({
-									url: url,
-									type: "post",
-									data: $preview,
-									success: handler
-								});
+							$form.find ('input, textarea').keyup (function (e) {
+								RH.doAutoFormRun($form, url, handler);
 								return true;
+							});
+							
+							if (runNow == true) {
+								RH.doAutoFormRun($form, url, handler);
 							}
 						},
 
