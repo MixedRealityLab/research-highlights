@@ -122,39 +122,29 @@ var RHAdminLoadTabData= {
 
 									response.forEach(function(item) {
 										data[index++] = item;
-									});	
-
-									jQuery('#' + fieldId).tabularInput({
-										'rows': index,
-										'columns': 9,
-										'newRowOnTab': true,
-										'maxRows': 300,
-										'animate': true,
-										'name': inputName,
-										'columnHeads': ['Cohort', 'Username', 'First Name', 'Surname', 'Email', 'Funding Statement', 'Login Enabled', 'Show Submission', 'Notify']
 									});
 
-									//RHAdminTabularValidate.users('#' + fieldId + ' tbody tr td');
+									var $field = jQuery('#' + fieldId);
+									$field.val('#Cohort,Username,FirstName,Surname,Email,FundingStatement,LoginEnabled,ShowSubmission,Notify\n');
 
 									for(var i = 1; i <= index; i++) {
 										var row = data[i-1];
-										$('[name="' + inputName + '[0][' + i + ']"]').val(row.cohort);
-										$('[name="' + inputName + '[1][' + i + ']"]').val(row.username);
-										$('[name="' + inputName + '[2][' + i + ']"]').val(row.firstName);
-										$('[name="' + inputName + '[3][' + i + ']"]').val(row.surname);
-										$('[name="' + inputName + '[4][' + i + ']"]').val(row.email);
-										$('[name="' + inputName + '[5][' + i + ']"]').val(row.fundingStatementId);
-										$('[name="' + inputName + '[6][' + i + ']"]').val(row.enabled);
-										$('[name="' + inputName + '[7][' + i + ']"]').val(row.countSubmission);
-										$('[name="' + inputName + '[8][' + i + ']"]').val(row.emailOnChange);
-
-										if(!row.enabled) {
-											RHAdminTableInput.setCell($('[name="' + inputName + '[6][' + i + ']"]'), RHAdminTableInput.STATE_GREY_OUT);
-										}
-										if(!row.countSubmission) {
-											RHAdminTableInput.setCell($('[name="' + inputName + '[7][' + i + ']"]'), RHAdminTableInput.STATE_STRIKETHROUGH);
-										}
+										var text = row.cohort;
+										text = text + ',' + row.username
+										text = text + ',' + row.firstName;
+										text = text + ',' + row.surname;
+										text = text + ',' + row.email;
+										text = text + ',' + row.fundingStatementId;
+										text = text + ',' + row.enabled;
+										text = text + ',' + row.countSubmission;
+										text = text + ',' + row.emailOnChange;
+										$field.val(function(i, val) {
+										    return val + text + "\n";
+										});
 									}
+
+									$field.css('width', '100%');
+									$field.attr('rows', index+2);
 								}, 'json');
 							},
 
@@ -506,7 +496,7 @@ var RHAdminTabularValidate = {
 									RHAdminTableInput.validateCell($(this), ['true', 'false']);
 								});
 
-								RHAdminTabularValidate.revalidate(rowSelector, 9, RHAdminTabularValidate.users);
+								//RHAdminTabularValidate.revalidate(rowSelector, 9, RHAdminTabularValidate.users);
 							},
 
 	deadlines 				: function(rowSelector) {

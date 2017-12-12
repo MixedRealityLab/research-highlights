@@ -77,11 +77,8 @@ $cTemplate->startCapture();
                                         <input type="hidden" name="username" class="submit-user">
                                         <input type="hidden" name="password" class="submit-pass">
                                         <div class="panel-body">
-                                            <div id="students"></div>
+                                            <textarea name="students" id="students"></textarea>
                                             <br>
-                                            <div class="btn-group">
-                                                <button class="btn navbar-btn btn-warning btn-deleteRow" type="button" data-deleteTabularRow="deadlines">Delete Last Row</button>
-                                            </div>
                                             <div class="pull-right">
                                                 <div class="btn-group">
                                                     <button class="btn navbar-btn btn-success" type="submit" class="submit">Save Students &raquo;</button>
@@ -207,11 +204,8 @@ $cTemplate->startCapture();
                                         <input type="hidden" name="username" class="submit-user">
                                         <input type="hidden" name="password" class="submit-pass">
                                         <div class="panel-body">
-                                            <div id="admins"></div>
+                                            <textarea name="admins" id="admins"></textarea>
                                             <br>
-                                            <div class="btn-group">
-                                                <button class="btn navbar-btn btn-warning btn-deleteRow" type="button" data-deleteTabularRow="deadlines">Delete Last Row</button>
-                                            </div>
                                             <div class="pull-right">
                                                 <div class="btn-group">
                                                     <button class="btn navbar-btn btn-success" type="submit" class="submit">Save Administrators &raquo;</button>
