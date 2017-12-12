@@ -135,7 +135,7 @@ class User implements \RH\Singleton
             throw new \RH\Error\NotAuthorised();
         }
 
-        $this->user = $u;
+        $this->user = $mUser;
         $this->mFundingStatements = null;
         $this->mDeadlines = null;
         $this->mWordCounts = null;
