@@ -328,8 +328,12 @@ class User implements \RH\Singleton
         }
 
         $this->mUsersAll = false;
-        $this->mUsers->clearCache();
-        $this->mUserEmails->clearCache();
+        if (!is_null($this->mUserEmails)) {
+            $this->mUsers->clearCache();
+        }
+        if (!is_null($this->mUserEmails)) {
+            $this->mUserEmails->clearCache();
+        }
         $this->getAll();
 
         return true;

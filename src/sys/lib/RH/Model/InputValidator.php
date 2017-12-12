@@ -223,7 +223,7 @@ class InputValidator
      * @return bool `true`
      * @throws \RH\Error\InvalidInput if the value does not pass
      */
-    private function testValue($lang, $value, $type = 0, $fn = null, $identStr = "")
+    public function testValue($lang, $value, $type = 0, $fn = null, $identStr = "")
     {
         if (($type & self::NON_EMPTY) && empty($value)) {
             throw new \RH\Error\InvalidInput($lang .' cannot be empty' . $identStr .'.');
@@ -264,7 +264,7 @@ class InputValidator
      * @param int $type Bitwise type (see class constants)
      * @param string $value Value to convert.
      */
-    private function reformatValue($type, $value)
+    public function reformatValue($type, $value)
     {
         if ($type & self::T_NUMERIC) {
             if (strpos($value, '.')) {
