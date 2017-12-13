@@ -270,7 +270,9 @@ var RHAdminLoadTabData= {
 											},
 											success: function(response, textStatus, jqXHR) {
 												$.each(response, function(i, v) {
-													$('#usernames').append(v.username + "\n");
+													$('#usernames').val(function(i, val) {
+													    return val + v.username + "\n";
+													});
 												});
 												$('#usernames').trigger('autosize.resize');
 											}
